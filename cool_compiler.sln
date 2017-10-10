@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammars", "Grammars\Gramma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsing", "Parsing\Parsing.csproj", "{F713D20F-5545-4895-BC46-73D4A2F04383}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Error", "Error\Error.csproj", "{8A8D45E9-7615-4EDF-B297-96C809D678AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopDownParsing", "TopDownParsing\TopDownParsing.csproj", "{540060AB-F65A-4ADE-B399-546D598B3510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{F713D20F-5545-4895-BC46-73D4A2F04383}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F713D20F-5545-4895-BC46-73D4A2F04383}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F713D20F-5545-4895-BC46-73D4A2F04383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8D45E9-7615-4EDF-B297-96C809D678AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8D45E9-7615-4EDF-B297-96C809D678AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8D45E9-7615-4EDF-B297-96C809D678AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8D45E9-7615-4EDF-B297-96C809D678AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{540060AB-F65A-4ADE-B399-546D598B3510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{540060AB-F65A-4ADE-B399-546D598B3510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{540060AB-F65A-4ADE-B399-546D598B3510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{540060AB-F65A-4ADE-B399-546D598B3510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
