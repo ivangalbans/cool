@@ -29,7 +29,7 @@ namespace ErrorLogger
         }
     }
 
-    static public class Errors
+    public static class Errors
     {
         static List<Error> errorList = new List<Error>();
         static bool change;
