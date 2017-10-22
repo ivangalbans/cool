@@ -34,11 +34,13 @@ namespace BottomUpParsing
             if (ConflictInAutomaton())
             {
                 MakeTable(automaton.Automaton);
-                Console.WriteLine("La Gramatica es LR(1)");
+                Console.WriteLine("The grammar is LR(1)");
                 this.ToString();
             }
             else
-                Console.WriteLine("La Gramatica no es LR(1)");
+            {
+                Console.WriteLine("The grammar is not LR(1)");
+            }
 
         }
         private bool ConflictInAutomaton()

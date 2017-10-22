@@ -5,7 +5,7 @@ namespace BottomUpParsing
 {
     public class WriteTable
     {
-        public WriteTable(Grammar G, string path = "../../../Cool-Grammar/", string NameClass = "CoolTable")
+        public WriteTable(Grammar G, string path = "../../../Core/", string NameClass = "CoolTable")
         {
             var c = new StreamWriter(path + NameClass + ".cs");
             var automaton = new Lr1Automaton(G);
