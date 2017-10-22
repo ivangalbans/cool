@@ -4,10 +4,11 @@ namespace Core
 {
     public class CoolGrammar
     {
+        public readonly Grammar _coolGrammar;
 
         public CoolGrammar()
         {
-            Grammar _coolGrammar = new Grammar();
+            _coolGrammar = new Grammar();
 
             #region Non-Terminals
             var Program         = _coolGrammar.NonTerminal("Program", true);

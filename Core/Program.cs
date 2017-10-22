@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
+using BottomUpParsing;
 
 namespace Core
 {
@@ -10,12 +13,13 @@ namespace Core
     {
         static void Main(string[] args)
         {
-            int a = 1, b = 2;
-            (a, b) = (0, 2);
-            (a, b) = (b, a);
-            Console.WriteLine(a);
-            Console.WriteLine(b);
-            Console.WriteLine("Welcome to Compiler's Cool");
+            CoolGrammar grammar = new CoolGrammar();
+
+            var crono = new Stopwatch();
+            crono.Start();
+            new WriteTable(grammar._coolGrammar);
+            crono.Stop();
+            Console.WriteLine(crono.ElapsedMilliseconds / 1000.0);
         }
     }
 }
