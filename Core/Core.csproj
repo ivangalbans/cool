@@ -56,6 +56,14 @@
       <Project>{4b5b7d0e-9d83-492d-b4e9-284260069943}</Project>
       <Name>BottomUpParsing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ErrorLogger\ErrorLogger.csproj">
+      <Project>{8111b9d7-0865-4397-83ae-a62e32a977a7}</Project>
+      <Name>ErrorLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Error\Error.csproj">
+      <Project>{8a8d45e9-7615-4edf-b297-96c809d678aa}</Project>
+      <Name>Error</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Grammars\Grammars.csproj">
       <Project>{b87d35a9-2a66-4eae-be19-6f52913c1f1d}</Project>
       <Name>Grammars</Name>
@@ -63,6 +71,10 @@
     <ProjectReference Include="..\Lexer\Lexer.csproj">
       <Project>{3ee3c41a-bca1-459b-8b77-06231de79c32}</Project>
       <Name>Lexer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Parsing\Parsing.csproj">
+      <Project>{F713D20F-5545-4895-BC46-73D4A2F04383}</Project>
+      <Name>Parsing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
