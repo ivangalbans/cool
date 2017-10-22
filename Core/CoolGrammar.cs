@@ -24,7 +24,7 @@ namespace Core
             var Formal          = _coolGrammar.NonTerminal("Formal");
             var Assign          = _coolGrammar.NonTerminal("Assign");
             var Assignments     = _coolGrammar.NonTerminal("Assignment");
-            var Assign_Exp0     = _coolGrammar.NonTerminal("Assign_Exp0");
+            var AssignExp0     = _coolGrammar.NonTerminal("AssignExp0");
             var Exp             = _coolGrammar.NonTerminal("Exp");
             var Exp0            = _coolGrammar.NonTerminal("Exp0");
             var Exp1            = _coolGrammar.NonTerminal("Exp1");
@@ -89,6 +89,74 @@ namespace Core
             var lambda = _coolGrammar.Terminal("=>");
             #endregion
 
+            #region Productions
+            Program             %= (Class + semicolon + Program);
+            Program             %= (Class + semicolon);
+            Class               %= (cclass + TYPE + Inheritance + openBrace + List_Feature + closedBrace);
+            Inheritance         %= (inherits + TYPE);
+            Inheritance         %= (epsilon);
+            List_Feature        %= (Feature + semicolon + List_Feature);
+            List_Feature        %= (epsilon);
+            Feature             %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace);
+            Feature             %= (ID + colon + TYPE + Assign);
+            List_Formal         %= (Formal + Tail_Formal);
+            Tail_Formal         %= (comma + Formal + Tail_Formal);
+            Tail_Formal         %= (epsilon);
+            Formal              %= (ID + colon + TYPE);
+            Assign              %= (assign + Exp);
+            Assign              %= (epsilon);
+            Exp                 %= (ID + assign + Exp);
+            Exp                 %= (Exp0);
+            Exp0                %= (let + Assignments + cin + Exp);
+            Exp0                %= (Exp1);
+            Assignments         %= (ID + colon + TYPE + AssignExp0 + Tail_Assignment);
+            Tail_Assignment     %= (comma + Assignments);
+            Tail_Assignment     %= (epsilon);
+            AssignExp0          %= (assign + Exp0);
+            AssignExp0          %= (epsilon);
+            Exp1                %= (not + Exp1);
+            Exp1                %= Exp2;
+            Exp2                %= (Exp3 + less + Exp3);
+            Exp2                %= (Exp3 + lessEqual + Exp3);
+            Exp2                %= (Exp3 + equal + Exp3);
+            Exp2                %= (Exp3);
+            Exp3                %= (Exp3 + add + Exp4);
+            Exp3                %= (Exp3 + sub + Exp4);
+            Exp3                %= (Exp4);
+            Exp4                %= (Exp4 + mul + Exp5);
+            Exp4                %= (Exp4 + div + Exp5);
+            Exp4                %= (Exp5);
+            Exp5                %= (isvoid + Exp5);
+            Exp5                %= (Exp6);
+            Exp6                %= (neg + Exp6);
+            Exp6                %= (Exp7);
+            Exp7                %= (Exp7 + Arroba + point + ID + openBracket + List_Param + closedBracket);
+            Exp7                %= Exp8;
+            Arroba              %= (arroba + TYPE);
+            Arroba              %= (epsilon);
+            List_Param          %= (Param + Tail_Param);
+            List_Param          %= (epsilon);
+            Param               %= Exp;
+            Tail_Param          %= (comma + Param + Tail_Param);
+            Tail_Param          %= (epsilon);
+            Exp8                %= (ID + openBracket + List_Param + closedBracket);
+            Exp8                %= (cif + Exp + then + Exp + celse + Exp + fi);
+            Exp8                %= (cwhile + Exp + loop + Exp + pool);
+            Exp8                %= (openBrace + Expressions + closedBrace);
+            Exp8                %= (ccase + Exp + of + Cases + esac);
+            Exp8                %= (cnew + TYPE);
+            Exp8                %= (openBracket + Exp + closedBracket);
+            Exp8                %= ID;
+            Exp                 %= (integer);
+            Exp                 %= (cstring);
+            Exp                 %= (ctrue);
+            Exp                 %= (cfalse);
+            Exp                 %= (cvoid);
+            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases);
+            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon);
+            Expressions         %= (Exp + semicolon + Expressions);
+            Expressions         %= (Exp + semicolon);
+            #endregion
         }
     }
 }
