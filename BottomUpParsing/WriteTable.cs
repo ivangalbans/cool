@@ -14,7 +14,7 @@ namespace BottomUpParsing
             c.WriteLine("using System;\n" +
                         "using System.Collections.Generic;\n" +
                         "using Grammars;\nusing BottomUpParsing;\n\n" +
-                        "namespace Cool_Grammar {\n\n" +
+                        "namespace Core {\n\n" +
                         "\tpublic class " + NameClass + "{\n\n" +
                         "\t\tpublic Lr1Table table{get;set;}" + "\n" +
                         "\t\tpublic " + NameClass + "(Grammar G){\n" +
