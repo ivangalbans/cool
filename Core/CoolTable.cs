@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Grammars;
 using BottomUpParsing;
 
-namespace Cool_Grammar {
+namespace Core {
 
 	public class CoolTable{
 
