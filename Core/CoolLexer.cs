@@ -74,7 +74,38 @@ namespace Core
 
         public IEnumerable<Token> Lex(string str, Grammar g)
         {
-            throw new NotImplementedException();
+            var listStatements = str.Split('\n');
+            var lineNumber = 1;
+            var tokens = new List<Token>();
+
+            foreach(var statement in listStatements)
+            {
+                foreach(var item in _engine.Lex(statement, g))
+                {
+                    item.Line = lineNumber;
+                    tokens.Add(item);
+                }
+                if(tokens[tokens.Count - 1].Text == "EOF")
+                {
+                    tokens[tokens.Count - 1].Text = "\n";
+                    tokens[tokens.Count - 1].Type = "newline";
+                }
+                ++lineNumber;
+            }
+
+            if (tokens[tokens.Count - 1].Text == "newline")
+            {
+                tokens[tokens.Count - 1].Text = g.EOF.Name;
+                tokens[tokens.Count - 1].Type = "EOF";
+            }
+
+            /*
+             * 
+             * To implement a cleaner for the comments
+             * 
+            */
+
+            return tokens;
         }
     }
 }
