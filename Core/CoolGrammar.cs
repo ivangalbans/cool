@@ -69,7 +69,7 @@ namespace Core
             var div = _coolGrammar.Terminal("/");
             var neg = _coolGrammar.Terminal("~");
             var isvoid = _coolGrammar.Terminal("isvoid");
-            var point = _coolGrammar.Terminal(".");
+            var dot = _coolGrammar.Terminal(".");
             var arroba = _coolGrammar.Terminal("@");
             var cif = _coolGrammar.Terminal("if");
             var fi = _coolGrammar.Terminal("fi");
@@ -101,6 +101,7 @@ namespace Core
             Feature             %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace);
             Feature             %= (ID + colon + TYPE + Assign);
             List_Formal         %= (Formal + Tail_Formal);
+            List_Formal         %= (epsilon);
             Tail_Formal         %= (comma + Formal + Tail_Formal);
             Tail_Formal         %= (epsilon);
             Formal              %= (ID + colon + TYPE);
@@ -108,7 +109,7 @@ namespace Core
             Assign              %= (epsilon);
             Exp                 %= (ID + assign + Exp);
             Exp                 %= (Exp0);
-            Exp0                %= (let + Assignments + cin + Exp);
+            Exp0                %= (let + Assignments + cin + Exp0);
             Exp0                %= (Exp1);
             Assignments         %= (ID + colon + TYPE + AssignExp0 + Tail_Assignment);
             Tail_Assignment     %= (comma + Assignments);
@@ -131,7 +132,7 @@ namespace Core
             Exp5                %= (Exp6);
             Exp6                %= (neg + Exp6);
             Exp6                %= (Exp7);
-            Exp7                %= (Exp7 + Arroba + point + ID + openBracket + List_Param + closedBracket);
+            Exp7                %= (Exp7 + Arroba + dot + ID + openBracket + List_Param + closedBracket);
             Exp7                %= Exp8;
             Arroba              %= (arroba + TYPE);
             Arroba              %= (epsilon);
