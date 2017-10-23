@@ -149,11 +149,11 @@ namespace Core
             Exp8                %= (cnew + TYPE);
             Exp8                %= (openBracket + Exp + closedBracket);
             Exp8                %= ID;
-            Exp                 %= (integer);
-            Exp                 %= (cstring);
-            Exp                 %= (ctrue);
-            Exp                 %= (cfalse);
-            Exp                 %= (cvoid);
+            Exp8                %= (integer);
+            Exp8                %= (cstring);
+            Exp8                %= (ctrue);
+            Exp8                %= (cfalse);
+            Exp8                %= (cvoid);
             Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases);
             Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon);
             Expressions         %= (Exp + semicolon + Expressions);
