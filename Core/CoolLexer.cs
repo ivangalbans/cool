@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Grammars;
 using Lexer;
+using ErrorLogger;
 
 namespace Core
 {
@@ -85,7 +86,7 @@ namespace Core
                     item.Line = lineNumber;
                     tokens.Add(item);
                 }
-                if(tokens[tokens.Count - 1].Text == "EOF")
+                if(tokens[tokens.Count - 1].Type == "EOF")
                 {
                     tokens[tokens.Count - 1].Text = "\n";
                     tokens[tokens.Count - 1].Type = "newline";
@@ -93,7 +94,7 @@ namespace Core
                 ++lineNumber;
             }
 
-            if (tokens[tokens.Count - 1].Text == "newline")
+            if (tokens[tokens.Count - 1].Type == "newline")
             {
                 tokens[tokens.Count - 1].Text = g.EOF.Name;
                 tokens[tokens.Count - 1].Type = "EOF";
@@ -105,7 +106,96 @@ namespace Core
              * 
             */
 
-            return tokens;
+            //foreach (var item in list)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            var specialDict = new Dictionary<string, string>
+            {
+                ["n"] = "\n",
+                ["b"] = "\b",
+                ["f"] = "\f",
+                ["\""] = "\"",
+                ["\\"] = "\\",
+                ["t"] = "\t"
+            };
+            var ls = new List<Token>();
+            for (var i = 0; i < tokens.Count;)
+            {
+                var tmp = tokens[i++];
+                if (tmp.Type == "blockCommentInit")
+                {
+                    while (i < tokens.Count && tokens[i].Type != "blockCommentEnd")
+                        tmp.Text += tokens[i++].Text;
+                    if (i < tokens.Count)
+                    {
+                        tmp.Type = "comment";
+                        tmp.Text += "*)";
+                        i++;
+                    }
+                    else
+                    {
+                        tmp.Type = "ErrorToken";
+                    }
+                }
+                if (tmp.Type == "lineComment")
+                {
+                    while (i < tokens.Count && tokens[i].Type != "EOF" && tokens[i].Type != "newline")
+                        tmp.Text += tokens[i++].Text;
+                    if (i < tokens.Count)
+                    {
+                        tmp.Type = "comment";
+                        i++;
+                    }
+                    else
+                    {
+                        tmp.Type = "ErrorToken";
+                    }
+                }
+                if (tmp.Type == "strdelimiter")
+                {
+                    tmp.Text = "";
+                    while (i < tokens.Count && tokens[i].Type != "strdelimiter")
+                    {
+                        if (tokens[i].Type == "newline" || tokens[i].Type == "0" || tokens[i].Type == "EOF")
+                            break;
+                        if (tokens[i].Type == "\\" && tokens[i + 1].Type == "newline")
+                        {
+                            i += 2;
+                            continue;
+                        }
+                        if (tokens[i].Type == "\\" && specialDict.TryGetValue(tokens[i + 1].Text, out string value))
+                        {
+                            i += 2;
+                            tmp.Text += value;
+                            continue;
+                        }
+
+                        if (tokens[i].Type == "\\")
+                            i++;
+                        tmp.Text += tokens[i++].Text;
+                    }
+                    if (i < tokens.Count && tokens[i].Type != "newline" && tokens[i].Type != "0" && tokens[i].Type != "EOF" &&
+                        tmp.Text.Length < 1024)
+                    {
+                        tmp.Type = "string";
+                        i++;
+                    }
+
+                    else
+                    {
+                        tmp.Type = "ErrorToken";
+                    }
+                }
+                if (tmp.Type != "spaces" && tmp.Type != "newline" && tmp.Type != "comment" && (tmp.Type == "string" || tmp.Text != ""))
+                {
+                    if (tmp.Type == "ErrorToken") Errors.Log(tmp);
+                    ls.Add(tmp);
+                }
+            }
+
+            return ls;
+
         }
     }
 }
