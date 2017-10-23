@@ -31,13 +31,10 @@ namespace Core
             #endregion
 
 
-            //Console.WriteLine(grammar._coolGrammar);
-            //LrAutomaton at = new LrAutomaton(grammar._coolGrammar);
-            //Console.WriteLine(at);
-
-            /*CoolTable t = new CoolTable(grammar._coolGrammar);
+            #region Testing Parsing
+            CoolTable t = new CoolTable(grammar._coolGrammar);
             CoolLexer a = new CoolLexer();
-            StreamReader asd = new StreamReader("test1.cl");
+            StreamReader asd = new StreamReader("../../../Examples/success/palindrome.cl");
 
             var g = asd.ReadToEnd();
 
@@ -47,15 +44,9 @@ namespace Core
             else
             {
                 t.table.TryParse(grammar._coolGrammar, tok, out DerivationTree tree);
-                Console.WriteLine(tree);
-                var tr = tree.Evaluate();
-
-                if (Errors.HasError())
-                    Errors.Report();
-
-                Console.WriteLine();
-            }*/
-
+            }
+            
+            #endregion
 
         }
     }

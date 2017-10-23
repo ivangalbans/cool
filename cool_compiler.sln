@@ -19,9 +19,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorLogger", "ErrorLogger\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexer", "Lexer\Lexer.csproj", "{3EE3C41A-BCA1-459B-8B77-06231DE79C32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestParsing", "Testing\UnitTestParsing\UnitTestParsing.csproj", "{41531451-7014-46D3-A787-CF4CEB23359D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{CA56512A-BD4D-41AE-91CF-067B3AEACBD9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{58675612-9955-4CF2-8B4F-094E789F479A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{38C135F4-3CDD-43F7-A993-E2A17364F7E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "success", "success", "{7706C195-0E1A-4115-ACD7-3679B521F36E}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\success\HelloWorld.cl = Examples\success\HelloWorld.cl
+		Examples\success\palindrome.cl = Examples\success\palindrome.cl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fail", "fail", "{4EC225BC-EA0A-4401-955A-105475BEA7C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,15 +69,16 @@ Global
 		{3EE3C41A-BCA1-459B-8B77-06231DE79C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EE3C41A-BCA1-459B-8B77-06231DE79C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EE3C41A-BCA1-459B-8B77-06231DE79C32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41531451-7014-46D3-A787-CF4CEB23359D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41531451-7014-46D3-A787-CF4CEB23359D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41531451-7014-46D3-A787-CF4CEB23359D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41531451-7014-46D3-A787-CF4CEB23359D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA56512A-BD4D-41AE-91CF-067B3AEACBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA56512A-BD4D-41AE-91CF-067B3AEACBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA56512A-BD4D-41AE-91CF-067B3AEACBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA56512A-BD4D-41AE-91CF-067B3AEACBD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{41531451-7014-46D3-A787-CF4CEB23359D} = {58675612-9955-4CF2-8B4F-094E789F479A}
+		{7706C195-0E1A-4115-ACD7-3679B521F36E} = {38C135F4-3CDD-43F7-A993-E2A17364F7E3}
+		{4EC225BC-EA0A-4401-955A-105475BEA7C2} = {38C135F4-3CDD-43F7-A993-E2A17364F7E3}
 	EndGlobalSection
 EndGlobal
