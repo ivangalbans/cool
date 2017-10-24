@@ -312,7 +312,6 @@ namespace BottomUpParsing
                     {
                         temp = g.EOF;
                         tok = null;
-                        return (false, result);
                     }
                     else
                     {
