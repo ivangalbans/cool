@@ -8,8 +8,6 @@ namespace BottomUpParsing
     public class Lr1Automaton
     {
         private Dictionary<NonTerminal, List<int>> _prodInfo;
-
-
         private List<int> _toMerge;
 
         public Lr1Automaton(Grammar g)
@@ -43,6 +41,7 @@ namespace BottomUpParsing
                 _prodInfo[p.Left].Add(numberproduction);
                 Productions[numberproduction++] = p;
             }
+
             var s = G.NonTerminal("S'");
             s %= G.StartSymbol;
 
@@ -56,6 +55,7 @@ namespace BottomUpParsing
         {
             var lr1 = new Lr1Item(0, 0, new List<Symbol> {G.EOF});
             var s = new Lr1State(0, G);
+
             s.Add(lr1);
             s.SetClosure(Productions, _prodInfo);
 
@@ -73,6 +73,7 @@ namespace BottomUpParsing
         private void MakeGoto(Lr1State temp)
         {
             var dict = new Dictionary<Symbol, List<Lr1Item>>();
+
             foreach (var item in temp.Items)
             {
                 if (item.DotNumber >= Productions[item.ProductionNumber].Right.Length)
@@ -87,10 +88,7 @@ namespace BottomUpParsing
             foreach (var keyValue in dict)
             {
                 var listtemp = new List<Lr1Item>();
-
-
                 listtemp = keyValue.Value;
-
                 var lr1State = Search2((listtemp, keyValue.Key));
 
                 if (lr1State == null)
@@ -100,7 +98,6 @@ namespace BottomUpParsing
                     lr1State.SetClosure(Productions, _prodInfo);
 
                     JoinLookhead(lr1State);
-
                     Inqueue.Enqueue(lr1State);
                 }
                 var g1 = new Goto(temp.StateNumber, keyValue.Key,
@@ -132,7 +129,6 @@ namespace BottomUpParsing
                 if (result != null)
                     return result;
             }
-
             return null;
         }
 
@@ -163,13 +159,12 @@ namespace BottomUpParsing
             return result;
         }
 
-
         private void JoinLookhead(Lr1State got)
         {
             var dict = new Dictionary<(int, int), List<Symbol>>();
-
             var a = new List<Lr1Item>();
             var aset = new HashSet<int>();
+
             foreach (var i in got.Items)
             {
                 if (!dict.ContainsKey((i.DotNumber, i.ProductionNumber)))
@@ -182,17 +177,16 @@ namespace BottomUpParsing
                 a.Add(d);
                 aset.Add(d.GetHashCode());
             }
+
             got.Items = a;
             got.ItemSet = aset;
         }
-
 
         private static bool NotIn(Goto @goto, List<Goto> gotos)
         {
             return gotos.Any(g => g.StateNumber == @goto.StateNumber && g.NextState == @goto.NextState &&
                                   g.NextToken == @goto.NextToken);
         }
-
 
         public override string ToString()
         {
@@ -204,18 +198,24 @@ namespace BottomUpParsing
                     Console.Write(Productions[i.ProductionNumber].Left + "-->");
                     for (var j = 0; j < Productions[i.ProductionNumber].Right.Length; j++)
                     {
-                        if (i.DotNumber == j) Console.Write(".");
+                        if (i.DotNumber == j)
+                            Console.Write(".");
                         Console.Write(Productions[i.ProductionNumber].Right[j]);
                     }
-                    if (i.DotNumber == Productions[i.ProductionNumber].Right.Length) Console.Write(".");
+
+                    if (i.DotNumber == Productions[i.ProductionNumber].Right.Length)
+                        Console.Write(".");
                     Console.Write(", ");
+
                     foreach (var l in i.Lookahead)
                         Console.Write(l + "|");
                     Console.WriteLine();
                 }
+
                 foreach (var g in Gotos)
                     if (g.StateNumber == state.StateNumber)
                         Console.WriteLine("Goto(" + g.StateNumber + "," + g.NextToken + ") = " + g.NextState);
+
                 Console.WriteLine();
                 Console.WriteLine();
             }
@@ -226,11 +226,15 @@ namespace BottomUpParsing
         {
             LalrAutomaton = new List<Lr1State>();
             _toMerge = new List<int>();
+
             foreach (var temp in Automaton)
             {
                 var used = false;
+
                 foreach (var y in _toMerge)
-                    if (y == temp.StateNumber) used = true;
+                    if (y == temp.StateNumber)
+                        used = true;
+
                 if (used) continue;
                 SearchToMerge(temp);
             }
@@ -257,11 +261,15 @@ namespace BottomUpParsing
                     Console.Write(Productions[i.ProductionNumber].Left + "-->");
                     for (var j = 0; j < Productions[i.ProductionNumber].Right.Length; j++)
                     {
-                        if (i.DotNumber == j) Console.Write(".");
+                        if (i.DotNumber == j)
+                            Console.Write(".");
                         Console.Write(Productions[i.ProductionNumber].Right[j]);
                     }
-                    if (i.DotNumber == Productions[i.ProductionNumber].Right.Length) Console.Write(".");
+
+                    if (i.DotNumber == Productions[i.ProductionNumber].Right.Length)
+                        Console.Write(".");
                     Console.Write(", ");
+
                     foreach (var l in i.Lookahead)
                         Console.Write(l + "|");
                     Console.WriteLine();
