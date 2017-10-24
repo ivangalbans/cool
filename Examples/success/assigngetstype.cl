@@ -4,7 +4,7 @@ class Hello {
    bar:Int;
    
    foo(a:Int, b:Int, c:String): Int  {
-      a <- A
+      a <- aA
    };
    
    bar() :Int {

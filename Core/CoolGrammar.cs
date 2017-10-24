@@ -138,7 +138,7 @@ namespace Core
             Arroba              %= (epsilon);
             List_Param          %= (Param + Tail_Param);
             List_Param          %= (epsilon);
-            Param               %= Exp;
+            Param               %= (Exp);
             Tail_Param          %= (comma + Param + Tail_Param);
             Tail_Param          %= (epsilon);
             Exp8                %= (ID + openBracket + List_Param + closedBracket);
@@ -148,7 +148,7 @@ namespace Core
             Exp8                %= (ccase + Exp + of + Cases + esac);
             Exp8                %= (cnew + TYPE);
             Exp8                %= (openBracket + Exp + closedBracket);
-            Exp8                %= ID;
+            Exp8                %= (ID);
             Exp8                %= (integer);
             Exp8                %= (cstring);
             Exp8                %= (ctrue);
