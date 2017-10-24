@@ -26,6 +26,28 @@ namespace Core
             Console.WriteLine(crono.ElapsedMilliseconds / 1000.0);
             */
             #endregion
+
+            #region Testing Parsing
+            
+            CoolGrammar grammar = new CoolGrammar();
+            CoolTable table = new CoolTable(grammar._coolGrammar);
+            CoolLexer lexer = new CoolLexer();
+
+            DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/test.4.cl");
+
+            Errors.Clear();
+
+            StreamReader sr = new StreamReader(directory.FullName);
+            var input = sr.ReadToEnd();
+            var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
+
+            table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
+
+            foreach (var error in Errors.Report())
+                Console.WriteLine($"test.4.cl     {error}");
+            
+            #endregion
+
         }
     }
 }
