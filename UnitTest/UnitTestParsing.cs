@@ -18,14 +18,23 @@ namespace UnitTest
             CoolTable table = new CoolTable(grammar._coolGrammar);
             CoolLexer lexer = new CoolLexer();
 
-            StreamReader file = new StreamReader("../../../Examples/success/hello_world.cl");
-            var input = file.ReadToEnd();
-            var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
 
-            table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
+            DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/");
+            FileInfo[] files = directory.GetFiles();
 
-            foreach (var error in Errors.Report())
-                Assert.Fail(error);
+            foreach (var file in files)
+            {
+                StreamReader sr = new StreamReader(file.FullName);
+                var input = sr.ReadToEnd();
+                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
+
+                table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
+
+                foreach (var error in Errors.Report())
+                    Assert.Fail(file.Name + "    " + error);
+
+                Errors.Clear();
+            }
         }
     }
 }

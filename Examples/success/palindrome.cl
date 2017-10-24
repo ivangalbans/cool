@@ -9,7 +9,7 @@ class Main inherits IO {
 	else false
 	fi fi fi
     };
-
+	
     i : Int <- 2;
 
     main() : Main {

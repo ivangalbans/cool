@@ -39,7 +39,6 @@ namespace ErrorLogger
             errorList.Add(e);
         }
 
-       
         public static void Log(Token t)
         {
             change = true;
@@ -50,6 +49,7 @@ namespace ErrorLogger
         {
             return change;
         }
+
         public static IEnumerable<string> Report()
         {
             foreach (var item in errorList)
@@ -58,6 +58,10 @@ namespace ErrorLogger
             }
         }
 
-
+        public static void Clear()
+        {
+            change = false;
+            errorList.Clear();
+        }
     }
 }
