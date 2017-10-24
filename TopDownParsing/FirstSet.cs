@@ -36,7 +36,8 @@ namespace TopDownParsing
                 }
             }
 
-            if (allEpsilon) result.Add(G.Epsilon);
+            if (allEpsilon)
+                result.Add(G.Epsilon);
 
             return result;
         }

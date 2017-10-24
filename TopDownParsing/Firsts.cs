@@ -55,7 +55,8 @@ namespace TopDownParsing
                             }
                         }
 
-                        if (allEpsilon) changed |= firsts[X].Add(G.Epsilon);
+                        if (allEpsilon)
+                            changed |= firsts[X].Add(G.Epsilon);
                     }
                 }
             } while (changed);

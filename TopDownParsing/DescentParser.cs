@@ -16,7 +16,6 @@ namespace TopDownParsing
             try
             {
                 var productions = LeftMostParse(g, tokens.ToArray());
-                //ast  = AST.BuildAST(productions,G.Terminals,tokens);
                 tree = DerivationTree.FromLeftMost(productions);
                 return true;
             }
@@ -31,7 +30,6 @@ namespace TopDownParsing
         {
             var stack = new Stack<Symbol>(new Symbol[] {G.EOF, G.StartSymbol});
             var table = LlTable.Build(G);
-
             var nextToken = 0;
 
             while (stack.Count > 0 && nextToken < tokens.Length)
@@ -54,7 +52,8 @@ namespace TopDownParsing
                     if (production.IsEpsilon)
                         continue;
 
-                    foreach (var s in production.Right.Reverse()) stack.Push(s);
+                    foreach (var s in production.Right.Reverse())
+                        stack.Push(s);
                 }
             }
         }

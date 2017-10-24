@@ -22,7 +22,6 @@ namespace TopDownParsing
                 if (value == null)
                     throw new ArgumentNullException();
 
-
                 if (_table.TryGetValue((symbol, terminal), out ProductionAttr result) && result != value)
                     throw new InvalidOperationException("Entry already used.");
 
@@ -43,7 +42,6 @@ namespace TopDownParsing
         public static LlTable Build(Grammar G)
         {
             var table = new LlTable();
-
             var firsts = Firsts.Compute(G);
             var follows = Follows.Compute(G, firsts);
 

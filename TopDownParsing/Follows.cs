@@ -20,12 +20,12 @@ namespace TopDownParsing
         {
             var Follows = new Follows();
 
-            foreach (var X in G.NonTerminals) Follows[X] = new FollowSet();
+            foreach (var X in G.NonTerminals)
+                Follows[X] = new FollowSet();
 
             Follows[G.StartSymbol] = new FollowSet {G.EOF};
 
             bool changed;
-
             do
             {
                 changed = false;
@@ -45,7 +45,8 @@ namespace TopDownParsing
                         var first = FirstSet.Compute(G, W.Sufix(i + 1), firsts);
                         changed |= Follows[S].AddAll(first.Except(new[] {G.Epsilon}));
 
-                        if (first.Contains(G.Epsilon) || i == W.Length - 1) changed |= Follows[S].AddAll(Follows[X]);
+                        if (first.Contains(G.Epsilon) || i == W.Length - 1)
+                            changed |= Follows[S].AddAll(Follows[X]);
                     }
                 }
             } while (changed);
