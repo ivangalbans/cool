@@ -26,7 +26,6 @@ namespace BottomUpParsing
         public Lr1Automaton _automaton;
         public Dictionary<(int, Symbol), Actions> _table;
 
-        
         public Lr1Table(Lr1Automaton automaton)
         {
             _automaton = automaton;
@@ -41,8 +40,8 @@ namespace BottomUpParsing
             {
                 Console.WriteLine("The grammar is not LR(1)");
             }
-
         }
+
         private bool ConflictInAutomaton()
         {
             var result = true;
@@ -83,13 +82,13 @@ namespace BottomUpParsing
             if (l1.Count == l2.Count)
             {
                 foreach (var item in l1)
-                {
-                    if (!l2.Exists(x => x.Name == item.Name)) return false;
-                }
+                    if (!l2.Exists(x => x.Name == item.Name))
+                        return false;
                 return true;
             }
             else return false;
         }
+
         private void PrintState(Lr1State state)
         {
             Console.WriteLine("State" + state.StateNumber);
@@ -101,7 +100,9 @@ namespace BottomUpParsing
                     if (i.DotNumber == j) Console.Write(".");
                     Console.Write(_automaton.Productions[i.ProductionNumber].Right[j]);
                 }
-                if (i.DotNumber == _automaton.Productions[i.ProductionNumber].Right.Length) Console.Write(".");
+
+                if (i.DotNumber == _automaton.Productions[i.ProductionNumber].Right.Length)
+                    Console.Write(".");
                 Console.Write(", ");
                 foreach (var l in i.Lookahead)
                     Console.Write(l + "|");
@@ -112,12 +113,8 @@ namespace BottomUpParsing
         private (bool reult,Lr1Item item) Reduce(Lr1State l)
         {
             foreach (var x in l.Items)
-            {
                 if(_automaton.Productions[x.ProductionNumber].Right.Length == x.DotNumber)
-                {
                     return (true, x);
-                }
-            }
             return (false, null);
         }
 
@@ -125,12 +122,15 @@ namespace BottomUpParsing
         {
             foreach (var item in l.Items)
             {
-                if (item.DotNumber == _automaton.Productions[item.ProductionNumber].Right.Length) continue;
+                if (item.DotNumber == _automaton.Productions[item.ProductionNumber].Right.Length)
+                {
+                    continue;
+                }
                 else
                 {
                     Terminal a = _automaton.Productions[item.ProductionNumber].Right[item.DotNumber] as Terminal;
                     if (a != null)
-                        return (true,a);
+                        return (true, a);
                 }
             }
             return (false,null);
@@ -139,14 +139,20 @@ namespace BottomUpParsing
         {
             bool reduce = false;
             Lr1Item temp = null;
+
             for (int i = 0; i < l.Items.Count; i++)
             {
                 var item = l.Items[i];
-
                 if (_automaton.Productions[item.ProductionNumber].Right.Length == item.DotNumber)
                 {
-                    if (reduce) return (true,temp,item);
-                    else { reduce = true; temp = item; }
+                    if (reduce)
+                    {
+                        return (true, temp, item);
+                    }
+                    else
+                    {
+                        reduce = true; temp = item;
+                    }
                 }
             }
             return (false,null,null);
@@ -167,10 +173,10 @@ namespace BottomUpParsing
                 tree = DerivationTree.FromRightMost(productions.Item2);
                 return true;
             }
+
             foreach (var item in Errors.Report())
-            {
                 Console.WriteLine(item);
-            }
+            
             tree = null;
             return false;
         }
@@ -213,7 +219,6 @@ namespace BottomUpParsing
                         if (!_table.ContainsKey(tuple))
                             _table.Add(tuple, actions);
                     }
-
                     continue;
                 }
 
@@ -232,7 +237,6 @@ namespace BottomUpParsing
                     if (!_table.ContainsKey(t))
                         _table.Add(t, actions);
                 }
-
                 else
                 {
                     var contain = IsGoto(_automaton.Gotos, states.StateNumber,
@@ -262,8 +266,8 @@ namespace BottomUpParsing
         {
             foreach (var t in _table)
                 if (t.Value.ActionType != ActionType.None)
-                    Console.WriteLine("[" + t.Key.Item1 + "," + t.Key.Item2 + "] = " + t.Value.ActionType + " " +
-                                      t.Value.ActionParameter);
+                    Console.WriteLine("[" + t.Key.Item1 + "," + t.Key.Item2 + "] = " +
+                                    t.Value.ActionType + " " + t.Value.ActionParameter);
             return "";
         }
 
@@ -288,8 +292,10 @@ namespace BottomUpParsing
 
             var result = new List<(ProductionAttr, List<Token>)>();
             var stack = new Stack<(int, Token)>();
+
             stack.Push((0, null));
             var pos = 0;
+
             while (true)
             {
                 var s = stack.Peek();
@@ -320,8 +326,9 @@ namespace BottomUpParsing
                     }
                 }
                 var t = (s.Item1, temp);
-                try { 
-                switch (_table[t].ActionType)
+                try
+                { 
+                    switch (_table[t].ActionType)
                     {
                         case ActionType.Shift:
                             stack.Push((_table[t].ActionParameter, tok));
@@ -331,8 +338,8 @@ namespace BottomUpParsing
                             var len = Prod[_table[t].ActionParameter].IsEpsilon
                                 ? 0
                                 : Prod[_table[t].ActionParameter].Right.Length;
-
                             var toks = new List<Token>();
+
                             while (len > 0)
                             {
                                 var tmp = stack.Pop();
@@ -346,7 +353,6 @@ namespace BottomUpParsing
                             if (_table[t2].ActionType == ActionType.Goto)
                                 stack.Push((_table[t2].ActionParameter, null));
 
-                            
                             toks.Reverse();
                             result.Add((Prod[_table[t].ActionParameter], new List<Token>(toks)));
                             toks.Clear();
