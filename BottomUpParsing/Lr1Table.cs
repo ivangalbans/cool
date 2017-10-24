@@ -167,6 +167,10 @@ namespace BottomUpParsing
                 tree = DerivationTree.FromRightMost(productions.Item2);
                 return true;
             }
+            foreach (var item in Errors.Report())
+            {
+                Console.WriteLine(item);
+            }
             tree = null;
             return false;
         }

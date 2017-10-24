@@ -12,7 +12,7 @@ namespace UnitTest
     public class UnitTestParsing
     {
         [TestMethod]
-        public void success()
+        public void parsing_success()
         {
             CoolGrammar grammar = new CoolGrammar();
             CoolTable table = new CoolTable(grammar._coolGrammar);
@@ -36,5 +36,31 @@ namespace UnitTest
                 Errors.Clear();
             }
         }
+
+        [TestMethod]
+        public void parsing_fail()
+        {
+            CoolGrammar grammar = new CoolGrammar();
+            CoolTable table = new CoolTable(grammar._coolGrammar);
+            CoolLexer lexer = new CoolLexer();
+
+
+            DirectoryInfo directory = new DirectoryInfo("../../../Examples/fail/");
+            FileInfo[] files = directory.GetFiles();
+
+            foreach (var file in files)
+            {
+                StreamReader sr = new StreamReader(file.FullName);
+                var input = sr.ReadToEnd();
+                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
+
+                table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
+
+                Assert.IsTrue(Errors.HasError());
+
+                Errors.Clear();
+            }
+        }
+
     }
 }
