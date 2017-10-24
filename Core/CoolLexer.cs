@@ -10,7 +10,7 @@ using ErrorLogger;
 
 namespace Core
 {
-    class CoolLexer : ILexer<Token>
+    public class CoolLexer : ILexer<Token>
     {
         private readonly LexerEngine _engine;
 

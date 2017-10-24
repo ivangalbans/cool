@@ -167,7 +167,6 @@ namespace BottomUpParsing
                 tree = DerivationTree.FromRightMost(productions.Item2);
                 return true;
             }
-            Errors.Report();
             tree = null;
             return false;
         }
@@ -248,8 +247,6 @@ namespace BottomUpParsing
             }
         }
 
-       
-
         private static int IsGoto(IEnumerable<Goto> statesGotos, int x, Symbol symbol)
         {
             foreach (var g in statesGotos)
@@ -276,11 +273,12 @@ namespace BottomUpParsing
             var ok = true;
             var Prod = new ProductionAttr[g.Productions.Count() + 1];
             var numberproduction = 1;
+
             foreach (var p in g.Productions)
                 Prod[numberproduction++] = p;
+
             var s1 = g.NonTerminal("S'");
             s1 %= g.StartSymbol;
-
 
             Prod[0] = g.Productions.Last();
 

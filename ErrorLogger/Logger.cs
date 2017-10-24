@@ -50,11 +50,11 @@ namespace ErrorLogger
         {
             return change;
         }
-        public static void Report()
+        public static IEnumerable<string> Report()
         {
             foreach (var item in errorList)
             {
-                Console.WriteLine(item);
+                yield return item.ToString();
             }
         }
 

@@ -25,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{38
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "success", "success", "{7706C195-0E1A-4115-ACD7-3679B521F36E}"
 	ProjectSection(SolutionItems) = preProject
-		Examples\success\HelloWorld.cl = Examples\success\HelloWorld.cl
+		Examples\success\binary_tree.cl = Examples\success\binary_tree.cl
+		Examples\success\hello_world.cl = Examples\success\hello_world.cl
+		Examples\success\life.cl = Examples\success\life.cl
 		Examples\success\palindrome.cl = Examples\success\palindrome.cl
 	EndProjectSection
 EndProject

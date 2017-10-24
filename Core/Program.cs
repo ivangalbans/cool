@@ -17,9 +17,6 @@ namespace Core
     {
         static void Main(string[] args)
         {
-
-            CoolGrammar grammar = new CoolGrammar();
-
             #region Generate CoolTable
             /*
             var crono = new Stopwatch();
@@ -29,25 +26,6 @@ namespace Core
             Console.WriteLine(crono.ElapsedMilliseconds / 1000.0);
             */
             #endregion
-
-
-            #region Testing Parsing
-            CoolTable t = new CoolTable(grammar._coolGrammar);
-            CoolLexer a = new CoolLexer();
-            StreamReader asd = new StreamReader("../../../Examples/success/palindrome.cl");
-
-            var g = asd.ReadToEnd();
-
-            var tok = a.Lex(g, grammar._coolGrammar).ToList();
-            if (Errors.HasError())
-                Errors.Report();
-            else
-            {
-                t.table.TryParse(grammar._coolGrammar, tok, out DerivationTree tree);
-            }
-            
-            #endregion
-
         }
     }
 }
