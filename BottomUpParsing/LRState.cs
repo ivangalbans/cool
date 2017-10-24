@@ -15,11 +15,9 @@ namespace BottomUpParsing
         }
 
         public Grammar G { get; }
-
         public int StateNumber { get; set; }
         public List<LrItem> Items { get; }
         public List<Goto>Gotos { get; set; }
-
 
         public virtual void SetClausure(ProductionAttr[] productions)
         {
@@ -51,7 +49,6 @@ namespace BottomUpParsing
                 }
             } while (change);
         }
-
 
         public virtual bool Search(IEnumerable<LrItem> items, LrItem lrItem)
         {

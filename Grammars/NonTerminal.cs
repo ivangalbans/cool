@@ -21,7 +21,6 @@ namespace Grammars
             return n;
         }
 
-
         public static NonTerminal operator %(NonTerminal n, Symbol s)
         {
             var production = new ProductionAttr(n, new SentenceAttr {s});
@@ -38,7 +37,6 @@ namespace Grammars
                 n._productions.Add(production);
                 n.Grammar.Productions.Add(production);
             }
-
             return n;
         }
     }

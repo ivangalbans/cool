@@ -24,7 +24,6 @@ namespace Grammars
         }
 
         public int Count => _productions.Count;
-
         public ProductionAttr this[int index] => _productions[index];
 
         internal void Add(ProductionAttr production)

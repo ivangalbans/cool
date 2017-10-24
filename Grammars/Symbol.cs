@@ -5,7 +5,6 @@ namespace Grammars
     public abstract class Symbol
     {
         private bool change;
-
         private int mem;
 
         protected Symbol(string name, Grammar grammar)

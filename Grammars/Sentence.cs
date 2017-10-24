@@ -40,7 +40,6 @@ namespace Grammars
             _symbols.Add(symbol);
         }
 
-
         public static SentenceList operator |(Sentence s1, Sentence s2)
         {
             return new SentenceList {s1, s2};

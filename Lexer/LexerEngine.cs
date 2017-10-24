@@ -4,6 +4,7 @@ using BottomUpParsing;
 using Grammars;
 using Parsing;
 using ErrorLogger;
+
 namespace Lexer
 {
     internal class SimpleLexer : ILexer<Token>
@@ -81,7 +82,6 @@ namespace Lexer
             M %= (symbol + M).With(p => Nfa.Or(new Nfa(p[0][0], _level), p[1], _level));
             M %= (symbol + less + symbol + M).With(p => Nfa.Or(Nfa.MultiOr(p[0][0], p[2][0], _level), p[3], _level));
         }
-
 
         public LexerEngine(IEnumerable<(string regex, string type)> regexPac)
         {

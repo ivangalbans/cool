@@ -12,6 +12,7 @@ namespace ErrorLogger
         private int Column;
         private string Text;
         private string Type;
+
         public Error(int Line, int Column, string Text, string Type)
         {
             this.Line = Line;
@@ -19,6 +20,7 @@ namespace ErrorLogger
             this.Text = Text;
             this.Type = Type;
         }
+
         public Error(string e)
         {
             Text = e;
@@ -29,10 +31,12 @@ namespace ErrorLogger
         }
     }
 
+
     public static class Errors
     {
         static List<Error> errorList = new List<Error>();
         static bool change;
+
         public static void Log(Error e)
         {
             change = true;
@@ -53,9 +57,8 @@ namespace ErrorLogger
         public static IEnumerable<string> Report()
         {
             foreach (var item in errorList)
-            {
                 yield return item.ToString();
-            }
+            yield break;
         }
 
         public static void Clear()
