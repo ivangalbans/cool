@@ -92,8 +92,8 @@ namespace Core
             #endregion
 
             #region Productions
-            Program             %= (Class + semicolon + Program);
-            Program             %= (Class + semicolon);
+            Program             %= (Class + semicolon + Program).With(p => new ProgramNode(p[0], p[2]));
+            Program             %= (Class + semicolon).With(p => new ProgramNode(p[0]));
             Class               %= (cclass + TYPE + Inheritance + openBrace + List_Feature + closedBrace);
             Inheritance         %= (inherits + TYPE);
             Inheritance         %= (epsilon);
