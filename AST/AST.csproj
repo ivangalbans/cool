@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FF069D8E-C935-49F3-9A26-8A6013B7ECF3}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Core</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <ProjectGuid>{B1930868-1165-42AC-8DCF-F1D34CC7D82C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AST</RootNamespace>
+    <AssemblyName>AST</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,44 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoolGrammar.cs" />
-    <Compile Include="CoolLexer.cs" />
-    <Compile Include="CoolTable.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Nodes\Abstract\ArithmeticBinaryNode.cs" />
+    <Compile Include="Nodes\Abstract\BinaryNode.cs" />
+    <Compile Include="Nodes\Abstract\ExpressionNode.cs" />
+    <Compile Include="Nodes\AddNode.cs" />
+    <Compile Include="Nodes\DivNode.cs" />
+    <Compile Include="Nodes\MulNode.cs" />
+    <Compile Include="Nodes\SubNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AST\AST.csproj">
-      <Project>{b1930868-1165-42ac-8dcf-f1d34cc7d82c}</Project>
-      <Name>AST</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BottomUpParsing\BottomUpParsing.csproj">
-      <Project>{4b5b7d0e-9d83-492d-b4e9-284260069943}</Project>
-      <Name>BottomUpParsing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ErrorLogger\ErrorLogger.csproj">
-      <Project>{8111b9d7-0865-4397-83ae-a62e32a977a7}</Project>
-      <Name>ErrorLogger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Error\Error.csproj">
-      <Project>{8a8d45e9-7615-4edf-b297-96c809d678aa}</Project>
-      <Name>Error</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Grammars\Grammars.csproj">
-      <Project>{b87d35a9-2a66-4eae-be19-6f52913c1f1d}</Project>
-      <Name>Grammars</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lexer\Lexer.csproj">
-      <Project>{3ee3c41a-bca1-459b-8b77-06231de79c32}</Project>
-      <Name>Lexer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Parsing\Parsing.csproj">
-      <Project>{F713D20F-5545-4895-BC46-73D4A2F04383}</Project>
-      <Name>Parsing</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

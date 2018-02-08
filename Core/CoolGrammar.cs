@@ -1,4 +1,5 @@
 ﻿using Grammars;
+using AST.Nodes;
 
 namespace Core
 {
@@ -122,11 +123,11 @@ namespace Core
             Exp2                %= (Exp3 + lessEqual + Exp3);
             Exp2                %= (Exp3 + equal + Exp3);
             Exp2                %= (Exp3);
-            Exp3                %= (Exp3 + add + Exp4);
-            Exp3                %= (Exp3 + sub + Exp4);
+            Exp3                %= (Exp3 + add + Exp4).With(p => new AddNode(p[0], p[2]));
+            Exp3                %= (Exp3 + sub + Exp4).With(p => new SubNode(p[0], p[2]));
             Exp3                %= (Exp4);
-            Exp4                %= (Exp4 + mul + Exp5);
-            Exp4                %= (Exp4 + div + Exp5);
+            Exp4                %= (Exp4 + mul + Exp5).With(p => new MulNode(p[0], p[2]));
+            Exp4                %= (Exp4 + div + Exp5).With(p => new DivNode(p[0], p[2]));
             Exp4                %= (Exp5);
             Exp5                %= (isvoid + Exp5);
             Exp5                %= (Exp6);
