@@ -8,7 +8,7 @@ using AST.Nodes.Abstract;
 
 namespace AST.Nodes
 {
-    public class SubNode : ArithmeticBinaryNode
+    public class SubNode : ArithmeticOperation
     {
         public override ExpressionNode LeftExpression { get; set; }
         public override ExpressionNode RightExpression { get; set; }

@@ -8,11 +8,11 @@ using AST.Nodes.Abstract;
 
 namespace AST.Nodes
 {
-    public class DivNode : ArithmeticOperation
+    public class LessEqual : ComparisonOperation
     {
         public override ExpressionNode LeftExpression { get; set; }
         public override ExpressionNode RightExpression { get; set; }
 
-        public DivNode(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
+        public LessEqual(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
     }
 }
