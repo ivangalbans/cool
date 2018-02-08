@@ -42,15 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Nodes\Abstract\ComparisonOperation.cs" />
+    <Compile Include="Nodes\Abstract\UnaryOperationNode.cs" />
     <Compile Include="Nodes\EqualsNode.cs" />
     <Compile Include="Nodes\Abstract\ArithmeticOperation.cs" />
-    <Compile Include="Nodes\Abstract\BinaryNode.cs" />
+    <Compile Include="Nodes\Abstract\BinaryOperationNode.cs" />
     <Compile Include="Nodes\Abstract\ExpressionNode.cs" />
     <Compile Include="Nodes\AddNode.cs" />
     <Compile Include="Nodes\DivNode.cs" />
+    <Compile Include="Nodes\IsVoidNode.cs" />
     <Compile Include="Nodes\Less.cs" />
     <Compile Include="Nodes\LessEqual.cs" />
     <Compile Include="Nodes\MulNode.cs" />
+    <Compile Include="Nodes\NegNode.cs" />
+    <Compile Include="Nodes\NotNode.cs" />
     <Compile Include="Nodes\SubNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

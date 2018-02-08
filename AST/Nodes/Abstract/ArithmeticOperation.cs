@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Abstract
 {
-    public abstract class ArithmeticOperation : BinaryNode
+    public abstract class ArithmeticOperation : BinaryOperationNode
     {
         public ArithmeticOperation(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
     }

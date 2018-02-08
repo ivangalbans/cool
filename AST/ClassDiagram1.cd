@@ -7,11 +7,11 @@
       <FileName>Nodes\Abstract\ArithmeticOperation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.Abstract.BinaryNode" Collapsed="true">
+  <Class Name="AST.Nodes.Abstract.BinaryOperationNode" Collapsed="true">
     <Position X="5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Nodes\Abstract\BinaryNode.cs</FileName>
+      <FileName>Nodes\Abstract\BinaryOperationNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.Abstract.ExpressionNode" Collapsed="true">

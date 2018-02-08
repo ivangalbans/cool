@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Abstract
 {
-    public abstract class BinaryNode : ExpressionNode
+    public abstract class BinaryOperationNode : ExpressionNode
     {
         public abstract ExpressionNode LeftExpression {get; set; }
         public abstract ExpressionNode RightExpression { get; set; }
 
-        public BinaryNode(ExpressionNode leftExp, ExpressionNode rightExp)
+        public BinaryOperationNode(ExpressionNode leftExp, ExpressionNode rightExp)
         {
             LeftExpression = leftExp;
             RightExpression = rightExp;
