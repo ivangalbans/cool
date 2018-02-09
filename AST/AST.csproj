@@ -51,6 +51,7 @@
     <Compile Include="Nodes\Abstract\ExpressionNode.cs" />
     <Compile Include="Nodes\AddNode.cs" />
     <Compile Include="Nodes\DivNode.cs" />
+    <Compile Include="Nodes\FeatureNode.cs" />
     <Compile Include="Nodes\IsVoidNode.cs" />
     <Compile Include="Nodes\Less.cs" />
     <Compile Include="Nodes\LessEqual.cs" />
@@ -63,6 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Grammars\Grammars.csproj">
+      <Project>{b87d35a9-2a66-4eae-be19-6f52913c1f1d}</Project>
+      <Name>Grammars</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

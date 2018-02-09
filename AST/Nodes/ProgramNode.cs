@@ -10,17 +10,17 @@ namespace AST.Nodes
 {
     public class ProgramNode : ASTNode
     {
-        public List<ClassNode> ClassNodeList { get; set; }
+        public List<ClassNode> ClassNodes { get; set; }
 
         public ProgramNode(ClassNode classNode)
         {
-            ClassNodeList = new List<ClassNode>() { classNode };
+            ClassNodes = new List<ClassNode>() { classNode };
         }
 
         public ProgramNode(ClassNode classNode, ProgramNode programNode)
         {
-            ClassNodeList = new List<ClassNode>() { classNode };
-            ClassNodeList.AddRange(programNode.ClassNodeList);
+            ClassNodes = new List<ClassNode>() { classNode };
+            ClassNodes.AddRange(programNode.ClassNodes);
         }
     }
 }

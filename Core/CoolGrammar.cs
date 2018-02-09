@@ -1,4 +1,6 @@
-﻿using Grammars;
+﻿using System.Linq;
+using System.Collections.Generic;
+using Grammars;
 using AST.Nodes;
 
 namespace Core
@@ -94,11 +96,16 @@ namespace Core
             #region Productions
             Program             %= (Class + semicolon + Program).With(p => new ProgramNode(p[0], p[2]));
             Program             %= (Class + semicolon).With(p => new ProgramNode(p[0]));
-            Class               %= (cclass + TYPE + Inheritance + openBrace + List_Feature + closedBrace);
-            Inheritance         %= (inherits + TYPE);
-            Inheritance         %= (epsilon);
-            List_Feature        %= (Feature + semicolon + List_Feature);
-            List_Feature        %= (epsilon);
+            Class               %= (cclass + TYPE + Inheritance + openBrace + List_Feature + closedBrace).With(p => new ClassNode(p[1], p[2], p[4]));
+            Inheritance         %= (inherits + TYPE).With(p => p[1]);
+            Inheritance         %= (epsilon).With(p => new Token(0, "Object", "Object", 0, 0));
+            List_Feature %= (Feature + semicolon + List_Feature).With(p =>
+                            {
+                                var features = new List<FeatureNode>() { p[0] };
+                                features.AddRange(p[2]);
+                                return features;
+                            });
+            List_Feature        %= (epsilon).With(p => new List<FeatureNode>());
             Feature             %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace);
             Feature             %= (ID + colon + TYPE + Assign);
             List_Formal         %= (Formal + Tail_Formal);
