@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using AST.Nodes.Abstract;
-
-namespace AST.Nodes
+namespace AST
 {
-    public class FeatureNode : ASTNode
+    public class CoolType
     {
-
     }
 }

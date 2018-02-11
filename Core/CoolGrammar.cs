@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grammars;
 using AST.Nodes;
+using AST.Nodes.Abstract;
 
 namespace Core
 {
@@ -99,15 +100,15 @@ namespace Core
             Class               %= (cclass + TYPE + Inheritance + openBrace + List_Feature + closedBrace).With(p => new ClassNode(p[1], p[2], p[4]));
             Inheritance         %= (inherits + TYPE).With(p => p[1]);
             Inheritance         %= (epsilon).With(p => new Token(0, "Object", "Object", 0, 0));
-            List_Feature %= (Feature + semicolon + List_Feature).With(p =>
-                            {
-                                var features = new List<FeatureNode>() { p[0] };
-                                features.AddRange(p[2]);
-                                return features;
-                            });
+            List_Feature        %= (Feature + semicolon + List_Feature).With(p =>
+                                    {
+                                        var features = new List<FeatureNode>() { p[0] };
+                                        features.AddRange(p[2]);
+                                        return features;
+                                    });
             List_Feature        %= (epsilon).With(p => new List<FeatureNode>());
-            Feature             %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace);
-            Feature             %= (ID + colon + TYPE + Assign);
+            Feature %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace).With(p => new MethodNode(p[0], p[2], p[5], p[7]));
+            Feature             %= (ID + colon + TYPE + Assign).With(p => new AttributeNode(p[0], p[2], p[4]));
             List_Formal         %= (Formal + Tail_Formal);
             List_Formal         %= (epsilon);
             Tail_Formal         %= (comma + Formal + Tail_Formal);
