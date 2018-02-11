@@ -182,12 +182,12 @@ namespace Core
             Exp8                %= (ccase + Exp + of + Cases + esac).With(p => new CaseNode(p[1], p[3]));
             Exp8                %= (cnew + TYPE).With(p => new NewNode(p[1]));
             Exp8                %= (openBracket + Exp + closedBracket).With(p => p[1]);
-            Exp8                %= (ID);
-            Exp8                %= (integer);
-            Exp8                %= (cstring);
-            Exp8                %= (ctrue);
-            Exp8                %= (cfalse);
-            Exp8                %= (cvoid);
+            Exp8                %= (ID).With(p => new IdentifierNode(p[0]));
+            Exp8                %= (integer).With(p => new IntNode(p[0])); ;
+            Exp8                %= (cstring).With(p => new StringNode(p[0])); ;
+            Exp8                %= (ctrue).With(p => new BoolNode(p[0])); ;
+            Exp8                %= (cfalse).With(p => new BoolNode(p[0]));
+            Exp8                %= (cvoid).With(p => new VoidNode(p[0]));
             Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases).With(p =>
                                     {
                                         var caseList = new List<(Token, Token, ExpressionNode)>() { (p[0], p[2], p[4]) };
@@ -195,8 +195,13 @@ namespace Core
                                         return caseList;
                                     });
             Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon).With(p => new List<(Token, Token, ExpressionNode)>() { (p[0], p[2], p[4]) });
-            Expressions         %= (Exp + semicolon + Expressions);
-            Expressions         %= (Exp + semicolon);
+            Expressions         %= (Exp + semicolon + Expressions).With(p =>
+                                    {
+                                        var expressions = new List<ExpressionNode>() { p[0] };
+                                        expressions.AddRange(p[2]);
+                                        return expressions;
+                                    });
+            Expressions         %= (Exp + semicolon).With(p => new List<ExpressionNode>() { p[0] });
             #endregion
         }
     }

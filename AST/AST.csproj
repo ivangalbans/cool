@@ -44,12 +44,14 @@
   <ItemGroup>
     <Compile Include="CoolType.cs" />
     <Compile Include="Nodes\Abstract\ASTNode.cs" />
+    <Compile Include="Nodes\Abstract\AtomNode.cs" />
     <Compile Include="Nodes\Abstract\ComparisonOperation.cs" />
     <Compile Include="Nodes\Abstract\DispatchNode.cs" />
     <Compile Include="Nodes\Abstract\KeywordNode.cs" />
     <Compile Include="Nodes\Abstract\UnaryOperationNode.cs" />
     <Compile Include="Nodes\AssignmentNode.cs" />
     <Compile Include="Nodes\AttributeNode.cs" />
+    <Compile Include="Nodes\BoolNode.cs" />
     <Compile Include="Nodes\CaseNode.cs" />
     <Compile Include="Nodes\ClassNode.cs" />
     <Compile Include="Nodes\DispatchExplicitNode.cs" />
@@ -61,7 +63,9 @@
     <Compile Include="Nodes\AddNode.cs" />
     <Compile Include="Nodes\DivNode.cs" />
     <Compile Include="Nodes\Abstract\FeatureNode.cs" />
+    <Compile Include="Nodes\IdentifierNode.cs" />
     <Compile Include="Nodes\IfNode.cs" />
+    <Compile Include="Nodes\IntNode.cs" />
     <Compile Include="Nodes\IsVoidNode.cs" />
     <Compile Include="Nodes\Less.cs" />
     <Compile Include="Nodes\LessEqual.cs" />
@@ -72,7 +76,9 @@
     <Compile Include="Nodes\NewNode.cs" />
     <Compile Include="Nodes\NotNode.cs" />
     <Compile Include="Nodes\ProgramNode.cs" />
+    <Compile Include="Nodes\StringNode.cs" />
     <Compile Include="Nodes\SubNode.cs" />
+    <Compile Include="Nodes\VoidNode.cs" />
     <Compile Include="Nodes\WhileNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
