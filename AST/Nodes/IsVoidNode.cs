@@ -12,6 +12,6 @@ namespace AST.Nodes
     {
         public override ExpressionNode Expression { get; set; }
 
-        public IsVoidNode(ExpressionNode exppression) : base(expression) { }
+        public IsVoidNode(ExpressionNode expression) : base(expression) { }
     }
 }

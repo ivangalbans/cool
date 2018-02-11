@@ -12,6 +12,6 @@ namespace AST.Nodes
     {
         public override ExpressionNode Expression { get; set; }
 
-        public NotNode(ExpressionNode exp) : base(exp) { }
+        public NotNode(ExpressionNode expression) : base(expression) { }
     }
 }

@@ -10,9 +10,9 @@ namespace AST.Nodes.Abstract
     {
         public abstract ExpressionNode Expression { get; set; }
 
-        public UnaryOperationNode(ExpressionNode exp)
+        public UnaryOperationNode(ExpressionNode expression)
         {
-            Expression = exp;
+            Expression = expression;
         }
     }
 }

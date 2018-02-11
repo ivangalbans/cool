@@ -129,13 +129,18 @@ namespace Core
             Exp                 %= (ID + assign + Exp).With(p => new AssignmentNode(p[0], p[2]));
             Exp                 %= (Exp0).With(p => p[0]);
             Exp0                %= (let + Assignments + cin + Exp0).With(p => new LetNode(p[1], p[3]));
-            Exp0                %= (Exp1);
-            Assignments         %= (ID + colon + TYPE + AssignExp0 + Tail_Assignment);
-            Tail_Assignment     %= (comma + Assignments);
-            Tail_Assignment     %= (epsilon);
-            AssignExp0          %= (assign + Exp0);
-            AssignExp0          %= (epsilon);
-            Exp1                %= (not + Exp1).With(p => p[1]);
+            Exp0                %= (Exp1).With(p => p[0]);
+            Assignments         %= (ID + colon + TYPE + AssignExp0 + Tail_Assignment).With(p =>
+                                    {
+                                        var expressionInit = new List<(Token, Token, ExpressionNode)>() { p[0], p[2], p[3]};
+                                        expressionInit.AddRange(p[4]);
+                                        return expressionInit;
+                                    });
+            Tail_Assignment     %= (comma + Assignments).With(p => p[1]);
+            Tail_Assignment     %= (epsilon).With(p => new List<(Token, Token, ExpressionNode)>());
+            AssignExp0          %= (assign + Exp0).With(p => p[1]);
+            AssignExp0          %= (epsilon).With(p => null);
+            Exp1                %= (not + Exp1).With(p => new NotNode(p[1]));
             Exp1                %= Exp2.With(p => p[0]);
             Exp2                %= (Exp3 + less + Exp3).With(p => new Less(p[0], p[2]));
             Exp2                %= (Exp3 + lessEqual + Exp3).With(p => new LessEqual(p[0], p[2]));
@@ -151,19 +156,29 @@ namespace Core
             Exp5                %= (Exp6).With(p => p[0]);
             Exp6                %= (neg + Exp6).With(p => new NegNode(p[1]));
             Exp6                %= (Exp7).With(p => p[0]);
-            Exp7                %= (Exp7 + Arroba + dot + ID + openBracket + List_Param + closedBracket);
-            Exp7                %= Exp8;
-            Arroba              %= (arroba + TYPE);
-            Arroba              %= (epsilon);
-            List_Param          %= (Param + Tail_Param);
-            List_Param          %= (epsilon);
-            Param               %= (Exp);
-            Tail_Param          %= (comma + Param + Tail_Param);
-            Tail_Param          %= (epsilon);
-            Exp8                %= (ID + openBracket + List_Param + closedBracket);
-            Exp8                %= (cif + Exp + then + Exp + celse + Exp + fi);
-            Exp8                %= (cwhile + Exp + loop + Exp + pool);
-            Exp8                %= (openBrace + Expressions + closedBrace);
+            Exp7                %= (Exp7 + Arroba + dot + ID + openBracket + List_Param + closedBracket).With(p => new DispatchExplicitNode(p[0], p[1], p[3], p[5]));
+            Exp7                %= Exp8.With(p => p[0]);
+            Arroba              %= (arroba + TYPE).With(p => p[1]);
+            Arroba              %= (epsilon).With(p => null);
+            List_Param          %= (Param + Tail_Param).With(p =>
+                                    {
+                                        var paramList = new List<ExpressionNode>() { p[0] };
+                                        paramList.AddRange(p[1]);
+                                        return paramList;
+                                    });
+            List_Param          %= (epsilon).With(p => new List<ExpressionNode>());
+            Param               %= (Exp).With(p => p[0]);
+            Tail_Param          %= (comma + Param + Tail_Param).With(p =>
+                                    {
+                                        var paramList = new List<ExpressionNode>() { p[1] };
+                                        paramList.AddRange(p[2]);
+                                        return paramList;
+                                    });
+            Tail_Param          %= (epsilon).With(p => new List<ExpressionNode>());
+            Exp8                %= (ID + openBracket + List_Param + closedBracket).With(p => new DispatchImplicitNode(p[0], p[2]));
+            Exp8                %= (cif + Exp + then + Exp + celse + Exp + fi).With(p => new IfNode(p[1], p[3], p[5]));
+            Exp8                %= (cwhile + Exp + loop + Exp + pool).With(p => new WhileNode(p[1], p[3]));
+            Exp8                %= (openBrace + Expressions + closedBrace).With(p => p[1]);
             Exp8                %= (ccase + Exp + of + Cases + esac);
             Exp8                %= (cnew + TYPE);
             Exp8                %= (openBracket + Exp + closedBracket);
