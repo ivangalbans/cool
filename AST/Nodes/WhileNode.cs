@@ -8,7 +8,7 @@ using AST.Nodes.Abstract;
 
 namespace AST.Nodes
 {
-    public class WhileNode : ExpressionNode
+    public class WhileNode : KeywordNode
     {
         public ExpressionNode Condition { get; set; }
         public ExpressionNode Body { get; set; }

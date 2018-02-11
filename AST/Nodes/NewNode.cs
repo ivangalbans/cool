@@ -9,7 +9,7 @@ using Grammars;
 
 namespace AST.Nodes
 {
-    public class NewNode : ExpressionNode
+    public class NewNode : KeywordNode
     {
         public string TextType { get; set; }
 
