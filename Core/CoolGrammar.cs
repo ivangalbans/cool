@@ -179,17 +179,22 @@ namespace Core
             Exp8                %= (cif + Exp + then + Exp + celse + Exp + fi).With(p => new IfNode(p[1], p[3], p[5]));
             Exp8                %= (cwhile + Exp + loop + Exp + pool).With(p => new WhileNode(p[1], p[3]));
             Exp8                %= (openBrace + Expressions + closedBrace).With(p => p[1]);
-            Exp8                %= (ccase + Exp + of + Cases + esac);
-            Exp8                %= (cnew + TYPE);
-            Exp8                %= (openBracket + Exp + closedBracket);
+            Exp8                %= (ccase + Exp + of + Cases + esac).With(p => new CaseNode(p[1], p[3]));
+            Exp8                %= (cnew + TYPE).With(p => new NewNode(p[1]));
+            Exp8                %= (openBracket + Exp + closedBracket).With(p => p[1]);
             Exp8                %= (ID);
             Exp8                %= (integer);
             Exp8                %= (cstring);
             Exp8                %= (ctrue);
             Exp8                %= (cfalse);
             Exp8                %= (cvoid);
-            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases);
-            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon);
+            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases).With(p =>
+                                    {
+                                        var caseList = new List<(Token, Token, ExpressionNode)>() { (p[0], p[2], p[4]) };
+                                        caseList.AddRange(p[6]);
+                                        return caseList;
+                                    });
+            Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon).With(p => new List<(Token, Token, ExpressionNode)>() { (p[0], p[2], p[4]) });
             Expressions         %= (Exp + semicolon + Expressions);
             Expressions         %= (Exp + semicolon);
             #endregion

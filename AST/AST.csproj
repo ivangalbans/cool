@@ -50,6 +50,7 @@
     <Compile Include="Nodes\Abstract\UnaryOperationNode.cs" />
     <Compile Include="Nodes\AssignmentNode.cs" />
     <Compile Include="Nodes\AttributeNode.cs" />
+    <Compile Include="Nodes\CaseNode.cs" />
     <Compile Include="Nodes\ClassNode.cs" />
     <Compile Include="Nodes\DispatchExplicitNode.cs" />
     <Compile Include="Nodes\DispatchImplicitNode.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Nodes\MethodNode.cs" />
     <Compile Include="Nodes\MulNode.cs" />
     <Compile Include="Nodes\NegNode.cs" />
+    <Compile Include="Nodes\NewNode.cs" />
     <Compile Include="Nodes\NotNode.cs" />
     <Compile Include="Nodes\ProgramNode.cs" />
     <Compile Include="Nodes\SubNode.cs" />
