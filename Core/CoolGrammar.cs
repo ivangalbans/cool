@@ -124,11 +124,11 @@ namespace Core
                                     });
             Tail_Formal         %= (epsilon).With(p => new List<(Token, Token)>());
             Formal              %= (ID + colon + TYPE).With(p => (p[0], p[2]));
-            Assign              %= (assign + Exp);
-            Assign              %= (epsilon);
-            Exp                 %= (ID + assign + Exp);
-            Exp                 %= (Exp0);
-            Exp0                %= (let + Assignments + cin + Exp0);
+            Assign              %= (assign + Exp).With(p => p[1]);
+            Assign              %= (epsilon).With(p => null);
+            Exp                 %= (ID + assign + Exp).With(p => new AssignmentNode(p[0], p[2]));
+            Exp                 %= (Exp0).With(p => p[0]);
+            Exp0                %= (let + Assignments + cin + Exp0).With(p => new LetNode(p[1], p[3]));
             Exp0                %= (Exp1);
             Assignments         %= (ID + colon + TYPE + AssignExp0 + Tail_Assignment);
             Tail_Assignment     %= (comma + Assignments);

@@ -45,7 +45,9 @@
     <Compile Include="CoolType.cs" />
     <Compile Include="Nodes\Abstract\ASTNode.cs" />
     <Compile Include="Nodes\Abstract\ComparisonOperation.cs" />
+    <Compile Include="Nodes\Abstract\KeywordNode.cs" />
     <Compile Include="Nodes\Abstract\UnaryOperationNode.cs" />
+    <Compile Include="Nodes\AssignmentNode.cs" />
     <Compile Include="Nodes\AttributeNode.cs" />
     <Compile Include="Nodes\ClassNode.cs" />
     <Compile Include="Nodes\EqualsNode.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Nodes\IsVoidNode.cs" />
     <Compile Include="Nodes\Less.cs" />
     <Compile Include="Nodes\LessEqual.cs" />
+    <Compile Include="Nodes\LetNode.cs" />
     <Compile Include="Nodes\MethodNode.cs" />
     <Compile Include="Nodes\MulNode.cs" />
     <Compile Include="Nodes\NegNode.cs" />

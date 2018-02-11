@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Abstract
 {
-    public abstract class ExpressionNode : ASTNode
+    public class KeywordNode : ExpressionNode
     {
-        public int Line { get; set; }
-
-        public int Column { get; set; }
     }
 }
