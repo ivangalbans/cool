@@ -107,13 +107,23 @@ namespace Core
                                         return features;
                                     });
             List_Feature        %= (epsilon).With(p => new List<FeatureNode>());
-            Feature %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace).With(p => new MethodNode(p[0], p[2], p[5], p[7]));
+            Feature             %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace).With(p => new MethodNode(p[0], p[2], p[5], p[7]));
             Feature             %= (ID + colon + TYPE + Assign).With(p => new AttributeNode(p[0], p[2], p[3]));
-            List_Formal         %= (Formal + Tail_Formal);
-            List_Formal         %= (epsilon);
-            Tail_Formal         %= (comma + Formal + Tail_Formal);
-            Tail_Formal         %= (epsilon);
-            Formal              %= (ID + colon + TYPE);
+            List_Formal         %= (Formal + Tail_Formal).With(p =>
+                                    {
+                                        var formals = new List<(Token, Token)> { p[0].Item1, p[0].Item2 };
+                                        formals.AddRange(p[1]);
+                                        return formals;
+                                    });
+            List_Formal         %= (epsilon).With(p => new List<(Token, Token)>()); ;
+            Tail_Formal         %= (comma + Formal + Tail_Formal).With(p =>
+                                    {
+                                        var formals = new List<(Token, Token)> { p[1].Item1, p[1].Item2 };
+                                        formals.AddRange(p[2]);
+                                        return formals;
+                                    });
+            Tail_Formal         %= (epsilon).With(p => new List<(Token, Token)>());
+            Formal              %= (ID + colon + TYPE).With(p => (p[0], p[2]));
             Assign              %= (assign + Exp);
             Assign              %= (epsilon);
             Exp                 %= (ID + assign + Exp);
