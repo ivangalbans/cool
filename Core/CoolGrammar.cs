@@ -108,7 +108,7 @@ namespace Core
                                     });
             List_Feature        %= (epsilon).With(p => new List<FeatureNode>());
             Feature %= (ID + openBracket + List_Formal + closedBracket + colon + TYPE + openBrace + Exp + closedBrace).With(p => new MethodNode(p[0], p[2], p[5], p[7]));
-            Feature             %= (ID + colon + TYPE + Assign).With(p => new AttributeNode(p[0], p[2], p[4]));
+            Feature             %= (ID + colon + TYPE + Assign).With(p => new AttributeNode(p[0], p[2], p[3]));
             List_Formal         %= (Formal + Tail_Formal);
             List_Formal         %= (epsilon);
             Tail_Formal         %= (comma + Formal + Tail_Formal);
