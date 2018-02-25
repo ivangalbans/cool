@@ -8,7 +8,7 @@ using Grammars;
 
 namespace AST.Nodes.Abstract
 {
-    public abstract class DispatchNode : ASTNode
+    public abstract class DispatchNode : ExpressionNode
     {
         public abstract string TextID { get; set; }
 

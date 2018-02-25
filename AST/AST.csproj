@@ -81,6 +81,9 @@
     <Compile Include="Expressions\Atom\VoidNode.cs" />
     <Compile Include="Expressions\Keyword\FlowControl\WhileNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scope\IScope.cs" />
+    <Compile Include="Visitor\IVisit.cs" />
+    <Compile Include="Visitor\IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Grammars\Grammars.csproj">
