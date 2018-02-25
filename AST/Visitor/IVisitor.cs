@@ -12,14 +12,18 @@ namespace AST.Visitor
 {
     public interface IVisitor
     {
-
-        void Visit(ProgramNode node, IScope scope);
-        void Visit(ClassNode node, IScope scope);
+        #region ExpressionNode
+        void Visit(ObjectNode node, IScope scope);
         void Visit(AssignmentNode node, IScope scope);
+        void Visit(BlockNode node, IScope scope);
+        void Visit(ClassNode node, IScope scope);
+        void Visit(ProgramNode node, IScope scope);
+        #endregion
 
         #region BinaryOperationNode
         void Visit(ComparisonOperation node, IScope scope);
         void Visit(ArithmeticOperation node, IScope scope);
+        void Visit(EqualNode node, IScope scope);
         #endregion
 
         #region AtomNode
