@@ -178,7 +178,7 @@ namespace Core
             Exp8                %= (ID + openBracket + List_Param + closedBracket).With(p => new DispatchImplicitNode(p[0], p[2]));
             Exp8                %= (cif + Exp + then + Exp + celse + Exp + fi).With(p => new IfNode(p[1], p[3], p[5]));
             Exp8                %= (cwhile + Exp + loop + Exp + pool).With(p => new WhileNode(p[1], p[3]));
-            Exp8                %= (openBrace + Expressions + closedBrace).With(p => p[1]);
+            Exp8                %= (openBrace + Expressions + closedBrace).With(p => new BlockNode(p[1]));
             Exp8                %= (ccase + Exp + of + Cases + esac).With(p => new CaseNode(p[1], p[3]));
             Exp8                %= (cnew + TYPE).With(p => new NewNode(p[1]));
             Exp8                %= (openBracket + Exp + closedBracket).With(p => p[1]);

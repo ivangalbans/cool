@@ -45,6 +45,8 @@
     <Compile Include="CoolType.cs" />
     <Compile Include="ASTNode\ASTNode.cs" />
     <Compile Include="Expressions\Atom\AtomNode.cs" />
+    <Compile Include="Expressions\Atom\ObjectNode.cs" />
+    <Compile Include="Expressions\Block\BlockNode.cs" />
     <Compile Include="Expressions\Operators\Binary\Comparison\ComparisonOperation.cs" />
     <Compile Include="Expressions\Dispatch\DispatchNode.cs" />
     <Compile Include="Expressions\Keyword\KeywordNode.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Expressions\Keyword\FlowControl\WhileNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope\IScope.cs" />
+    <Compile Include="Scope\Scope.cs" />
     <Compile Include="Visitor\IVisit.cs" />
     <Compile Include="Visitor\IVisitor.cs" />
   </ItemGroup>
@@ -94,6 +97,5 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

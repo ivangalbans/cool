@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AST.Scope;
+using AST.Visitor;
+
+
 namespace AST.Nodes.Abstract
 {
     public abstract class BinaryOperationNode : ExpressionNode
@@ -16,5 +20,7 @@ namespace AST.Nodes.Abstract
             LeftExpression = leftExp;
             RightExpression = rightExp;
         }
+
+
     }
 }

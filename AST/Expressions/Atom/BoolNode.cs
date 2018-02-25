@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 using Grammars;
 
 namespace AST.Nodes
@@ -13,9 +15,10 @@ namespace AST.Nodes
     {
         public bool Value { get; set; }
 
-        public BoolNode(Token intToken) : base(intToken)
+        public BoolNode(Token boolToken) : base(boolToken)
         {
-            Value = intToken.Text.ToLower() == "true";
+            Value = boolToken.Text.ToLower() == "true";
         }
+
     }
 }

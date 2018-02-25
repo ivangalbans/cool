@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AST.CoolType" Collapsed="true">
-    <Position X="61.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>CoolType.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.Abstract.ArithmeticOperation" Collapsed="true">
-    <Position X="33.25" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Arithmetic\ArithmeticOperation.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="AST.Nodes.Abstract.ASTNode" Collapsed="true">
     <Position X="29.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -22,94 +8,66 @@
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.Abstract.AtomNode" Collapsed="true">
-    <Position X="16.25" Y="3.25" Width="1.5" />
+    <Position X="23" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Atom\AtomNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.Abstract.BinaryOperationNode" Collapsed="true">
-    <Position X="36.5" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\BinaryOperationNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.Abstract.ComparisonOperation" Collapsed="true">
-    <Position X="41" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Comparison\ComparisonOperation.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="AST.Nodes.Abstract.DispatchNode" Collapsed="true">
-    <Position X="58" Y="1.75" Width="1.5" />
+    <Position X="31" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAEAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Dispatch\DispatchNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.Abstract.ExpressionNode" Collapsed="true">
-    <Position X="23" Y="1.75" Width="1.5" />
+    <Position X="25.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Expressions\ExpressionNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.Abstract.FeatureNode" Collapsed="true">
-    <Position X="49" Y="1.75" Width="1.5" />
+    <Position X="55.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAAAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Feature\FeatureNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.Abstract.KeywordNode" Collapsed="true">
-    <Position X="5" Y="3.25" Width="1.5" />
+    <Position X="45.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Keyword\KeywordNode.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="AST.Nodes.Abstract.ArithmeticOperation" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Arithmetic\ArithmeticOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.Abstract.BinaryOperationNode" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\BinaryOperationNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.Abstract.ComparisonOperation" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Comparison\ComparisonOperation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="AST.Nodes.Abstract.UnaryOperationNode" Collapsed="true">
-    <Position X="25.25" Y="3.25" Width="1.5" />
+    <Position X="36.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Operators\Unary\UnaryOperationNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.AddNode" Collapsed="true">
-    <Position X="34.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Arithmetic\AddNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.AssignmentNode" Collapsed="true">
-    <Position X="45.5" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Keyword\Assignment\AssignmentNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.AttributeNode" Collapsed="true">
-    <Position X="50" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQIAAAAAAAAAAAAAAEAAQAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Feature\AttributeNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.BoolNode" Collapsed="true">
-    <Position X="11.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Expressions\Atom\BoolNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.CaseNode" Collapsed="true">
-    <Position X="0.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Keyword\FlowControl\CaseNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.ClassNode" Collapsed="true">
@@ -119,46 +77,25 @@
       <FileName>ASTNode\ClassNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.DispatchExplicitNode" Collapsed="true">
-    <Position X="56.75" Y="3.25" Width="1.5" />
+  <Class Name="AST.Nodes.ProgramNode" Collapsed="true">
+    <Position X="59" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQIAAAAAAAAAIAAAEEEAAAAAAgAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Dispatch\DispatchExplicitNode.cs</FileName>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ASTNode\ProgramNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.DispatchImplicitNode" Collapsed="true">
-    <Position X="59" Y="3.25" Width="1.5" />
+  <Class Name="AST.Nodes.BoolNode" Collapsed="true">
+    <Position X="25.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAEAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Dispatch\DispatchImplicitNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.DivNode" Collapsed="true">
-    <Position X="36.5" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Arithmetic\DivNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.EqualNode" Collapsed="true">
-    <Position X="43.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Comparison\EqualsNode.cs</FileName>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Expressions\Atom\BoolNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.IdentifierNode" Collapsed="true">
-    <Position X="14" Y="4.75" Width="1.5" />
+    <Position X="27.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Atom\IdentifierNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.IfNode" Collapsed="true">
-    <Position X="2.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Keyword\FlowControl\IfNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AST.Nodes.IntNode" Collapsed="true">
@@ -168,76 +105,6 @@
       <FileName>Expressions\Atom\IntNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.IsVoidNode" Collapsed="true">
-    <Position X="25.25" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Unary\IsVoidNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.Less" Collapsed="true">
-    <Position X="38.75" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Comparison\Less.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.LessEqual" Collapsed="true">
-    <Position X="41" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Comparison\LessEqual.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.LetNode" Collapsed="true">
-    <Position X="5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Keyword\Let\LetNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.MethodNode" Collapsed="true">
-    <Position X="47.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAIAACAAAAEAAAAAAAAAAAAACAQAAAAAACABAA=</HashCode>
-      <FileName>Expressions\Feature\MethodNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.MulNode" Collapsed="true">
-    <Position X="32" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Arithmetic\MulNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.NegNode" Collapsed="true">
-    <Position X="23" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Unary\NegNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.NewNode" Collapsed="true">
-    <Position X="9.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Keyword\New\NewNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.NotNode" Collapsed="true">
-    <Position X="27.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Unary\NotNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AST.Nodes.ProgramNode" Collapsed="true">
-    <Position X="54.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ASTNode\ProgramNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="AST.Nodes.StringNode" Collapsed="true">
     <Position X="20.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
@@ -245,26 +112,187 @@
       <FileName>Expressions\Atom\StringNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AST.Nodes.SubNode" Collapsed="true">
-    <Position X="29.75" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Expressions\Operators\Binary\Arithmetic\SubNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="AST.Nodes.VoidNode" Collapsed="true">
-    <Position X="16.25" Y="4.75" Width="1.5" />
+    <Position X="23" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Atom\VoidNode.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="AST.Nodes.DispatchExplicitNode" Collapsed="true">
+    <Position X="29.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAAAAAIAAAEEEAAAAAAgAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Dispatch\DispatchExplicitNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.DispatchImplicitNode" Collapsed="true">
+    <Position X="32" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAEAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Dispatch\DispatchImplicitNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.AttributeNode" Collapsed="true">
+    <Position X="54.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAAAAAAAAAAEAAQAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Feature\AttributeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.MethodNode" Collapsed="true">
+    <Position X="56.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAACAAAAEAAAAAAAAAAAAACAQAAAAAACABAA=</HashCode>
+      <FileName>Expressions\Feature\MethodNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.AssignmentNode" Collapsed="true">
+    <Position X="16.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Keyword\Assignment\AssignmentNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.CaseNode" Collapsed="true">
+    <Position X="41" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Keyword\FlowControl\CaseNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.IfNode" Collapsed="true">
+    <Position X="43.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Keyword\FlowControl\IfNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="AST.Nodes.WhileNode" Collapsed="true">
-    <Position X="7.25" Y="4.75" Width="1.5" />
+    <Position X="45.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Keyword\FlowControl\WhileNode.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="AST.Nodes.LetNode" Collapsed="true">
+    <Position X="47.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Keyword\Let\LetNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.NewNode" Collapsed="true">
+    <Position X="50" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Keyword\New\NewNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.AddNode" Collapsed="true">
+    <Position X="14" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Arithmetic\AddNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.DivNode" Collapsed="true">
+    <Position X="7.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Arithmetic\DivNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.MulNode" Collapsed="true">
+    <Position X="9.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Arithmetic\MulNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.SubNode" Collapsed="true">
+    <Position X="11.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Arithmetic\SubNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.EqualNode" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Comparison\EqualsNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.Less" Collapsed="true">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Comparison\Less.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.LessEqual" Collapsed="true">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Binary\Comparison\LessEqual.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.IsVoidNode" Collapsed="true">
+    <Position X="38.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Unary\IsVoidNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.NegNode" Collapsed="true">
+    <Position X="34.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Unary\NegNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Nodes.NotNode" Collapsed="true">
+    <Position X="36.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Operators\Unary\NotNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.CoolType" Collapsed="true">
+    <Position X="61.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoolType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AST.Scope.Scope" Collapsed="true">
+    <Position X="63.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scope\Scope.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AST.Scope.IScope" Collapsed="true">
+    <Position X="61.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scope\IScope.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AST.Visitor.IVisit" Collapsed="true">
+    <Position X="63.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visitor\IVisit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AST.Visitor.IVisitor" Collapsed="true">
+    <Position X="61.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visitor\IVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

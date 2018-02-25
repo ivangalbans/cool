@@ -11,6 +11,6 @@ namespace AST.Nodes
 {
     public class VoidNode : AtomNode
     {
-        public VoidNode(Token tokenVoid) : base(tokenVoid) { }
+        public VoidNode(Token voidToken) : base(voidToken) { }
     }
 }

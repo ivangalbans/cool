@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Abstract
 {
-    public class ComparisonOperation : BinaryOperationNode
+    public abstract class ComparisonOperation : BinaryOperationNode
     {
         public override ExpressionNode LeftExpression { get; set; }
         public override ExpressionNode RightExpression { get; set; }

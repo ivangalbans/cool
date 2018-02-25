@@ -5,17 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
-using Grammars;
 
 namespace AST.Nodes
 {
-    public class StringNode : AtomNode
+    public class BlockNode : ExpressionNode
     {
-        public string Value { get; set; }
+        public List<ExpressionNode> Expressions { get; set; }
 
-        public StringNode(Token stringToken) : base(stringToken)
+        public BlockNode(List<ExpressionNode> expressions)
         {
-            Value = stringToken.Text;
+            Expressions = expressions;
         }
     }
 }

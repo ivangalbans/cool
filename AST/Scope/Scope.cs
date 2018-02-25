@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using AST.Scope;
-
-namespace AST.Visitor
+namespace AST.Scope
 {
-    public interface IVisit
+    public class Scope
     {
-        void Accept(IVisitor visitor, IScope scope = null);
     }
 }

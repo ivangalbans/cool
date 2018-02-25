@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 
 namespace AST.Nodes
 {
@@ -13,5 +15,6 @@ namespace AST.Nodes
         public override ExpressionNode Expression { get; set; }
 
         public NotNode(ExpressionNode expression) : base(expression) { }
+
     }
 }

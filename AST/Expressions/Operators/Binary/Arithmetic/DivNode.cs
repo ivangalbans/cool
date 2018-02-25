@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 
 namespace AST.Nodes
 {
@@ -14,5 +16,6 @@ namespace AST.Nodes
         public override ExpressionNode RightExpression { get; set; }
 
         public DivNode(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
+
     }
 }

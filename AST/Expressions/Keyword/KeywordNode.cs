@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.Abstract
 {
-    public class KeywordNode : ExpressionNode
+    public abstract class KeywordNode : ExpressionNode
     {
     }
 }

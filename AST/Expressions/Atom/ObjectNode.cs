@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using AST.Scope;
+using AST.Nodes.Abstract;
 
-namespace AST.Visitor
+namespace AST.Nodes
 {
-    public interface IVisit
+    public class ObjectNode : ExpressionNode
     {
-        void Accept(IVisitor visitor, IScope scope = null);
+
     }
 }
