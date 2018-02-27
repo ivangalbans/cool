@@ -21,7 +21,7 @@ namespace AST.Nodes
 
         public int ColumnTypeReturn { get; set; }
 
-        public List<(string TextID, string TextType)> parameters { get; set; }
+        public List<(string TextID, string TextType)> Parameters { get; set; }
 
         public List<((int LineID, int ColumnID), (int LineType, int ColumnType))> LineColumnFormals { get; set; }
 
@@ -32,7 +32,7 @@ namespace AST.Nodes
             TextID = id.Text;
             LineID = id.Line;
             ColumnID = id.Column;
-            parameters = paramsCollection.Select(x => (x.id.Text, x.type.Text)).ToList();
+            Parameters = paramsCollection.Select(x => (x.id.Text, x.type.Text)).ToList();
             TextTypeReturn = type.Text;
             LineTypeReturn = type.Line;
             ColumnTypeReturn = type.Column;

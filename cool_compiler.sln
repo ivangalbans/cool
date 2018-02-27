@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fail", "fail", "{4EC225BC-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AST", "AST\AST.csproj", "{B1930868-1165-42AC-8DCF-F1D34CC7D82C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Semantic", "Semantic\Semantic.csproj", "{4F0E822D-D2E7-4415-99CA-7D2E8E02B785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{B1930868-1165-42AC-8DCF-F1D34CC7D82C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1930868-1165-42AC-8DCF-F1D34CC7D82C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1930868-1165-42AC-8DCF-F1D34CC7D82C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F0E822D-D2E7-4415-99CA-7D2E8E02B785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0E822D-D2E7-4415-99CA-7D2E8E02B785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0E822D-D2E7-4415-99CA-7D2E8E02B785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0E822D-D2E7-4415-99CA-7D2E8E02B785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
