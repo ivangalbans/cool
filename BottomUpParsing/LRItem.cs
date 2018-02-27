@@ -5,6 +5,7 @@ namespace BottomUpParsing
     public class LrItem : IComparable<LrItem>
     {
         //private bool change;
+
         private int mem;
 
         public LrItem(int production, int dot)

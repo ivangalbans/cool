@@ -34,6 +34,7 @@ namespace Grammars
         }
 
         public ProductionListAttr Productions { get; }
+
         public NonTerminal StartSymbol { get; private set; }
         public Epsilon Epsilon { get; }
         public EOF EOF { get; }
@@ -83,8 +84,7 @@ namespace Grammars
 
             builder.Append("\nProductions:\n");
 
-            foreach (var production in Productions)
-                builder.AppendLine(production.ToString());
+            foreach (var production in Productions) builder.AppendLine(production.ToString());
 
             return builder.ToString();
         }

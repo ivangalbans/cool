@@ -13,6 +13,7 @@
 
         public bool IsEpsilon => Right.Length == 1 && Right[0] == Left.Grammar.Epsilon;
 
+
         public override string ToString()
         {
             return $"{Left} --> {Right}";

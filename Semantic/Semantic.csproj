@@ -40,7 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISemanticChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VisitorAST1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AST\AST.csproj">
+      <Project>{b1930868-1165-42ac-8dcf-f1d34cc7d82c}</Project>
+      <Name>AST</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

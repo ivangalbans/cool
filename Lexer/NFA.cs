@@ -7,7 +7,7 @@ namespace Lexer
         internal Nfa(char q, int level)
         {
             First = new State(level);
-            Last = new State(level) {Final = true};
+            Last = new State(level) { Final = true };
             First.AddLink(q, Last);
         }
 
@@ -24,16 +24,14 @@ namespace Lexer
             var ret = new Nfa
             {
                 First = new State(level),
-                Last = new State(level) {Final = true},
+                Last = new State(level) { Final = true },
                 Level = level
             };
-
             ret.First.AddLink('ε', p1.First);
             p1.Last.AddLink('ε', ret.Last);
             p1.Last.AddLink('ε', p1.First);
             p1.Last.Final = false;
             ret.First.AddLink('ε', ret.Last);
-
             return ret;
         }
 
@@ -51,10 +49,8 @@ namespace Lexer
         {
             if (end < ini) throw new Exception();
             var ret = new Nfa(ini, level);
-
-            for (var i = (char) (ini + 1); i <= end; i++)
+            for (var i = (char)(ini + 1); i <= end; i++)
                 ret = Or(ret, new Nfa(i, level), level);
-
             return ret;
         }
 
@@ -63,30 +59,36 @@ namespace Lexer
             var ret = new Nfa
             {
                 First = new State(level),
-                Last = new State(level) {Final = true},
+                Last = new State(level) { Final = true },
                 Level = level
             };
-
             ret.First.AddLink('ε', p1.First);
             ret.First.AddLink('ε', p2.First);
             p1.Last.AddLink('ε', ret.Last);
             p2.Last.AddLink('ε', ret.Last);
             p1.Last.Final = false;
             p2.Last.Final = false;
-
             return ret;
         }
 
         internal static Nfa Mul(Nfa p1, Nfa p2, int level)
         {
-            var ret = new Nfa {Level = level};
-
-            p1.Last.Merge(p2.First);
-            p2.First = p1.Last;
-            p1.Last.Final = false;
+            var ret = new Nfa { Level = level };
+            p1.Last.AddLink('ε', p2.First);
             ret.First = p1.First;
             ret.Last = p2.Last;
+            return ret;
+        }
 
+        internal static Nfa Skip(int level)
+        {
+            var ret = new Nfa
+            {
+                First = new SkipState(level),
+                Last = new State(level) { Final = true },
+                Level = level
+            };
+            ret.First.AddLink(' ', ret.Last);
             return ret;
         }
     }

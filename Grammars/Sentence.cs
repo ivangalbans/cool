@@ -40,9 +40,10 @@ namespace Grammars
             _symbols.Add(symbol);
         }
 
+
         public static SentenceList operator |(Sentence s1, Sentence s2)
         {
-            return new SentenceList {s1, s2};
+            return new SentenceList { s1, s2 };
         }
 
         public static SentenceList operator |(SentenceList l, Sentence s)
@@ -53,12 +54,12 @@ namespace Grammars
 
         public static SentenceList operator |(Sentence sent, Symbol s)
         {
-            return new SentenceList {sent, new Sentence {s}};
+            return new SentenceList { sent, new Sentence { s } };
         }
 
         public static SentenceList operator |(Symbol s, Sentence sent)
         {
-            return new SentenceList {new Sentence {s}, sent};
+            return new SentenceList { new Sentence { s }, sent };
         }
 
         public override string ToString()

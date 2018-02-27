@@ -17,15 +17,18 @@ namespace Parsing
         }
 
         public Symbol Root { get; }
+
         public ProductionAttr Production { get; set; }
         public Token Terminal { get; set; }
         private bool _epsLeaf = true;
         public bool IsLeaf => _children.Length == 0 && _epsLeaf;
+
         public bool IsTerminal => Root is Terminal;
+
 
         public dynamic Evaluate()
         {
-            if (IsTerminal) return Terminal.Text;
+            if (IsTerminal) return Terminal;
             var temp = _children.Select(child => child.Evaluate()).ToList();
             temp.Reverse();
             return Production.Evaluate(temp.ToArray());
@@ -43,9 +46,12 @@ namespace Parsing
             foreach (var production in productions)
             {
                 production.Item2.Reverse();
-                
+
+
                 var sentence = production.Item1.Right.Reverse().ToList();
+
                 var childToOpen = root.MostToOpen(production.Item1.Left.Name);
+
 
                 childToOpen.Production = production.Item1;
                 if (production.Item1.IsEpsilon)
@@ -78,9 +84,12 @@ namespace Parsing
             foreach (var production in productions)
             {
                 var sentence = production.Right;
+
                 var childToOpen = root.LeftMostToOpen();
 
+
                 childToOpen._children = new DerivationTree[sentence.Length];
+
                 for (var i = 0; i < sentence.Length; i++)
                     childToOpen._children[i] = new DerivationTree(sentence[i], production as ProductionAttr);
             }
@@ -99,6 +108,7 @@ namespace Parsing
             foreach (var derivationTree in _children)
             {
                 var leftMost = derivationTree.MostToOpen(name);
+
                 if (leftMost != null)
                     return leftMost;
             }
@@ -117,6 +127,7 @@ namespace Parsing
             foreach (var derivationTree in _children)
             {
                 var leftMost = derivationTree.LeftMostToOpen();
+
                 if (leftMost != null)
                     return leftMost;
             }
@@ -150,6 +161,7 @@ namespace Parsing
             {
                 if (i == _children.Length - 1)
                     stops.Pop();
+
                 _children[i].ToString(builder, level + 1, stops, i == _children.Length - 1);
             }
         }

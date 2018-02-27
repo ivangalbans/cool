@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Grammars;
 using Lexer;
 using ErrorLogger;
-
-namespace Core
+namespace Cool_Grammar
 {
     public class CoolLexer : ILexer<Token>
     {
@@ -25,7 +20,7 @@ namespace Core
                 ("\\)", ")"),
                 (",", ","),
                 (":", ":"),
-                (".", "."),
+                ("\\.", "."),
                 ("{", "{"),
                 ("}", "}"),
                 ("<\\-", "<-"),
@@ -56,8 +51,8 @@ namespace Core
                 ("=", "="),
                 ("not", "not"),
                 ("[0-9]*", "integer"),
-                ("[t][rR][uU][eE]", "true"),
-                ("[f][aA][lL][Ss][eE]", "false"),
+                ("[tT][rR][uU][eE]", "true"),
+                ("[fF][aA][lL][Ss][eE]", "false"),
                 ("[A-Z][_a-zA-Z0-9]*", "TYPE"),
                 ("[a-z][_a-zA-Z0-9]*", "ID"),
                 ("\"", "strdelimiter"),
@@ -73,39 +68,30 @@ namespace Core
             _engine = new LexerEngine(regex);
         }
 
-        public IEnumerable<Token> Lex(string str, Grammar g)
+        public IEnumerable<Token> Lex(string str, string eof)
         {
-            var listStatements = str.Split('\n');
-            var lineNumber = 1;
-            var tokens = new List<Token>();
-
-            foreach(var statement in listStatements)
+            var lines = str.Split('\n');
+            var lineNumb = 1;
+            var list = new List<Token>();
+            foreach (var line in lines)
             {
-                foreach(var item in _engine.Lex(statement, g))
+                foreach (var x in _engine.Lex(line, eof))
                 {
-                    item.Line = lineNumber;
-                    tokens.Add(item);
+                    x.Line = lineNumb;
+                    list.Add(x);
                 }
-                if(tokens[tokens.Count - 1].Type == "EOF")
+                if (list[list.Count - 1].Type == "EOF")
                 {
-                    tokens[tokens.Count - 1].Text = "\n";
-                    tokens[tokens.Count - 1].Type = "newline";
+                    list[list.Count - 1].Type = "newline";
+                    list[list.Count - 1].Text = "\n";
                 }
-                ++lineNumber;
+                lineNumb++;
             }
-
-            if (tokens[tokens.Count - 1].Type == "newline")
+            if (list[list.Count - 1].Type == "newline")
             {
-                tokens[tokens.Count - 1].Text = g.EOF.Name;
-                tokens[tokens.Count - 1].Type = "EOF";
+                list[list.Count - 1].Type = "EOF";
+                list[list.Count - 1].Text = eof;
             }
-
-            /*
-             * 
-             * To implement a cleaner for the comments
-             * 
-            */
-
             //foreach (var item in list)
             //{
             //    Console.WriteLine(item);
@@ -120,14 +106,14 @@ namespace Core
                 ["t"] = "\t"
             };
             var ls = new List<Token>();
-            for (var i = 0; i < tokens.Count;)
+            for (var i = 0; i < list.Count;)
             {
-                var tmp = tokens[i++];
+                var tmp = list[i++];
                 if (tmp.Type == "blockCommentInit")
                 {
-                    while (i < tokens.Count && tokens[i].Type != "blockCommentEnd")
-                        tmp.Text += tokens[i++].Text;
-                    if (i < tokens.Count)
+                    while (i < list.Count && list[i].Type != "blockCommentEnd")
+                        tmp.Text += list[i++].Text;
+                    if (i < list.Count)
                     {
                         tmp.Type = "comment";
                         tmp.Text += "*)";
@@ -140,9 +126,9 @@ namespace Core
                 }
                 if (tmp.Type == "lineComment")
                 {
-                    while (i < tokens.Count && tokens[i].Type != "EOF" && tokens[i].Type != "newline")
-                        tmp.Text += tokens[i++].Text;
-                    if (i < tokens.Count)
+                    while (i < list.Count && list[i].Type != "EOF" && list[i].Type != "newline")
+                        tmp.Text += list[i++].Text;
+                    if (i < list.Count)
                     {
                         tmp.Type = "comment";
                         i++;
@@ -155,27 +141,27 @@ namespace Core
                 if (tmp.Type == "strdelimiter")
                 {
                     tmp.Text = "";
-                    while (i < tokens.Count && tokens[i].Type != "strdelimiter")
+                    while (i < list.Count && list[i].Type != "strdelimiter")
                     {
-                        if (tokens[i].Type == "newline" || tokens[i].Type == "0" || tokens[i].Type == "EOF")
+                        if (list[i].Type == "newline" || list[i].Type == "0" || list[i].Type == "EOF")
                             break;
-                        if (tokens[i].Type == "\\" && tokens[i + 1].Type == "newline")
+                        if (list[i].Type == "\\" && list[i + 1].Type == "newline")
                         {
                             i += 2;
                             continue;
                         }
-                        if (tokens[i].Type == "\\" && specialDict.TryGetValue(tokens[i + 1].Text, out string value))
+                        if (list[i].Type == "\\" && specialDict.TryGetValue(list[i + 1].Text, out string value))
                         {
                             i += 2;
                             tmp.Text += value;
                             continue;
                         }
 
-                        if (tokens[i].Type == "\\")
+                        if (list[i].Type == "\\")
                             i++;
-                        tmp.Text += tokens[i++].Text;
+                        tmp.Text += list[i++].Text;
                     }
-                    if (i < tokens.Count && tokens[i].Type != "newline" && tokens[i].Type != "0" && tokens[i].Type != "EOF" &&
+                    if (i < list.Count && list[i].Type != "newline" && list[i].Type != "0" && list[i].Type != "EOF" &&
                         tmp.Text.Length < 1024)
                     {
                         tmp.Type = "string";
@@ -195,7 +181,6 @@ namespace Core
             }
 
             return ls;
-
         }
     }
 }

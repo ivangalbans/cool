@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using AST.Scope;
+using AST.Nodes;
 
-namespace AST.Visitor
+namespace Semantic
 {
-    interface IVisit
+    interface ISemanticChecker
     {
-        void Accept(IVisitor visitor, IScope scope);
+        ProgramNode SemanticCheck(ProgramNode programNode);
     }
 }

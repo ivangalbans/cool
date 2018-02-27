@@ -183,9 +183,9 @@ namespace Core
             Exp8                %= (cnew + TYPE).With(p => new NewNode(p[1]));
             Exp8                %= (openBracket + Exp + closedBracket).With(p => p[1]);
             Exp8                %= (ID).With(p => new IdentifierNode(p[0]));
-            Exp8                %= (integer).With(p => new IntNode(p[0])); ;
-            Exp8                %= (cstring).With(p => new StringNode(p[0])); ;
-            Exp8                %= (ctrue).With(p => new BoolNode(p[0])); ;
+            Exp8                %= (integer).With(p => new IntNode(p[0]));
+            Exp8                %= (cstring).With(p => new StringNode(p[0]));
+            Exp8                %= (ctrue).With(p => new BoolNode(p[0]));
             Exp8                %= (cfalse).With(p => new BoolNode(p[0]));
             Exp8                %= (cvoid).With(p => new VoidNode(p[0]));
             Cases               %= (ID + colon + TYPE + lambda + Exp + semicolon + Cases).With(p =>

@@ -57,16 +57,16 @@ namespace BottomUpParsing
             for (var index = 0; index < Automaton.Count; index++)
                 Kernels.Add(index, new List<LrItem>());
             foreach (var state in Automaton)
-            foreach (var item in state.Items)
-                if (state.StateNumber == 0 && item.ProductionNumber == 0)
-                {
-                    Kernels[0].Add(item);
-                }
-                else
-                {
-                    if (item.DotNumber > 0)
-                        Kernels[state.StateNumber].Add(item);
-                }
+                foreach (var item in state.Items)
+                    if (state.StateNumber == 0 && item.ProductionNumber == 0)
+                    {
+                        Kernels[0].Add(item);
+                    }
+                    else
+                    {
+                        if (item.DotNumber > 0)
+                            Kernels[state.StateNumber].Add(item);
+                    }
         }
 
         private void MakeGoto(LrState state)

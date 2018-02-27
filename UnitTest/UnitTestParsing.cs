@@ -5,6 +5,7 @@ using System.IO;
 using ErrorLogger;
 using System.Linq;
 using Parsing;
+using Cool_Grammar;
 
 namespace UnitTest
 {
@@ -16,7 +17,7 @@ namespace UnitTest
         static CoolLexer lexer = new CoolLexer();
 
         [TestMethod]
-        public void parsing_success()
+        public void ParsingSuccess()
         {
             DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/");
             FileInfo[] files = directory.GetFiles();
@@ -27,7 +28,7 @@ namespace UnitTest
 
                 StreamReader sr = new StreamReader(file.FullName);
                 var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
+                var tokens = lexer.Lex(input, grammar._coolGrammar.EOF.Name).ToList();
 
                 table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
 
@@ -37,7 +38,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void parsing_fail()
+        public void ParsingFail()
         {
             DirectoryInfo directory = new DirectoryInfo("../../../Examples/fail/");
             FileInfo[] files = directory.GetFiles();
@@ -48,7 +49,7 @@ namespace UnitTest
 
                 StreamReader sr = new StreamReader(file.FullName);
                 var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
+                var tokens = lexer.Lex(input, grammar._coolGrammar.EOF.Name).ToList();
 
                 table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
 

@@ -133,7 +133,7 @@ namespace BottomUpParsing
                         return (true, a);
                 }
             }
-            return (false,null);
+            return (false, null);
         }
         private (bool result,Lr1Item r1,Lr1Item r2) ReduceReduce(Lr1State l)
         {
@@ -174,9 +174,6 @@ namespace BottomUpParsing
                 return true;
             }
 
-            foreach (var item in Errors.Report())
-                Console.WriteLine(item);
-            
             tree = null;
             return false;
         }
