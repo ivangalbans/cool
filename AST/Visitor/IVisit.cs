@@ -10,6 +10,6 @@ namespace AST.Visitor
 {
     public interface IVisit
     {
-        void Accept(IVisitor visitor, IScope scope = null);
+        void Accept(IVisitor visitor, IScope scope);
     }
 }

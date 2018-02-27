@@ -24,16 +24,18 @@
   <Class Name="AST.Nodes.Abstract.ExpressionNode" Collapsed="true">
     <Position X="27.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Expressions\ExpressionNode.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AST.Nodes.Abstract.FeatureNode" Collapsed="true">
     <Position X="60.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAAAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAIAAAAAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Feature\FeatureNode.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AST.Nodes.Abstract.KeywordNode" Collapsed="true">
     <Position X="50" Y="3.25" Width="1.5" />
@@ -73,16 +75,18 @@
   <Class Name="AST.Nodes.ClassNode" Collapsed="true">
     <Position X="56.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAABCEAAAAAAAEAAAAAAACAABAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAgAAABCEAAAAAAAEAAAAAAACAABAAA=</HashCode>
       <FileName>ASTNode\ClassNode.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AST.Nodes.ProgramNode" Collapsed="true">
     <Position X="63.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AIAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ASTNode\ProgramNode.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AST.Nodes.BoolNode" Collapsed="true">
     <Position X="23" Y="4.75" Width="1.5" />

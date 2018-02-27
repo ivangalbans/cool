@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
 using Grammars;
+using AST.Visitor;
+using AST.Scope;
 
 namespace AST.Nodes
 {
-    public class ClassNode : ASTNode
+    public class ClassNode : ASTNode, IVisit
     {
         public string Text { get; set; }
 
@@ -34,6 +36,11 @@ namespace AST.Nodes
             LineInherits = inherits?.Line ?? 0;
             ColumnInherits = inherits?.Column ?? 0;
             FeatureNodes = new List<FeatureNode>(featuresNodes);
+        }
+
+        public void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
         }
     }
 }

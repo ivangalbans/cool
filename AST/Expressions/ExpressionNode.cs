@@ -8,11 +8,12 @@ using AST.Visitor;
 
 namespace AST.Nodes.Abstract
 {
-    public abstract class ExpressionNode : ASTNode
+    public abstract class ExpressionNode : ASTNode, IVisit
     {
         public int Line { get; set; }
 
         public int Column { get; set; }
 
+        public abstract void Accept(IVisitor visitor, IScope scope);
     }
 }

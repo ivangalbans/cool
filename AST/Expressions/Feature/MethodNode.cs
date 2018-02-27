@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 using Grammars;
 
 namespace AST.Nodes
@@ -36,6 +38,11 @@ namespace AST.Nodes
             ColumnTypeReturn = type.Column;
             LineColumnFormals = paramsCollection.Select(x => ((x.id.Line, x.id.Column), (x.type.Line, x.type.Column))).ToList();
             Expression = expression;
+        }
+
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
         }
     }
 }

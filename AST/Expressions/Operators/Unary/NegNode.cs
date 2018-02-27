@@ -16,5 +16,9 @@ namespace AST.Nodes
 
         public NegNode(ExpressionNode expression) : base(expression) { }
 
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
+        }
     }
 }

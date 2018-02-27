@@ -17,5 +17,9 @@ namespace AST.Nodes
 
         public AddNode(ExpressionNode leftNode, ExpressionNode rightNode) : base(leftNode, rightNode) { }
 
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
+        }
     }
 }

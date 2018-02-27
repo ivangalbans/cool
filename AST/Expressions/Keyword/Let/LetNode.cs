@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 using Grammars;
 
 namespace AST.Nodes
@@ -22,6 +24,11 @@ namespace AST.Nodes
             ExpressionInitialization = expressionInitialization.Select(x => (x.ID.Text, x.Type.Text, x.ExpressionInit)).ToList();
             LineColumnExpressionInitialization = expressionInitialization.Select(x => ((x.ID.Line, x.ID.Column), (x.Type.Line, x.Type.Column))).ToList();
             ExpressionBody = expression;
+        }
+
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
         }
     }
 }

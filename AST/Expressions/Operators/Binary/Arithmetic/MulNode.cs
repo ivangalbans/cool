@@ -17,5 +17,10 @@ namespace AST.Nodes
 
         public MulNode(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
 
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
+        }
+
     }
 }

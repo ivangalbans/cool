@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 
 namespace AST.Nodes
 {
@@ -17,6 +19,11 @@ namespace AST.Nodes
         {
             Condition = condition;
             Body = body;
+        }
+
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
         }
     }
 }

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 
 namespace AST.Nodes
 {
-    public class ProgramNode : ASTNode
+    public class ProgramNode : ASTNode, IVisit
     {
         public List<ClassNode> ClassNodes { get; set; }
 
@@ -21,6 +23,11 @@ namespace AST.Nodes
         {
             ClassNodes = new List<ClassNode>() { classNode };
             ClassNodes.AddRange(programNode.ClassNodes);
+        }
+
+        public void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
         }
     }
 }

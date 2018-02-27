@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AST.Nodes.Abstract;
+using AST.Scope;
+using AST.Visitor;
 
 namespace AST.Nodes
 {
@@ -14,5 +16,10 @@ namespace AST.Nodes
         public override ExpressionNode RightExpression { get; set; }
 
         public Less(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
+
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
+        }
     }
 }

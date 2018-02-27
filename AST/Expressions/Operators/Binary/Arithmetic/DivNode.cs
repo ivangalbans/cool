@@ -17,5 +17,9 @@ namespace AST.Nodes
 
         public DivNode(ExpressionNode leftExp, ExpressionNode rightExp) : base(leftExp, rightExp) { }
 
+        public override void Accept(IVisitor visitor, IScope scope)
+        {
+            visitor.Visit(this, scope);
+        }
     }
 }
