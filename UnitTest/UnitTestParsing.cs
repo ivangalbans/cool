@@ -28,7 +28,7 @@ namespace UnitTest
 
                 StreamReader sr = new StreamReader(file.FullName);
                 var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar.EOF.Name).ToList();
+                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
 
                 table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
 
@@ -49,7 +49,7 @@ namespace UnitTest
 
                 StreamReader sr = new StreamReader(file.FullName);
                 var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar.EOF.Name).ToList();
+                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
 
                 table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
 

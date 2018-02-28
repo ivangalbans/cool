@@ -55,7 +55,7 @@ namespace Core
             Console.WriteLine("*******************************************");
             Console.WriteLine();
 
-            DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/hello_world.cl");
+            DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/fact.cl");
 
             Errors.Clear();
 
@@ -73,8 +73,8 @@ namespace Core
 
             //var evaluatedTree = tree.Evaluate();
 
-            //ReportErrors("Evaluated Tree");*/
-
+            //ReportErrors("Evaluated Tree");
+            */
             #endregion
 
             CoolGrammar grammar = new CoolGrammar();
@@ -85,26 +85,31 @@ namespace Core
             CoolLexer a = new CoolLexer();
 
             string preffixPath = "../../../Examples/success/";
-            StreamReader asd = new StreamReader(preffixPath + "fact.cl");
+            StreamReader asd = new StreamReader(preffixPath + "hello_world.cl");
 
             var g = asd.ReadToEnd();
 
-            var tok = a.Lex(g, grammar._coolGrammar.EOF.Name).ToList();
+            var tok = a.Lex(g, grammar._coolGrammar).ToList();
+
+            Console.WriteLine();
+            foreach (var item in tok)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
 
             if (ReportErrors("Lexer Phase"))
              return;
-
-            /*if(table.TryParse(grammar._coolGrammar, tok, out DerivationTree tree))
+            
+            if(table.TryParse(grammar._coolGrammar, tok, out DerivationTree tree))
             {
+                //var tr = tree.Evaluate();
 
-                var tr = tree.Evaluate();
-
-                Console.WriteLine(tr);
+                //Console.WriteLine(tr);
 
                 if (ReportErrors("Evaluating Tree Phase"))
                     return;
-
-            }*/
+            }
 
         }
     }

@@ -8,7 +8,7 @@ namespace Lexer
 {
     internal class SimpleLexer : ILexer<Token>
     {
-        public IEnumerable<Token> Lex(string a, string eof)
+        public IEnumerable<Token> Lex(string a, Grammar g)
         {
             var types = new Dictionary<string, string>
             {
@@ -21,7 +21,6 @@ namespace Lexer
                 {"(", "("},
                 {")", ")"},
                 {"-", "-"},
-                {".", "."},
                 {"\\e", "epsilon"}
             };
             var text = "";
@@ -36,7 +35,7 @@ namespace Lexer
                     type == "epsilon" ? "ε" : text[0] != '\\' ? text : text.Substring(1), i, 0);
                 text = "";
             }
-            yield return new Token(-2, "EOF", eof, 0, 0);
+            yield return new Token(-2, "EOF", g.EOF.Name, 0, 0);
         }
     }
 
@@ -65,7 +64,6 @@ namespace Lexer
             var cop = G.Terminal("[");
             var ccl = G.Terminal("]");
             var less = G.Terminal("-");
-            var dot = G.Terminal(".");
 
             E %= (E + or + T).With(p => Nfa.Or(p[0], p[2], _level));
             E %= T.With(p => p[0]);
@@ -76,7 +74,6 @@ namespace Lexer
             F %= (H + quest).With(p => Nfa.NfaOrEps(p[0], _level));
             F %= H.With(p => p[0]);
             H %= symbol.With(p => new Nfa(p[0].Text[0], _level));
-            H %= dot.With(p => Nfa.Skip(_level));
             H %= (open + E + closed).With(p => p[1]);
             H %= (cop + M + ccl).With(p => p[1]);
             M %= symbol.With(p => new Nfa(p[0].Text[0], _level));
@@ -91,29 +88,29 @@ namespace Lexer
             var regexPacList = regexPac.ToList();
             regexPacList.Add((G.EOF.Name, "EOF"));
             _level = 0;
-            var automaton = new LrAutomaton(G);
+            var automaton = new Lr1Automaton(G);
 
-            var table = new SlrTable(automaton);
+            var table = new Lr1Table(automaton);
             _matchLevel = new Dictionary<int, string> { { -1, "ErrorToken" }, { -2, "EOF" } };
             _engine = new State(-1);
             var tokenTypeList = regexPacList.Select(x => x.type).ToList();
             foreach (var v in regexPacList.Select(x => x.regex))
             {
-                table.TryParse(G, new SimpleLexer().Lex(v, G.EOF.Name), out DerivationTree t);
+                table.TryParse(G, new SimpleLexer().Lex(v, G), out DerivationTree t);
                 var nfa = t.Evaluate();
                 _matchLevel.Add(_level, tokenTypeList[_level++]);
                 _engine.AddLink('ε', nfa.First);
             }
         }
 
-        public IEnumerable<Token> Lex(string str, string eof)
+        public IEnumerable<Token> Lex(string str, Grammar g)
         {
             var tokens = Matcher.NfaSimulation(_engine, str).ToList();
             foreach (var id in tokens)
             {
                 id.Type = _matchLevel[id.Id];
             }
-            tokens.Add(new Token(-2, _matchLevel[-2], eof, 0, 0));
+            tokens.Add(new Token(-2, _matchLevel[-2], g.EOF.Name, 0, 0));
             return tokens;
         }
     }

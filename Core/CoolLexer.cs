@@ -20,7 +20,7 @@ namespace Cool_Grammar
                 ("\\)", ")"),
                 (",", ","),
                 (":", ":"),
-                ("\\.", "."),
+                (".", "."),
                 ("{", "{"),
                 ("}", "}"),
                 ("<\\-", "<-"),
@@ -61,6 +61,7 @@ namespace Cool_Grammar
                 ("\\*\\)", "blockCommentEnd"),
                 ("\b", "backspace"),
                 ("[ \f\t\r]*", "spaces"),
+                //($"[{(char)13}{(char)10} \t\r]*","spaces"),
                 ("\n*", "newline"),
                 ("\0", "0"),
                 ("\\\\", "\\")
@@ -68,14 +69,14 @@ namespace Cool_Grammar
             _engine = new LexerEngine(regex);
         }
 
-        public IEnumerable<Token> Lex(string str, string eof)
+        public IEnumerable<Token> Lex(string str, Grammar g)
         {
             var lines = str.Split('\n');
             var lineNumb = 1;
             var list = new List<Token>();
             foreach (var line in lines)
             {
-                foreach (var x in _engine.Lex(line, eof))
+                foreach (var x in _engine.Lex(line, g))
                 {
                     x.Line = lineNumb;
                     list.Add(x);
@@ -90,7 +91,7 @@ namespace Cool_Grammar
             if (list[list.Count - 1].Type == "newline")
             {
                 list[list.Count - 1].Type = "EOF";
-                list[list.Count - 1].Text = eof;
+                list[list.Count - 1].Text = g.EOF.Name;
             }
             //foreach (var item in list)
             //{

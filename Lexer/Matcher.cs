@@ -8,7 +8,7 @@ namespace Lexer
     {
         internal static IEnumerable<Token> NfaSimulation(State state, string str)
         {
-            var s = new SortedSet<State>(new[] {state});
+            var s = new SortedSet<State>(new[] { state });
             Clousure(s);
             var tokenId = -1;
             var currentCounter = 0;
@@ -46,7 +46,7 @@ namespace Lexer
                         lastTokenPos = i;
                         currentCounter = totalCounter = 0;
                     }
-                    s = new SortedSet<State>(new[] {state});
+                    s = new SortedSet<State>(new[] { state });
                     Clousure(s);
                 }
             }

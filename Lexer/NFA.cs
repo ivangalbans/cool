@@ -74,21 +74,11 @@ namespace Lexer
         internal static Nfa Mul(Nfa p1, Nfa p2, int level)
         {
             var ret = new Nfa { Level = level };
-            p1.Last.AddLink('ε', p2.First);
+            p1.Last.Merge(p2.First);
+            p2.First = p1.Last;
+            p1.Last.Final = false;
             ret.First = p1.First;
             ret.Last = p2.Last;
-            return ret;
-        }
-
-        internal static Nfa Skip(int level)
-        {
-            var ret = new Nfa
-            {
-                First = new SkipState(level),
-                Last = new State(level) { Final = true },
-                Level = level
-            };
-            ret.First.AddLink(' ', ret.Last);
             return ret;
         }
     }

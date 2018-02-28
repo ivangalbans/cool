@@ -13,11 +13,11 @@ namespace Lexer
             Edges = new Dictionary<char, SortedSet<State>>();
         }
 
-        protected Dictionary<char, SortedSet<State>> Edges { get; set; }
+        private Dictionary<char, SortedSet<State>> Edges { get; set; }
 
-        protected int Id { get; }
+        private int Id { get; }
 
-        protected static int IdInc { get; set; }
+        private static int IdInc { get; set; }
 
         public int TokenPriority { get; set; }
 
@@ -31,14 +31,20 @@ namespace Lexer
                     : TokenPriority - other.TokenPriority)
                 : (Final ? -1 : (other.Final ? 1 : 0));
         }
-        public virtual void AddLink(char q, State s)
+
+        public void AddLink(char q, State s)
         {
             if (!Edges.ContainsKey(q))
-                Edges.Add(q, new SortedSet<State>());
+                Edges[q] = new SortedSet<State>();
             Edges[q].Add(s);
         }
 
-        public virtual IEnumerable<State> GetLinks(char q)
+        public void Merge(State q)
+        {
+            Edges = q.Edges;
+        }
+
+        public IEnumerable<State> GetLinks(char q)
         {
             return Edges.ContainsKey(q)
                 ? Edges[q]
