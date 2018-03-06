@@ -1,4 +1,4 @@
-grammar CoolGrammar;
+grammar Cool;
 
 /*
     Parser Rules
@@ -40,7 +40,7 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       STRING                                                                                                      #string
                 |       TRUE                                                                                                        #true
                 |       FALSE                                                                                                       #false
-                |       ID ASSIGNMENT expression                                                                              #assignment
+                |       ID ASSIGNMENT expression																					#assignment
                 ;
 
 

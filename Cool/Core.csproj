@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.Runtime.Standard, Version=4.6.0.0, Culture=neutral, PublicKeyToken=e78b2c5abd1fcb3f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr4.Runtime.Standard.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,16 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parsing\CoolGrammarBaseVisitor.cs" />
+    <Compile Include="Parsing\ASTBuilder.cs" />
+    <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolGrammarLexer.cs" />
-    <Compile Include="Parsing\CoolGrammarParser.cs" />
-    <Compile Include="Parsing\CoolGrammarVisitor.cs" />
+    <Compile Include="Parsing\CoolLexer.cs" />
+    <Compile Include="Parsing\CoolParser.cs" />
+    <Compile Include="Parsing\CoolVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Parsing\CoolGrammar.g4" />
+    <None Include="Parsing\Cool.g4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeGeneration\" />
