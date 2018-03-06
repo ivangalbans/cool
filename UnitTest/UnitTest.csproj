@@ -55,32 +55,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BottomUpParsing\BottomUpParsing.csproj">
-      <Project>{4B5B7D0E-9D83-492D-B4E9-284260069943}</Project>
-      <Name>BottomUpParsing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{FF069D8E-C935-49F3-9A26-8A6013B7ECF3}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ErrorLogger\ErrorLogger.csproj">
-      <Project>{8111b9d7-0865-4397-83ae-a62e32a977a7}</Project>
-      <Name>ErrorLogger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Error\Error.csproj">
-      <Project>{8a8d45e9-7615-4edf-b297-96c809d678aa}</Project>
-      <Name>Error</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Grammars\Grammars.csproj">
-      <Project>{b87d35a9-2a66-4eae-be19-6f52913c1f1d}</Project>
-      <Name>Grammars</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Parsing\Parsing.csproj">
-      <Project>{F713D20F-5545-4895-BC46-73D4A2F04383}</Project>
-      <Name>Parsing</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
