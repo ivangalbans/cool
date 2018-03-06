@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parsing\CoolGrammarBaseVisitor.cs" />
+    <Compile Include="Parsing\CoolGrammarLexer.cs" />
+    <Compile Include="Parsing\CoolGrammarParser.cs" />
+    <Compile Include="Parsing\CoolGrammarVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
