@@ -6,6 +6,13 @@ namespace Cool.Parsing
 {
     class ASTBuilder : CoolBaseVisitor<ASTNode>
     {
+        public override ASTNode VisitProgram([NotNull] CoolParser.ProgramContext context)
+        {
+            var node = new ProgramNode(context);
+            node.Children.Add(Visit(context.programBlock()));
+            return node;
+        }
+
         public override ASTNode VisitArithmetic([NotNull] CoolParser.ArithmeticContext context)
         {
             return base.VisitArithmetic(context);
@@ -114,11 +121,6 @@ namespace Cool.Parsing
         public override ASTNode VisitParentheses([NotNull] CoolParser.ParenthesesContext context)
         {
             return base.VisitParentheses(context);
-        }
-
-        public override ASTNode VisitProgram([NotNull] CoolParser.ProgramContext context)
-        {
-            return base.VisitProgram(context);
         }
 
         public override ASTNode VisitProperty([NotNull] CoolParser.PropertyContext context)
