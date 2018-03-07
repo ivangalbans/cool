@@ -9,5 +9,7 @@ namespace Cool.AST
 
         public SubNode(ParserRuleContext context) : base(context) { }
 
+        public override string OperatorName => "minus";
+
     }
 }

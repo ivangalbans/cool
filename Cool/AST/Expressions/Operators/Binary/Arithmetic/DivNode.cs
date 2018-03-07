@@ -12,5 +12,7 @@ namespace Cool.AST
 
         }
 
+        public override string OperatorName => "divide";
+
     }
 }

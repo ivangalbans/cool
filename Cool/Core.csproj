@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AST\ASTNode\ASTNode.cs" />
     <Compile Include="AST\ASTNode\ClassNode.cs" />
+    <Compile Include="AST\ASTNode\ProgramBlockNode.cs" />
     <Compile Include="AST\ASTNode\ProgramNode.cs" />
     <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
     <Compile Include="AST\Expressions\Atom\BoolNode.cs" />

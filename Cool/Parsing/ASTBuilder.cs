@@ -1,6 +1,6 @@
 ﻿using Antlr4.Runtime.Misc;
 using Cool.AST;
-
+using System;
 
 namespace Cool.Parsing
 {
@@ -13,9 +13,35 @@ namespace Cool.Parsing
             return node;
         }
 
+        public override ASTNode VisitClasses([NotNull] CoolParser.ClassesContext context)
+        {
+            return base.Visit(context);
+        }
+
         public override ASTNode VisitArithmetic([NotNull] CoolParser.ArithmeticContext context)
         {
-            return base.VisitArithmetic(context);
+            ArithmeticOperation node;
+            switch (context.op.Text)
+            {
+                case "*":
+                    node = new MulNode(context);
+                    break;
+                case "/":
+                    node = new DivNode(context);
+                    break;
+                case "+":
+                    node = new AddNode(context);
+                    break;
+                case "-":
+                    node = new SubNode(context);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            node.Children.Add(Visit(context.expression(0))); // LEFT EXPRESSION
+            node.Children.Add(Visit(context.expression(1))); // RIGHT EXPRESSION
+            return node;
         }
 
         public override ASTNode VisitAssignment([NotNull] CoolParser.AssignmentContext context)
@@ -41,11 +67,6 @@ namespace Cool.Parsing
         public override ASTNode VisitClassDefine([NotNull] CoolParser.ClassDefineContext context)
         {
             return base.VisitClassDefine(context);
-        }
-
-        public override ASTNode VisitClasses([NotNull] CoolParser.ClassesContext context)
-        {
-            return base.VisitClasses(context);
         }
 
         public override ASTNode VisitComparisson([NotNull] CoolParser.ComparissonContext context)

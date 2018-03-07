@@ -9,5 +9,7 @@ namespace Cool.AST
 
         public MulNode(ParserRuleContext context) : base(context) { }
 
+        public override string OperatorName => "multiply";
+
     }
 }

@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 
 namespace Cool.AST
 {
-    class ProgramNode : ASTNode
+    internal class ProgramNode : ASTNode
     {
-        public List<ClassNode> ClassNodes { get; set; }
-
-        public ProgramNode(ParserRuleContext context) : base(context)
-        {
-
-        }
+        public ProgramNode(ParserRuleContext context) : base(context) { }
     }
 }
