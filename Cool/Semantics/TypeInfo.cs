@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    /*class TypeInfo : ItemInfo
+    public class TypeInfo : ItemInfo
     {
         public TypeInfo(string name) : base(name, Types.Void) { }
 
@@ -15,7 +15,7 @@ namespace Cool.Semantics
             return a.Equals(b) ||
                 (!a.Equals(Types.Void) && !b.Equals(Types.Void) &&
                 !a.Equals(Types.Int) && !b.Equals(Types.Int) &&
-                (a.Equals(Types.Nil) || b.Equals(Types.Nil)));
+                (a.Equals(Types.Boolean) || b.Equals(Types.Boolean)));
         }
 
         static public bool operator !=(TypeInfo a, TypeInfo b)
@@ -24,5 +24,5 @@ namespace Cool.Semantics
         }
 
         public override string ToString() => Name;
-    }*/
+    }
 }

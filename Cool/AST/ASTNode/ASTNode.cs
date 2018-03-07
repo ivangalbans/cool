@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
-    public abstract class ASTNode
+    abstract class ASTNode
     {
         public int Line { get; }
+
         public int Column { get; }
 
+        public TypeInfo Type { get; protected set; } = Types.Void;
+
+        public List<ASTNode> Children { get; } = new List<ASTNode>();
+
         public ASTNode(ParserRuleContext context)
-        {
+        {   
             Line = context.Start.Line;
             Column = context.Start.Column + 1;
         }
@@ -22,10 +23,8 @@ namespace Cool.AST
         public ASTNode(int line, int column)
         {
             Line = line;
-            Column = column;
+            Column = column + 1;
         }
-
-        public List<ASTNode> Childrens { get; protected set; } = new List<ASTNode>();
 
     }
 }

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-using AST.Nodes.Abstract;
-using Grammars;
-using AST.Visitor;
-using AST.Scope;
-
-namespace AST.Nodes
+namespace Cool.AST
 {
-    public class ClassNode : ASTNode, IVisit
+    class ClassNode : ASTNode
     {
         public string Text { get; set; }
 
@@ -27,7 +18,7 @@ namespace AST.Nodes
 
         public List<FeatureNode> FeatureNodes { get; set; }
 
-        public ClassNode(Token type, Token inherits, IEnumerable<FeatureNode> featuresNodes)
+        public ClassNode(ParserRuleContext context) : base(context)
         {
             Text = type.Text;
             Line = type.Line;

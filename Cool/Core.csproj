@@ -45,7 +45,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\ASTNode.cs" />
+    <Compile Include="AST\ASTNode\ASTNode.cs" />
+    <Compile Include="AST\ASTNode\ClassNode.cs" />
+    <Compile Include="AST\ASTNode\ProgramNode.cs" />
+    <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
+    <Compile Include="AST\Expressions\Atom\BoolNode.cs" />
+    <Compile Include="AST\Expressions\Atom\IdentifierNode.cs" />
+    <Compile Include="AST\Expressions\Atom\IntNode.cs" />
+    <Compile Include="AST\Expressions\Atom\ObjectNode.cs" />
+    <Compile Include="AST\Expressions\Atom\StringNode.cs" />
+    <Compile Include="AST\Expressions\Atom\VoidNode.cs" />
+    <Compile Include="AST\Expressions\Block\BlockNode.cs" />
+    <Compile Include="AST\Expressions\Dispatch\DispatchExplicitNode.cs" />
+    <Compile Include="AST\Expressions\Dispatch\DispatchImplicitNode.cs" />
+    <Compile Include="AST\Expressions\Dispatch\DispatchNode.cs" />
+    <Compile Include="AST\Expressions\ExpressionNode.cs" />
+    <Compile Include="AST\Expressions\Feature\AttributeNode.cs" />
+    <Compile Include="AST\Expressions\Feature\FeatureNode.cs" />
+    <Compile Include="AST\Expressions\Feature\MethodNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\Assignment\AssignmentNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\FlowControl\CaseNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\FlowControl\IfNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\FlowControl\WhileNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\KeywordNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\Let\LetNode.cs" />
+    <Compile Include="AST\Expressions\Keyword\New\NewNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\AddNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\ArithmeticOperation.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\DivNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\MulNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\SubNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\BinaryOperationNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Comparison\ComparisonOperation.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Comparison\EqualsNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Comparison\Less.cs" />
+    <Compile Include="AST\Expressions\Operators\Binary\Comparison\LessEqual.cs" />
+    <Compile Include="AST\Expressions\Operators\Unary\IsVoidNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Unary\NegNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Unary\NotNode.cs" />
+    <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />
     <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolLexer.cs" />
@@ -53,6 +91,9 @@
     <Compile Include="Parsing\CoolVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Semantics\ItemInfo.cs" />
+    <Compile Include="Semantics\TypeInfo.cs" />
+    <Compile Include="Semantics\Types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -61,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeGeneration\" />
-    <Folder Include="Semantics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

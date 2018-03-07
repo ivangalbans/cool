@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    /*abstract class ItemInfo
+    public abstract class ItemInfo
     {
+        public string Name { get; }
+        public TypeInfo Type { get; }
+        
         protected ItemInfo(string name, TypeInfo type)
         {
             Name = name;
             Type = type;
         }
-
-        public string Name { get; }
-
-        public TypeInfo Type { get; }
-    }*/
+    }
 }
