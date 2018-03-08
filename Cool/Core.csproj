@@ -56,6 +56,7 @@
     <Compile Include="AST\Expressions\Atom\ObjectNode.cs" />
     <Compile Include="AST\Expressions\Atom\StringNode.cs" />
     <Compile Include="AST\Expressions\Atom\VoidNode.cs" />
+    <Compile Include="AST\Expressions\Auxiliary\AuxiliaryNode.cs" />
     <Compile Include="AST\Expressions\Block\BlockNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchExplicitNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchImplicitNode.cs" />
