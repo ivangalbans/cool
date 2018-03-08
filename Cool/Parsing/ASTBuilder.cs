@@ -49,7 +49,9 @@ namespace Cool.Parsing
 
         public override ASTNode VisitAssignment([NotNull] CoolParser.AssignmentContext context)
         {
-            var node = new AssignmentNode(context, context.ID().GetText());
+            var node = new AssignmentNode(context);
+            var nodeId = new IdentifierNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
+            node.Children.Add(nodeId);
             node.Children.Add(Visit(context.expression()));
             return node;
         }
