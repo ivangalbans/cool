@@ -89,8 +89,8 @@ namespace Cool.Parsing
                     throw new NotSupportedException();
             }
 
-            node.Children.Add(Visit(context.expression(0)));
-            node.Children.Add(Visit(context.expression(1)));
+            node.Children.Add(Visit(context.expression(0)));    // LEFT EXPRESSION
+            node.Children.Add(Visit(context.expression(1)));    //RIGHT EXPRESSION
             return node;
         }
 
@@ -180,7 +180,10 @@ namespace Cool.Parsing
 
         public override ASTNode VisitWhile([NotNull] CoolParser.WhileContext context)
         {
-            return base.VisitWhile(context);
+            var node = new WhileNode(context);
+            node.Children.Add(Visit(context.expression(0))); // CONDITION
+            node.Children.Add(Visit(context.expression(1))); // BODY
+            return node;
         }
     }
 }
