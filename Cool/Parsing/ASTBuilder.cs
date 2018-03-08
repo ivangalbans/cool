@@ -96,7 +96,11 @@ namespace Cool.Parsing
 
         public override ASTNode VisitIf([NotNull] CoolParser.IfContext context)
         {
-            return base.VisitIf(context);
+            var node = new IfNode(context);
+            node.Children.Add(Visit(context.expression(0)));    //  if expression
+            node.Children.Add(Visit(context.expression(1)));    //then expression
+            node.Children.Add(Visit(context.expression(2)));    //else expression
+            return node;
         }
 
         public override ASTNode VisitInt([NotNull] CoolParser.IntContext context)

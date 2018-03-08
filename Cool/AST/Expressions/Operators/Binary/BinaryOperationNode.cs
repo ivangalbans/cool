@@ -4,8 +4,8 @@ namespace Cool.AST
 {
     abstract class BinaryOperationNode : ExpressionNode
     {
-        public abstract ExpressionNode LeftExpression {get; set; }
-        public abstract ExpressionNode RightExpression { get; set; }
+        public ExpressionNode LeftExpression => Children[0] as ExpressionNode;
+        public ExpressionNode RightExpression => Children[1] as ExpressionNode;
 
         public BinaryOperationNode(ParserRuleContext context) : base(context) { }
 
