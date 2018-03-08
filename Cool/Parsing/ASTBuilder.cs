@@ -56,7 +56,9 @@ namespace Cool.Parsing
 
         public override ASTNode VisitBoolNot([NotNull] CoolParser.BoolNotContext context)
         {
-            return base.VisitBoolNot(context);
+            var node = new NotNode(context);
+            node.Children.Add(Visit(context.expression()));
+            return node;
         }
 
         public override ASTNode VisitCase([NotNull] CoolParser.CaseContext context)
