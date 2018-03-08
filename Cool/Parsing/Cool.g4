@@ -4,7 +4,7 @@ grammar Cool;
     Parser Rules
 */
 
-program         :       programBlock EOF
+program         :       programBlock
                 ;
 
 programBlock    :       classDefine ';' programBlock                                                                                #classes
