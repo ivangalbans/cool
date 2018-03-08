@@ -79,9 +79,9 @@ namespace Cool.Parsing
             return base.VisitEof(context);
         }
 
-        public override ASTNode VisitFalse([NotNull] CoolParser.FalseContext context)
+        public override ASTNode VisitBoolean([NotNull] CoolParser.BooleanContext context)
         {
-            return base.VisitFalse(context);
+            return new BoolNode(context, context.value.Text);
         }
 
         public override ASTNode VisitFormal([NotNull] CoolParser.FormalContext context)

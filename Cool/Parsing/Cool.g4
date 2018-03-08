@@ -38,8 +38,7 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       ID                                                                                                          #id
                 |       INT                                                                                                         #int
                 |       STRING                                                                                                      #string
-                |       TRUE                                                                                                        #true
-                |       FALSE                                                                                                       #false
+                |       value=(TRUE | FALSE)                                                                                              #boolean
                 |       ID ASSIGNMENT expression																					#assignment
                 ;
 

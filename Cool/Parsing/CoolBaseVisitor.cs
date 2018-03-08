@@ -174,17 +174,6 @@ public partial class CoolBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIsvoid([NotNull] CoolParser.IsvoidContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>true</c>
-	/// labeled alternative in <see cref="CoolParser.expression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitTrue([NotNull] CoolParser.TrueContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by the <c>block</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// <para>
@@ -295,7 +284,7 @@ public partial class CoolBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <return>The visitor result.</return>
 	public virtual Result VisitString([NotNull] CoolParser.StringContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>false</c>
+	/// Visit a parse tree produced by the <c>boolean</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -304,7 +293,7 @@ public partial class CoolBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFalse([NotNull] CoolParser.FalseContext context) { return VisitChildren(context); }
+	public virtual Result VisitBoolean([NotNull] CoolParser.BooleanContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>case</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.

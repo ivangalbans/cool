@@ -120,13 +120,6 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIsvoid([NotNull] CoolParser.IsvoidContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>true</c>
-	/// labeled alternative in <see cref="CoolParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitTrue([NotNull] CoolParser.TrueContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>block</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// </summary>
@@ -197,12 +190,12 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitString([NotNull] CoolParser.StringContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>false</c>
+	/// Visit a parse tree produced by the <c>boolean</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFalse([NotNull] CoolParser.FalseContext context);
+	Result VisitBoolean([NotNull] CoolParser.BooleanContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>case</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.

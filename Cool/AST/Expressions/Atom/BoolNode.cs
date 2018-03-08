@@ -6,9 +6,9 @@ namespace Cool.AST
     {
         public bool Value { get; set; }
 
-        public BoolNode(ParserRuleContext context) : base(context)
+        public BoolNode(ParserRuleContext context, string text) : base(context)
         {
-
+            Value = bool.Parse(text);
         }
     }
 }
