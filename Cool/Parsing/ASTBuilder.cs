@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Cool.AST;
 using System;
+using System.Linq;
 
 namespace Cool.Parsing
 {
@@ -58,7 +59,10 @@ namespace Cool.Parsing
 
         public override ASTNode VisitBlock([NotNull] CoolParser.BlockContext context)
         {
-            return base.VisitBlock(context);
+            var node = new BlockNode(context);
+            foreach (var item in context.expression())
+                node.Children.Add(Visit(item));
+            return node;
         }
 
         public override ASTNode VisitBoolNot([NotNull] CoolParser.BoolNotContext context)
