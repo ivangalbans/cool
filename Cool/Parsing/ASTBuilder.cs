@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Cool.AST;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cool.Parsing
@@ -74,7 +75,23 @@ namespace Cool.Parsing
 
         public override ASTNode VisitCase([NotNull] CoolParser.CaseContext context)
         {
-            return base.VisitCase(context);
+            var node = new CaseNode(context);
+            node.Children.Add(Visit(context.expression(0)));
+
+            List<IdentifierNode> idNodes = new List<IdentifierNode>();
+            List<IdentifierNode> typeNodes = new List<IdentifierNode>();
+            List<ExpressionNode> expressions = new List<ExpressionNode>();
+
+            foreach (var item in context.ID())
+                idNodes.Add(new IdentifierNode(item.Symbol.Line, item.Symbol.Column, item.GetText()));
+            foreach (var item in context.TYPE())
+                typeNodes.Add(new IdentifierNode(item.Symbol.Line, item.Symbol.Column, item.GetText()));
+            foreach (var item in context.expression())
+                expressions.Add(Visit(item) as ExpressionNode);
+            for (int i = 0; i < idNodes.Count; ++i)
+                node.Branches.Add((idNodes[i], typeNodes[i], expressions[i]));
+
+            return node;
         }
 
         public override ASTNode VisitClassDefine([NotNull] CoolParser.ClassDefineContext context)

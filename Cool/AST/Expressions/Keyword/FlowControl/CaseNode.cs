@@ -5,14 +5,11 @@ namespace Cool.AST
 {
     class CaseNode : KeywordNode
     {
-        public ExpressionNode Expression { get; set; }
+        public ExpressionNode Expression => Children[0] as ExpressionNode;
 
-        public List<(string TextID, string TextType, ExpressionNode Expression)> Body { get; set; }
+        public List<(IdentifierNode ID, IdentifierNode Type, ExpressionNode Expression)> Branches { get; set; }
 
-        public CaseNode(ParserRuleContext context) : base(context)
-        {
-
-        }
+        public CaseNode(ParserRuleContext context) : base(context) { }
 
     }
 }
