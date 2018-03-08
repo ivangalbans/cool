@@ -73,7 +73,25 @@ namespace Cool.Parsing
 
         public override ASTNode VisitComparisson([NotNull] CoolParser.ComparissonContext context)
         {
-            return base.VisitComparisson(context);
+            ComparisonOperation node;
+            switch (context.op.Text)
+            {
+                case "<=":
+                    node = new LessEqual(context);
+                    break;
+                case "<":
+                    node = new Less(context);
+                    break;
+                case "=":
+                    node = new EqualNode(context);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            node.Children.Add(Visit(context.expression(0)));
+            node.Children.Add(Visit(context.expression(1)));
+            return node;
         }
 
         public override ASTNode VisitEof([NotNull] CoolParser.EofContext context)
@@ -158,11 +176,6 @@ namespace Cool.Parsing
         public override ASTNode VisitString([NotNull] CoolParser.StringContext context)
         {
             return new StringNode(context, context.STRING().GetText());
-        }
-
-        public override ASTNode VisitTrue([NotNull] CoolParser.TrueContext context)
-        {
-            return base.VisitTrue(context);
         }
 
         public override ASTNode VisitWhile([NotNull] CoolParser.WhileContext context)
