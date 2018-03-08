@@ -4,7 +4,7 @@ namespace Cool.AST
 {
     class NegNode : UnaryOperationNode
     {
-        public override ExpressionNode Expression { get; set; }
+        public override ExpressionNode Expression => Children[0] as ExpressionNode;
 
         public NegNode(ParserRuleContext context) : base(context) { }
 

@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
@@ -6,8 +7,10 @@ namespace Cool.AST
     {
         public int Value { get; set; }
 
-        public IntNode(ParserRuleContext context) : base(context)
+        public IntNode(ParserRuleContext context, string text) : base(context)
         {
+            Value = int.Parse(text);
+            Type = Types.Int;
         }
 
     }

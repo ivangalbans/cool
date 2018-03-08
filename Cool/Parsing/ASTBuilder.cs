@@ -105,12 +105,12 @@ namespace Cool.Parsing
 
         public override ASTNode VisitInt([NotNull] CoolParser.IntContext context)
         {
-            return base.VisitInt(context);
+            return new IntNode(context, context.INT().GetText());
         }
 
         public override ASTNode VisitIsvoid([NotNull] CoolParser.IsvoidContext context)
         {
-            return base.VisitIsvoid(context);
+            return new IsVoidNode(context);
         }
 
         public override ASTNode VisitLetIn([NotNull] CoolParser.LetInContext context)
@@ -155,7 +155,7 @@ namespace Cool.Parsing
 
         public override ASTNode VisitString([NotNull] CoolParser.StringContext context)
         {
-            return base.VisitString(context);
+            return new StringNode(context, context.STRING().GetText());
         }
 
         public override ASTNode VisitTrue([NotNull] CoolParser.TrueContext context)

@@ -4,7 +4,7 @@ namespace Cool.AST
 {
     abstract class UnaryOperationNode : ExpressionNode
     {
-        public abstract ExpressionNode Expression { get; set; }
+        public abstract ExpressionNode Expression { get;}
 
         public UnaryOperationNode(ParserRuleContext context) : base(context)
         {

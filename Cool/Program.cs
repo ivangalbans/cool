@@ -12,7 +12,6 @@ namespace Cool
     {
         static void Main(string[] args)
         {
-
         }
     }
 }
