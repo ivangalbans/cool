@@ -46,7 +46,7 @@ namespace Cool.Parsing
         public override ASTNode VisitAssignment([NotNull] CoolParser.AssignmentContext context)
         {
             var node = new AssignmentNode(context);
-            var nodeId = new IdentifierNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
+            var nodeId = new IdNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
             node.Children.Add(nodeId);
             node.Children.Add(Visit(context.expression()));
             return node;
@@ -92,7 +92,7 @@ namespace Cool.Parsing
         {
             var node = new ClassNode(context);
 
-            var typeClass = new IdentifierNode(context.TYPE(0).Symbol.Line, 
+            var typeClass = new IdNode(context.TYPE(0).Symbol.Line, 
                             context.TYPE(0).Symbol.Column, context.TYPE(0).GetText());
 
             ASTNode typeInherit;
@@ -100,7 +100,7 @@ namespace Cool.Parsing
             if (context.TYPE(1) == null)
                 typeInherit = new NullObject(context);
             else
-                typeInherit = new IdentifierNode(context.TYPE(1).Symbol.Line,
+                typeInherit = new IdNode(context.TYPE(1).Symbol.Line,
                     context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
 
             node.Children.Add(typeClass);
@@ -148,9 +148,9 @@ namespace Cool.Parsing
         {
             var node = new FormalNode(context);
 
-            IdentifierNode idNode = new IdentifierNode(context.ID().Symbol.Line,
+            IdNode idNode = new IdNode(context.ID().Symbol.Line,
                             context.ID().Symbol.Column, context.ID().GetText());
-            IdentifierNode typeNode = new IdentifierNode(context.TYPE().Symbol.Line,
+            IdNode typeNode = new IdNode(context.TYPE().Symbol.Line,
                             context.TYPE().Symbol.Column, context.TYPE().GetText());
 
             node.Children.Add(idNode);
@@ -161,7 +161,7 @@ namespace Cool.Parsing
 
         public override ASTNode VisitId([NotNull] CoolParser.IdContext context)
         {
-            return new IdentifierNode(context, context.ID().GetText());
+            return new IdNode(context, context.ID().GetText());
         }
 
         public override ASTNode VisitIf([NotNull] CoolParser.IfContext context)
@@ -207,12 +207,18 @@ namespace Cool.Parsing
 
         public override ASTNode VisitNew([NotNull] CoolParser.NewContext context)
         {
-            return base.VisitNew(context);
+            var node = new NewNode(context);
+            node.Children.Add(new IdNode(context.TYPE().Symbol.Line, 
+                    context.TYPE().Symbol.Column, context.TYPE().GetText()));
+            return node;
         }
 
         public override ASTNode VisitOwnMethodCall([NotNull] CoolParser.OwnMethodCallContext context)
         {
-            return base.VisitOwnMethodCall(context);
+            var node = new MethodCallNode(context);
+            node.Children.Add(new IdNode(context, context.ID().GetText()));
+            node.Children.AddRange(from x in context.expression() select Visit(x));
+            return node;
         }
 
         public override ASTNode VisitParentheses([NotNull] CoolParser.ParenthesesContext context)

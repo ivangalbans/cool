@@ -35,11 +35,11 @@
       <FileName>AST\Expressions\Atom\BoolNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cool.AST.IdentifierNode" Collapsed="true">
+  <Class Name="Cool.AST.IdNode" Collapsed="true">
     <Position X="39.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\Expressions\Atom\IdentifierNode.cs</FileName>
+      <FileName>AST\Expressions\Auxiliary\IdNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.IntNode" Collapsed="true">
@@ -53,7 +53,7 @@
     <Position X="55.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\Expressions\Atom\ObjectNode.cs</FileName>
+      <FileName>AST\ASTNode\ObjectNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.StringNode" Collapsed="true">
@@ -122,14 +122,14 @@
   <Class Name="Cool.AST.AttributeNode" Collapsed="true">
     <Position X="66.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQIAAAAAAAAAAAAAAEAAQAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Feature\AttributeNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.FeatureNode" Collapsed="true">
     <Position X="68" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAAAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Feature\FeatureNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -185,7 +185,7 @@
   <Class Name="Cool.AST.NewNode" Collapsed="true">
     <Position X="6" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\New\NewNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -347,7 +347,7 @@
   <Class Name="Cool.Semantics.Types" Collapsed="true">
     <Position X="75.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAQAAAAAAAAAAAAAAAAAAAAAACACA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAACACA=</HashCode>
       <FileName>Semantics\Types.cs</FileName>
     </TypeIdentifier>
   </Class>

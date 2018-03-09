@@ -6,8 +6,8 @@ namespace Cool.AST
 {
     class FormalNode : AuxiliaryNode
     {
-        public IdentifierNode Id => Children[0] as IdentifierNode;
-        public IdentifierNode TypeId => Children[1] as IdentifierNode;
+        public IdNode Id => Children[0] as IdNode;
+        public IdNode TypeId => Children[1] as IdNode;
 
         public FormalNode(ParserRuleContext context) : base(context) { }
     }

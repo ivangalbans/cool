@@ -1,20 +1,17 @@
-﻿using Antlr4.Runtime;
+﻿
+using Antlr4.Runtime;
 
 namespace Cool.AST
 {
-    class IdentifierNode : AuxiliaryNode
+    class IdentifierNode : AtomNode
     {
-        public string Name { get; set; }
+        public string Text { get; set; }
 
-        public IdentifierNode(ParserRuleContext context, string name) : base(context)
-        {
-            Name = name;
-        }
+        public IdentifierNode(ParserRuleContext context) : base(context) { }
 
-        public IdentifierNode(int line, int column, string name) : base(line, column)
+        public IdentifierNode(int line, int column, string text) : base(line, column)
         {
-            Name = name;
+            Text = text;
         }
-        
     }
 }

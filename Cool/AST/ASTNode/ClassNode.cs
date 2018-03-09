@@ -5,9 +5,9 @@ namespace Cool.AST
 {
     class ClassNode : ASTNode
     {
-        public IdentifierNode TypeClass => Children[0] as IdentifierNode;
+        public IdNode TypeClass => Children[0] as IdNode;
 
-        public IdentifierNode TypeInherits => Children[1] as IdentifierNode;
+        public IdNode TypeInherits => Children[1] as IdNode;
 
         public List<FeatureNode> FeatureNodes { get; set; }
 

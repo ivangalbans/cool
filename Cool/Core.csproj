@@ -51,8 +51,9 @@
     <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
     <Compile Include="AST\Expressions\Atom\BoolNode.cs" />
     <Compile Include="AST\Expressions\Atom\IdentifierNode.cs" />
+    <Compile Include="AST\Expressions\Auxiliary\IdNode.cs" />
     <Compile Include="AST\Expressions\Atom\IntNode.cs" />
-    <Compile Include="AST\Expressions\Atom\ObjectNode.cs" />
+    <Compile Include="AST\ASTNode\ObjectNode.cs" />
     <Compile Include="AST\Expressions\Atom\StringNode.cs" />
     <Compile Include="AST\Expressions\Atom\VoidNode.cs" />
     <Compile Include="AST\Expressions\Auxiliary\AuxiliaryNode.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="AST\Expressions\Keyword\KeywordNode.cs" />
     <Compile Include="AST\Expressions\Keyword\Let\LetNode.cs" />
     <Compile Include="AST\Expressions\Keyword\New\NewNode.cs" />
+    <Compile Include="AST\Expressions\MethodCallNode.cs" />
     <Compile Include="AST\Expressions\Null\NullObject.cs" />
     <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\AddNode.cs" />
     <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\ArithmeticOperation.cs" />
