@@ -202,7 +202,9 @@ namespace Cool.Parsing
 
         public override ASTNode VisitNegative([NotNull] CoolParser.NegativeContext context)
         {
-            return base.VisitNegative(context);
+            var node = new NegNode(context);
+            node.Children.Add(Visit(context.expression()));
+            return node;
         }
 
         public override ASTNode VisitNew([NotNull] CoolParser.NewContext context)
