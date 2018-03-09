@@ -94,14 +94,14 @@
   <Class Name="Cool.AST.DispatchExplicitNode" Collapsed="true">
     <Position X="57.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAgAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Dispatch\DispatchExplicitNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.DispatchImplicitNode" Collapsed="true">
     <Position X="60" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAEAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Dispatch\DispatchImplicitNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -187,13 +187,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\New\NewNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Cool.AST.NullObject" Collapsed="true">
-    <Position X="71.25" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\Expressions\Null\NullObject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.AddNode" Collapsed="true">
@@ -297,7 +290,7 @@
   <Class Name="Cool.Parsing.ASTBuilder" Collapsed="true">
     <Position X="3.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAAoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
+      <HashCode>AAAFAAAAUAAIZAgAAAEIERAABAAAAABQBAAQgQAEAQA=</HashCode>
       <FileName>Parsing\ASTBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>

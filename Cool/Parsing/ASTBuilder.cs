@@ -95,13 +95,8 @@ namespace Cool.Parsing
             var typeClass = new IdNode(context.TYPE(0).Symbol.Line, 
                             context.TYPE(0).Symbol.Column, context.TYPE(0).GetText());
 
-            ASTNode typeInherit;
-
-            if (context.TYPE(1) == null)
-                typeInherit = new NullObject(context);
-            else
-                typeInherit = new IdNode(context.TYPE(1).Symbol.Line,
-                    context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
+            IdNode typeInherit = context.TYPE(1) == null ? IdNode.NULL : new IdNode(context.TYPE(1).Symbol.Line,
+                                                        context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
 
             node.Children.Add(typeClass);
             node.Children.Add(typeInherit);
@@ -197,6 +192,14 @@ namespace Cool.Parsing
         public override ASTNode VisitDispatchExplicit([NotNull] CoolParser.DispatchExplicitContext context)
         {
             var node = new DispatchExplicitNode(context);
+            node.Children.Add(Visit(context.expression(0)));
+
+            IdNode typeSuperClass = context.TYPE() == null ? IdNode.NULL : new IdNode(context.TYPE().Symbol.Line,
+                        context.TYPE().Symbol.Column, context.TYPE().GetText());
+
+            node.Children.Add(new IdNode(context.ID().Symbol.Line,
+                        context.ID().Symbol.Column, context.ID().GetText()));
+            node.Children.AddRange(from x in context.expression().Skip(1) select Visit(x));
             return node;
         }
 

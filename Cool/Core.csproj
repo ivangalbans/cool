@@ -73,7 +73,7 @@
     <Compile Include="AST\Expressions\Keyword\KeywordNode.cs" />
     <Compile Include="AST\Expressions\Keyword\Let\LetNode.cs" />
     <Compile Include="AST\Expressions\Keyword\New\NewNode.cs" />
-    <Compile Include="AST\Expressions\Null\NullObject.cs" />
+    <Compile Include="AST\Expressions\Null\NullId.cs" />
     <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\AddNode.cs" />
     <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\ArithmeticOperation.cs" />
     <Compile Include="AST\Expressions\Operators\Binary\Arithmetic\DivNode.cs" />

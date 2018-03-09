@@ -15,6 +15,10 @@ namespace Cool.AST
         {
             Name = name;
         }
-        
+
+        private static NullId nullId = new NullId();
+
+        public static NullId NULL => nullId;
+
     }
 }
