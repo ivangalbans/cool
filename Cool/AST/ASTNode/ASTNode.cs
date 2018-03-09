@@ -12,7 +12,7 @@ namespace Cool.AST
 
         public TypeInfo Type { get; protected set; } = Types.Void;
 
-        public List<ASTNode> Children { get; } = new List<ASTNode>();
+        public List<ASTNode> Children { get; set; } = new List<ASTNode>();
 
         public ASTNode(ParserRuleContext context)
         {   

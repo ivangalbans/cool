@@ -55,12 +55,8 @@ namespace Cool.Parsing
         public override ASTNode VisitBlock([NotNull] CoolParser.BlockContext context)
         {
             var node = new BlockNode(context);
-            foreach (var item in context.expression())
-            {
-                var nodeVisit = Visit(item);
-                node.Children.Add(nodeVisit);
-                node.Expressions.Add(nodeVisit as ExpressionNode);
-            }
+            node.Children = context.expression().Select(x => Visit(x)).ToList();
+            node.Expressions = node.Children.Select(x => x as ExpressionNode).ToList();
             return node;
         }
 
@@ -77,7 +73,10 @@ namespace Cool.Parsing
             node.Children.Add(Visit(context.expression(0)));
             
             List<FormalNode> formals = context.formal().Select(x => Visit(x) as FormalNode).ToList();
-            List<ExpressionNode> expressions = context.expression().Select(x => Visit(x) as ExpressionNode).ToList();
+            List<ExpressionNode> expressions = new List<ExpressionNode>();
+
+            for (int i = 1; i <= formals.Count; ++i)
+                expressions.Add(Visit(context.expression(i)) as ExpressionNode);
 
             for(int i = 0; i < formals.Count; ++i)
             {
