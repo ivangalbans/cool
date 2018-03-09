@@ -217,7 +217,7 @@ namespace Cool.Parsing
 
         public override ASTNode VisitParentheses([NotNull] CoolParser.ParenthesesContext context)
         {
-            return base.VisitParentheses(context);
+            return Visit(context.expression());
         }
 
         public override ASTNode VisitProperty([NotNull] CoolParser.PropertyContext context)
