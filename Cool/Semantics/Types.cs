@@ -12,7 +12,7 @@ namespace Cool.Semantics
 
         public static TypeInfo String { get; } = new TypeInfo("string");
 
-        public static TypeInfo Boolean { get; } = new TypeInfo("bool");
+        public static TypeInfo Bool { get; } = new TypeInfo("bool");
 
         public static TypeInfo Void { get; } = new TypeInfo("Void");
     }

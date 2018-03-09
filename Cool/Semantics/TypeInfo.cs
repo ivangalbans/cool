@@ -15,7 +15,7 @@ namespace Cool.Semantics
             return a.Equals(b) ||
                 (!a.Equals(Types.Void) && !b.Equals(Types.Void) &&
                 !a.Equals(Types.Int) && !b.Equals(Types.Int) &&
-                (a.Equals(Types.Boolean) || b.Equals(Types.Boolean)));
+                (a.Equals(Types.Bool) || b.Equals(Types.Bool)));
         }
 
         static public bool operator !=(TypeInfo a, TypeInfo b)

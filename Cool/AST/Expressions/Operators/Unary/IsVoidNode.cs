@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
@@ -6,7 +7,10 @@ namespace Cool.AST
     {
         public override ExpressionNode Expression => Children[0] as ExpressionNode;
 
-        public IsVoidNode(ParserRuleContext context) : base(context) { }
+        public IsVoidNode(ParserRuleContext context) : base(context)
+        {
+            Type = Types.Void;
+        }
 
     }
 }
