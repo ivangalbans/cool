@@ -469,22 +469,6 @@ public partial class CoolParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class MethodCallContext : ExpressionContext {
-		public ExpressionContext[] expression() {
-			return GetRuleContexts<ExpressionContext>();
-		}
-		public ExpressionContext expression(int i) {
-			return GetRuleContext<ExpressionContext>(i);
-		}
-		public ITerminalNode ID() { return GetToken(CoolParser.ID, 0); }
-		public ITerminalNode TYPE() { return GetToken(CoolParser.TYPE, 0); }
-		public MethodCallContext(ExpressionContext context) { CopyFrom(context); }
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMethodCall(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class ComparissonContext : ExpressionContext {
 		public IToken op;
 		public ExpressionContext[] expression() {
@@ -500,27 +484,28 @@ public partial class CoolParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class IntContext : ExpressionContext {
-		public ITerminalNode INT() { return GetToken(CoolParser.INT, 0); }
-		public IntContext(ExpressionContext context) { CopyFrom(context); }
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitInt(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class OwnMethodCallContext : ExpressionContext {
-		public ITerminalNode ID() { return GetToken(CoolParser.ID, 0); }
+	public partial class DispatchExplicitContext : ExpressionContext {
 		public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		public OwnMethodCallContext(ExpressionContext context) { CopyFrom(context); }
+		public ITerminalNode ID() { return GetToken(CoolParser.ID, 0); }
+		public ITerminalNode TYPE() { return GetToken(CoolParser.TYPE, 0); }
+		public DispatchExplicitContext(ExpressionContext context) { CopyFrom(context); }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitOwnMethodCall(this);
+			if (typedVisitor != null) return typedVisitor.VisitDispatchExplicit(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class IntContext : ExpressionContext {
+		public ITerminalNode INT() { return GetToken(CoolParser.INT, 0); }
+		public IntContext(ExpressionContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitInt(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -547,6 +532,21 @@ public partial class CoolParser : Parser {
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitBlock(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DispatchImplicitContext : ExpressionContext {
+		public ITerminalNode ID() { return GetToken(CoolParser.ID, 0); }
+		public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		public DispatchImplicitContext(ExpressionContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICoolVisitor<TResult> typedVisitor = visitor as ICoolVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDispatchImplicit(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -744,7 +744,7 @@ public partial class CoolParser : Parser {
 			switch ( Interpreter.AdaptivePredict(TokenStream,13,Context) ) {
 			case 1:
 				{
-				_localctx = new OwnMethodCallContext(_localctx);
+				_localctx = new DispatchImplicitContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
 
@@ -1059,7 +1059,7 @@ public partial class CoolParser : Parser {
 						break;
 					case 4:
 						{
-						_localctx = new MethodCallContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new DispatchExplicitContext(new ExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 171;
 						if (!(Precpred(Context, 20))) throw new FailedPredicateException(this, "Precpred(Context, 20)");

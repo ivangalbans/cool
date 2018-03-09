@@ -75,13 +75,6 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitParentheses([NotNull] CoolParser.ParenthesesContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>methodCall</c>
-	/// labeled alternative in <see cref="CoolParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitMethodCall([NotNull] CoolParser.MethodCallContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>comparisson</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// </summary>
@@ -89,19 +82,19 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitComparisson([NotNull] CoolParser.ComparissonContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>dispatchExplicit</c>
+	/// labeled alternative in <see cref="CoolParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDispatchExplicit([NotNull] CoolParser.DispatchExplicitContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>int</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitInt([NotNull] CoolParser.IntContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>ownMethodCall</c>
-	/// labeled alternative in <see cref="CoolParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitOwnMethodCall([NotNull] CoolParser.OwnMethodCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>isvoid</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.
@@ -116,6 +109,13 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBlock([NotNull] CoolParser.BlockContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>dispatchImplicit</c>
+	/// labeled alternative in <see cref="CoolParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDispatchImplicit([NotNull] CoolParser.DispatchImplicitContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>while</c>
 	/// labeled alternative in <see cref="CoolParser.expression"/>.

@@ -94,7 +94,7 @@
   <Class Name="Cool.AST.DispatchExplicitNode" Collapsed="true">
     <Position X="57.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQIAAAAAAAAAIAAAEEEAAAAAAgAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Dispatch\DispatchExplicitNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -108,7 +108,7 @@
   <Class Name="Cool.AST.DispatchNode" Collapsed="true">
     <Position X="59" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAEAEAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Dispatch\DispatchNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -234,7 +234,7 @@
   <Class Name="Cool.AST.BinaryOperationNode" Collapsed="true">
     <Position X="21.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAgAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Operators\Binary\BinaryOperationNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -269,42 +269,42 @@
   <Class Name="Cool.AST.IsVoidNode" Collapsed="true">
     <Position X="33" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Operators\Unary\IsVoidNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.NegNode" Collapsed="true">
     <Position X="35.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Operators\Unary\NegNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.NotNode" Collapsed="true">
     <Position X="30.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Operators\Unary\NotNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.UnaryOperationNode" Collapsed="true">
     <Position X="33" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>AST\Expressions\Operators\Unary\UnaryOperationNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.Parsing.ASTBuilder" Collapsed="true">
     <Position X="3.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
+      <HashCode>AAAFAAAAUAAoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
       <FileName>Parsing\ASTBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CoolBaseVisitor&lt;Result&gt;" Collapsed="true">
     <Position X="3.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFgAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
+      <HashCode>AAAFgAAAUAAIZAgAAAEIERAABAAAAABQBAAQgQAEAQA=</HashCode>
       <FileName>Parsing\CoolBaseVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -354,7 +354,7 @@
   <Interface Name="ICoolVisitor&lt;Result&gt;" Collapsed="true">
     <Position X="73.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFgAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
+      <HashCode>AAAFgAAAUAAIZAgAAAEIERAABAAAAABQBAAQgQAEAQA=</HashCode>
       <FileName>Parsing\CoolVisitor.cs</FileName>
     </TypeIdentifier>
   </Interface>

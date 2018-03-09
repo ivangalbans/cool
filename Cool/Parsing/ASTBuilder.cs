@@ -194,11 +194,20 @@ namespace Cool.Parsing
         {
             return base.VisitMethod(context);
         }
-
-        public override ASTNode VisitMethodCall([NotNull] CoolParser.MethodCallContext context)
+        public override ASTNode VisitDispatchExplicit([NotNull] CoolParser.DispatchExplicitContext context)
         {
-            return base.VisitMethodCall(context);
+            var node = new DispatchExplicitNode(context);
+            return node;
         }
+
+        public override ASTNode VisitDispatchImplicit([NotNull] CoolParser.DispatchImplicitContext context)
+        {
+            var node = new DispatchImplicitNode(context);
+            node.Children.Add(new IdentifierNode(context));
+            node.Children.AddRange(from x in context.expression() select Visit(x));
+            return node;
+        }
+
 
         public override ASTNode VisitNegative([NotNull] CoolParser.NegativeContext context)
         {
@@ -215,13 +224,7 @@ namespace Cool.Parsing
             return node;
         }
 
-        public override ASTNode VisitOwnMethodCall([NotNull] CoolParser.OwnMethodCallContext context)
-        {
-            var node = new MethodCallNode(context);
-            node.Children.Add(new IdNode(context, context.ID().GetText()));
-            node.Children.AddRange(from x in context.expression() select Visit(x));
-            return node;
-        }
+
 
         public override ASTNode VisitParentheses([NotNull] CoolParser.ParenthesesContext context)
         {

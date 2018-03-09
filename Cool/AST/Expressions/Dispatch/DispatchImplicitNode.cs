@@ -1,23 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Antlr4.Runtime;
 
 namespace Cool.AST
 {
     class DispatchImplicitNode : DispatchNode
     {
-        public override string TextID { get; set; }
+        public IdentifierNode IdMethod => Children[0] as IdentifierNode;
 
-        public override int LineID { get; set; }
+        public List<ExpressionNode> Arguments => Children.Skip(1).Cast<ExpressionNode>().ToList();
 
-        public override int ColumnID { get; set; }
-
-        public override List<ExpressionNode> ExpressionParams { get; set; }
-
-
-        public DispatchImplicitNode(ParserRuleContext context) : base(context)
-        {
-
-        }
+        public DispatchImplicitNode(ParserRuleContext context) : base(context) { }
 
     }
 }

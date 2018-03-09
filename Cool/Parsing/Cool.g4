@@ -25,8 +25,8 @@ property		:		formal (ASSIGNMENT expression)?
 
 formal          :       ID ':' TYPE;  /* method argument */
 
-expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expression)*)* ')'                                       #methodCall
-                |       ID '(' (expression (',' expression)*)* ')'                                                                  #ownMethodCall
+expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expression)*)* ')'                                       #dispatchExplicit
+                |       ID '(' (expression (',' expression)*)* ')'                                                                  #dispatchImplicit
                 |       IF expression THEN expression ELSE expression FI                                                            #if
                 |       WHILE expression LOOP expression POOL                                                                       #while
                 |       '{' (expression ';')+ '}'                                                                                   #block
