@@ -90,7 +90,24 @@ namespace Cool.Parsing
 
         public override ASTNode VisitClassDefine([NotNull] CoolParser.ClassDefineContext context)
         {
-            return base.VisitClassDefine(context);
+            var node = new ClassNode(context);
+
+            IdentifierNode typeClass = new IdentifierNode(context.TYPE(0).Symbol.Line, 
+                            context.TYPE(0).Symbol.Column, context.TYPE(0).GetText());
+            IdentifierNode typeInherit = new IdentifierNode(context.TYPE(1).Symbol.Line,
+                            context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
+
+            node.Children.Add(typeClass);
+            node.Children.Add(typeInherit);
+
+            foreach (var item in context.feature())
+            {
+                var nodeFeature = Visit(item);
+                node.Children.Add(nodeFeature);
+                node.FeatureNodes.Add(nodeFeature as FeatureNode);
+            }
+
+            return node;
         }
 
         public override ASTNode VisitComparisson([NotNull] CoolParser.ComparissonContext context)

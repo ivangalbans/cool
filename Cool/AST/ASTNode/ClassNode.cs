@@ -5,19 +5,15 @@ namespace Cool.AST
 {
     class ClassNode : ASTNode
     {
-        public string TextId { get; set; }
+        public IdentifierNode TypeClass => Children[0] as IdentifierNode;
 
-        public string TextIdInherits { get; set; }
-
-        public int LineInherits { get; set; }
-
-        public int ColumnInherits { get; set; }
+        public IdentifierNode TypeInherits => Children[1] as IdentifierNode;
 
         public List<FeatureNode> FeatureNodes { get; set; }
 
-        public ClassNode(ParserRuleContext context) :base(context)
+        public ClassNode(ParserRuleContext context) : base(context)
         {
-            
+            FeatureNodes = new List<FeatureNode>();
         }
 
     }
