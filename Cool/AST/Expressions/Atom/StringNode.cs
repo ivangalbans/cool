@@ -7,11 +7,10 @@ namespace Cool.AST
     {
         public string Text { get; set; }
 
-        public StringNode(ParserRuleContext context, string text) : base(context)
+        public StringNode(int line, int column, string text) : base(line, column)
         {
             Type = Types.String;
             Text = text;
         }
-
     }
 }

@@ -4,19 +4,24 @@ grammar Cool;
     Parser Rules
 */
 
-program         :       programBlock
-                ;
 
-programBlock    :       classDefine ';' programBlock                                                                                #classes
-                |       EOF                                                                                                         #eof
+
+program		    :       classDefine ';' program																						
+                |       EOF                                                                                                         
                 ;
 
 classDefine     :       CLASS TYPE (INHERITS TYPE)? '{' (feature ';')* '}'
                 ;
 
-feature         :       ID '(' (formal (',' formal)*)* ')' ':' TYPE '{' expression '}'                                              #method
-                |       ID ':' TYPE (ASSIGNMENT expression)?                                                                        #property
+feature         :       method
+                |       property
                 ;
+
+method			:		ID '(' (formal (',' formal)*)* ')' ':' TYPE '{' expression '}'
+				;
+
+property		:		formal (ASSIGNMENT expression)?
+				;
 
 formal          :       ID ':' TYPE;  /* method argument */
 
@@ -25,8 +30,8 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       IF expression THEN expression ELSE expression FI                                                            #if
                 |       WHILE expression LOOP expression POOL                                                                       #while
                 |       '{' (expression ';')+ '}'                                                                                   #block
-                |       LET ID ':' TYPE (ASSIGNMENT expression)? (',' ID ':' TYPE (ASSIGNMENT expression)?)* IN expression          #letIn
-                |       CASE expression OF (ID ':' TYPE IMPLY expression ';')+ ESAC                                                 #case
+                |       LET property? (',' property)* IN expression																	#letIn
+                |       CASE expression OF (formal IMPLY expression ';')+ ESAC														#case
                 |       NEW TYPE                                                                                                    #new
                 |       '~' expression                                                                                              #negative
                 |       ISVOID expression                                                                                           #isvoid
@@ -38,7 +43,7 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       ID                                                                                                          #id
                 |       INT                                                                                                         #int
                 |       STRING                                                                                                      #string
-                |       value=(TRUE | FALSE)                                                                                              #boolean
+                |       value=(TRUE | FALSE)                                                                                        #boolean
                 |       ID ASSIGNMENT expression																					#assignment
                 ;
 

@@ -5,15 +5,13 @@ namespace Cool.AST
 {
     class LetNode : KeywordNode
     {
-        public List<(string TextID, string TextType, ExpressionNode ExpressionInit)> ExpressionInitialization;
-
-        public List<((int LineID, int ColumnID), (int LineType, int ColumnType))> LineColumnExpressionInitialization;
+        public List<(IdentifierNode Id, IdentifierNode TypeId, ExpressionNode Expression)> ExpressionsInitials { get; set; }
 
         public ExpressionNode ExpressionBody { get; set; }
 
         public LetNode(ParserRuleContext context) : base(context)
         {
-
+            ExpressionsInitials = new List<(IdentifierNode Id, IdentifierNode TypeId, ExpressionNode Expression)>();
         }
 
     }

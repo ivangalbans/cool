@@ -7,11 +7,11 @@ namespace Cool.AST
     {
         public ExpressionNode ExpressionCase => Children[0] as ExpressionNode;
 
-        public List<(IdentifierNode Id, IdentifierNode TypeId, ExpressionNode Expression)> Branches { get; set; }
+        public List<(FormalNode Formal, ExpressionNode Expression)> Branches { get; set; }
 
         public CaseNode(ParserRuleContext context) : base(context)
         {
-            Branches = new List<(IdentifierNode Id, IdentifierNode TypeId, ExpressionNode Expression)>();
+            Branches = new List<(FormalNode Formal, ExpressionNode Expression)>();
         }
 
     }

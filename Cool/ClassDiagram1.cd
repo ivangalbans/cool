@@ -14,17 +14,10 @@
       <FileName>AST\ASTNode\ClassNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cool.AST.ProgramBlockNode" Collapsed="true">
-    <Position X="62" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\ASTNode\ProgramBlockNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Cool.AST.ProgramNode" Collapsed="true">
     <Position X="62" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\ASTNode\ProgramNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -136,14 +129,14 @@
   <Class Name="Cool.AST.AssignmentNode" Collapsed="true">
     <Position X="59.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\Assignment\AssignmentNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.CaseNode" Collapsed="true">
     <Position X="21.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\FlowControl\CaseNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -171,7 +164,7 @@
   <Class Name="Cool.AST.LetNode" Collapsed="true">
     <Position X="17" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\Let\LetNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -283,14 +276,14 @@
   <Class Name="Cool.Parsing.ASTBuilder" Collapsed="true">
     <Position X="0.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAEoZAgAAAAIEBAABAAAAAJABAAwgQAkAQA=</HashCode>
+      <HashCode>AAAFAAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
       <FileName>Parsing\ASTBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CoolBaseVisitor&lt;Result&gt;" Collapsed="true">
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAEoZAgAAAEIEBAABAAAAAJABAAwgQAEAQA=</HashCode>
+      <HashCode>AAAFgAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
       <FileName>Parsing\CoolBaseVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -305,7 +298,7 @@
   <Class Name="CoolParser" Collapsed="true">
     <Position X="70.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AggCHAwa8P8NjgQAQECgDgEGAhFIqAIJQAAAEBXIIAU=</HashCode>
+      <HashCode>AggCHAw68P8NjiQAQECgDgEGABFIqEIJQAAAEAXIIAU=</HashCode>
       <FileName>Parsing\CoolParser.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -340,7 +333,7 @@
   <Interface Name="ICoolVisitor&lt;Result&gt;" Collapsed="true">
     <Position X="69" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAEoZAgAAAEIEBAABAAAAAJABAAwgQAEAQA=</HashCode>
+      <HashCode>AAAFgAAAUAEoZAgAAAEIEBAABAAAAABABAAQgQAEAQA=</HashCode>
       <FileName>Parsing\CoolVisitor.cs</FileName>
     </TypeIdentifier>
   </Interface>

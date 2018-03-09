@@ -38,35 +38,25 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgram([NotNull] CoolParser.ProgramContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>classes</c>
-	/// labeled alternative in <see cref="CoolParser.programBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitClasses([NotNull] CoolParser.ClassesContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>eof</c>
-	/// labeled alternative in <see cref="CoolParser.programBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitEof([NotNull] CoolParser.EofContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="CoolParser.classDefine"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitClassDefine([NotNull] CoolParser.ClassDefineContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>method</c>
-	/// labeled alternative in <see cref="CoolParser.feature"/>.
+	/// Visit a parse tree produced by <see cref="CoolParser.feature"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFeature([NotNull] CoolParser.FeatureContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="CoolParser.method"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitMethod([NotNull] CoolParser.MethodContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>property</c>
-	/// labeled alternative in <see cref="CoolParser.feature"/>.
+	/// Visit a parse tree produced by <see cref="CoolParser.property"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
