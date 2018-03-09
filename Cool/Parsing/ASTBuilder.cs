@@ -92,10 +92,16 @@ namespace Cool.Parsing
         {
             var node = new ClassNode(context);
 
-            IdentifierNode typeClass = new IdentifierNode(context.TYPE(0).Symbol.Line, 
+            var typeClass = new IdentifierNode(context.TYPE(0).Symbol.Line, 
                             context.TYPE(0).Symbol.Column, context.TYPE(0).GetText());
-            IdentifierNode typeInherit = new IdentifierNode(context.TYPE(1).Symbol.Line,
-                            context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
+
+            ASTNode typeInherit;
+
+            if (context.TYPE(1) == null)
+                typeInherit = new NullObject(context);
+            else
+                typeInherit = new IdentifierNode(context.TYPE(1).Symbol.Line,
+                    context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
 
             node.Children.Add(typeClass);
             node.Children.Add(typeInherit);
