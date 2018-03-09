@@ -5,21 +5,10 @@ namespace Cool.AST
 {
     class AttributeNode : FeatureNode
     {
-        public ExpressionNode Expression { get; set; }
+        public FormalNode Formal => Children[0] as FormalNode;
+        public ExpressionNode Expression => Children[1] as ExpressionNode;
 
-        public TypeInfo TypeVar { get; set; }
-
-        public string TextType { get; set; }
-
-        public int LineType { get; set; }
-
-        public int ColumnType { get; set; }
-
-
-        public AttributeNode(ParserRuleContext context) : base(context)
-        {
-
-        }
+        public AttributeNode(ParserRuleContext context) : base(context) { }
 
     }
 }

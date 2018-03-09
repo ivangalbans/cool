@@ -46,7 +46,7 @@ namespace Cool.Parsing
         public override ASTNode VisitAssignment([NotNull] CoolParser.AssignmentContext context)
         {
             var node = new AssignmentNode(context);
-            var nodeId = new IdentifierNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().Symbol.Text);
+            var nodeId = new IdentifierNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
             node.Children.Add(nodeId);
             node.Children.Add(Visit(context.expression()));
             return node;
@@ -222,12 +222,15 @@ namespace Cool.Parsing
 
         public override ASTNode VisitProperty([NotNull] CoolParser.PropertyContext context)
         {
-            return base.VisitProperty(context);
+            var node = new AttributeNode(context);
+            node.Children.Add(Visit(context.formal()));
+            node.Children.Add(Visit(context.expression()));
+            return node;
         }
 
         public override ASTNode VisitString([NotNull] CoolParser.StringContext context)
         {
-            return new StringNode(context.STRING().Symbol.Line, context.STRING().Symbol.Column, context.STRING().Symbol.Text);
+            return new StringNode(context.STRING().Symbol.Line, context.STRING().Symbol.Column, context.STRING().GetText());
         }
 
         public override ASTNode VisitWhile([NotNull] CoolParser.WhileContext context)
