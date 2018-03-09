@@ -6,12 +6,11 @@ namespace Cool.AST
 {
     class ProgramBlockNode : ProgramNode
     {
-        private List<ClassNode> _classNode = new List<ClassNode>();
-        public List<ClassNode> ClassNodes => Children.Select(x => x as ClassNode).ToList();
+        public List<ClassNode> ClassNodes { get; set; }
 
         public ProgramBlockNode(ParserRuleContext context) : base(context)
         {
-
+            ClassNodes = new List<ClassNode>();
         }
     }
 }
