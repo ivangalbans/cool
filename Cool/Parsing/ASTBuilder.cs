@@ -225,17 +225,14 @@ namespace Cool.Parsing
             var node = new CaseNode(context);
             node.Children.Add(Visit(context.expression(0)));
 
-            List<FormalNode> formals = context.formal().Select(x => Visit(x) as FormalNode).ToList();
-            List<ExpressionNode> expressions = new List<ExpressionNode>();
-
-            for (int i = 1; i <= formals.Count; ++i)
-                expressions.Add(Visit(context.expression(i)) as ExpressionNode);
+            var formals = context.formal().Select(x => Visit(x)).ToList();
+            var expressions = context.expression().Skip(1).Select(x => Visit(x)).ToList();
 
             for (int i = 0; i < formals.Count; ++i)
             {
                 node.Children.Add(formals[i]);
                 node.Children.Add(expressions[i]);
-                node.Branches.Add((formals[i], expressions[i]));
+                node.Branches.Add((formals[i] as FormalNode, expressions[i] as ExpressionNode));
             }
 
             return node;
