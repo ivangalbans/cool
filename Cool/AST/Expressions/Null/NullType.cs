@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cool.AST
 {
-    class NullId : IdNode
+
+    class NullType : TypeNode
     {
-        public NullId(int line = 0, int column = 0, string name = "Null-Id-Object") : base(line, column, name) { }
+        public NullType(int line = 0, int column = 0, string name = "Null-Type-Object") : base(line, column, name) { }
     }
 }

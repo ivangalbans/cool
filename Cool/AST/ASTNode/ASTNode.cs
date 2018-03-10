@@ -17,13 +17,13 @@ namespace Cool.AST
         public ASTNode(ParserRuleContext context)
         {   
             Line = context.Start.Line;
-            Column = context.Start.Column + 1;
+            Column = context.Start.Column;
         }
 
         public ASTNode(int line, int column)
         {
             Line = line;
-            Column = column + 1;
+            Column = column;
         }
 
     }

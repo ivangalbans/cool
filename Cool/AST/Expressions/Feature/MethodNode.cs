@@ -1,29 +1,17 @@
-﻿using System.Collections.Generic;
-using Antlr4.Runtime;
-using Cool.Semantics;
+﻿using Antlr4.Runtime;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cool.AST
 {
     class MethodNode : FeatureNode
     {
-        public TypeInfo TypeReturn { get; set; }
+        public IdNode Id => Children[0] as IdNode;
+        public List<FormalNode> Arguments => Children.Skip(1).Reverse().Skip(2).Reverse().Cast<FormalNode>().ToList();
+        public TypeNode TypeReturn => Children[Children.Count - 2] as TypeNode;
+        public ExpressionNode Epxression => Children[Children.Count - 1] as ExpressionNode;
 
-        public string TextTypeReturn { get; set; }
-
-        public int LineTypeReturn { get; set; }
-
-        public int ColumnTypeReturn { get; set; }
-
-        public List<(string TextID, string TextType)> Parameters { get; set; }
-
-        public List<((int LineID, int ColumnID), (int LineType, int ColumnType))> LineColumnFormals { get; set; }
-
-        public ExpressionNode Expression { get; set; }
-
-        public MethodNode(ParserRuleContext context) : base(context)
-        {
-            
-        }
+        public MethodNode(ParserRuleContext context) : base(context) { }
 
     }
 }
