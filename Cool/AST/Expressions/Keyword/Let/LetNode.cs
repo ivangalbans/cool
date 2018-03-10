@@ -1,18 +1,15 @@
 ﻿using Antlr4.Runtime;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Cool.AST
 {
     class LetNode : KeywordNode
     {
-        public List<(IdNode Id, IdNode TypeId, ExpressionNode Expression)> ExpressionsInitials { get; set; }
+        public List<AttributeNode> Initialization => Children.GetRange(0, Children.Count - 1).Cast<AttributeNode>().ToList();
+        public ExpressionNode ExpressionBody => Children[Children.Count - 1] as ExpressionNode;
 
-        public ExpressionNode ExpressionBody { get; set; }
-
-        public LetNode(ParserRuleContext context) : base(context)
-        {
-            ExpressionsInitials = new List<(IdNode Id, IdNode TypeId, ExpressionNode Expression)>();
-        }
+        public LetNode(ParserRuleContext context) : base(context) { }
 
     }
 }

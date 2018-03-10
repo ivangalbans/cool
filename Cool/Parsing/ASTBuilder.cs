@@ -181,7 +181,8 @@ namespace Cool.Parsing
         public override ASTNode VisitLetIn([NotNull] CoolParser.LetInContext context)
         {
             var node = new LetNode(context);
-
+            node.Children.AddRange(from x in context.property() select Visit(x));
+            node.Children.Add(Visit(context.expression()));
             return node;
         }
 

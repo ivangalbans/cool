@@ -8,14 +8,28 @@ namespace Cool
 {
     class Program
     {
+        class PP
+        {
+            public string Name { get; set; }
+
+            public PP(string nn)
+            {
+                Name = nn;
+            }
+        }
+        
+
+
         static void Main(string[] args)
         {
-            int[] a = { 1, 2, 3 , 4, 5, 6, 7, 8, 9, 10};
+            var a = new List<PP>(){ new PP("aaa"), new PP("bbb")};
 
-            foreach(var item in a.Skip(1).Reverse().Skip(2).Reverse().Cast<int>().ToList())
-            {
-                Console.WriteLine(item);
-            }
+            var b = a.GetRange(0, 2);
+
+            b[0].Name = "zzzzzzzzzzzzzzz";
+
+            Console.WriteLine(a[0].Name);
+
 
         }
     }
