@@ -188,7 +188,16 @@ namespace Cool.Parsing
         public override ASTNode VisitMethod([NotNull] CoolParser.MethodContext context)
         {
             var node = new MethodNode(context);
-            
+
+            var idMethod = new IdNode(context, context.ID().GetText());
+            node.Children.Add(idMethod);
+
+            node.Children.AddRange(from x in context.formal() select Visit(x));
+
+            var typeReturn = new TypeNode(context.TYPE().Symbol.Line, context.TYPE().Symbol.Column, context.TYPE().GetText());
+            node.Children.Add(typeReturn);
+
+            node.Children.Add(Visit(context.expression()));
             return node;
         }
         public override ASTNode VisitDispatchExplicit([NotNull] CoolParser.DispatchExplicitContext context)
