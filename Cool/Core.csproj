@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AST\ASTNode\ASTNode.cs" />
     <Compile Include="AST\ASTNode\ClassNode.cs" />
+    <Compile Include="AST\ASTNode\ProgramBlock.cs" />
     <Compile Include="AST\ASTNode\ProgramNode.cs" />
     <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
     <Compile Include="AST\Expressions\Atom\BoolNode.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Parsing\CoolLexer.cs" />
     <Compile Include="Parsing\CoolParser.cs" />
     <Compile Include="Parsing\CoolVisitor.cs" />
+    <Compile Include="Parsing\LexerErrorListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semantics\ItemInfo.cs" />

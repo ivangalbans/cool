@@ -11,8 +11,15 @@ namespace Cool.Parsing
         public override ASTNode VisitProgram([NotNull] CoolParser.ProgramContext context)
         {
             var node = new ProgramNode(context);
+            node.Children.Add(Visit(context.programBlocks()));
+            return node;
+        }
+
+        public override ASTNode VisitProgramBlocks([NotNull] CoolParser.ProgramBlocksContext context)
+        {
+            var node = new ProgramBlock(context);
             node.Children.Add(Visit(context.classDefine()));
-            node.Children.AddRange(Visit(context.program()).Children);
+            node.Children.AddRange(Visit(context.programBlocks()).Children);
             return node;
         }
 
