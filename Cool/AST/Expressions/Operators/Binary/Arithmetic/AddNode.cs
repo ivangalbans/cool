@@ -4,7 +4,9 @@ namespace Cool.AST
 {
     class AddNode : ArithmeticOperation
     {
-        public AddNode(ParserRuleContext context) : base(context) { }
+        public AddNode(ParserRuleContext context) : base(context)
+        {
+        }
 
         public override string OperatorName => "plus";
 

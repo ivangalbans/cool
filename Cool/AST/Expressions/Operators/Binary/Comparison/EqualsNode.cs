@@ -6,7 +6,9 @@ namespace Cool.AST
 {
     class EqualNode : ComparisonOperation
     {
-        public EqualNode(ParserRuleContext context) : base(context) { }
+        public EqualNode(ParserRuleContext context) : base(context)
+        {
+        }
 
         protected override bool SupportType(TypeInfo type)
         {

@@ -4,6 +4,8 @@ namespace Cool.AST
 {
     abstract class KeywordNode : ExpressionNode
     {
-        public KeywordNode(ParserRuleContext context) : base(context) { }
+        public KeywordNode(ParserRuleContext context) : base(context)
+        {
+        }
     }
 }

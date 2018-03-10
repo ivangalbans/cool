@@ -9,7 +9,9 @@ namespace Cool.AST
         public List<AttributeNode> Initialization => Children.GetRange(0, Children.Count - 1).Cast<AttributeNode>().ToList();
         public ExpressionNode ExpressionBody => Children[Children.Count - 1] as ExpressionNode;
 
-        public LetNode(ParserRuleContext context) : base(context) { }
+        public LetNode(ParserRuleContext context) : base(context)
+        {
+        }
 
     }
 }

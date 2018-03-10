@@ -8,7 +8,9 @@ namespace Cool.AST
         public ExpressionNode Body => Children[1] as ExpressionNode;
         public ExpressionNode ElseBody => Children[2] as ExpressionNode;
 
-        public IfNode(ParserRuleContext context) : base(context) { }
+        public IfNode(ParserRuleContext context) : base(context)
+        {
+        }
 
     }
 }

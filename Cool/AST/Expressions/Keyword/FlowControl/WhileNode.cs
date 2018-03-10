@@ -7,7 +7,9 @@ namespace Cool.AST
         public ExpressionNode Condition => Children[0] as ExpressionNode;
         public ExpressionNode Body => Children[1] as ExpressionNode;
 
-        public WhileNode(ParserRuleContext context) : base(context) { }
+        public WhileNode(ParserRuleContext context) : base(context)
+        {
+        }
 
     }
 }

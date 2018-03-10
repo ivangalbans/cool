@@ -6,7 +6,9 @@ namespace Cool.AST
     {
         public TypeNode TypeId => Children[0] as TypeNode;
 
-        public NewNode(ParserRuleContext context) : base(context) { }
+        public NewNode(ParserRuleContext context) : base(context)
+        {
+        }
 
     }
 }

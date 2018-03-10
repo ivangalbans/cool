@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
@@ -9,6 +10,7 @@ namespace Cool.AST
         public BoolNode(ParserRuleContext context, string text) : base(context)
         {
             Value = bool.Parse(text);
+            Type = Types.Bool;
         }
     }
 }

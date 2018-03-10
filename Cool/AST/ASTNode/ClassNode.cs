@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cool.AST
 {
     class ClassNode : ASTNode
     {
-        public IdNode TypeClass => Children[0] as IdNode;
+        public TypeNode TypeClass => Children[0] as TypeNode;
 
-        public IdNode TypeInherits => Children[1] as IdNode;
+        public TypeNode TypeInherits => Children[1] as TypeNode;
 
-        public List<FeatureNode> FeatureNodes { get; set; }
+        public List<FeatureNode> FeatureNodes => Children.Skip(2).Cast<FeatureNode>().ToList();
 
         public ClassNode(ParserRuleContext context) : base(context)
         {
-            FeatureNodes = new List<FeatureNode>();
         }
 
     }

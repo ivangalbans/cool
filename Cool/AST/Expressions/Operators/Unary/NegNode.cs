@@ -5,6 +5,7 @@ namespace Cool.AST
 {
     class NegNode : UnaryOperationNode
     {
+        public override string OperatorName => "negative operation";
 
         public NegNode(ParserRuleContext context) : base(context)
         {

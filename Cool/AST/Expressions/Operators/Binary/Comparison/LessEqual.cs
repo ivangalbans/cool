@@ -6,7 +6,9 @@ namespace Cool.AST
 {
     class LessEqual : ComparisonOperation
     {
-        public LessEqual(ParserRuleContext context) : base(context) { }
+        public LessEqual(ParserRuleContext context) : base(context)
+        {
+        }
 
         protected override bool SupportType(TypeInfo type)
         {

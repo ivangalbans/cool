@@ -6,11 +6,10 @@ namespace Cool.AST
 {
     class BlockNode : ExpressionNode
     {
-        public List<ExpressionNode> Expressions { get; set; }
+        public List<ExpressionNode> ExpressionsBlock => Children.Cast<ExpressionNode>().ToList();
 
         public BlockNode(ParserRuleContext context) : base(context)
         {
-            Expressions = new List<ExpressionNode>();
         }
     }
 }

@@ -4,7 +4,9 @@ namespace Cool.AST
 {
     class DivNode : ArithmeticOperation
     {
-        public DivNode(ParserRuleContext context) : base(context) { }
+        public DivNode(ParserRuleContext context) : base(context)
+        {
+        }
 
         public override string OperatorName => "divide";
 
