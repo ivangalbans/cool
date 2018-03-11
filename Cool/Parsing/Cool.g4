@@ -4,11 +4,8 @@ grammar Cool;
     Parser Rules
 */
 
-program			:		programBlocks;
-
-programBlocks   :       classDefine ';' programBlocks																						
-                |       EOF                                                                                                         
-                ;
+program			:       (classDefine ';')+ EOF
+				;
 
 classDefine     :       CLASS TYPE (INHERITS TYPE)? '{' (feature ';')* '}'
                 ;
@@ -30,7 +27,7 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       IF expression THEN expression ELSE expression FI                                                            #if
                 |       WHILE expression LOOP expression POOL                                                                       #while
                 |       '{' (expression ';')+ '}'                                                                                   #block
-                |       LET property? (',' property)* IN expression																	#letIn
+                |       LET property (',' property)* IN expression																	#letIn
                 |       CASE expression OF (formal IMPLY expression ';')+ ESAC														#case
                 |       NEW TYPE                                                                                                    #new
                 |       '~' expression                                                                                              #negative

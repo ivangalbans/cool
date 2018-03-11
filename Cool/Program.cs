@@ -17,7 +17,9 @@ namespace Cool
         {
             //Console.WriteLine("Cool Compiler version 1.0\nCopyright (C) 2018 Ivan Galban Smith\nFaculty of Mathematics and Computer Science\nUniversity of Havana");
 
-            string inputPath = "../../../Examples/success/hello_world.cl";
+            string preffix = "../../../Examples/success/";
+            string file = "life.cl";
+            string inputPath = preffix + file;
 
             ASTNode root = ParseInput(inputPath);
 
@@ -26,7 +28,7 @@ namespace Cool
 
         private static ASTNode ParseInput(string inputPath)
         {
-            try
+            //try
             {
                 var input = new AntlrFileStream(inputPath);
                 var lexer = new CoolLexer(input);
@@ -36,6 +38,14 @@ namespace Cool
                 lexer.AddErrorListener(new LexerErrorListener(errors));
 
                 var tokens = new CommonTokenStream(lexer);
+
+                /* Print Tokens*/
+                /*foreach (var item in lexer.GetAllTokens())
+                {
+                    Console.WriteLine(item);
+                }
+                */
+
                 var parser = new CoolParser(tokens);
 
                 parser.RemoveErrorListeners();
@@ -43,7 +53,9 @@ namespace Cool
 
                 IParseTree tree = parser.program();
 
-                if(errors.Any())
+                //Console.WriteLine(tree.ToStringTree(parser));
+
+                if (errors.Any())
                 {
                     Console.WriteLine();
                     foreach (var item in errors)
@@ -55,12 +67,12 @@ namespace Cool
                 ASTNode ast = astBuilder.Visit(tree);
                 return ast;
             }
-            catch (Exception e)
+            /*catch (Exception e)
             {
 
                 Console.WriteLine(e.Message);
                 return null;
-            }
+            }*/
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     internal class ProgramNode : ASTNode
     {
-        public ProgramBlock ProgramBlock => Children[0] as ProgramBlock;
+        public List<ClassNode> Classes => Children.Cast<ClassNode>().ToList();
 
         public ProgramNode(ParserRuleContext context) : base(context)
         {

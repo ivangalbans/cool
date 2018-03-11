@@ -38,12 +38,6 @@ public interface ICoolVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgram([NotNull] CoolParser.ProgramContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="CoolParser.programBlocks"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitProgramBlocks([NotNull] CoolParser.ProgramBlocksContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="CoolParser.classDefine"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

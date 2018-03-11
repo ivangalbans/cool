@@ -20,7 +20,7 @@ namespace Cool.Parsing
 
         public void SyntaxError(TextWriter output, IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            _errors.Add($"({line}, {charPositionInLine}): {msg}");
+            _errors.Add($"({line}, {charPositionInLine + 1}): {msg}");
         }
     }
 
@@ -35,7 +35,7 @@ namespace Cool.Parsing
 
         public override void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            _errors.Add($"({line}, {charPositionInLine}): {msg}");
+            _errors.Add($"({line}, {charPositionInLine + 1}): {msg}");
         }
 
     }

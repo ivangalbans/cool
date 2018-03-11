@@ -19,7 +19,7 @@ namespace Cool.AST
 
         private static NullType nullType = new NullType();
 
-        public static NullType NULL => nullType;
+        public new static NullType NULL => nullType;
 
     }
 }
