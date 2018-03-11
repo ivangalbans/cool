@@ -136,7 +136,8 @@ Class Main inherits IO {
 
 	main() : Object {
 	   {
-	     iota(20).rev().sort().print_list();
+	     out_string("How many numbers to sort?");
+	     iota(in_int()).rev().sort().print_list();
 	   }
 	};
 };			    

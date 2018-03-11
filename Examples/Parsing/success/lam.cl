@@ -10,7 +10,7 @@
       |  \x.e	       a function with argument x
       |  e1@e2	       apply function e1 to argument e2
 
-  Jeff Foster
+  Jeff Foster (jfoster@cs.berkeley.edu)
   March 24, 2000
 *)
 

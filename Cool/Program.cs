@@ -20,7 +20,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/success/";
             string preffixFail = "../../../Examples/fail/";
 
-            string file = "multiplemethoderrors.cl";
+            string file = "equalsassociativity.cl";
             string inputPath = preffixFail + file;
 
             ASTNode root = ParseInput(inputPath);
@@ -53,9 +53,15 @@ namespace Cool
                 parser.RemoveErrorListeners();
                 parser.AddErrorListener(new ParserErrorListener(errors));
 
+                
+
                 IParseTree tree = parser.program();
 
-                //Console.WriteLine(tree.ToStringTree(parser));
+                Console.WriteLine(tree.ToStringTree(parser));
+
+                Console.WriteLine();
+                Console.WriteLine(errors.Count);
+                Console.WriteLine();
 
                 if (errors.Any())
                 {

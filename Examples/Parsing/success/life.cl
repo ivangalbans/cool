@@ -1,10 +1,13 @@
 (* The Game of Life 
    Tendo Kayiira, Summer '95
    With code taken from /private/cool/class/examples/cells.cl
+
  This introduction was taken off the internet. It gives a brief 
  description of the Game Of Life. It also gives the rules by which 
  this particular game follows.
+
 	Introduction
+
    John Conway's Game of Life is a mathematical amusement, but it 
    is also much more: an insight into how a system of simple 
    cellualar automata can create complex, odd, and often aesthetically 
@@ -37,13 +40,18 @@
    Repeat for as many generations as desired. 
 
  *)
+ 
+
 class Board inherits IO { 
+ 
  rows : Int;
  columns : Int;
  board_size : Int;
+
  size_of_board(initial : String) : Int {
    initial.length()
  };
+
  board_init(start : String) : SELF_TYPE {
    (let size :Int  <- size_of_board(start) in
     {
@@ -96,8 +104,12 @@ class Board inherits IO {
  };
 
 };
+
+
+
 class CellularAutomaton inherits Board {
     population_map : String;
+   
     init(map : String) : SELF_TYPE {
         {
             population_map <- map;
@@ -105,7 +117,12 @@ class CellularAutomaton inherits Board {
             self;
         }
     };
+
+
+
+   
     print() : SELF_TYPE {
+        
 	(let i : Int <- 0 in
 	(let num : Int <- board_size in
 	{
@@ -122,16 +139,19 @@ class CellularAutomaton inherits Board {
 	}
 	) ) 
     };
+   
     num_cells() : Int {
         population_map.length()
     };
+   
     cell(position : Int) : String {
 	if board_size - 1 < position then
-		5
+		" "
 	else 
         	population_map.substr(position, 1)
 	fi
     };
+   
  north(position : Int): String {
 	if (position - columns) < 0 then
 	      " "	                       
@@ -139,6 +159,7 @@ class CellularAutomaton inherits Board {
 	   cell(position - columns)
 	fi
  };
+
  south(position : Int): String {
 	if board_size < (position + columns) then
 	      " "                     
@@ -146,6 +167,7 @@ class CellularAutomaton inherits Board {
 	   cell(position + columns)
 	fi
  };
+
  east(position : Int): String {
 	if (((position + 1) /columns ) * columns) = (position + 1) then
 	      " "                
@@ -153,6 +175,7 @@ class CellularAutomaton inherits Board {
 	   cell(position + 1)
 	fi 
  };
+
  west(position : Int): String {
 	if position = 0 then
 	      " "
@@ -163,6 +186,7 @@ class CellularAutomaton inherits Board {
 	      cell(position - 1)
 	fi fi
  };
+
  northwest(position : Int): String {
 	if (position - columns) < 0 then
 	      " "	                       
@@ -172,6 +196,7 @@ class CellularAutomaton inherits Board {
 		north(position - 1)
 	fi fi
  };
+
  northeast(position : Int): String {
 	if (position - columns) < 0 then
 	      " "	
@@ -181,6 +206,7 @@ class CellularAutomaton inherits Board {
 	       north(position + 1)
 	fi fi
  };
+
  southeast(position : Int): String {
 	if board_size < (position + columns) then
 	      " "                     
@@ -190,6 +216,7 @@ class CellularAutomaton inherits Board {
 	       south(position + 1)
 	fi fi
  };
+
  southwest(position : Int): String {
 	if board_size < (position + columns) then
 	      " "                     
@@ -199,6 +226,7 @@ class CellularAutomaton inherits Board {
 	       south(position - 1)
 	fi fi
  };
+
  neighbors(position: Int): Int { 
  	{
 	     if north(position) = "X" then 1 else 0 fi
@@ -211,9 +239,13 @@ class CellularAutomaton inherits Board {
 	     + if southwest(position) = "X" then 1 else 0 fi;
 	 }
  };
+
+ 
 (* A cell will live if 2 or 3 of it's neighbors are alive. It dies 
    otherwise. A cell is born if only 3 of it's neighbors are alive. *)
+    
     cell_at_next_evolution(position : Int) : String {
+
 	if neighbors(position) = 3 then
 		"X"
 	else
@@ -227,6 +259,8 @@ class CellularAutomaton inherits Board {
 		"-"
 	fi fi
     };
+  
+
     evolve() : SELF_TYPE {
         (let position : Int <- 0 in
         (let num : Int <- num_cells() in
@@ -243,6 +277,7 @@ class CellularAutomaton inherits Board {
             }
         ) ) )
     };
+
 (* This is where the background pattern is detremined by the user. More 
    patterns can be added as long as whoever adds keeps the board either
    3x5, 4x5, 5x5, 3x7, 7x4, 4x4 with the row first then column. *) 
@@ -324,6 +359,10 @@ class CellularAutomaton inherits Board {
    );
  }
  };
+
+
+
+
  prompt() : Bool { 
  {
   (let ans : String in
@@ -341,6 +380,8 @@ class CellularAutomaton inherits Board {
   );
  }
  };
+
+
  prompt2() : Bool { 
   (let ans : String in
    {
@@ -356,9 +397,13 @@ class CellularAutomaton inherits Board {
    }
   )
  };
+
+
 };
+
 class Main inherits CellularAutomaton {
     cells : CellularAutomaton;
+   
     main() : SELF_TYPE {
         {
 	 (let continue : Bool  in
@@ -388,3 +433,4 @@ class Main inherits CellularAutomaton {
       }  ) ); }
     };
 };
+
