@@ -100,6 +100,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semantics\ItemInfo.cs" />
+    <Compile Include="Semantics\Scope.cs" />
+    <Compile Include="Semantics\SemanticError.cs" />
     <Compile Include="Semantics\TypeInfo.cs" />
     <Compile Include="Semantics\Types.cs" />
   </ItemGroup>

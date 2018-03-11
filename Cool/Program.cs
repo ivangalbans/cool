@@ -7,25 +7,36 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Cool.AST;
 using Cool.Parsing;
+using Cool.Semantics;
 
 namespace Cool
 {
     class Program
     {
+        static readonly int ErrorCode = 1;
 
         static void Main(string[] args)
         {
             //Console.WriteLine("Cool Compiler version 1.0\nCopyright (C) 2018 Ivan Galban Smith\nFaculty of Mathematics and Computer Science\nUniversity of Havana");
 
-            string preffixSuccess = "../../../Examples/success/";
-            string preffixFail = "../../../Examples/fail/";
+            string preffixSuccess = "../../../Examples/Parsing/success/";
+            string preffixFail = "../../../Examples/Parsing/fail/";
 
-            string file = "equalsassociativity.cl";
-            string inputPath = preffixFail + file;
+            string file = "life.cl";
+            string inputPath = preffixSuccess + file;
+            string outputPath = "";
+
 
             ASTNode root = ParseInput(inputPath);
+            var scope = new Scope();
 
+            if(root == null || !CheckSemantics(root, scope))
+            {
+                Environment.ExitCode = ErrorCode;
+                return;
+            }
 
+            GenerateCode(root, outputPath, scope);
         }
 
         private static ASTNode ParseInput(string inputPath)
@@ -40,28 +51,12 @@ namespace Cool
                 lexer.AddErrorListener(new LexerErrorListener(errors));
 
                 var tokens = new CommonTokenStream(lexer);
-
-                /* Print Tokens*/
-                /*foreach (var item in lexer.GetAllTokens())
-                {
-                    Console.WriteLine(item);
-                }
-                */
-
                 var parser = new CoolParser(tokens);
 
                 parser.RemoveErrorListeners();
                 parser.AddErrorListener(new ParserErrorListener(errors));
 
-                
-
                 IParseTree tree = parser.program();
-
-                Console.WriteLine(tree.ToStringTree(parser));
-
-                Console.WriteLine();
-                Console.WriteLine(errors.Count);
-                Console.WriteLine();
 
                 if (errors.Any())
                 {
@@ -82,5 +77,16 @@ namespace Cool
                 return null;
             }*/
         }
+
+        private static bool CheckSemantics(ASTNode root, Scope scope)
+        {
+            return true;
+        }
+
+        private static void GenerateCode(ASTNode root, string outputPath, Scope scope)
+        {
+
+        }
+        
     }
 }
