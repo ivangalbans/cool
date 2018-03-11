@@ -96,7 +96,7 @@
     <Compile Include="Parsing\CoolLexer.cs" />
     <Compile Include="Parsing\CoolParser.cs" />
     <Compile Include="Parsing\CoolVisitor.cs" />
-    <Compile Include="Parsing\LexerErrorListener.cs" />
+    <Compile Include="Parsing\ErrorListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semantics\ItemInfo.cs" />

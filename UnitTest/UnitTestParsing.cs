@@ -1,61 +1,69 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Core;
-using System.IO;
-using ErrorLogger;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
+using Cool.Parsing;
+using System;
 using System.Linq;
-using Parsing;
-using Cool_Grammar;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace UnitTest
 {
     [TestClass]
     public class UnitTestParsing
     {
-        static CoolGrammar grammar = new CoolGrammar();
-        static CoolTable table = new CoolTable(grammar._coolGrammar);
-        static CoolLexer lexer = new CoolLexer();
+        CommonTokenStream tokens;
+        CoolParser parser;
+
+
+        private List<string> ParsingFile(string file)
+        {
+            var input = new AntlrFileStream(file);
+            var lexer = new CoolLexer(input);
+            var errors = new List<string>();
+
+            lexer.RemoveErrorListeners();
+            lexer.AddErrorListener(new LexerErrorListener(errors));
+
+            tokens = new CommonTokenStream(lexer);
+            parser = new CoolParser(tokens);
+
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new ParserErrorListener(errors));
+
+            return errors;
+        }
 
         [TestMethod]
-        public void ParsingSuccess()
+        public void TestMethodParsingSuccess()
         {
-            DirectoryInfo directory = new DirectoryInfo("../../../Examples/success/");
+            string directorySuccess = "../../../Examples/success/";
+            DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 
             foreach (var file in files)
             {
-                Errors.Clear();
-
-                StreamReader sr = new StreamReader(file.FullName);
-                var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
-
-                table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
-
-                foreach (var error in Errors.Report())
-                    Assert.Fail(file.Name + "    " + error);
+                List<string> errors = ParsingFile(file.FullName);
+                foreach (var error in errors)
+                {
+                    Assert.Fail(file.Name + " " + error);
+                }
             }
         }
 
         [TestMethod]
-        public void ParsingFail()
+        public void TestMethodParsingFail()
         {
-            DirectoryInfo directory = new DirectoryInfo("../../../Examples/fail/");
+            string directoryFail = "../../../Examples/fail/";
+            DirectoryInfo directory = new DirectoryInfo(directoryFail);
             FileInfo[] files = directory.GetFiles();
 
             foreach (var file in files)
             {
-                Errors.Clear();
-
-                StreamReader sr = new StreamReader(file.FullName);
-                var input = sr.ReadToEnd();
-                var tokens = lexer.Lex(input, grammar._coolGrammar).ToList();
-
-                table.table.TryParse(grammar._coolGrammar, tokens, out DerivationTree tree);
-
-                Assert.IsTrue(Errors.HasError());
+                List<string> errors = ParsingFile(file.FullName);
+                Assert.IsTrue(errors.Any());
             }
         }
-
     }
 }

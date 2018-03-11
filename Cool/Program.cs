@@ -17,9 +17,11 @@ namespace Cool
         {
             //Console.WriteLine("Cool Compiler version 1.0\nCopyright (C) 2018 Ivan Galban Smith\nFaculty of Mathematics and Computer Science\nUniversity of Havana");
 
-            string preffix = "../../../Examples/success/";
-            string file = "life.cl";
-            string inputPath = preffix + file;
+            string preffixSuccess = "../../../Examples/success/";
+            string preffixFail = "../../../Examples/fail/";
+
+            string file = "multiplemethoderrors.cl";
+            string inputPath = preffixFail + file;
 
             ASTNode root = ParseInput(inputPath);
 

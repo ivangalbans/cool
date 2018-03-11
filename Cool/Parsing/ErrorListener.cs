@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Parsing
 {
-    class LexerErrorListener : IAntlrErrorListener<int>
+    public class LexerErrorListener : IAntlrErrorListener<int>
     {
         List<string> _errors;
 
@@ -24,7 +24,7 @@ namespace Cool.Parsing
         }
     }
 
-    class ParserErrorListener : BaseErrorListener
+    public class ParserErrorListener : BaseErrorListener
     {
         public List<string> _errors;
 

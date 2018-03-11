@@ -24,7 +24,7 @@
   <Class Name="Cool.AST.ProgramNode" Collapsed="true">
     <Position X="69.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\ASTNode\ProgramNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -129,7 +129,7 @@
   <Class Name="Cool.AST.ExpressionNode" Collapsed="true">
     <Position X="36.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAACAA=</HashCode>
       <FileName>AST\Expressions\ExpressionNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -326,7 +326,7 @@
     <Position X="79.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parsing\LexerErrorListener.cs</FileName>
+      <FileName>Parsing\ErrorListener.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -334,7 +334,7 @@
     <Position X="76.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Parsing\LexerErrorListener.cs</FileName>
+      <FileName>Parsing\ErrorListener.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CoolBaseVisitor&lt;Result&gt;" Collapsed="true">
