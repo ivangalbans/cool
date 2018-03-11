@@ -99,11 +99,13 @@
     <Compile Include="Parsing\ErrorListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Semantics\ItemInfo.cs" />
-    <Compile Include="Semantics\Scope.cs" />
-    <Compile Include="Semantics\SemanticError.cs" />
-    <Compile Include="Semantics\TypeInfo.cs" />
-    <Compile Include="Semantics\Types.cs" />
+    <Compile Include="Semantics\Info\FunctionInfo.cs" />
+    <Compile Include="Semantics\Info\ItemInfo.cs" />
+    <Compile Include="Semantics\Info\VariableInfo.cs" />
+    <Compile Include="Semantics\Scope\Scope.cs" />
+    <Compile Include="Semantics\Error\SemanticError.cs" />
+    <Compile Include="Semantics\Info\TypeInfo.cs" />
+    <Compile Include="Semantics\Info\Types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -113,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeGeneration\" />
+    <Folder Include="Semantics\Visitor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

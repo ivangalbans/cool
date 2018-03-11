@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    public class TypeInfo : ItemInfo
+    class TypeInfo : ItemInfo
     {
         public TypeInfo(string name) : base(name, Types.Void) { }
 
