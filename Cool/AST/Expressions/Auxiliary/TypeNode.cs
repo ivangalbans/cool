@@ -17,9 +17,16 @@ namespace Cool.AST
             TypeId = typeId;
         }
 
+        #region NULL
         private static NullType nullType = new NullType();
 
         public new static NullType NULL => nullType;
+
+        internal class NullType : TypeNode
+        {
+            public NullType(int line = 0, int column = 0, string name = "Null-Type-Object") : base(line, column, name) { }
+        }
+        #endregion
 
     }
 }

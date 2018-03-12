@@ -10,7 +10,7 @@ namespace Cool.Semantics
     class TypeInfo
     {
         public string Name { get; set; }
-        public TypeInfo Parent { get; set; }
+        public TypeInfo Parent { get; set; } = NULL;
         public ClassNode ClassReference { get; set; }
 
 
@@ -19,21 +19,35 @@ namespace Cool.Semantics
         /// </summary>
         /// <param name="other">Represent the second type to check</param>
         /// <returns>True if the first type inherit of the second</returns>
-        public bool Inherit(TypeInfo other)
+        public virtual bool Inherit(TypeInfo other)
         {
             if (Name == other.Name) return true;
-            return Parent is null ? false : Parent.Inherit(other);
+            return Parent.Inherit(other);
         }
 
         public static bool operator <=(TypeInfo a, TypeInfo b)
         {
-            return a is null || b is null ? false : a.Inherit(b);
+            return a.Inherit(b);
         }
 
         public static bool operator >=(TypeInfo a, TypeInfo b)
         {
-            return a is null || b is null ? false : a.Inherit(b);
+            return b.Inherit(a);
         }
+
+        #region NULL
+        private static NullTypeInfo nullTypeInfo = new NullTypeInfo();
+
+        public static NullTypeInfo NULL => nullTypeInfo;
+
+        internal class NullTypeInfo : TypeInfo
+        {
+            public override bool Inherit(TypeInfo other)
+            {
+                return false;
+            }
+        }
+        #endregion
 
     }
 }

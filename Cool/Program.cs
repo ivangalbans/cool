@@ -15,10 +15,24 @@ namespace Cool
     {
         //static readonly int ErrorCode = 1;
 
+        class PP
+        {
+            public string Name { get; set; }
+        }
+
+
         static void Main(string[] args)
         {
-            //Console.WriteLine("Cool Compiler version 1.0\nCopyright (C) 2018 Ivan Galban Smith\nFaculty of Mathematics and Computer Science\nUniversity of Havana");
-            Console.WriteLine("All Rights Reserved.\n See the file README a full copyright notice.");
+            /*Console.WriteLine("Cool Language Compiler. Version 1.0");
+            Console.WriteLine("Faculty of Mathematics and Computer Science");
+            Console.WriteLine("University of Havana");
+            Console.WriteLine();
+            Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
+            Console.WriteLine("All Rights Reserved.\n");*/
+
+            PP p = new PP();
+            Console.WriteLine(p.Name);
+
             /*string preffixSuccess = "../../../Examples/Parsing/success/";
             string preffixFail = "../../../Examples/Parsing/fail/";
 
@@ -38,25 +52,7 @@ namespace Cool
 
             GenerateCode(root, outputPath, scope);*/
 
-            PP p = new PP();
-
-            Console.WriteLine(PP.N);
-            new PP();
-            Console.WriteLine(PP.N);
-
         }
-
-        class PP
-        {
-            public static int N = 0;
-
-            static PP()
-            {
-                N++;
-            }
-
-        }
-
 
         /*private static ASTNode ParseInput(string inputPath)
         {
