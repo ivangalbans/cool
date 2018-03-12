@@ -35,6 +35,16 @@ namespace Cool.Semantics
             return b.Inherit(a);
         }
 
+        public static bool operator ==(TypeInfo a, TypeInfo b)
+        {
+            return a.Name == b.Name;
+        }
+
+        public static bool operator !=(TypeInfo a, TypeInfo b)
+        {
+            return !(a == b);
+        }
+
         #region NULL
         private static NullTypeInfo nullTypeInfo = new NullTypeInfo();
 

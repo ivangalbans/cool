@@ -49,7 +49,8 @@ namespace Cool.Semantics
             {
                 bool ok = true;
                 for (int i = 0; i < args.Length; ++i)
-                    if (!(args[i] <= _functions[name].Args[i]))
+                    //the type of parameters must be equal each one.
+                    if ((args[i] != _functions[name].Args[i]))
                         ok = false;
                 if(ok)
                 {
@@ -64,27 +65,54 @@ namespace Cool.Semantics
 
         public bool IsDefinedType(string name, out TypeInfo type)
         {
-            throw new NotImplementedException();
+            return DeclaredTypes.TryGetValue(name, out type);
         }
 
         public bool Define(string name, TypeInfo type)
         {
-            throw new NotImplementedException();
+            if (_variables.ContainsKey(name))
+                return false;
+            _variables.Add(name, type);
+            return true;
         }
 
         public bool Define(string name, TypeInfo[] args, TypeInfo type)
         {
-            throw new NotImplementedException();
+            TypeInfo tmp = TypeInfo.NULL;
+
+            if(IsDefined(name, args, out tmp))
+            {
+                //Cool not support overload in the functions
+                if (_functions.ContainsKey(name))
+                    return false;
+                
+                //Cool support inherited functions wich same params type and type
+                if (tmp != type)
+                    return false;
+                _functions[name] = (args, type);
+                return true;
+            }
+
+            //Create functions by first time
+            _functions[name] = (args, type);
+            return true;
         }
 
         public bool Change(string name, TypeInfo type)
         {
-            throw new NotImplementedException();
+            if (!_variables.ContainsKey(name))
+                return false;
+            _variables[name] = type;
+            return true;
         }
 
         public IScope CreateChild()
         {
-            throw new NotImplementedException();
+            return new Scope()
+            {
+                Parent = this,
+                Type = this.Type
+            };
         }
 
         #region
