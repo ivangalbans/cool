@@ -10,7 +10,6 @@ namespace Cool.AST
         public IntNode(ParserRuleContext context, string text) : base(context)
         {
             Value = int.Parse(text);
-            Type = Types.Int;
         }
 
     }

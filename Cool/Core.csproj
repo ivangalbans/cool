@@ -99,13 +99,10 @@
     <Compile Include="Parsing\ErrorListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Semantics\Info\FunctionInfo.cs" />
-    <Compile Include="Semantics\Info\ItemInfo.cs" />
-    <Compile Include="Semantics\Info\VariableInfo.cs" />
+    <Compile Include="Semantics\Info\TypeInfo.cs" />
+    <Compile Include="Semantics\Scope\IScope.cs" />
     <Compile Include="Semantics\Scope\Scope.cs" />
     <Compile Include="Semantics\Error\SemanticError.cs" />
-    <Compile Include="Semantics\Info\TypeInfo.cs" />
-    <Compile Include="Semantics\Info\Types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

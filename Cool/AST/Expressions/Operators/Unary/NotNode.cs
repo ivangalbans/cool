@@ -9,7 +9,6 @@ namespace Cool.AST
 
         public NotNode(ParserRuleContext context) : base(context)
         {
-            Type = Types.Bool;
         }
 
     }

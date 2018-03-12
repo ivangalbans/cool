@@ -9,10 +9,5 @@ namespace Cool.AST
         public Less(ParserRuleContext context) : base(context)
         {
         }
-
-        protected override bool SupportType(TypeInfo type)
-        {
-            return new[] { Types.Int, Types.String }.Contains(type);
-        }
     }
 }

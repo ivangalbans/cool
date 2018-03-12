@@ -9,7 +9,6 @@ namespace Cool.AST
 
         public StringNode(ParserRuleContext context, string text) : base(context)
         {
-            Type = Types.String;
             Text = text;
         }
     }

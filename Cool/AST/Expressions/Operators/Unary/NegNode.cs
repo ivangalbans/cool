@@ -9,7 +9,6 @@ namespace Cool.AST
 
         public NegNode(ParserRuleContext context) : base(context)
         {
-            Type = Types.Int;
         }
 
     }

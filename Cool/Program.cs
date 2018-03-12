@@ -13,13 +13,13 @@ namespace Cool
 {
     class Program
     {
-        static readonly int ErrorCode = 1;
+        //static readonly int ErrorCode = 1;
 
         static void Main(string[] args)
         {
             //Console.WriteLine("Cool Compiler version 1.0\nCopyright (C) 2018 Ivan Galban Smith\nFaculty of Mathematics and Computer Science\nUniversity of Havana");
-
-            string preffixSuccess = "../../../Examples/Parsing/success/";
+            Console.WriteLine("All Rights Reserved.\n See the file README a full copyright notice.");
+            /*string preffixSuccess = "../../../Examples/Parsing/success/";
             string preffixFail = "../../../Examples/Parsing/fail/";
 
             string file = "life.cl";
@@ -36,10 +36,29 @@ namespace Cool
                 return;
             }
 
-            GenerateCode(root, outputPath, scope);
+            GenerateCode(root, outputPath, scope);*/
+
+            PP p = new PP();
+
+            Console.WriteLine(PP.N);
+            new PP();
+            Console.WriteLine(PP.N);
+
         }
 
-        private static ASTNode ParseInput(string inputPath)
+        class PP
+        {
+            public static int N = 0;
+
+            static PP()
+            {
+                N++;
+            }
+
+        }
+
+
+        /*private static ASTNode ParseInput(string inputPath)
         {
             //try
             {
@@ -75,10 +94,10 @@ namespace Cool
 
                 Console.WriteLine(e.Message);
                 return null;
-            }*/
-        }
+            }
+        }*/
 
-        private static bool CheckSemantics(ASTNode root, Scope scope)
+        /*private static bool CheckSemantics(ASTNode root, Scope scope)
         {
             return true;
         }
@@ -86,7 +105,7 @@ namespace Cool
         private static void GenerateCode(ASTNode root, string outputPath, Scope scope)
         {
 
-        }
+        }*/
         
     }
 }

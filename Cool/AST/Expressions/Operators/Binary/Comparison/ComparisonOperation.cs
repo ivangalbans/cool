@@ -7,10 +7,7 @@ namespace Cool.AST
     {
         public ComparisonOperation(ParserRuleContext context) : base(context)
         {
-            Type = Types.Int;
         }
-
-        protected abstract bool SupportType(TypeInfo type);
 
     }
 }

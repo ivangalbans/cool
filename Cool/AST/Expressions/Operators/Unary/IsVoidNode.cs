@@ -9,7 +9,6 @@ namespace Cool.AST
 
         public IsVoidNode(ParserRuleContext context) : base(context)
         {
-            Type = Types.Void;
         }
 
     }

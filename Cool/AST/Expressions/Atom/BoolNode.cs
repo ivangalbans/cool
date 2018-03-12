@@ -10,7 +10,6 @@ namespace Cool.AST
         public BoolNode(ParserRuleContext context, string text) : base(context)
         {
             Value = bool.Parse(text);
-            Type = Types.Bool;
         }
     }
 }

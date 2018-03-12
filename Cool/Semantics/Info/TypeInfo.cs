@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cool.AST;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,23 +7,33 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    class TypeInfo : ItemInfo
+    class TypeInfo
     {
-        public TypeInfo(string name) : base(name, Types.Void) { }
+        public string Name { get; set; }
+        public TypeInfo Parent { get; set; }
+        public ClassNode ClassReference { get; set; }
 
-        static public bool operator ==(TypeInfo a, TypeInfo b)
+
+        /// <summary>
+        /// Check if a type inherit of other type in the hierarchy of the program.
+        /// </summary>
+        /// <param name="other">Represent the second type to check</param>
+        /// <returns>True if the first type inherit of the second</returns>
+        public bool Inherit(TypeInfo other)
         {
-            return a.Equals(b) ||
-                (!a.Equals(Types.Void) && !b.Equals(Types.Void) &&
-                !a.Equals(Types.Int) && !b.Equals(Types.Int) &&
-                (a.Equals(Types.Bool) || b.Equals(Types.Bool)));
+            if (Name == other.Name) return true;
+            return Parent is null ? false : Parent.Inherit(other);
         }
 
-        static public bool operator !=(TypeInfo a, TypeInfo b)
+        public static bool operator <=(TypeInfo a, TypeInfo b)
         {
-            return !(a == b);
+            return a is null || b is null ? false : a.Inherit(b);
         }
 
-        public override string ToString() => Name;
+        public static bool operator >=(TypeInfo a, TypeInfo b)
+        {
+            return a is null || b is null ? false : a.Inherit(b);
+        }
+
     }
 }
