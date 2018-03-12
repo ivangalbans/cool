@@ -132,7 +132,11 @@ namespace Cool.Semantics
 
             public IScope CreateChild()
             {
-                throw new NotImplementedException();
+                return new Scope()
+                {
+                    Parent = NULL,
+                    Type = TypeInfo.NULL
+                };
             }
 
             public bool Define(string name, TypeInfo type)
