@@ -24,5 +24,10 @@ namespace Cool.Semantics
                 Message = $"(Line: {node.Line}, Column: {node.Column}) Invalid use of {op} operator with a non-{type} {member} value"
             };
         }
+
+        public override string ToString()
+        {
+            return $"({Node.Line},{Node.Column}): {Message}.";
+        }
     }
 }

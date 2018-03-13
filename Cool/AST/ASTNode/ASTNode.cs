@@ -24,5 +24,10 @@ namespace Cool.AST
             Column = column;
         }
 
+        public virtual void CheckSemantics(IScope scope, List<SemanticError> errors)
+        {
+            
+        }
+
     }
 }

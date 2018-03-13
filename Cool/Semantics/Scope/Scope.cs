@@ -32,18 +32,18 @@ namespace Cool.Semantics
         {
             DeclaredTypes = new Dictionary<string, TypeInfo>();
 
+            DeclaredTypes.Add("Object", TypeInfo.NULL);
             DeclaredTypes.Add("Bool", new TypeInfo { Name = "Bool", Parent = DeclaredTypes["Object"] });
             DeclaredTypes.Add("Int", new TypeInfo { Name = "Int", Parent = DeclaredTypes["Object"] });
             DeclaredTypes.Add("String", new TypeInfo { Name = "String", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("Object", new TypeInfo { Name = "Object", Parent = TypeInfo.NULL });
             DeclaredTypes.Add("IO", new TypeInfo { Name = "IO", Parent = DeclaredTypes["Object"] });
+            
 
-
-            DeclaredTypes["String"].ClassReference = new ClassNode(new ParserRuleContext()) { Scope = new Scope() };
-            DeclaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], DeclaredTypes["Int"]);
+            DeclaredTypes["String"].ClassReference = new ClassNode();
+            /*DeclaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], DeclaredTypes["Int"]);
             DeclaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { DeclaredTypes["String"] }, DeclaredTypes["String"]);
             DeclaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { DeclaredTypes["Int"], DeclaredTypes["Int"] }, DeclaredTypes["String"]);
-
+            
             DeclaredTypes["Object"].ClassReference = new ClassNode(new ParserRuleContext()) { Scope = new Scope() };
             DeclaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], DeclaredTypes["Object"]);
             DeclaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], DeclaredTypes["String"]);
@@ -54,6 +54,7 @@ namespace Cool.Semantics
             DeclaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { DeclaredTypes["Int"] }, DeclaredTypes["Int"]);
             DeclaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], DeclaredTypes["String"]);
             DeclaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], DeclaredTypes["Int"]);
+            */
         }
 
         public bool IsDefined(string name, out TypeInfo type)
@@ -64,7 +65,7 @@ namespace Cool.Semantics
 
         public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
         {
-            type = TypeInfo.NULL;
+            type = TypeInfo.ObjectType;
             if(_functions.ContainsKey(name) && _functions[name].Args.Length == args.Length)
             {
                 bool ok = true;
@@ -157,19 +158,19 @@ namespace Cool.Semantics
 
             public bool IsDefined(string name, out TypeInfo type)
             {
-                type = TypeInfo.NULL;
+                type = TypeInfo.ObjectType;
                 return false;
             }
 
             public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
             {
-                type = TypeInfo.NULL;
+                type = TypeInfo.ObjectType;
                 return false;
             }
 
             public bool IsDefinedType(string name, out TypeInfo type)
             {
-                type = TypeInfo.NULL;
+                type = TypeInfo.ObjectType;
                 return false;
             }
         }

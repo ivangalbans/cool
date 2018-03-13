@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cool.Semantics.Algorithm
+namespace Cool.Semantics
 {
     static class Algorithm
     {
@@ -15,7 +15,7 @@ namespace Cool.Semantics.Algorithm
         static private Color[] _mk;
         static List<int>[] g;
         static List<int> tp;
-        static bool TopologicalSort(List<ClassNode> classNodes)
+        public static bool TopologicalSort(List<ClassNode> classNodes)
         {
             _id = new Dictionary<string, int>();
             _mk = new Color[classNodes.Count];

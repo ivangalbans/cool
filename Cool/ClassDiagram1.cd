@@ -3,7 +3,7 @@
   <Class Name="Cool.AST.ASTNode" Collapsed="true">
     <Position X="37.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABEAAAAAAAAAgAAAAAAAAABAAA=</HashCode>
       <FileName>AST\ASTNode\ASTNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -14,17 +14,10 @@
       <FileName>AST\Class\ClassNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cool.AST.ObjectNode" Collapsed="true">
-    <Position X="3.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\ASTNode\ObjectNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Cool.AST.ProgramNode" Collapsed="true">
     <Position X="66.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\ASTNode\ProgramNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -338,24 +331,17 @@
       <FileName>Parsing\CoolParser.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cool.Program" Collapsed="true">
-    <Position X="75.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Cool.Semantics.SemanticError" Collapsed="true">
     <Position X="73.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAIAEBAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAABQAAAAAAAAAAAAAAAAIAEBAAA=</HashCode>
       <FileName>Semantics\Error\SemanticError.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.Semantics.TypeInfo" Collapsed="true">
     <Position X="75.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAARBQAAAAAAIAAACAAAAAAByA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAAAAAARAQAAAAAAAAAAKAAAAAAByA=</HashCode>
       <FileName>Semantics\Info\TypeInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -366,6 +352,13 @@
       <FileName>Semantics\Scope\Scope.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Cool.Program" Collapsed="true">
+    <Position X="75.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAIAAAAAAAAAAgAAgAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="ICoolVisitor&lt;Result&gt;" Collapsed="true">
     <Position X="73.75" Y="3.75" Width="1.5" />

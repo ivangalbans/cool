@@ -10,7 +10,7 @@ namespace Cool.Semantics
     class TypeInfo
     {
         public string Name { get; set; }
-        public TypeInfo Parent { get; set; } = Scope.DeclaredTypes["Object"];
+        public TypeInfo Parent { get; set; } = ObjectType;
         public ClassNode ClassReference { get; set; }
 
         /// <summary>
@@ -44,12 +44,26 @@ namespace Cool.Semantics
             return !(a == b);
         }
 
+        #region OBJECT
+        private static ObjectTypeInfo objectType = new ObjectTypeInfo();
+
+        public static ObjectTypeInfo ObjectType => objectType;
+
+        internal class ObjectTypeInfo : TypeInfo
+        {
+            public override bool Inherit(TypeInfo other)
+            {
+                return false;
+            }
+        }
+        #endregion
+
         #region NULL
-        private static NullTypeInfo nullTypeInfo = new NullTypeInfo();
+        private static NullObjectTypeInfo nullType = new NullObjectTypeInfo();
 
-        public static NullTypeInfo NULL => nullTypeInfo;
+        public static NullObjectTypeInfo NULL => nullType;
 
-        internal class NullTypeInfo : TypeInfo
+        internal class NullObjectTypeInfo : TypeInfo
         {
             public override bool Inherit(TypeInfo other)
             {

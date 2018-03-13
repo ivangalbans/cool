@@ -25,18 +25,18 @@ namespace Cool
             Console.WriteLine("All Rights Reserved.\n");*/
 
 
-            /*string preffixSuccess = "../../../Examples/Parsing/success/";
-            string preffixFail = "../../../Examples/Parsing/fail/";
+            string preffixSuccess = "../../../Examples/Parsing/success/";
+            //string preffixFail = "../../../Examples/Parsing/fail/";
 
-            string file = "life.cl";
+            string file = "hello_world.cl";
             string inputPath = preffixSuccess + file;
-            string outputPath = "";
+            //string outputPath = "";
 
 
             ASTNode root = ParseInput(inputPath);
             var scope = new Scope();
 
-            if(root == null || !CheckSemantics(root, scope))
+            /*if(root == null || !CheckSemantics(root, scope))
             {
                 Environment.ExitCode = ErrorCode;
                 return;
@@ -46,7 +46,7 @@ namespace Cool
 
         }
 
-        /*private static ASTNode ParseInput(string inputPath)
+        private static ASTNode ParseInput(string inputPath)
         {
             //try
             {
@@ -82,18 +82,27 @@ namespace Cool
 
                 Console.WriteLine(e.Message);
                 return null;
-            }
-        }*/
+            }*/
+        }
 
-        /*private static bool CheckSemantics(ASTNode root, Scope scope)
+        private static bool CheckSemantics(ASTNode root, Scope scope)
         {
-            return true;
+            var errors = new List<SemanticError>();
+            root.CheckSemantics(scope, errors);
+
+            if (errors.Count == 0)
+                return true;
+
+            Console.WriteLine();
+            foreach (var error in errors)
+                Console.WriteLine(error);
+            return false;
         }
 
         private static void GenerateCode(ASTNode root, string outputPath, Scope scope)
         {
 
-        }*/
+        }
         
     }
 }

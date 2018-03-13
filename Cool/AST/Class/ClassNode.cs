@@ -19,5 +19,9 @@ namespace Cool.AST
         {
         }
 
+        public ClassNode() : base(0, 0)
+        {
+
+        }
     }
 }
