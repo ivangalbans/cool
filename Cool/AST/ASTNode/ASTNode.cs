@@ -13,18 +13,13 @@ namespace Cool.AST
         public ASTNode(ParserRuleContext context)
         {   
             Line = context.Start.Line;
-            Column = context.Start.Column;
+            Column = context.Start.Column + 1;
         }
 
         public ASTNode(int line, int column)
         {
             Line = line;
             Column = column;
-        }
-
-        public virtual void CheckSemantics(IScope scope, List<SemanticError> errors)
-        {
-            
         }
 
     }

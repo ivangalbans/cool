@@ -15,22 +15,36 @@ namespace Cool.Semantics
         static private Color[] _mk;
         static List<int>[] g;
         static List<int> tp;
-        public static bool TopologicalSort(List<ClassNode> classNodes)
+
+        private static void Init(int n)
         {
             _id = new Dictionary<string, int>();
-            _mk = new Color[classNodes.Count];
+            _mk = new Color[n];
             tp = new List<int>();
-            g = new List<int>[classNodes.Count];
+            g = new List<int>[n];
+            for (int i = 0; i < n; ++i)
+                g[i] = new List<int>();
+        }
 
-            for (int i = 0; i < classNodes.Count; ++i)
+        public static bool TopologicalSort(List<ClassNode> classNodes)
+        {
+            int n = classNodes.Count;
+            Init(n);
+            
+            for (int i = 0; i < n; ++i)
                 if (_id.ContainsKey(classNodes[i].TypeClass.TypeId))
                     return false;
                 else _id.Add(classNodes[i].TypeClass.TypeId, i);
 
             foreach (var item in classNodes)
-                g[Hash(item.TypeClass)].Add(Hash(item.TypeInherit));
+            {
+                int u = Hash(item.TypeClass);
+                int v = Hash(item.TypeInherit);
+                if (v != -1)
+                    g[u].Add(v);
+            }
 
-            for (int u = 0; u < classNodes.Count; ++u)
+            for (int u = 0; u < n; ++u)
                 if (_mk[u] == Color.White && !Dfs(u))
                     return false;
 
@@ -44,8 +58,6 @@ namespace Cool.Semantics
 
         private static bool Dfs(int u)
         {
-            if (u == -1)
-                return true;
             _mk[u] = Color.Gray;
             foreach (var v in g[u])
             {

@@ -17,6 +17,11 @@ namespace Cool.AST
             TypeId = typeId;
         }
 
+        public override string ToString()
+        {
+            return TypeId;
+        }
+
         #region NULL
         private static readonly NullType nullType = new NullType();
 
@@ -24,7 +29,7 @@ namespace Cool.AST
 
         internal class NullType : TypeNode
         {
-            public NullType(int line = 0, int column = 0, string name = "Null-Type-Object") : base(line, column, name) { }
+            public NullType(int line = 0, int column = 0, string name = "Object") : base(line, column, name) { }
         }
         #endregion
 

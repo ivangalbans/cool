@@ -13,7 +13,7 @@ namespace Cool
 {
     class Program
     {
-        //static readonly int ErrorCode = 1;
+        static readonly int ErrorCode = 1;
 
         static void Main(string[] args)
         {
@@ -28,23 +28,29 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Parsing/success/";
             //string preffixFail = "../../../Examples/Parsing/fail/";
 
-            string file = "hello_world.cl";
+            string file = "binary_tree.cl";
             string inputPath = preffixSuccess + file;
-            //string outputPath = "";
+            string outputPath = "";
 
 
             ASTNode root = ParseInput(inputPath);
+
             if (root == null)
                 throw new Exception("AST no created");
+
+            if (!(root is ProgramNode))
+                throw new Exception("AST created with big problems. (root is not a ProgramNode)");
+
             var scope = new Scope();
 
-            /*if(root == null || !CheckSemantics(root, scope))
+            ProgramNode rootProgram = root as ProgramNode;
+            if(!CheckSemantics(rootProgram, scope))
             {
                 Environment.ExitCode = ErrorCode;
                 return;
             }
 
-            GenerateCode(root, outputPath, scope);*/
+            GenerateCode(rootProgram, outputPath, scope);
 
         }
 
@@ -87,7 +93,7 @@ namespace Cool
             }*/
         }
 
-        private static bool CheckSemantics(ASTNode root, Scope scope)
+        private static bool CheckSemantics(ProgramNode root, Scope scope)
         {
             var errors = new List<SemanticError>();
             root.CheckSemantics(scope, errors);
@@ -101,7 +107,7 @@ namespace Cool
             return false;
         }
 
-        private static void GenerateCode(ASTNode root, string outputPath, Scope scope)
+        private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
 
         }

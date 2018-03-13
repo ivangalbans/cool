@@ -13,7 +13,7 @@ namespace Cool.AST
         {
         }
 
-        public override void CheckSemantics(IScope scope, List<SemanticError> errors)
+        public void CheckSemantics(IScope scope, List<SemanticError> errors)
         {
             var tour1 = new Tour1();
             tour1.Visit(this, scope, errors);

@@ -25,5 +25,10 @@ namespace Cool.AST
             TypeInherit = new TypeNode(line, column, classInherit);
             Scope = new Scope();
         }
+
+        public override string ToString()
+        {
+            return $"(Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit}";
+        }
     }
 }

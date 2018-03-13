@@ -17,7 +17,11 @@ namespace Cool.Semantics
         {
             Algorithm.TopologicalSort(node.Classes);
             foreach (var classNode in node.Classes)
+            {
+                Console.WriteLine($"Entrando a {classNode}");
                 this.Visit(classNode, scope, errors);
+                Console.WriteLine($"Saliendo de {classNode}");
+            }
         }
 
         public void Visit(ClassNode node, IScope scope, List<SemanticError> errors)
