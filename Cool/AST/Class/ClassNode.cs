@@ -19,9 +19,11 @@ namespace Cool.AST
         {
         }
 
-        public ClassNode() : base(0, 0)
+        public ClassNode(int line, int column, string className, string classInherit) : base(line, column)
         {
-
+            TypeClass = new TypeNode(line, column, className);
+            TypeInherit = new TypeNode(line, column, classInherit);
+            Scope = new Scope();
         }
     }
 }
