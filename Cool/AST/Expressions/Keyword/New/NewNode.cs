@@ -4,7 +4,7 @@ namespace Cool.AST
 {
     class NewNode : KeywordNode
     {
-        public TypeNode TypeId => Children[0] as TypeNode;
+        public TypeNode TypeId { get; set; }
 
         public NewNode(ParserRuleContext context) : base(context)
         {

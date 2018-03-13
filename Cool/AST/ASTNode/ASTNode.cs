@@ -10,8 +10,6 @@ namespace Cool.AST
 
         public int Column { get; }
 
-        public List<ASTNode> Children { get; set; } = new List<ASTNode>();
-
         public ASTNode(ParserRuleContext context)
         {   
             Line = context.Start.Line;

@@ -4,8 +4,8 @@ namespace Cool.AST
 {
     class AssignmentNode : ExpressionNode
     {
-        public IdNode ID => Children[0] as IdNode;
-        public ExpressionNode ExpressionRight => Children[1] as ExpressionNode;
+        public IdNode ID { get; set; }
+        public ExpressionNode ExpressionRight { get; set; }
 
         public AssignmentNode(ParserRuleContext context) : base(context)
         {

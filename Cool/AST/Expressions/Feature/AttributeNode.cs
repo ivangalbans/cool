@@ -5,8 +5,8 @@ namespace Cool.AST
 {
     class AttributeNode : FeatureNode
     {
-        public FormalNode Formal => Children[0] as FormalNode;
-        public ExpressionNode AssignExp => Children[1] as ExpressionNode;
+        public FormalNode Formal { get; set; }
+        public ExpressionNode AssignExp { get; set; }
 
         public AttributeNode(ParserRuleContext context) : base(context)
         {

@@ -7,11 +7,11 @@ namespace Cool.AST
 {
     class ClassNode : ASTNode
     {
-        public TypeNode TypeClass => Children[0] as TypeNode;
+        public TypeNode TypeClass { get; set; }
 
-        public TypeNode TypeInherit => Children[1] as TypeNode;
+        public TypeNode TypeInherit { get; set; }
 
-        public List<FeatureNode> FeatureNodes => Children.Skip(2).Cast<FeatureNode>().ToList();
+        public List<FeatureNode> FeatureNodes { get; set; }
 
         public IScope Scope { get; set; }
 

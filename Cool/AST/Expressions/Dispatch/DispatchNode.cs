@@ -7,9 +7,9 @@ namespace Cool.AST
 {
     abstract class DispatchNode : ExpressionNode
     {
-        public abstract IdNode IdMethod { get; }
+        public IdNode IdMethod { get; set; }
 
-        public abstract List<ExpressionNode> Arguments { get; }
+        public List<ExpressionNode> Arguments { get; set; }
 
         public DispatchNode(ParserRuleContext context) : base(context)
         {

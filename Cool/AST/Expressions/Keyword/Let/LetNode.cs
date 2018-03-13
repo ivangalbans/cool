@@ -6,8 +6,8 @@ namespace Cool.AST
 {
     class LetNode : KeywordNode
     {
-        public List<AttributeNode> Initialization => Children.GetRange(0, Children.Count - 1).Cast<AttributeNode>().ToList();
-        public ExpressionNode ExpressionBody => Children[Children.Count - 1] as ExpressionNode;
+        public List<AttributeNode> Initialization { get; set; }
+        public ExpressionNode ExpressionBody { get; set; }
 
         public LetNode(ParserRuleContext context) : base(context)
         {

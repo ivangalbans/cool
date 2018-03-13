@@ -34,7 +34,9 @@ namespace Cool
 
 
             ASTNode root = ParseInput(inputPath);
-            var scope = new Scope();
+            if (root == null)
+                throw new Exception("AST no created");
+            //var scope = new Scope();
 
             /*if(root == null || !CheckSemantics(root, scope))
             {
