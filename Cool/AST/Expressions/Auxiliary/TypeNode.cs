@@ -3,7 +3,7 @@ using Antlr4.Runtime;
 
 namespace Cool.AST
 {
-    class TypeNode : AuxiliaryNode
+    public class TypeNode : AuxiliaryNode
     {
         public string TypeId { get; set; }
 
@@ -27,7 +27,7 @@ namespace Cool.AST
 
         public new static NullType NULL => nullType;
 
-        internal class NullType : TypeNode
+        public class NullType : TypeNode
         {
             public NullType(int line = 0, int column = 0, string name = "Object") : base(line, column, name) { }
         }

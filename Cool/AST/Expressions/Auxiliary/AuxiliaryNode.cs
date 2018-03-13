@@ -2,7 +2,7 @@
 
 namespace Cool.AST
 {
-    class AuxiliaryNode : ExpressionNode
+    public class AuxiliaryNode : ExpressionNode
     {
         public AuxiliaryNode(ParserRuleContext context) : base(context) { }
 

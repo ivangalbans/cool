@@ -15,8 +15,9 @@ namespace UnitTest
     {
         CommonTokenStream tokens;
         CoolParser parser;
+        public IParseTree tree;
 
-        private List<string> ParsingFile(string file)
+        public List<string> ParsingFile(string file)
         {
             var input = new AntlrFileStream(file);
             var lexer = new CoolLexer(input);
@@ -31,13 +32,13 @@ namespace UnitTest
             parser.RemoveErrorListeners();
             parser.AddErrorListener(new ParserErrorListener(errors));
 
-            IParseTree tree = parser.program();
+            tree = parser.program();
 
             return errors;
         }
 
         [TestMethod]
-        public void TestMethodParsingSuccess()
+        public void ParsingSuccess()
         {
             string directorySuccess = "../../../Examples/Parsing/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
@@ -54,7 +55,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestMethodParsingFail()
+        public void ParsingFail()
         {
             string directoryFail = "../../../Examples/Parsing/fail/";
             DirectoryInfo directory = new DirectoryInfo(directoryFail);

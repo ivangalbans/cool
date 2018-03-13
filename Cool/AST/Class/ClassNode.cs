@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Cool.AST
 {
-    class ClassNode : ASTNode
+    public class ClassNode : ASTNode
     {
         public TypeNode TypeClass { get; set; }
 

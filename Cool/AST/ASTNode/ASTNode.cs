@@ -4,7 +4,7 @@ using Cool.Semantics;
 
 namespace Cool.AST
 {
-    abstract class ASTNode
+    public abstract class ASTNode
     {
         public int Line { get; }
 

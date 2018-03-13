@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    class TypeInfo
+    public class TypeInfo
     {
         public string Name { get; set; }
         public TypeInfo Parent { get; set; } = ObjectType;
@@ -49,7 +49,7 @@ namespace Cool.Semantics
 
         public static ObjectTypeInfo ObjectType => objectType;
 
-        internal class ObjectTypeInfo : TypeInfo
+        public class ObjectTypeInfo : TypeInfo
         {
             public override bool Inherit(TypeInfo other)
             {
@@ -63,7 +63,7 @@ namespace Cool.Semantics
 
         public static NullObjectTypeInfo NULL => nullType;
 
-        internal class NullObjectTypeInfo : TypeInfo
+        public class NullObjectTypeInfo : TypeInfo
         {
             public override bool Inherit(TypeInfo other)
             {

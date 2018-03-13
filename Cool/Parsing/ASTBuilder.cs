@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Cool.Parsing
 {
-    class ASTBuilder : CoolBaseVisitor<ASTNode>
+    public class ASTBuilder : CoolBaseVisitor<ASTNode>
     {
         public override ASTNode VisitProgram([NotNull] CoolParser.ProgramContext context)
         {

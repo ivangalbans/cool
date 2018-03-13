@@ -9,7 +9,7 @@ namespace Cool.Semantics
     /// <summary>
     /// Provide an interface to implement the scope concept in Cool language programming
     /// </summary>
-    interface IScope
+    public interface IScope
     {
         /// <summary>
         /// Determines if a variable is defined.

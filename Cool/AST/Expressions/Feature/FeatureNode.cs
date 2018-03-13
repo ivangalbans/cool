@@ -2,7 +2,7 @@
 
 namespace Cool.AST
 {
-    abstract class FeatureNode : ASTNode
+    public abstract class FeatureNode : ASTNode
     {
         public FeatureNode(ParserRuleContext context) : base(context) { }
 

@@ -51,6 +51,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UnitTestAST.cs" />
     <Compile Include="UnitTestAlgorithm.cs" />
     <Compile Include="UnitTestParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

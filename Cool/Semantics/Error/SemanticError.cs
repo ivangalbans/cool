@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    class SemanticError
+    public class SemanticError
     {
         public string Message { get; set; }
         public ASTNode Node { get; set; }

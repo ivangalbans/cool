@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Cool.Parsing;
 using Cool.AST;
+using Cool.Parsing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
 {
     [TestClass]
-    public class UnitTestAlgorithm
+    public class UnitTestAST
     {
         [TestMethod]
-        public void TopologicalSortSuccess()
+        public void ASTBuilderSuccess()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directorySuccess = "../../../Examples/Algorithm/success/";
+            string directorySuccess = "../../../Examples/Parsing/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 
@@ -24,16 +22,10 @@ namespace UnitTest
                 testParsing.ParsingFile(file.FullName);
                 var astBuilder = new ASTBuilder();
                 ASTNode root = astBuilder.Visit(testParsing.tree);
-                ProgramNode rootProgram = root as ProgramNode;
 
+                Assert.IsFalse(root is null, "AST no created. (root is null)");
+                Assert.IsTrue(root is ProgramNode, $"AST created with big problems. (root is not a ProgramNode, root is {root})");
             }
-
-        }
-
-        [TestMethod]
-        public void TopologicalSortFail()
-        {
-
         }
     }
 }

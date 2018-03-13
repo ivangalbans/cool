@@ -2,7 +2,7 @@
 
 namespace Cool.AST
 {
-    abstract class ExpressionNode : ASTNode
+    public abstract class ExpressionNode : ASTNode
     {
         public ExpressionNode(ParserRuleContext context) : base(context) { }
 
@@ -13,7 +13,7 @@ namespace Cool.AST
 
         public static NullExpression NULL => nullExpression;
 
-        internal class NullExpression : ExpressionNode
+        public class NullExpression : ExpressionNode
         {
             public NullExpression(int line = 0, int column = 0) : base(line, column) { }
         }
