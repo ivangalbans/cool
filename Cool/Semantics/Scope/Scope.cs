@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using Cool.AST;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,11 +31,29 @@ namespace Cool.Semantics
         static Scope()
         {
             DeclaredTypes = new Dictionary<string, TypeInfo>();
-            DeclaredTypes.Add("Object", new TypeInfo { Name = "Object", Parent = null });
-            DeclaredTypes.Add("Int", new TypeInfo { Name = "Int", Parent = DeclaredTypes["Object"] });
+
             DeclaredTypes.Add("Bool", new TypeInfo { Name = "Bool", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("Int", new TypeInfo { Name = "Int", Parent = DeclaredTypes["Object"] });
             DeclaredTypes.Add("String", new TypeInfo { Name = "String", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("Object", new TypeInfo { Name = "Object", Parent = TypeInfo.NULL });
             DeclaredTypes.Add("IO", new TypeInfo { Name = "IO", Parent = DeclaredTypes["Object"] });
+
+
+            DeclaredTypes["String"].ClassReference = new ClassNode(new ParserRuleContext()) { Scope = new Scope() };
+            DeclaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], DeclaredTypes["Int"]);
+            DeclaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { DeclaredTypes["String"] }, DeclaredTypes["String"]);
+            DeclaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { DeclaredTypes["Int"], DeclaredTypes["Int"] }, DeclaredTypes["String"]);
+
+            DeclaredTypes["Object"].ClassReference = new ClassNode(new ParserRuleContext()) { Scope = new Scope() };
+            DeclaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], DeclaredTypes["Object"]);
+            DeclaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], DeclaredTypes["String"]);
+            DeclaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], DeclaredTypes["Object"]);
+
+            DeclaredTypes["IO"].ClassReference = new ClassNode(new ParserRuleContext()) { Scope = new Scope() };
+            DeclaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { DeclaredTypes["String"] }, DeclaredTypes["String"]);
+            DeclaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { DeclaredTypes["Int"] }, DeclaredTypes["Int"]);
+            DeclaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], DeclaredTypes["String"]);
+            DeclaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], DeclaredTypes["Int"]);
         }
 
         public bool IsDefined(string name, out TypeInfo type)
@@ -78,22 +98,8 @@ namespace Cool.Semantics
 
         public bool Define(string name, TypeInfo[] args, TypeInfo type)
         {
-            TypeInfo tmp = TypeInfo.NULL;
-
-            if(IsDefined(name, args, out tmp))
-            {
-                //Cool not support overload in the functions
-                if (_functions.ContainsKey(name))
-                    return false;
-                
-                //Cool support inherited functions wich same params type and type
-                if (tmp != type)
-                    return false;
-                _functions[name] = (args, type);
-                return true;
-            }
-
-            //Create functions by first time
+            if (_functions.ContainsKey(name))
+                return false;
             _functions[name] = (args, type);
             return true;
         }

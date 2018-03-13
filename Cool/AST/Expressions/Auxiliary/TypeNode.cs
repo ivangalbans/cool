@@ -18,7 +18,7 @@ namespace Cool.AST
         }
 
         #region NULL
-        private static NullType nullType = new NullType();
+        private static readonly NullType nullType = new NullType();
 
         public new static NullType NULL => nullType;
 

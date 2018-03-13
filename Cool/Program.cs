@@ -15,12 +15,6 @@ namespace Cool
     {
         //static readonly int ErrorCode = 1;
 
-        class PP
-        {
-            public string Name { get; set; }
-        }
-
-
         static void Main(string[] args)
         {
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
@@ -30,8 +24,6 @@ namespace Cool
             Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
             Console.WriteLine("All Rights Reserved.\n");*/
 
-            PP p = new PP();
-            Console.WriteLine(p.Name);
 
             /*string preffixSuccess = "../../../Examples/Parsing/success/";
             string preffixFail = "../../../Examples/Parsing/fail/";

@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,5 +12,6 @@ namespace Cool.AST
         public ProgramNode(ParserRuleContext context) : base(context)
         {
         }
+
     }
 }

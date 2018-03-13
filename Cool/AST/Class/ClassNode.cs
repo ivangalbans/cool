@@ -9,7 +9,7 @@ namespace Cool.AST
     {
         public TypeNode TypeClass => Children[0] as TypeNode;
 
-        public TypeNode TypeInherits => Children[1] as TypeNode;
+        public TypeNode TypeInherit => Children[1] as TypeNode;
 
         public List<FeatureNode> FeatureNodes => Children.Skip(2).Cast<FeatureNode>().ToList();
 

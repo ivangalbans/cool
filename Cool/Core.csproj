@@ -46,16 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\ASTNode\ASTNode.cs" />
-    <Compile Include="AST\ASTNode\ClassNode.cs" />
+    <Compile Include="AST\Class\ClassNode.cs" />
     <Compile Include="AST\ASTNode\ProgramNode.cs" />
     <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
     <Compile Include="AST\Expressions\Atom\BoolNode.cs" />
     <Compile Include="AST\Expressions\Atom\IdentifierNode.cs" />
     <Compile Include="AST\Expressions\Auxiliary\IdNode.cs" />
     <Compile Include="AST\Expressions\Atom\IntNode.cs" />
-    <Compile Include="AST\ASTNode\ObjectNode.cs" />
     <Compile Include="AST\Expressions\Atom\StringNode.cs" />
-    <Compile Include="AST\Expressions\Atom\VoidNode.cs" />
     <Compile Include="AST\Expressions\Auxiliary\AuxiliaryNode.cs" />
     <Compile Include="AST\Expressions\Auxiliary\FormalNode.cs" />
     <Compile Include="AST\Expressions\Auxiliary\TypeNode.cs" />
@@ -96,6 +94,7 @@
     <Compile Include="Parsing\ErrorListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Semantics\Algorithm\Algorithm.cs" />
     <Compile Include="Semantics\Info\TypeInfo.cs" />
     <Compile Include="Semantics\Scope\IScope.cs" />
     <Compile Include="Semantics\Scope\Scope.cs" />
@@ -103,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Parsing\Cool.g4" />
   </ItemGroup>

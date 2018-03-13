@@ -10,9 +10,8 @@ namespace Cool.Semantics
     class TypeInfo
     {
         public string Name { get; set; }
-        public TypeInfo Parent { get; set; } = NULL;
+        public TypeInfo Parent { get; set; } = Scope.DeclaredTypes["Object"];
         public ClassNode ClassReference { get; set; }
-
 
         /// <summary>
         /// Check if a type inherit of other type in the hierarchy of the program.
