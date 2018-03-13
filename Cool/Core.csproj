@@ -99,6 +99,8 @@
     <Compile Include="Semantics\Scope\IScope.cs" />
     <Compile Include="Semantics\Scope\Scope.cs" />
     <Compile Include="Semantics\Error\SemanticError.cs" />
+    <Compile Include="Semantics\Visitor\IVisit.cs" />
+    <Compile Include="Semantics\Visitor\IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -108,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeGeneration\" />
-    <Folder Include="Semantics\Visitor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
