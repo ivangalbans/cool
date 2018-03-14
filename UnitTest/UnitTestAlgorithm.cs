@@ -22,29 +22,16 @@ namespace UnitTest
 
             foreach (var file in files)
             {
+                List<SemanticError> errors = new List<SemanticError>();
                 testParsing.ParsingFile(file.FullName);
+
                 var astBuilder = new ASTBuilder();
                 ProgramNode program = astBuilder.Visit(testParsing.tree) as ProgramNode;
 
-                Algorithm.TopologicalSort(program.Classes);
-                Assert.IsTrue(IsTopologicalSort(program.Classes), $"Class dependency in file {file.Name} is not a DAG.");
+                Algorithm.TopologicalSort(program.Classes, errors);
+                foreach (var item in errors)
+                    Assert.Fail(file.Name + ": " + item.ToString());
             }
-        }
-
-        private bool IsTopologicalSort(List<ClassNode> classes)
-        {
-            Dictionary<string, bool> _mk = new Dictionary<string, bool>
-            {
-                { "Object", true },
-                { "IO", true }
-            };
-            for(int i = classes.Count - 1; i >= 0; --i)
-            {
-                if (!_mk.ContainsKey(classes[i].TypeInherit.TypeId))
-                    return false;
-                _mk.Add(classes[i].TypeClass.TypeId, true);
-            }
-            return true;
         }
 
         [TestMethod]
@@ -57,12 +44,12 @@ namespace UnitTest
 
             foreach (var file in files)
             {
+                List<SemanticError> errors = new List<SemanticError>();
                 testParsing.ParsingFile(file.FullName);
                 var astBuilder = new ASTBuilder();
                 ProgramNode program = astBuilder.Visit(testParsing.tree) as ProgramNode;
-
-                Algorithm.TopologicalSort(program.Classes);
-                Assert.IsFalse(IsTopologicalSort(program.Classes), $"Not found cycles in class dependency in file {file.Name}");
+                Algorithm.TopologicalSort(program.Classes, errors);
+                Assert.IsTrue(errors.Count != 0, $"Not found cycles in class dependency in file {file.Name}");
             }
         }
     }

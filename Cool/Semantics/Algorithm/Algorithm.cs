@@ -16,9 +16,6 @@ namespace Cool.Semantics
         static List<int>[] g;
         static List<int> tp;
 
-        public static ClassNode ConfilctClassA { get; private set; }
-        public static ClassNode ConfilctClassB { get; private set; }
-
         private static int idA, idB;
 
         private static void Init(int n)
@@ -31,15 +28,23 @@ namespace Cool.Semantics
                 g[i] = new List<int>();
         }
 
-        public static bool TopologicalSort(List<ClassNode> classNodes)
+        public static bool TopologicalSort(List<ClassNode> classNodes, List<SemanticError> errors)
         {
             int n = classNodes.Count;
             Init(n);
             
             for (int i = 0; i < n; ++i)
-                if (_id.ContainsKey(classNodes[i].TypeClass.TypeId))
+            {
+                if(_id.ContainsKey(classNodes[i].TypeClass.TypeId))
+                {
+                    errors.Add(SemanticError.RepeatedClass(classNodes[i]));
                     return false;
-                else _id.Add(classNodes[i].TypeClass.TypeId, i);
+                }
+                else
+                {
+                    _id.Add(classNodes[i].TypeClass.TypeId, i);
+                }
+            }
 
             foreach (var item in classNodes)
             {
@@ -50,12 +55,13 @@ namespace Cool.Semantics
             }
 
             for (int u = 0; u < n; ++u)
+            {
                 if (_mk[u] == Color.White && !Dfs(u))
                 {
-                    ConfilctClassA = classNodes[idA];
-                    ConfilctClassB = classNodes[idB];
+                    errors.Add(SemanticError.InvalidClassDependency(classNodes[idA], classNodes[idB]));
                     return false;
                 }
+            }
 
             List<ClassNode> ans = new List<ClassNode>();
             foreach (var item in tp)
@@ -76,7 +82,7 @@ namespace Cool.Semantics
                     idB = v;
                     return false;
                 }
-                if (_mk[u] == Color.White && !Dfs(v))
+                if (_mk[v] == Color.White && !Dfs(v))
                     return false;
             }
             tp.Add(u);

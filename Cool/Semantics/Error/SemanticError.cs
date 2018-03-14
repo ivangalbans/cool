@@ -30,14 +30,25 @@ namespace Cool.Semantics
             return new SemanticError
             {
                 Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
-                $" '{confilctClassA}' (Line: {confilctClassA.Line} Column: {confilctClassA.Line}) and " +
-                $"'{confilctClassB} (Line: {confilctClassB.Line} Column: {confilctClassB.Line})'."
+                $" '{confilctClassA.TypeClass}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
+                $"'{confilctClassB.TypeClass} (Line: {confilctClassB.Line} Column: {confilctClassB.Column})'"
+            };
+        }
+
+        public static SemanticError RepeatedClass(ClassNode classNode)
+        {
+            return new SemanticError
+            {
+                Node = classNode,
+                Line = classNode.Line,
+                Column = classNode.Column,
+                Message = $"(Line: {classNode.Line}, Column: {classNode.Column}) The class '{classNode.TypeClass}' is already exist"
             };
         }
 
         public override string ToString()
         {
-            return $"({Node.Line},{Node.Column}): {Message}.";
+            return $"{Message}.";
         }
     }
 }

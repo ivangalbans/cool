@@ -25,11 +25,11 @@ namespace Cool
             Console.WriteLine("All Rights Reserved.\n");*/
 
 
-            string preffixSuccess = "../../../Examples/Parsing/success/";
-            //string preffixFail = "../../../Examples/Parsing/fail/";
+            string preffixSuccess = "../../../Examples/Algorithm/success/";
+            string preffixFail = "../../../Examples/Algorithm/fail/";
 
-            string file = "binary_tree.cl";
-            string inputPath = preffixSuccess + file;
+            string file = "two-self.cl";
+            string inputPath = preffixFail + file;
             string outputPath = "";
 
 
@@ -49,6 +49,8 @@ namespace Cool
                 Environment.ExitCode = ErrorCode;
                 return;
             }
+
+            Console.WriteLine("OKKK");
 
             GenerateCode(rootProgram, outputPath, scope);
 

@@ -15,14 +15,15 @@ namespace Cool.Semantics
     {
         public void Visit(ProgramNode node, IScope scope, List<SemanticError> errors)
         {
-            if (Algorithm.TopologicalSort(node.Classes))
-                errors.Add(SemanticError.InvalidClassDependency(Algorithm.ConfilctClassA, Algorithm.ConfilctClassB));
+            if (!Algorithm.TopologicalSort(node.Classes, errors))
+                return;
+
             node.Classes.Reverse();
             foreach (var classNode in node.Classes)
             {
-                Console.WriteLine($"Entrando a {classNode}");
+                //Console.WriteLine($"Entrando a {classNode}");
                 this.Visit(classNode, scope, errors);
-                Console.WriteLine($"Saliendo de {classNode}");
+                //Console.WriteLine($"Saliendo de {classNode}");
             }
         }
 

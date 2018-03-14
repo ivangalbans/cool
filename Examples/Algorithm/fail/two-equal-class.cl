@@ -4,7 +4,7 @@ class Main inherits PP {
    };
 };
 
-class PP {
+class Main {
     main(): String {
         out_string("Hello, World.\n")
     };
