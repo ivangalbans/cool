@@ -25,6 +25,16 @@ namespace Cool.Semantics
             };
         }
 
+        public static SemanticError InvalidClassDependency(ClassNode confilctClassA, ClassNode confilctClassB)
+        {
+            return new SemanticError
+            {
+                Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
+                $" '{confilctClassA}' (Line: {confilctClassA.Line} Column: {confilctClassA.Line}) and " +
+                $"'{confilctClassB} (Line: {confilctClassB.Line} Column: {confilctClassB.Line})'."
+            };
+        }
+
         public override string ToString()
         {
             return $"({Node.Line},{Node.Column}): {Message}.";

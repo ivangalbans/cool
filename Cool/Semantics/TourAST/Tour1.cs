@@ -15,7 +15,9 @@ namespace Cool.Semantics
     {
         public void Visit(ProgramNode node, IScope scope, List<SemanticError> errors)
         {
-            Algorithm.TopologicalSort(node.Classes);
+            if (Algorithm.TopologicalSort(node.Classes))
+                errors.Add(SemanticError.InvalidClassDependency(Algorithm.ConfilctClassA, Algorithm.ConfilctClassB));
+            node.Classes.Reverse();
             foreach (var classNode in node.Classes)
             {
                 Console.WriteLine($"Entrando a {classNode}");

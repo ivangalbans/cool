@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    static class Algorithm
+    public static class Algorithm
     {
         enum Color { White, Gray, Black};
 
@@ -15,6 +15,11 @@ namespace Cool.Semantics
         static private Color[] _mk;
         static List<int>[] g;
         static List<int> tp;
+
+        public static ClassNode ConfilctClassA { get; private set; }
+        public static ClassNode ConfilctClassB { get; private set; }
+
+        private static int idA, idB;
 
         private static void Init(int n)
         {
@@ -46,7 +51,11 @@ namespace Cool.Semantics
 
             for (int u = 0; u < n; ++u)
                 if (_mk[u] == Color.White && !Dfs(u))
+                {
+                    ConfilctClassA = classNodes[idA];
+                    ConfilctClassB = classNodes[idB];
                     return false;
+                }
 
             List<ClassNode> ans = new List<ClassNode>();
             foreach (var item in tp)
@@ -62,7 +71,11 @@ namespace Cool.Semantics
             foreach (var v in g[u])
             {
                 if (_mk[v] == Color.Gray)
+                {
+                    idA = u;
+                    idB = v;
                     return false;
+                }
                 if (_mk[u] == Color.White && !Dfs(v))
                     return false;
             }
