@@ -2,7 +2,7 @@
 
 namespace Cool.AST
 {
-    abstract class UnaryOperationNode : ExpressionNode
+    public abstract class UnaryOperationNode : ExpressionNode
     {
         public ExpressionNode Operand { get; set; }
 

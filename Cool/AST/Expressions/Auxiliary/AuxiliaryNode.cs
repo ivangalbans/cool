@@ -1,8 +1,10 @@
-﻿using Antlr4.Runtime;
+﻿using System.Collections.Generic;
+using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
-    public class AuxiliaryNode : ExpressionNode
+    public abstract class AuxiliaryNode : ASTNode
     {
         public AuxiliaryNode(ParserRuleContext context) : base(context) { }
 

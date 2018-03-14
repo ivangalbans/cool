@@ -25,21 +25,29 @@ namespace Cool
             Console.WriteLine("All Rights Reserved.\n");*/
 
 
-            string preffixSuccess = "../../../Examples/Algorithm/success/";
-            string preffixFail = "../../../Examples/Algorithm/fail/";
+            string preffixSuccess = "../../../Examples/Semantics/success/";
+            string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "two-self.cl";
-            string inputPath = preffixFail + file;
+            string file = "sum.cl";
+            string inputPath = preffixSuccess + file;
             string outputPath = "";
 
 
             ASTNode root = ParseInput(inputPath);
 
             if (root == null)
-                throw new Exception("AST no created");
+            {
+                Console.WriteLine("AST no created");
+                Environment.ExitCode = ErrorCode;
+                return;
+            }
 
             if (!(root is ProgramNode))
-                throw new Exception("AST created with big problems. (root is not a ProgramNode)");
+            {
+                Console.WriteLine("AST created with big problems. (root is not a ProgramNode)");
+                Environment.ExitCode = ErrorCode;
+                return;
+            }
 
             var scope = new Scope();
 
@@ -50,7 +58,6 @@ namespace Cool
                 return;
             }
 
-            Console.WriteLine("OKKK");
 
             GenerateCode(rootProgram, outputPath, scope);
 
@@ -98,7 +105,6 @@ namespace Cool
         private static bool CheckSemantics(ProgramNode root, Scope scope)
         {
             var errors = new List<SemanticError>();
-            root.CheckSemantics(scope, errors);
 
             if (errors.Count == 0)
                 return true;

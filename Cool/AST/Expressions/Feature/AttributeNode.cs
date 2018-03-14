@@ -1,9 +1,10 @@
 ﻿using Antlr4.Runtime;
 using Cool.Semantics;
+using System.Collections.Generic;
 
 namespace Cool.AST
 {
-    class AttributeNode : FeatureNode
+    public class AttributeNode : FeatureNode
     {
         public FormalNode Formal { get; set; }
         public ExpressionNode AssignExp { get; set; }
@@ -12,5 +13,9 @@ namespace Cool.AST
         {
         }
 
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
+        }
     }
 }

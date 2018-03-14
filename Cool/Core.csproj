@@ -95,11 +95,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semantics\Algorithm\Algorithm.cs" />
+    <Compile Include="Semantics\CheckSemantics\ICheckSemantics.cs" />
     <Compile Include="Semantics\Info\TypeInfo.cs" />
     <Compile Include="Semantics\Scope\IScope.cs" />
     <Compile Include="Semantics\Scope\Scope.cs" />
     <Compile Include="Semantics\Error\SemanticError.cs" />
     <Compile Include="Semantics\TourAST\Tour1.cs" />
+    <Compile Include="Semantics\Visitor\IVisit.cs" />
     <Compile Include="Semantics\Visitor\IVisitor.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,11 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Cool.AST
 {
-    class CaseNode : KeywordNode
+    public class CaseNode : KeywordNode
     {
         public ExpressionNode ExpressionCase { get; set; }
         public List<(FormalNode, ExpressionNode)> Branches { get; set; }
@@ -14,5 +15,9 @@ namespace Cool.AST
             Branches = new List<(FormalNode, ExpressionNode)>();
         }
 
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
+        }
     }
 }

@@ -5,7 +5,7 @@ using Antlr4.Runtime;
 
 namespace Cool.AST
 {
-    abstract class DispatchNode : ExpressionNode
+    public abstract class DispatchNode : ExpressionNode
     {
         public IdNode IdMethod { get; set; }
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Cool.AST
 {
-    public class ClassNode : ASTNode
+    public class ClassNode : ASTNode, IVisit
     {
         public TypeNode TypeClass { get; set; }
 
@@ -29,6 +29,11 @@ namespace Cool.AST
         public override string ToString()
         {
             return $"(Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit}";
+        }
+
+        public void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
         }
     }
 }

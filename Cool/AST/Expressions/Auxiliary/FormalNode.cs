@@ -1,10 +1,11 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Cool.AST
 {
-    class FormalNode : AuxiliaryNode
+    public class FormalNode : AuxiliaryNode
     {
         public IdNode Id { get; set; }
         public TypeNode TypeId { get; set; }

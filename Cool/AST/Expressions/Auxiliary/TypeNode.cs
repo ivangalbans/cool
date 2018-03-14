@@ -1,5 +1,7 @@
 ﻿
+using System.Collections.Generic;
 using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
@@ -25,7 +27,7 @@ namespace Cool.AST
         #region NULL
         private static readonly NullType nullType = new NullType();
 
-        public new static NullType NULL => nullType;
+        public static NullType NULL => nullType;
 
         public class NullType : TypeNode
         {

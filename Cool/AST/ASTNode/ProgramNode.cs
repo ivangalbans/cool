@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Cool.AST
 {
-    public class ProgramNode : ASTNode
+    public class ProgramNode : ASTNode, IVisit
     {
         public List<ClassNode> Classes { get; set; }
 
@@ -13,11 +13,9 @@ namespace Cool.AST
         {
         }
 
-        public void CheckSemantics(IScope scope, List<SemanticError> errors)
+        public void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
         {
-            var tour1 = new Tour1();
-            tour1.Visit(this, scope, errors);
+            visitor.Visit(this, scope, errors);
         }
-
     }
 }

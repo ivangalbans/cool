@@ -3,7 +3,7 @@ using Cool.Semantics;
 
 namespace Cool.AST
 {
-    abstract class ArithmeticOperation : BinaryOperationNode
+    public abstract class ArithmeticOperation : BinaryOperationNode
     {
         public ArithmeticOperation(ParserRuleContext context) : base(context)
         {

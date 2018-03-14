@@ -8,35 +8,13 @@ using Cool.AST;
 
 namespace Cool.Semantics
 {
-    class Tour1 :   IVisitor<ProgramNode>,
-                    IVisitor<ClassNode>,
-                    IVisitor<AttributeNode>,
-                    IVisitor<MethodNode>
+
+    /*class Tour1 : IVisitor, ICheckSemantics
     {
-        public void Visit(ProgramNode node, IScope scope, List<SemanticError> errors)
+        public ProgramNode CheckSemantic(ProgramNode node)
         {
-            if (!Algorithm.TopologicalSort(node.Classes, errors))
-                return;
-
-            node.Classes.Reverse();
-            foreach (var classNode in node.Classes)
-            {
-                //Console.WriteLine($"Entrando a {classNode}");
-                this.Visit(classNode, scope, errors);
-                //Console.WriteLine($"Saliendo de {classNode}");
-            }
+            node.
         }
+    }*/
 
-        public void Visit(ClassNode node, IScope scope, List<SemanticError> errors)
-        {
-        }
-
-        public void Visit(AttributeNode node, IScope scope, List<SemanticError> errors)
-        {
-        }
-
-        public void Visit(MethodNode node, IScope scope, List<SemanticError> errors)
-        {
-        }
-    }
 }

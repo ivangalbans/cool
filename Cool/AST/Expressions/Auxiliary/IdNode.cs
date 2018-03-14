@@ -2,7 +2,7 @@
 
 namespace Cool.AST
 {
-    class IdNode : AuxiliaryNode
+    public class IdNode : AuxiliaryNode
     {
         public string Name { get; set; }
 
@@ -19,9 +19,9 @@ namespace Cool.AST
         #region NULL
         static readonly NullId nullId = new NullId();
 
-        public new static NullId NULL => nullId;
+        public static NullId NULL => nullId;
 
-        internal class NullId : IdNode
+        public class NullId : IdNode
         {
             public NullId(int line = 0, int column = 0, string name = "Null-Id-Object") : base(line, column, name) { }
         }

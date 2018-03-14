@@ -1,9 +1,10 @@
 ﻿using Antlr4.Runtime;
 using Cool.Semantics;
+using System.Collections.Generic;
 
 namespace Cool.AST
 {
-    class IntNode : AtomNode
+    public class IntNode : AtomNode
     {
         public int Value { get; set; }
 
@@ -12,5 +13,9 @@ namespace Cool.AST
             Value = int.Parse(text);
         }
 
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
+        }
     }
 }

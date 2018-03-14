@@ -1,10 +1,11 @@
 ﻿using Antlr4.Runtime;
+using Cool.Semantics;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Cool.AST
 {
-    class MethodNode : FeatureNode
+    public class MethodNode : FeatureNode
     {
         public IdNode Id { get; set; }
         public List<FormalNode> Arguments { get; set; }
@@ -15,5 +16,9 @@ namespace Cool.AST
         {
         }
 
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
+        }
     }
 }

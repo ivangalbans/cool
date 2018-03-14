@@ -1,8 +1,10 @@
-﻿using Antlr4.Runtime;
+﻿using System.Collections.Generic;
+using Antlr4.Runtime;
+using Cool.Semantics;
 
 namespace Cool.AST
 {
-    class WhileNode : KeywordNode
+    public class WhileNode : KeywordNode
     {
         public ExpressionNode Condition { get; set; }
         public ExpressionNode Body { get; set; }
@@ -11,5 +13,9 @@ namespace Cool.AST
         {
         }
 
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        {
+            visitor.Visit(this, scope, errors);
+        }
     }
 }
