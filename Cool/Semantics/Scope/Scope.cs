@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cool.Semantics
 {
-    class Scope : IScope
+    public class Scope : IScope
     {
         /// <summary>
         /// Information relative to variables.
@@ -23,36 +23,35 @@ namespace Cool.Semantics
         /// <summary>
         /// Information relative to types in the current scope.
         /// </summary>
-        public static Dictionary<string, TypeInfo> DeclaredTypes;
+        Dictionary<string, TypeInfo> _declaredTypes = new Dictionary<string, TypeInfo>();
 
-        public IScope Parent { get; set; } = NULL;
+        public IScope Parent { get; set; } = nullScope;
         public TypeInfo Type { get; set; } = TypeInfo.NULL;
 
-        static Scope()
+        public Scope()
         {
-            DeclaredTypes = new Dictionary<string, TypeInfo>();
+            _declaredTypes.Add("Object", TypeInfo.NULL);
+            _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"] });
+            _declaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = _declaredTypes["Object"] });
+            _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"] });
+            _declaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = _declaredTypes["Object"] });
 
-            DeclaredTypes.Add("Object", TypeInfo.NULL);
-            DeclaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("String", new TypeInfo { Text = "String", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = DeclaredTypes["Object"] });
-
-            DeclaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
-            DeclaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], DeclaredTypes["Int"]);
-            DeclaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { DeclaredTypes["String"] }, DeclaredTypes["String"]);
-            DeclaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { DeclaredTypes["Int"], DeclaredTypes["Int"] }, DeclaredTypes["String"]);
+            _declaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
+            _declaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], _declaredTypes["Int"]);
+            _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
+            _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
             
-            DeclaredTypes["Object"].ClassReference = new ClassNode(0, 0, "Object", "NULL");
-            DeclaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], DeclaredTypes["Object"]);
-            DeclaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], DeclaredTypes["String"]);
-            DeclaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], DeclaredTypes["Object"]);
+            /*_declaredTypes["Object"].ClassReference = new ClassNode(0, 0, "Object", "NULL");
+            _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);
+            _declaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], _declaredTypes["String"]);
+            _declaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], _declaredTypes["Object"]);
 
-            DeclaredTypes["IO"].ClassReference = new ClassNode(-1, -1, "IO", "Object");
-            DeclaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { DeclaredTypes["String"] }, DeclaredTypes["String"]);
-            DeclaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { DeclaredTypes["Int"] }, DeclaredTypes["Int"]);
-            DeclaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], DeclaredTypes["String"]);
-            DeclaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], DeclaredTypes["Int"]);
+            _declaredTypes["IO"].ClassReference = new ClassNode(-1, -1, "IO", "Object");
+            _declaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
+            _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["Int"]);
+            _declaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], _declaredTypes["String"]);
+            _declaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], _declaredTypes["Int"]);
+            */    
         }
 
         public bool IsDefined(string name, out TypeInfo type)
@@ -84,7 +83,7 @@ namespace Cool.Semantics
 
         public bool IsDefinedType(string name, out TypeInfo type)
         {
-            return DeclaredTypes.TryGetValue(name, out type);
+            return _declaredTypes.TryGetValue(name, out type);
         }
 
         public bool Define(string name, TypeInfo type)
@@ -120,6 +119,19 @@ namespace Cool.Semantics
             };
         }
 
+        public bool AddType(string name, TypeInfo type)
+        {
+            _declaredTypes.Add(name, type);
+            return true;
+        }
+
+        public TypeInfo GetType(string name)
+        {
+            if (_declaredTypes.TryGetValue(name, out TypeInfo type))
+                return type;
+            return TypeInfo.NULL;
+        }
+
         #region
         private static NullScope nullScope = new NullScope();
 
@@ -127,8 +139,13 @@ namespace Cool.Semantics
 
         public class NullScope : IScope
         {
-            public IScope Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-            public TypeInfo Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public IScope Parent { get; set; }
+            public TypeInfo Type { get; set; } = TypeInfo.NULL;
+
+            public bool AddType(string name, TypeInfo type)
+            {
+                return false;
+            }
 
             public bool Change(string name, TypeInfo type)
             {
@@ -152,6 +169,11 @@ namespace Cool.Semantics
             public bool Define(string name, TypeInfo[] args, TypeInfo type)
             {
                 return false;
+            }
+
+            public TypeInfo GetType(string name)
+            {
+                return TypeInfo.NULL;
             }
 
             public bool IsDefined(string name, out TypeInfo type)

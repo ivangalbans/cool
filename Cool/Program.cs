@@ -30,7 +30,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "sum.cl";
+            string file = "other-type.cl";
             string inputPath = preffixSuccess + file;
             string outputPath = "";
 
@@ -52,15 +52,15 @@ namespace Cool
             }
 
             var scope = new Scope();
-            ProgramNode rootProgram = root as ProgramNode;
+            /*ProgramNode rootProgram = root as ProgramNode;
             if(!CheckSemantics(rootProgram, scope))
             {
                 Environment.ExitCode = ErrorCode;
                 return;
-            }
+            }*/
 
 
-            GenerateCode(rootProgram, outputPath, scope);
+            //GenerateCode(rootProgram, outputPath, scope);
 
         }
 

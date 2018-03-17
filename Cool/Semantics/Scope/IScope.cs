@@ -57,9 +57,24 @@ namespace Cool.Semantics
         /// Change the type of the variable.
         /// </summary>
         /// <param name="name">Expected name of the variable to change.</param>
-        /// <param name="type">The type to set the variable</param>
-        /// <returns>True if the variable was changed correctly, false otherwise </returns>
+        /// <param name="type">The type to set the variable.</param>
+        /// <returns>True if the variable was changed correctly, false otherwise.</returns>
         bool Change(string name, TypeInfo type);
+
+        /// <summary>
+        /// Add a type to this scope.
+        /// </summary>
+        /// <param name="name">Expected name of the type to add</param>
+        /// <param name="type">The type of the name</param>
+        /// <returns>True if the type was added correctly, false otherwise.</returns>
+        bool AddType(string name, TypeInfo type);
+
+        /// <summary>
+        /// Add a type to this scope.
+        /// </summary>
+        /// <param name="name">Expected name of the type to get</param>
+        /// <returns>The expected type</returns>
+        TypeInfo GetType(string name);
 
         /// <summary>
         /// Create a child of this scope.

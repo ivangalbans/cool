@@ -22,7 +22,7 @@ namespace Cool.Semantics
             if (!Algorithm.TopologicalSort(node.Classes, errors))
                 return;
             foreach (var cclass in node.Classes)
-                Scope.DeclaredTypes.Add(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, Scope.DeclaredTypes[cclass.TypeInherit.Text], cclass));
+                scope.AddType(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, scope.GetType(cclass.TypeInherit.Text), cclass));
             foreach (var item in node.Classes)
                 item.Accept(this, scope, errors);
         }
@@ -31,13 +31,11 @@ namespace Cool.Semantics
         {
             node.Scope = new Scope
             {
-                Type = Scope.DeclaredTypes[node.TypeClass.Text]
+                Type = scope.GetType(node.TypeClass.Text)
                 
             };
-            var a = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference;
-            var b = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference.Scope;
 
-            scope.Parent = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference.Scope;
+            scope.Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope;
             foreach (var item in node.FeatureNodes)
                 item.Accept(this, node.Scope, errors);
         }
