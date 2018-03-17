@@ -19,8 +19,8 @@ namespace Cool.Semantics
             return new SemanticError
             {
                 Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
-                $" '{confilctClassA.TypeId}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
-                $" '{confilctClassB.TypeId}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
+                $" '{confilctClassA.Text}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
+                $" '{confilctClassB.Text}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
             };
         }
 
@@ -31,7 +31,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The program already contains a definition for '{node.TypeId}'."
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The program already contains a definition for '{node.Text}'."
             };
         }
 
@@ -42,7 +42,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The type '{node.TypeId}' could not be found."
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The type '{node.Text}' could not be found."
             };
         }
 
@@ -53,7 +53,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The variable '{node.Name}' is already defined in this scope."
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The variable '{node.Text}' is already defined in this scope."
             };
         }
 

@@ -52,7 +52,6 @@ namespace Cool
             }
 
             var scope = new Scope();
-
             ProgramNode rootProgram = root as ProgramNode;
             if(!CheckSemantics(rootProgram, scope))
             {
@@ -107,6 +106,8 @@ namespace Cool
         private static bool CheckSemantics(ProgramNode root, Scope scope)
         {
             var errors = new List<SemanticError>();
+
+            var programNode = new Tour1().CheckSemantic(root, scope, errors);
 
             if (errors.Count == 0)
                 return true;

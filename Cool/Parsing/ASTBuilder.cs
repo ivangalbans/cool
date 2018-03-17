@@ -62,7 +62,7 @@ namespace Cool.Parsing
             var typeNode = new TypeNode(context.TYPE().Symbol.Line, context.TYPE().Symbol.Column, context.TYPE().GetText());
 
             node.Id = idNode;
-            node.TypeId = typeNode;
+            node.Type = typeNode;
 
             return node;
         }

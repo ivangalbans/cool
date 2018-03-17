@@ -9,17 +9,20 @@ using Cool.AST;
 namespace Cool.Semantics
 {
 
-    class Tour1 : IVisitor, ICheckSemantics
+    public class Tour1 : IVisitor, ICheckSemantics
     {
-        public ProgramNode CheckSemantic(ProgramNode node, ICollection<SemanticError> errors)
+        public ProgramNode CheckSemantic(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            node.Accept(this, null, errors);
+            node.Accept(this, scope, errors);
             return node;
         }
 
         public void Visit(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            Algorithm.TopologicalSort(node.Classes, errors);
+            if (!Algorithm.TopologicalSort(node.Classes, errors))
+                return;
+            foreach (var cclass in node.Classes)
+                Scope.DeclaredTypes.Add(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, Scope.DeclaredTypes[cclass.TypeInherit.Text], cclass));
             foreach (var item in node.Classes)
                 item.Accept(this, scope, errors);
         }
@@ -28,28 +31,39 @@ namespace Cool.Semantics
         {
             node.Scope = new Scope
             {
-                Type = Scope.DeclaredTypes[node.TypeClass.TypeId],
-                Parent = Scope.DeclaredTypes[node.TypeInherit.TypeId].ClassReference.Scope
+                Type = Scope.DeclaredTypes[node.TypeClass.Text]
+                
             };
+            var a = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference;
+            var b = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference.Scope;
+
+            scope.Parent = Scope.DeclaredTypes[node.TypeInherit.Text].ClassReference.Scope;
             foreach (var item in node.FeatureNodes)
                 item.Accept(this, node.Scope, errors);
         }
 
         public void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            if (!scope.IsDefinedType(node.Formal.Id.Name, out TypeInfo type))
-                errors.Add(SemanticError.NotDeclaredType(node.Formal.TypeId));
-            if (scope.IsDefined(node.Formal.Id.Name, out TypeInfo t))
+            if (!scope.IsDefinedType(node.Formal.Type.Text, out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(node.Formal.Type));
+            if (scope.IsDefined(node.Formal.Id.Text, out TypeInfo t))
                 errors.Add(SemanticError.RepeatedVariable(node.Formal.Id));
-            scope.Define(node.Formal.Id.Name, type);
+            scope.Define(node.Formal.Id.Text, type);
         }
 
         public void Visit(MethodNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            if (!scope.IsDefinedType(node.TypeReturn.TypeId, out TypeInfo typeReturn))
+            if (!scope.IsDefinedType(node.TypeReturn.Text, out TypeInfo typeReturn))
                 errors.Add(SemanticError.NotDeclaredType(node.TypeReturn));
 
-            //node.TypeReturn = new TypeNode(node.TypeReturn.)
+            node.TypeReturn = new TypeNode(node.TypeReturn.Line, node.TypeReturn.Column, typeReturn.Text);
+
+            TypeInfo[] typeArgs = new TypeInfo[node.Arguments.Count];
+            foreach (var arg in node.Arguments)
+                if (!scope.IsDefinedType(arg.Type.Text, out TypeInfo typeParam))
+                    errors.Add(SemanticError.NotDeclaredType(arg.Type));
+
+            scope.Define(node.Id.Text, typeArgs, typeReturn);
         }
 
         #region NOT IMPLEMENTATION

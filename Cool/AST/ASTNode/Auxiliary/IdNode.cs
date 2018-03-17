@@ -4,16 +4,16 @@ namespace Cool.AST
 {
     public class IdNode : AuxiliaryNode
     {
-        public string Name { get; set; }
+        public string Text { get; set; }
 
-        public IdNode(ParserRuleContext context, string name) : base(context)
+        public IdNode(ParserRuleContext context, string text) : base(context)
         {
-            Name = name;
+            Text = text;
         }
 
-        public IdNode(int line, int column, string name) : base(line, column)
+        public IdNode(int line, int column, string text) : base(line, column)
         {
-            Name = name;
+            Text = text;
         }
 
         #region NULL

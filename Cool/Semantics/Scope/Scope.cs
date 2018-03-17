@@ -25,18 +25,18 @@ namespace Cool.Semantics
         /// </summary>
         public static Dictionary<string, TypeInfo> DeclaredTypes;
 
-        public IScope Parent { get; set; }
-        public TypeInfo Type { get; set; }
+        public IScope Parent { get; set; } = NULL;
+        public TypeInfo Type { get; set; } = TypeInfo.NULL;
 
         static Scope()
         {
             DeclaredTypes = new Dictionary<string, TypeInfo>();
 
             DeclaredTypes.Add("Object", TypeInfo.NULL);
-            DeclaredTypes.Add("Bool", new TypeInfo { Name = "Bool", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("Int", new TypeInfo { Name = "Int", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("String", new TypeInfo { Name = "String", Parent = DeclaredTypes["Object"] });
-            DeclaredTypes.Add("IO", new TypeInfo { Name = "IO", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("String", new TypeInfo { Text = "String", Parent = DeclaredTypes["Object"] });
+            DeclaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = DeclaredTypes["Object"] });
 
             DeclaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
             DeclaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], DeclaredTypes["Int"]);
@@ -125,7 +125,7 @@ namespace Cool.Semantics
 
         public static NullScope NULL => nullScope;
 
-        internal class NullScope : IScope
+        public class NullScope : IScope
         {
             public IScope Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public TypeInfo Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

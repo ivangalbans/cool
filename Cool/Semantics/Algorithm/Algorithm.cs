@@ -35,14 +35,14 @@ namespace Cool.Semantics
             
             for (int i = 0; i < n; ++i)
             {
-                if(_id.ContainsKey(classNodes[i].TypeClass.TypeId))
+                if(_id.ContainsKey(classNodes[i].TypeClass.Text))
                 {
                     errors.Add(SemanticError.RepeatedClass(classNodes[i].TypeClass));
                     return false;
                 }
                 else
                 {
-                    _id.Add(classNodes[i].TypeClass.TypeId, i);
+                    _id.Add(classNodes[i].TypeClass.Text, i);
                 }
             }
 
@@ -92,7 +92,7 @@ namespace Cool.Semantics
 
         private static int Hash(TypeNode type)
         {
-            return _id.ContainsKey(type.TypeId) ? _id[type.TypeId] : -1;
+            return _id.ContainsKey(type.Text) ? _id[type.Text] : -1;
         }
 
     }

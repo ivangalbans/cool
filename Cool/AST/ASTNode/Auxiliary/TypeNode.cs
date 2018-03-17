@@ -5,23 +5,23 @@ using Cool.Semantics;
 
 namespace Cool.AST
 {
-    /*private class TypeNode : AuxiliaryNode
+    public class TypeNode : AuxiliaryNode
     {
-        public string TypeId { get; set; }
+        public string Text { get; set; }
 
-        public TypeNode(ParserRuleContext context, string typeId) : base(context)
+        public TypeNode(ParserRuleContext context, string text) : base(context)
         {
-            TypeId = typeId;
+            Text = text;
         }
 
-        public TypeNode(int line, int column, string typeId) : base(line, column)
+        public TypeNode(int line, int column, string text) : base(line, column)
         {
-            TypeId = typeId;
+            Text = text;
         }
 
         public override string ToString()
         {
-            return TypeId;
+            return Text;
         }
 
         #region NULL
@@ -35,5 +35,5 @@ namespace Cool.AST
         }
         #endregion
 
-    }*/
+    }
 }
