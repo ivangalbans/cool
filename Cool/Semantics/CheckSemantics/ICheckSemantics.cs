@@ -9,6 +9,6 @@ namespace Cool.Semantics
 {
     public interface ICheckSemantics
     {
-        ProgramNode CheckSemantic(ProgramNode node);
+        ProgramNode CheckSemantic(ProgramNode node, ICollection<SemanticError> errors);
     }
 }

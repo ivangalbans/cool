@@ -5,7 +5,7 @@ using Cool.Semantics;
 
 namespace Cool.AST
 {
-    public class TypeNode : AuxiliaryNode
+    /*private class TypeNode : AuxiliaryNode
     {
         public string TypeId { get; set; }
 
@@ -35,5 +35,5 @@ namespace Cool.AST
         }
         #endregion
 
-    }
+    }*/
 }

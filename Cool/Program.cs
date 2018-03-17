@@ -11,19 +11,21 @@ using Cool.Semantics;
 
 namespace Cool
 {
+
     class Program
     {
         static readonly int ErrorCode = 1;
 
+
         static void Main(string[] args)
         {
+
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
             Console.WriteLine("University of Havana");
             Console.WriteLine();
             Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
             Console.WriteLine("All Rights Reserved.\n");*/
-
 
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";

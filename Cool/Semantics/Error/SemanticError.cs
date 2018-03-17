@@ -14,35 +14,46 @@ namespace Cool.Semantics
         public int Line { get; set; }
         public int Column { get; set; }
 
-        public static SemanticError InvalidUseOfOperator(string op, string type, string member, ASTNode node)
+        public static SemanticError InvalidClassDependency(TypeNode confilctClassA, TypeNode confilctClassB)
+        {
+            return new SemanticError
+            {
+                Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
+                $" '{confilctClassA.TypeId}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
+                $" '{confilctClassB.TypeId}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
+            };
+        }
+
+        public static SemanticError RepeatedClass(TypeNode node)
         {
             return new SemanticError
             {
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Invalid use of {op} operator with a non-{type} {member} value"
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The program already contains a definition for '{node.TypeId}'."
             };
         }
 
-        public static SemanticError InvalidClassDependency(ClassNode confilctClassA, ClassNode confilctClassB)
+        public static SemanticError NotDeclaredType(TypeNode node)
         {
             return new SemanticError
             {
-                Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
-                $" '{confilctClassA.TypeClass}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
-                $"'{confilctClassB.TypeClass} (Line: {confilctClassB.Line} Column: {confilctClassB.Column})'"
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The type '{node.TypeId}' could not be found."
             };
         }
 
-        public static SemanticError RepeatedClass(ClassNode classNode)
+        public static SemanticError RepeatedVariable(IdNode node)
         {
             return new SemanticError
             {
-                Node = classNode,
-                Line = classNode.Line,
-                Column = classNode.Column,
-                Message = $"(Line: {classNode.Line}, Column: {classNode.Column}) The class '{classNode.TypeClass}' is already exist"
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The variable '{node.Name}' is already defined in this scope."
             };
         }
 

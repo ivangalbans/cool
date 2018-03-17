@@ -51,12 +51,12 @@
     <Compile Include="AST\Expressions\Atom\AtomNode.cs" />
     <Compile Include="AST\Expressions\Atom\BoolNode.cs" />
     <Compile Include="AST\Expressions\Atom\IdentifierNode.cs" />
-    <Compile Include="AST\Expressions\Auxiliary\IdNode.cs" />
+    <Compile Include="AST\ASTNode\Auxiliary\IdNode.cs" />
     <Compile Include="AST\Expressions\Atom\IntNode.cs" />
     <Compile Include="AST\Expressions\Atom\StringNode.cs" />
-    <Compile Include="AST\Expressions\Auxiliary\AuxiliaryNode.cs" />
-    <Compile Include="AST\Expressions\Auxiliary\FormalNode.cs" />
-    <Compile Include="AST\Expressions\Auxiliary\TypeNode.cs" />
+    <Compile Include="AST\ASTNode\Auxiliary\AuxiliaryNode.cs" />
+    <Compile Include="AST\ASTNode\Auxiliary\FormalNode.cs" />
+    <Compile Include="AST\ASTNode\Auxiliary\TypeNode.cs" />
     <Compile Include="AST\Expressions\Block\BlockNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchExplicitNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchImplicitNode.cs" />

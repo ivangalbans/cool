@@ -28,7 +28,7 @@ namespace Cool.Semantics
                 g[i] = new List<int>();
         }
 
-        public static bool TopologicalSort(List<ClassNode> classNodes, List<SemanticError> errors)
+        public static bool TopologicalSort(List<ClassNode> classNodes, ICollection<SemanticError> errors)
         {
             int n = classNodes.Count;
             Init(n);
@@ -37,7 +37,7 @@ namespace Cool.Semantics
             {
                 if(_id.ContainsKey(classNodes[i].TypeClass.TypeId))
                 {
-                    errors.Add(SemanticError.RepeatedClass(classNodes[i]));
+                    errors.Add(SemanticError.RepeatedClass(classNodes[i].TypeClass));
                     return false;
                 }
                 else
@@ -58,7 +58,7 @@ namespace Cool.Semantics
             {
                 if (_mk[u] == Color.White && !Dfs(u))
                 {
-                    errors.Add(SemanticError.InvalidClassDependency(classNodes[idA], classNodes[idB]));
+                    errors.Add(SemanticError.InvalidClassDependency(classNodes[idA].TypeClass, classNodes[idB].TypeClass));
                     return false;
                 }
             }

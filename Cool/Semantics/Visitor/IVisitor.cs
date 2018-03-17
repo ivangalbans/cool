@@ -10,8 +10,6 @@ namespace Cool.Semantics
 {
     public interface IVisitor
     {
-        void Visit(IScope scope, List<SemanticError> errors);
-
         void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(BinaryOperationNode node, IScope scope, ICollection<SemanticError> errors);
