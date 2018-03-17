@@ -20,6 +20,12 @@ namespace Cool
         static void Main(string[] args)
         {
 
+
+
+
+
+
+
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
             Console.WriteLine("University of Havana");
@@ -52,12 +58,12 @@ namespace Cool
             }
 
             var scope = new Scope();
-            /*ProgramNode rootProgram = root as ProgramNode;
+            ProgramNode rootProgram = root as ProgramNode;
             if(!CheckSemantics(rootProgram, scope))
             {
                 Environment.ExitCode = ErrorCode;
                 return;
-            }*/
+            }
 
 
             //GenerateCode(rootProgram, outputPath, scope);

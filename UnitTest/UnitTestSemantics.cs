@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Cool.AST;
 using Cool.Parsing;
 using Cool.Semantics;
@@ -18,8 +19,6 @@ namespace UnitTest
             string directorySuccess = "../../../Examples/Semantics/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
-            var scope = new Scope();
-
 
             foreach (var file in files)
             {
@@ -29,6 +28,8 @@ namespace UnitTest
                 var astBuilder = new ASTBuilder();
                 ProgramNode program = astBuilder.Visit(testParsing.tree) as ProgramNode;
 
+                Scope.Clear();
+                var scope = new Scope();
                 program = new Tour1().CheckSemantic(program, scope, errors);
 
                 foreach (var item in errors)
@@ -39,6 +40,25 @@ namespace UnitTest
         [TestMethod]
         public void TestSemanticsFail()
         {
+            UnitTestParsing testParsing = new UnitTestParsing();
+            string directoryFail = "../../../Examples/Semantics/fail/";
+            DirectoryInfo directory = new DirectoryInfo(directoryFail);
+            FileInfo[] files = directory.GetFiles();
+
+            foreach (var file in files)
+            {
+                List<SemanticError> errors = new List<SemanticError>();
+                testParsing.ParsingFile(file.FullName);
+
+                var astBuilder = new ASTBuilder();
+                ProgramNode program = astBuilder.Visit(testParsing.tree) as ProgramNode;
+
+                Scope.Clear();
+                var scope = new Scope();
+                program = new Tour1().CheckSemantic(program, scope, errors);
+
+                Assert.IsTrue(errors.Any(), file.Name);
+            }
         }
     }
 }

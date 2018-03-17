@@ -31,11 +31,11 @@ namespace Cool.Semantics
         {
             node.Scope = new Scope
             {
-                Type = scope.GetType(node.TypeClass.Text)
-                
+                Type = scope.GetType(node.TypeClass.Text),
+                Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope
             };
 
-            scope.Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope;
+            //scope.Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope;
             foreach (var item in node.FeatureNodes)
                 item.Accept(this, node.Scope, errors);
         }

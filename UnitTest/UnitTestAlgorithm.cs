@@ -38,8 +38,8 @@ namespace UnitTest
         public void TopologicalSortFail()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directorySuccess = "../../../Examples/Algorithm/fail/";
-            DirectoryInfo directory = new DirectoryInfo(directorySuccess);
+            string directoryFail = "../../../Examples/Algorithm/fail/";
+            DirectoryInfo directory = new DirectoryInfo(directoryFail);
             FileInfo[] files = directory.GetFiles();
 
             foreach (var file in files)

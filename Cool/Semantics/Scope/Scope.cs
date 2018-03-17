@@ -23,12 +23,12 @@ namespace Cool.Semantics
         /// <summary>
         /// Information relative to types in the current scope.
         /// </summary>
-        Dictionary<string, TypeInfo> _declaredTypes = new Dictionary<string, TypeInfo>();
+        static Dictionary<string, TypeInfo> _declaredTypes = new Dictionary<string, TypeInfo>();
 
         public IScope Parent { get; set; } = nullScope;
         public TypeInfo Type { get; set; } = TypeInfo.NULL;
 
-        public Scope()
+        static Scope()
         {
             _declaredTypes.Add("Object", TypeInfo.NULL);
             _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"] });
@@ -41,7 +41,7 @@ namespace Cool.Semantics
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
             
-            /*_declaredTypes["Object"].ClassReference = new ClassNode(0, 0, "Object", "NULL");
+            _declaredTypes["Object"].ClassReference = new ClassNode(0, 0, "Object", "NULL");
             _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], _declaredTypes["Object"]);
@@ -51,7 +51,17 @@ namespace Cool.Semantics
             _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["Int"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], _declaredTypes["Int"]);
-            */    
+            
+        }
+
+        public static void Clear()
+        {
+            var tmp = new Dictionary<string, TypeInfo>();
+            HashSet<string> builtin = new HashSet<string> { "Object", "Bool", "Int", "String", "IO" };
+            foreach (var item in _declaredTypes)
+                if(builtin.Contains(item.Key))
+                    tmp.Add(item.Key, item.Value);
+            _declaredTypes = tmp;
         }
 
         public bool IsDefined(string name, out TypeInfo type)
