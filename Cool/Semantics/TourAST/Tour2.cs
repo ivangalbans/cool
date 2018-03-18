@@ -187,10 +187,14 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
+        #region Auxiliary Node
         public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            if (!scope.IsDefined(node.Text, out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredVariable(node));
+            node.Type = type;
         }
+        #endregion
 
         public void Visit(WhileNode node, IScope scope, ICollection<SemanticError> errors)
         {

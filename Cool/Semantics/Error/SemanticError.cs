@@ -35,6 +35,17 @@ namespace Cool.Semantics
             };
         }
 
+        public static SemanticError NotDeclaredVariable(IdentifierNode node)
+        {
+            return new SemanticError
+            {
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The name '{node.Text}' does not exist in the current context."
+            };
+        }
+
         public static SemanticError NotDeclaredType(TypeNode node)
         {
             return new SemanticError

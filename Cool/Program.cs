@@ -18,7 +18,6 @@ namespace Cool
 
         static void Main(string[] args)
         {
-
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
             Console.WriteLine("University of Havana");
