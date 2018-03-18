@@ -217,7 +217,7 @@ namespace Cool.Semantics
             if (node.Condition.Type.Text != "Bool")
                 errors.Add(SemanticError.CannotConvert(node.Condition, node.Condition.Type, scope.GetType("Bool")));
 
-            Algorithm.LowerCommonAncestor(node.Body.Type, node.ElseBody.Type);
+            node.Type = Algorithm.LowerCommonAncestor(node.Body.Type, node.ElseBody.Type);
         }
 
         public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)

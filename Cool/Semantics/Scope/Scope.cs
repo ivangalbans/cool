@@ -31,10 +31,10 @@ namespace Cool.Semantics
         static Scope()
         {
             _declaredTypes.Add("Object", TypeInfo.NULL);
-            _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"] });
-            _declaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = _declaredTypes["Object"] });
-            _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"] });
-            _declaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = _declaredTypes["Object"] });
+            _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"], Level = 1 });
+            _declaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = _declaredTypes["Object"], Level = 1 });
+            _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"], Level = 1 });
+            _declaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = _declaredTypes["Object"], Level = 1 });
 
             _declaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
             _declaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], _declaredTypes["Int"]);

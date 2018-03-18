@@ -95,9 +95,12 @@ namespace Cool.Semantics
             return _id.ContainsKey(type.Text) ? _id[type.Text] : -1;
         }
 
-        public static void LowerCommonAncestor(TypeInfo type1, TypeInfo type2)
+        public static TypeInfo LowerCommonAncestor(TypeInfo type1, TypeInfo type2)
         {
-            throw new NotImplementedException();
+            while (type1.Level < type2.Level)   type2 = type2.Parent;
+            while (type2.Level < type1.Level)   type1 = type1.Parent;
+            while(type1 != type2) { type1 = type1.Parent; type2 = type2.Parent; }
+            return type1;
         }
     }
 }

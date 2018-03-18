@@ -12,6 +12,7 @@ namespace Cool.Semantics
         public string Text { get; set; }
         public TypeInfo Parent { get; set; } = ObjectType;
         public ClassNode ClassReference { get; set; }
+        public int Level { get; set; }
 
         public TypeInfo()
         {
@@ -22,6 +23,7 @@ namespace Cool.Semantics
             Text = text;
             Parent = parent;
             ClassReference = classReference;
+            Level = parent.Level + 1;
         }
 
         /// <summary>
@@ -77,6 +79,10 @@ namespace Cool.Semantics
 
         public class NullObjectTypeInfo : TypeInfo
         {
+            public NullObjectTypeInfo()
+            {
+                Level = 0;
+            }
 
             public override bool Inherit(TypeInfo other)
             {
