@@ -216,7 +216,14 @@ namespace Cool.Semantics
 
         public void Visit(WhileNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            node.Condition.Accept(this, scope, errors);
+            node.Body.Accept(this, scope, errors);
+
+            if (node.Condition.StaticType.Text != "Bool")
+                errors.Add(SemanticError.CannotConvert(node.Condition, node.Condition.StaticType, scope.GetType("Bool")));
+
+            if (!scope.IsDefinedType("Object", out node.StaticType))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Object")));
         }
         #endregion
 
