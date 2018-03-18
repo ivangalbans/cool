@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cool.AST;
 
 namespace Cool.Semantics
@@ -15,6 +13,7 @@ namespace Cool.Semantics
             return node;
         }
 
+        #region Program and Class
         public void Visit(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
         {
             foreach (var cclass in node.Classes)
@@ -26,7 +25,9 @@ namespace Cool.Semantics
             foreach (var feature in node.FeatureNodes)
                 feature.Accept(this, node.Scope, errors);
         }
+        #endregion
 
+        #region Feature
         public void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors)
         {
             node.AssignExp.Accept(this, scope, errors);
@@ -45,11 +46,7 @@ namespace Cool.Semantics
         {
             
         }
-
-        public void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         #region Unary Operation
         public void Visit(IsVoidNode node, IScope scope, ICollection<SemanticError> errors)
@@ -127,15 +124,17 @@ namespace Cool.Semantics
         }
         #endregion
 
+        #region Block and Assignment
         public void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         #region Dispatch
         public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
@@ -149,12 +148,7 @@ namespace Cool.Semantics
         }
         #endregion
 
-        public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
-
-        #region Atom Node
+        #region Atom
         public void Visit(IntNode node, IScope scope, ICollection<SemanticError> errors)
         {
             if(!scope.IsDefinedType("Int", out TypeInfo type))
@@ -177,6 +171,26 @@ namespace Cool.Semantics
         }
         #endregion
 
+        #region Auxiliary
+        public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            if (!scope.IsDefined(node.Text, out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredVariable(node));
+            node.Type = type;
+        }
+        #endregion
+
+        #region Keywords
+        public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
@@ -187,18 +201,11 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
-        #region Auxiliary Node
-        public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            if (!scope.IsDefined(node.Text, out TypeInfo type))
-                errors.Add(SemanticError.NotDeclaredVariable(node));
-            node.Type = type;
-        }
-        #endregion
-
         public void Visit(WhileNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }
+        #endregion
+
     }
 }
