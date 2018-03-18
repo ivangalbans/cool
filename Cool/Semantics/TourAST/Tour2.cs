@@ -51,6 +51,40 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
+        #region Unary Operation
+        public void Visit(IsVoidNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.Operand.Accept(this, scope, errors);
+
+            if(!scope.IsDefinedType("Bool", out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+            node.Type = type;
+        }
+
+        public void Visit(NotNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.Operand.Accept(this, scope, errors);
+
+            if (node.Operand.Type.Text != "Bool")
+                errors.Add(SemanticError.InvalidUseOfOperator(node, node.Operand.Type));
+
+            if (!scope.IsDefinedType("Bool", out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+            node.Type = type;
+        }
+
+        public void Visit(NegNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.Operand.Accept(this, scope, errors);
+
+            if (node.Operand.Type.Text != "Int")
+                errors.Add(SemanticError.InvalidUseOfOperator(node, node.Operand.Type));
+
+            if (!scope.IsDefinedType("Int", out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
+            node.Type = type;
+        }
+        #endregion
 
         #region Binary Operation
         public void Visit(ArithmeticOperation node, IScope scope, ICollection<SemanticError> errors)
@@ -133,27 +167,12 @@ namespace Cool.Semantics
         }
         #endregion
 
-        public void Visit(IsVoidNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(NegNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Visit(NewNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(NotNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }

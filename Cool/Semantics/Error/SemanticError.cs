@@ -68,6 +68,17 @@ namespace Cool.Semantics
             };
         }
 
+        public static SemanticError InvalidUseOfOperator(UnaryOperationNode node, TypeInfo operand)
+        {
+            return new SemanticError
+            {
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{operand.Text}'"
+            };
+        }
+
         public static SemanticError InvalidUseOfOperator(BinaryOperationNode node, TypeInfo leftOperand, TypeInfo rightOperand)
         {
             return new SemanticError

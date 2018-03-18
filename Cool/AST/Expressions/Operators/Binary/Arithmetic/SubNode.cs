@@ -6,11 +6,11 @@ namespace Cool.AST
 {
     class SubNode : ArithmeticOperation
     {
+        public override string Symbol => "-";
+
         public SubNode(ParserRuleContext context) : base(context)
         {
         }
-
-        public override string Symbol => "-";
 
         public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
         {

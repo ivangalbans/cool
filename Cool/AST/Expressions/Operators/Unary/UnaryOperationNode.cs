@@ -6,7 +6,7 @@ namespace Cool.AST
     {
         public ExpressionNode Operand { get; set; }
 
-        public abstract string OperatorName { get; }
+        public abstract string Symbol { get; }
 
         public UnaryOperationNode(ParserRuleContext context) : base(context)
         {

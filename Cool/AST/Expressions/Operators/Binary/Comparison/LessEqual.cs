@@ -7,11 +7,11 @@ namespace Cool.AST
 {
     public class LessEqual : ComparisonOperation
     {
+        public override string Symbol => "<=";
+
         public LessEqual(ParserRuleContext context) : base(context)
         {
         }
-
-        public override string Symbol => "<=";
 
         public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
         {

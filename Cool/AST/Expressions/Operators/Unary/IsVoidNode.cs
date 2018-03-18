@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     public class IsVoidNode : UnaryOperationNode
     {
-        public override string OperatorName => "isvoid operation";
+        public override string Symbol => "isvoid";
 
         public IsVoidNode(ParserRuleContext context) : base(context)
         {

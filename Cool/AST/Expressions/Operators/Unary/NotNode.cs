@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     public class NotNode : UnaryOperationNode
     {
-        public override string OperatorName => "operation not";
+        public override string Symbol => "~";
 
         public NotNode(ParserRuleContext context) : base(context)
         {
