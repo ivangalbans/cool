@@ -70,7 +70,7 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
-        public void Visit(BinaryOperationNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ArithmeticOperation node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
         }

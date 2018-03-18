@@ -11,6 +11,8 @@ namespace Cool.AST
         {
         }
 
+        public override string Symbol => "=";
+
         public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
         {
             visitor.Visit(this, scope, errors);

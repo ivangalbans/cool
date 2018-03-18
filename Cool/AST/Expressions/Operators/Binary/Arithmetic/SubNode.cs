@@ -10,7 +10,7 @@ namespace Cool.AST
         {
         }
 
-        public override string OperatorName => "minus";
+        public override string Symbol => "-";
 
         public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
         {

@@ -8,7 +8,5 @@ namespace Cool.AST
         public ArithmeticOperation(ParserRuleContext context) : base(context)
         {
         }
-
-        public abstract string OperatorName { get; }
     }
 }

@@ -13,5 +13,7 @@ namespace Cool.AST
         {
         }
 
+        public abstract string Symbol { get; }
+
     }
 }

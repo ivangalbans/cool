@@ -16,15 +16,8 @@ namespace Cool
     {
         static readonly int ErrorCode = 1;
 
-
         static void Main(string[] args)
         {
-
-
-
-
-
-
 
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
@@ -36,7 +29,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "other-type.cl";
+            string file = "sum.cl";
             string inputPath = preffixSuccess + file;
             string outputPath = "";
 
@@ -66,7 +59,7 @@ namespace Cool
             }
 
 
-            //GenerateCode(rootProgram, outputPath, scope);
+            GenerateCode(rootProgram, outputPath, scope);
 
         }
 
@@ -114,6 +107,7 @@ namespace Cool
             var errors = new List<SemanticError>();
 
             var programNode = new Tour1().CheckSemantic(root, scope, errors);
+            programNode = new Tour2().CheckSemantic(programNode, scope, errors);
 
             if (errors.Count == 0)
                 return true;

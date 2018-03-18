@@ -12,7 +12,7 @@ namespace Cool.Semantics
     {
         void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors);
-        void Visit(BinaryOperationNode node, IScope scope, ICollection<SemanticError> errors);
+        void Visit(ArithmeticOperation node, IScope scope, ICollection<SemanticError> errors);
         void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(BoolNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors);
