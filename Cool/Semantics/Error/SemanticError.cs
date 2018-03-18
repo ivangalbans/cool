@@ -18,7 +18,7 @@ namespace Cool.Semantics
         {
             return new SemanticError
             {
-                Message = $"The class dependency is not a DAG. Circular base class dependency involving" +
+                Message = $"Circular base class dependency involving" +
                 $" '{confilctClassA.Text}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
                 $" '{confilctClassB.Text}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
             };

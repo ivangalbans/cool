@@ -77,8 +77,7 @@ namespace Cool.Semantics
             {
                 bool ok = true;
                 for (int i = 0; i < args.Length; ++i)
-                    //the type of parameters must be equal each one.
-                    if ((args[i] != _functions[name].Args[i]))
+                    if (!(args[i] <= _functions[name].Args[i]))
                         ok = false;
                 if(ok)
                 {

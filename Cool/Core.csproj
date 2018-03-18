@@ -101,6 +101,7 @@
     <Compile Include="Semantics\Scope\Scope.cs" />
     <Compile Include="Semantics\Error\SemanticError.cs" />
     <Compile Include="Semantics\TourAST\Tour1.cs" />
+    <Compile Include="Semantics\TourAST\Tour2.cs" />
     <Compile Include="Semantics\Visitor\IVisit.cs" />
     <Compile Include="Semantics\Visitor\IVisitor.cs" />
   </ItemGroup>
