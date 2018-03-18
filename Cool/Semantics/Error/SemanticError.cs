@@ -68,7 +68,7 @@ namespace Cool.Semantics
             };
         }
 
-        public static SemanticError CannotConvert(TypeNode node, TypeInfo first, TypeInfo second)
+        public static SemanticError CannotConvert(ASTNode node, TypeInfo first, TypeInfo second)
         {
             return new SemanticError
             {

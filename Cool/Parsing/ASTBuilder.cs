@@ -188,7 +188,7 @@ namespace Cool.Parsing
         {
             return new AssignmentNode(context)
             {
-                ID = new IdNode(context, context.ID().GetText()),
+                ID = new IdentifierNode(context, context.ID().GetText()),
                 ExpressionRight = Visit(context.expression()) as ExpressionNode
             };
         }

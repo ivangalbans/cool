@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     public class AssignmentNode : ExpressionNode
     {
-        public IdNode ID { get; set; }
+        public IdentifierNode ID { get; set; }
         public ExpressionNode ExpressionRight { get; set; }
 
         public AssignmentNode(ParserRuleContext context) : base(context)

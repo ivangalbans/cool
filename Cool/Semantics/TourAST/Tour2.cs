@@ -55,6 +55,7 @@ namespace Cool.Semantics
 
             if(!scope.IsDefinedType("Bool", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+
             node.Type = type;
         }
 
@@ -67,6 +68,7 @@ namespace Cool.Semantics
 
             if (!scope.IsDefinedType("Bool", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+
             node.Type = type;
         }
 
@@ -79,6 +81,7 @@ namespace Cool.Semantics
 
             if (!scope.IsDefinedType("Int", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
+
             node.Type = type;
         }
         #endregion
@@ -94,6 +97,7 @@ namespace Cool.Semantics
 
             if(!scope.IsDefinedType("Int", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
+
             node.Type = type;
         }
 
@@ -107,6 +111,7 @@ namespace Cool.Semantics
 
             if (!scope.IsDefinedType("Bool", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+
             node.Type = type;
         }
 
@@ -120,6 +125,7 @@ namespace Cool.Semantics
 
             if (!scope.IsDefinedType("Bool", out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+
             node.Type = type;
         }
         #endregion
@@ -127,12 +133,28 @@ namespace Cool.Semantics
         #region Block and Assignment
         public void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            foreach (var exp in node.ExpressionsBlock)
+                exp.Accept(this, scope, errors);
+
+            var last = node.ExpressionsBlock[node.ExpressionsBlock.Count - 1];
+
+            if (!scope.IsDefinedType(last.Type.Text, out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(last.Line, last.Column, last.Type.Text)));
+
+            node.Type = type;
         }
 
         public void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            node.ExpressionRight.Accept(this, scope, errors);
+
+            if (!scope.IsDefined(node.ID.Text, out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredVariable(node.ID));
+
+            if (!(node.ExpressionRight.Type <= type))
+                errors.Add(SemanticError.CannotConvert(node, node.ExpressionRight.Type, type));
+
+            node.Type = node.ExpressionRight.Type;
         }
         #endregion
 

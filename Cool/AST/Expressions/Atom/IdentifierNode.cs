@@ -9,9 +9,7 @@ namespace Cool.AST
     {
         public string Text { get; set; }
 
-        public IdentifierNode(ParserRuleContext context) : base(context) { }
-
-        public IdentifierNode(int line, int column, string text) : base(line, column)
+        public IdentifierNode(ParserRuleContext context, string text) : base(context)
         {
             Text = text;
         }
