@@ -112,6 +112,19 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
             node.Type = type;
         }
+
+        public void Visit(EqualNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.LeftOperand.Accept(this, scope, errors);
+            node.RightOperand.Accept(this, scope, errors);
+
+            if (node.LeftOperand.Type.Text != node.RightOperand.Type.Text || !(new string[3] { "Bool", "Int", "String"}.Contains(node.LeftOperand.Type.Text)))
+                errors.Add(SemanticError.InvalidUseOfOperator(node, node.LeftOperand.Type, node.RightOperand.Type));
+
+            if (!scope.IsDefinedType("Bool", out TypeInfo type))
+                errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
+            node.Type = type;
+        }
         #endregion
 
         public void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors)
@@ -124,6 +137,7 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
+        #region Dispatch
         public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
@@ -133,11 +147,7 @@ namespace Cool.Semantics
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(EqualNode node, IScope scope, ICollection<SemanticError> errors)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
         {

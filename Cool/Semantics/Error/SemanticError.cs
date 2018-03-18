@@ -64,7 +64,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Cannot convert from '{first.Text}' to '{second.Text}'"
+                Message = $"(Line: {node.Line}, Column: {node.Column}) Cannot convert from '{first.Text}' to '{second.Text}'."
             };
         }
 
@@ -75,7 +75,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{operand.Text}'"
+                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{operand.Text}'."
             };
         }
 
@@ -86,7 +86,7 @@ namespace Cool.Semantics
                 Node = node,
                 Line = node.Line,
                 Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{leftOperand.Text}' and '{rightOperand.Text}'"
+                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{leftOperand.Text}' and '{rightOperand.Text}'."
             };
         }
 
