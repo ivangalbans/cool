@@ -70,7 +70,7 @@ namespace Cool.Semantics
         bool AddType(string name, TypeInfo type);
 
         /// <summary>
-        /// Add a type to this scope.
+        /// Seach a type to this scope.
         /// </summary>
         /// <param name="name">Expected name of the type to get</param>
         /// <returns>The expected type</returns>

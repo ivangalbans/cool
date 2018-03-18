@@ -210,7 +210,14 @@ namespace Cool.Semantics
 
         public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            node.Condition.Accept(this, scope, errors);
+            node.Body.Accept(this, scope, errors);
+            node.ElseBody.Accept(this, scope, errors);
+
+            if (node.Condition.Type.Text != "Bool")
+                errors.Add(SemanticError.CannotConvert(node.Condition, node.Condition.Type, scope.GetType("Bool")));
+
+            Algorithm.LowerCommonAncestor(node.Body.Type, node.ElseBody.Type);
         }
 
         public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)

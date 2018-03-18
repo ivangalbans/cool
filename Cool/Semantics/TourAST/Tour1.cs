@@ -35,7 +35,6 @@ namespace Cool.Semantics
                 Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope
             };
 
-            //scope.Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope;
             foreach (var item in node.FeatureNodes)
                 item.Accept(this, node.Scope, errors);
         }
