@@ -7,7 +7,7 @@ namespace Cool.AST
 {
     public abstract class ExpressionNode : ASTNode, IVisit
     {
-        public TypeInfo StaticType = TypeInfo.NULL;
+        public TypeInfo StaticType = TypeInfo.OBJECT;
 
         public ExpressionNode(ParserRuleContext context) : base(context) { }
 

@@ -9,8 +9,8 @@ namespace Cool.Semantics
 {
     public class TypeInfo
     {
-        public string Text { get; set; }
-        public TypeInfo Parent { get; set; } = ObjectType;
+        public string Text { get; set; } = "Object";
+        public TypeInfo Parent { get; set; } = OBJECT;
         public ClassNode ClassReference { get; set; }
         public int Level { get; set; }
 
@@ -33,7 +33,7 @@ namespace Cool.Semantics
         /// <returns>True if the first type inherit of the second</returns>
         public virtual bool Inherit(TypeInfo other)
         {
-            if (Text == other.Text) return true;
+            if (this == other) return true;
             return Parent.Inherit(other);
         }
 
@@ -60,30 +60,10 @@ namespace Cool.Semantics
         #region OBJECT
         private static ObjectTypeInfo objectType = new ObjectTypeInfo();
 
-        public static ObjectTypeInfo ObjectType => objectType;
+        public static ObjectTypeInfo OBJECT => objectType;
 
         public class ObjectTypeInfo : TypeInfo
         {
-
-            public override bool Inherit(TypeInfo other)
-            {
-                return false;
-            }
-        }
-        #endregion
-
-        #region NULL
-        private static NullObjectTypeInfo nullType = new NullObjectTypeInfo();
-
-        public static NullObjectTypeInfo NULL => nullType;
-
-        public class NullObjectTypeInfo : TypeInfo
-        {
-            public NullObjectTypeInfo()
-            {
-                Level = -1;
-                Parent = null;
-            }
 
             public override bool Inherit(TypeInfo other)
             {

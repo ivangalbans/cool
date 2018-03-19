@@ -26,11 +26,11 @@ namespace Cool.Semantics
         static Dictionary<string, TypeInfo> _declaredTypes = new Dictionary<string, TypeInfo>();
 
         public IScope Parent { get; set; } = nullScope;
-        public TypeInfo Type { get; set; } = TypeInfo.NULL;
+        public TypeInfo Type { get; set; } = TypeInfo.OBJECT;
 
         static Scope()
         {
-            _declaredTypes.Add("Object", TypeInfo.ObjectType);
+            _declaredTypes.Add("Object", TypeInfo.OBJECT);
             _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Bool", "Object") });
             _declaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Int", "Object") });
             _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"], Level = 1 });
@@ -41,7 +41,7 @@ namespace Cool.Semantics
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
             
-            _declaredTypes["Object"].ClassReference = new ClassNode(0, 0, "Object", "NULL");
+            _declaredTypes["Object"].ClassReference = new ClassNode(-1, -1, "Object", "NULL");
             _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], _declaredTypes["Object"]);
@@ -71,7 +71,7 @@ namespace Cool.Semantics
 
         public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
         {
-            type = TypeInfo.ObjectType;
+            type = TypeInfo.OBJECT;
             if(_functions.ContainsKey(name) && _functions[name].Args.Length == args.Length)
             {
                 bool ok = true;
@@ -137,7 +137,7 @@ namespace Cool.Semantics
         {
             if (_declaredTypes.TryGetValue(name, out TypeInfo type))
                 return type;
-            return TypeInfo.NULL;
+            return TypeInfo.OBJECT;
         }
 
         #region
@@ -148,7 +148,7 @@ namespace Cool.Semantics
         public class NullScope : IScope
         {
             public IScope Parent { get; set; }
-            public TypeInfo Type { get; set; } = TypeInfo.NULL;
+            public TypeInfo Type { get; set; } = TypeInfo.OBJECT;
 
             public bool AddType(string name, TypeInfo type)
             {
@@ -165,7 +165,7 @@ namespace Cool.Semantics
                 return new Scope()
                 {
                     Parent = NULL,
-                    Type = TypeInfo.NULL
+                    Type = TypeInfo.OBJECT
                 };
             }
 
@@ -181,24 +181,24 @@ namespace Cool.Semantics
 
             public TypeInfo GetType(string name)
             {
-                return TypeInfo.NULL;
+                return TypeInfo.OBJECT;
             }
 
             public bool IsDefined(string name, out TypeInfo type)
             {
-                type = TypeInfo.ObjectType;
+                type = TypeInfo.OBJECT;
                 return false;
             }
 
             public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
             {
-                type = TypeInfo.ObjectType;
+                type = TypeInfo.OBJECT;
                 return false;
             }
 
             public bool IsDefinedType(string name, out TypeInfo type)
             {
-                type = TypeInfo.ObjectType;
+                type = TypeInfo.OBJECT;
                 return false;
             }
         }

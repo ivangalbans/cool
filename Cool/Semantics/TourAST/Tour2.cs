@@ -61,9 +61,8 @@ namespace Cool.Semantics
 
             if (!(node.Body.StaticType <= typeReturn))
                 errors.Add(SemanticError.CannotConvert(node.Body, node.Body.StaticType, typeReturn));
-            /*
+            
             node.TypeReturn = new TypeNode(node.Body.Line, node.Body.Column, node.Body.StaticType.Text);
-            */
         }
         #endregion
 
