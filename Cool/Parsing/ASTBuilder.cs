@@ -147,7 +147,7 @@ namespace Cool.Parsing
 
         public override ASTNode VisitId([NotNull] CoolParser.IdContext context)
         {
-            return new IdNode(context, context.ID().GetText());
+            return new IdentifierNode(context, context.ID().GetText());
         }
 
         public override ASTNode VisitBoolNot([NotNull] CoolParser.BoolNotContext context)
@@ -181,6 +181,7 @@ namespace Cool.Parsing
 
             node.LeftOperand = Visit(context.expression(0)) as ExpressionNode;      // LEFT EXPRESSION
             node.RightOperand = Visit(context.expression(1)) as ExpressionNode;     //RIGHT EXPRESSION
+
             return node;
         }
 

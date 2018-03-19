@@ -105,5 +105,16 @@ namespace Cool.Semantics
         {
             return $"{Message}";
         }
+
+        public static SemanticError NotDeclareFunction(DispatchImplicitNode node, string name)
+        {
+            return new SemanticError
+            {
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The name '{name}' does not exist in the current context."
+            };
+        }
     }
 }

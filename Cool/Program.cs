@@ -34,7 +34,7 @@ namespace Cool
 
 
             ASTNode root = ParseInput(inputPath);
-
+            //return;
             if (root == null)
             {
                 Console.WriteLine("AST no created");

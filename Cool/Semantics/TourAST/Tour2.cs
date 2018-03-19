@@ -71,9 +71,8 @@ namespace Cool.Semantics
         {
             node.Operand.Accept(this, scope, errors);
 
-            if(!scope.IsDefinedType("Bool", out node.StaticType))
+            if (!scope.IsDefinedType("Bool", out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
-
         }
 
         public void Visit(NotNode node, IScope scope, ICollection<SemanticError> errors)
@@ -171,7 +170,11 @@ namespace Cool.Semantics
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            
+            foreach (var argExp in node.Arguments)
+                argExp.Accept(this, scope, errors);
+
+            if (!scope.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out TypeInfo typeReturn))
+                errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
         }
         #endregion
 
