@@ -20,7 +20,7 @@ namespace Cool.Parsing
         {
             var node = new ClassNode(context);
             var typeClass = new TypeNode(context.TYPE(0).Symbol.Line, context.TYPE(0).Symbol.Column, context.TYPE(0).GetText());
-            var typeInherit = context.TYPE(1) == null ? TypeNode.NULL : new TypeNode(context.TYPE(1).Symbol.Line,
+            var typeInherit = context.TYPE(1) == null ? TypeNode.OBJECT : new TypeNode(context.TYPE(1).Symbol.Line,
                                                         context.TYPE(1).Symbol.Column, context.TYPE(1).GetText());
 
             node.TypeClass = typeClass;

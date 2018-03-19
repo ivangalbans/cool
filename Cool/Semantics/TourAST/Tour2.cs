@@ -165,7 +165,16 @@ namespace Cool.Semantics
         #region Dispatch
         public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            
+            node.Expression.Accept(this, scope, errors);
+
+            if (!scope.IsDefinedType(node.IdType.Text, out TypeInfo typeSuperClass))
+                errors.Add(SemanticError.NotDeclaredType(node.IdType));
+
+            if (!(node.Expression.StaticType <= typeSuperClass))
+                errors.Add(SemanticError.CannotConvert(node, node.Expression.StaticType, typeSuperClass));
+
+
+
         }
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
@@ -198,6 +207,7 @@ namespace Cool.Semantics
         }
         #endregion
 
+        #region Identifier and Formal
         public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
         {
             if (!scope.IsDefined(node.Text, out node.StaticType))
@@ -209,6 +219,7 @@ namespace Cool.Semantics
             if (!scope.IsDefinedType(node.Type.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(node.Type));
         }
+        #endregion
 
         #region Keywords
         public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)

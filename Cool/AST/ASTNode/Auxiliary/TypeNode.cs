@@ -24,14 +24,14 @@ namespace Cool.AST
             return Text;
         }
 
-        #region NULL
-        private static readonly NullType nullType = new NullType();
+        #region OBJECT
+        private static readonly ObjectType objectType = new ObjectType();
 
-        public static NullType NULL => nullType;
+        public static ObjectType OBJECT => objectType;
 
-        public class NullType : TypeNode
+        public class ObjectType : TypeNode
         {
-            public NullType(int line = 0, int column = 0, string name = "Object") : base(line, column, name) { }
+            public ObjectType(int line = 0, int column = 0, string name = "Object") : base(line, column, name) { }
         }
         #endregion
 
