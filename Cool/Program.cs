@@ -16,8 +16,23 @@ namespace Cool
     {
         static readonly int ErrorCode = 1;
 
+        class Num
+        {
+            public int n;
+            public Num(int nn)
+            {
+                n = nn;
+            }
+
+            public override string ToString()
+            {
+                return n.ToString();
+            }
+        }
+
         static void Main(string[] args)
         {
+
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
             Console.WriteLine("University of Havana");

@@ -106,7 +106,7 @@ namespace Cool.Semantics
             return $"{Message}";
         }
 
-        public static SemanticError NotDeclareFunction(DispatchImplicitNode node, string name)
+        public static SemanticError NotDeclareFunction(DispatchNode node, string name)
         {
             return new SemanticError
             {

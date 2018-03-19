@@ -173,8 +173,11 @@ namespace Cool.Semantics
             if (!(node.Expression.StaticType <= typeSuperClass))
                 errors.Add(SemanticError.CannotConvert(node, node.Expression.StaticType, typeSuperClass));
 
+            node.Arguments.ForEach(x => x.Accept(this, scope, errors));
 
-
+            var scopeSuperClass = typeSuperClass.ClassReference.Scope;
+            if (!(scopeSuperClass.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out node.StaticType)))
+                errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
         }
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)

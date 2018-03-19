@@ -17,7 +17,7 @@
   <Class Name="Cool.AST.FormalNode" Collapsed="true">
     <Position X="55.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AIACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>AST\ASTNode\Auxiliary\FormalNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -31,7 +31,7 @@
   <Class Name="Cool.AST.TypeNode" Collapsed="true">
     <Position X="60" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAABAAAIAAAAAACAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAEAAAAAAgAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>AST\ASTNode\Auxiliary\TypeNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -366,7 +366,7 @@
   <Class Name="Cool.Semantics.Scope" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABEAAAAADAIAAAAAAAQAAAAAAAAI0CAQAAAgBABAA=</HashCode>
+      <HashCode>AAABEAgAAADAIAAAAAAAQAAAAAAAAI0CAQAAAgBABAA=</HashCode>
       <FileName>Semantics\Scope\Scope.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -404,7 +404,7 @@
   <Interface Name="Cool.Semantics.IScope" Collapsed="true">
     <Position X="75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAABAIAAAAAAAQAAAAAAAAA0AAQAAAAAABAA=</HashCode>
+      <HashCode>AAABAAgAAABAIAAAAAAAQAAAAAAAAA0AAQAAAAAABAA=</HashCode>
       <FileName>Semantics\Scope\IScope.cs</FileName>
     </TypeIdentifier>
   </Interface>
