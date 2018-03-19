@@ -173,7 +173,7 @@ namespace Cool.Semantics
             foreach (var argExp in node.Arguments)
                 argExp.Accept(this, scope, errors);
 
-            if (!scope.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out TypeInfo typeReturn))
+            if (!scope.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out node.StaticType))
                 errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
         }
         #endregion
@@ -198,13 +198,17 @@ namespace Cool.Semantics
         }
         #endregion
 
-        #region Auxiliary
         public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
         {
             if (!scope.IsDefined(node.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredVariable(node));
         }
-        #endregion
+
+        public void Visit(FormalNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            if (!scope.IsDefinedType(node.Type.Text, out node.StaticType))
+                errors.Add(SemanticError.NotDeclaredType(node.Type));
+        }
 
         #region Keywords
         public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)

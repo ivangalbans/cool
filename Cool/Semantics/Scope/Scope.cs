@@ -37,16 +37,19 @@ namespace Cool.Semantics
             _declaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = _declaredTypes["Object"], Level = 1 });
 
             _declaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
+            _declaredTypes["String"].ClassReference.Scope = new Scope();
             _declaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], _declaredTypes["Int"]);
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
-            
+            \
             _declaredTypes["Object"].ClassReference = new ClassNode(-1, -1, "Object", "NULL");
+            _declaredTypes["Object"].ClassReference.Scope = new Scope();
             _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], _declaredTypes["Object"]);
 
             _declaredTypes["IO"].ClassReference = new ClassNode(-1, -1, "IO", "Object");
+            _declaredTypes["IO"].ClassReference.Scope = new Scope();
             _declaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["Int"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], _declaredTypes["String"]);

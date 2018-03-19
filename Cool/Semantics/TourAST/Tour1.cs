@@ -109,6 +109,11 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
+        public void Visit(FormalNode formalNode, IScope scope, ICollection<SemanticError> errors)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
         {
             throw new NotImplementedException();
