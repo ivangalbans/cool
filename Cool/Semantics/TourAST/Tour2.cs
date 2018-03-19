@@ -259,27 +259,8 @@ namespace Cool.Semantics
                     scopeLet.Define(expInit.Formal.Id.Text, typeDeclared);
             }
 
-            /*
-            node.AssignExp.Accept(this, scope, errors);
-            var typeAssignExp = node.AssignExp.StaticType;
-
-            if (!scope.IsDefinedType(node.Formal.Type.Text, out TypeInfo typeDeclared))
-                errors.Add(SemanticError.NotDeclaredType(node.Formal.Type));
-
-            if (!(typeAssignExp <= typeDeclared))
-                errors.Add(SemanticError.CannotConvert(node.Formal.Type, typeAssignExp, typeDeclared));
-
-            scope.Define(node.Formal.Id.Text, typeDeclared);
-            */
-
-
-
-
-
-
             node.ExpressionBody.Accept(this, scopeLet, errors);
             node.StaticType = node.ExpressionBody.StaticType;
-
         }
 
         public void Visit(NewNode node, IScope scope, ICollection<SemanticError> errors)
