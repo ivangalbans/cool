@@ -57,14 +57,11 @@ namespace Cool.Parsing
 
         public override ASTNode VisitFormal([NotNull] CoolParser.FormalContext context)
         {
-            var node = new FormalNode(context);
-            var idNode = new IdNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
-            var typeNode = new TypeNode(context.TYPE().Symbol.Line, context.TYPE().Symbol.Column, context.TYPE().GetText());
-
-            node.Id = idNode;
-            node.Type = typeNode;
-
-            return node;
+            return new FormalNode(context)
+            {
+                Id = new IdentifierNode(context, context.ID().GetText()),
+                Type = new TypeNode(context.TYPE().Symbol.Line, context.TYPE().Symbol.Column, context.TYPE().GetText())
+            };
         }
 
         public override ASTNode VisitComparisson([NotNull] CoolParser.ComparissonContext context)

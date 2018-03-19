@@ -41,7 +41,7 @@ namespace Cool.Semantics
             _declaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], _declaredTypes["Int"]);
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
-            \
+            
             _declaredTypes["Object"].ClassReference = new ClassNode(-1, -1, "Object", "NULL");
             _declaredTypes["Object"].ClassReference.Scope = new Scope();
             _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);

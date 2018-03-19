@@ -57,7 +57,7 @@ namespace Cool.Semantics
             };
         }
 
-        public static SemanticError RepeatedVariable(IdNode node)
+        public static SemanticError RepeatedVariable(IdentifierNode node)
         {
             return new SemanticError
             {

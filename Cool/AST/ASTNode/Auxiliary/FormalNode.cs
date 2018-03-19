@@ -7,7 +7,7 @@ namespace Cool.AST
 {
     public class FormalNode : ExpressionNode
     {
-        public IdNode Id { get; set; }
+        public IdentifierNode Id { get; set; }
         public TypeNode Type { get; set; }
 
         public FormalNode(ParserRuleContext context) : base(context)
