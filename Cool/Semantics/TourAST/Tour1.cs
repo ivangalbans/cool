@@ -21,10 +21,9 @@ namespace Cool.Semantics
         {
             if (!Algorithm.TopologicalSort(node.Classes, errors))
                 return;
-            foreach (var cclass in node.Classes)
-                scope.AddType(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, scope.GetType(cclass.TypeInherit.Text), cclass));
-            foreach (var item in node.Classes)
-                item.Accept(this, scope, errors);
+
+            node.Classes.ForEach(cclass => scope.AddType(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, scope.GetType(cclass.TypeInherit.Text), cclass)));
+            node.Classes.ForEach(cclass => cclass.Accept(this, scope, errors));
         }
 
         public void Visit(ClassNode node, IScope scope, ICollection<SemanticError> errors)
@@ -35,8 +34,7 @@ namespace Cool.Semantics
                 Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope
             };
 
-            foreach (var item in node.FeatureNodes)
-                item.Accept(this, node.Scope, errors);
+            node.FeatureNodes.ForEach(feature => feature.Accept(this, node.Scope, errors));
         }
 
         public void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors)

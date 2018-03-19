@@ -16,14 +16,12 @@ namespace Cool.Semantics
         #region Program and Class
         public void Visit(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            foreach (var cclass in node.Classes)
-                cclass.Accept(this, cclass.Scope, errors);
+            node.Classes.ForEach(cclass => cclass.Accept(this, cclass.Scope, errors));
         }
 
         public void Visit(ClassNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            foreach (var feature in node.FeatureNodes)
-                feature.Accept(this, node.Scope, errors);
+            node.FeatureNodes.ForEach(feature => feature.Accept(this, scope, errors));
         }
         #endregion
 
@@ -139,8 +137,7 @@ namespace Cool.Semantics
         #region Block and Assignment
         public void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            foreach (var exp in node.ExpressionsBlock)
-                exp.Accept(this, scope, errors);
+            node.ExpressionsBlock.ForEach(exp => exp.Accept(this, scope, errors));
 
             var last = node.ExpressionsBlock[node.ExpressionsBlock.Count - 1];
 
@@ -182,8 +179,7 @@ namespace Cool.Semantics
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            foreach (var argExp in node.Arguments)
-                argExp.Accept(this, scope, errors);
+            node.Arguments.ForEach(argExp => argExp.Accept(this, scope, errors));
 
             if (!scope.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out node.StaticType))
                 errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
