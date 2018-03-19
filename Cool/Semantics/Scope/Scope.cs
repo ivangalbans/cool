@@ -66,8 +66,7 @@ namespace Cool.Semantics
 
         public bool IsDefined(string name, out TypeInfo type)
         {
-            return _variables.TryGetValue(name, out type) ||
-                    Parent.IsDefined(name, out type);
+            return _variables.TryGetValue(name, out type);
         }
 
         public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
