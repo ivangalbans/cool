@@ -51,7 +51,7 @@ namespace Cool.Parsing
             return new AttributeNode(context)
             {
                 Formal = Visit(context.formal()) as FormalNode,
-                AssignExp = (context.expression() != null ? Visit(context.expression()) as ExpressionNode : ExpressionNode.NULL)
+                AssignExp = (context.expression() != null ? Visit(context.expression()) as ExpressionNode : ExpressionNode.VOID)
             };
         }
 

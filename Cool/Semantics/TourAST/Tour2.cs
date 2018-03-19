@@ -179,7 +179,7 @@ namespace Cool.Semantics
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            node.Arguments.ForEach(argExp => argExp.Accept(this, scope, errors));
+            node.Arguments.ForEach(expArg => expArg.Accept(this, scope, errors));
 
             if (!scope.IsDefined(node.IdMethod.Text, node.Arguments.Select(x => x.StaticType).ToArray(), out node.StaticType))
                 errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
@@ -240,7 +240,46 @@ namespace Cool.Semantics
 
         public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            var scopeLet = scope.CreateChild();
+
+            foreach (var expInit in node.Initialization)
+            {
+                expInit.AssignExp.Accept(this, scopeLet, errors);
+                var typeAssignExp = expInit.AssignExp.StaticType;
+
+                if (!scopeLet.IsDefinedType(expInit.Formal.Type.Text, out TypeInfo typeDeclared))
+                    errors.Add(SemanticError.NotDeclaredType(expInit.Formal.Type));
+
+                if (!(typeAssignExp <= typeDeclared))
+                    errors.Add(SemanticError.CannotConvert(expInit.Formal.Type, typeAssignExp, typeDeclared));
+
+                if (scopeLet.IsDefined(expInit.Formal.Id.Text, out TypeInfo typeOld))
+                    scopeLet.Change(expInit.Formal.Id.Text, typeDeclared);
+                else
+                    scopeLet.Define(expInit.Formal.Id.Text, typeDeclared);
+            }
+
+            /*
+            node.AssignExp.Accept(this, scope, errors);
+            var typeAssignExp = node.AssignExp.StaticType;
+
+            if (!scope.IsDefinedType(node.Formal.Type.Text, out TypeInfo typeDeclared))
+                errors.Add(SemanticError.NotDeclaredType(node.Formal.Type));
+
+            if (!(typeAssignExp <= typeDeclared))
+                errors.Add(SemanticError.CannotConvert(node.Formal.Type, typeAssignExp, typeDeclared));
+
+            scope.Define(node.Formal.Id.Text, typeDeclared);
+            */
+
+
+
+
+
+
+            node.ExpressionBody.Accept(this, scopeLet, errors);
+            node.StaticType = node.ExpressionBody.StaticType;
+
         }
 
         public void Visit(NewNode node, IScope scope, ICollection<SemanticError> errors)

@@ -15,14 +15,14 @@ namespace Cool.AST
 
         public abstract void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
 
-        #region NULL
-        private static NullExpression nullExpression = new NullExpression();
+        #region VOID
+        private static VoidExpression voidExpression = new VoidExpression();
 
-        public static NullExpression NULL => nullExpression;
+        public static VoidExpression VOID => voidExpression;
 
-        public class NullExpression : ExpressionNode
+        public class VoidExpression : ExpressionNode
         {
-            public NullExpression(int line = 0, int column = 0) : base(line, column) { }
+            public VoidExpression(int line = 0, int column = 0) : base(line, column) { }
 
             public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
             {
