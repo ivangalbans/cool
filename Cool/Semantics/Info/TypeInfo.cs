@@ -81,7 +81,8 @@ namespace Cool.Semantics
         {
             public NullObjectTypeInfo()
             {
-                Level = 0;
+                Level = -1;
+                Parent = null;
             }
 
             public override bool Inherit(TypeInfo other)

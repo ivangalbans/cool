@@ -44,7 +44,26 @@ namespace Cool.Semantics
 
         public void Visit(MethodNode node, IScope scope, ICollection<SemanticError> errors)
         {
+            var scopeMethod = scope.CreateChild();
+            foreach (var arg in node.Arguments)
+            {
+                if (!scope.IsDefinedType(arg.Type.Text, out TypeInfo typeArg))
+                    errors.Add(SemanticError.NotDeclaredType(arg.Type));
+                scopeMethod.Define(arg.Id.Text, typeArg);
+            }
             
+            if(!scope.IsDefinedType(node.TypeReturn.Text, out TypeInfo typeReturn))
+                errors.Add(SemanticError.NotDeclaredType(node.TypeReturn));
+
+            scope.Define(node.Id.Text, node.Arguments.Select(x => scope.GetType(x.Type.Text)).ToArray(), typeReturn);
+
+            node.Body.Accept(this, scopeMethod, errors);
+
+            if (!(node.Body.StaticType <= typeReturn))
+                errors.Add(SemanticError.CannotConvert(node.Body, node.Body.StaticType, typeReturn));
+            /*
+            node.TypeReturn = new TypeNode(node.Body.Line, node.Body.Column, node.Body.StaticType.Text);
+            */
         }
         #endregion
 
@@ -148,12 +167,12 @@ namespace Cool.Semantics
         #region Dispatch
         public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            
         }
         #endregion
 

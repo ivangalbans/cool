@@ -24,9 +24,9 @@ namespace Cool.Semantics
         /// </summary>
         /// <param name="name">Name of the function to search.</param>
         /// <param name="args">Array contain the types of arguments of the function.</param>
-        /// <param name="type">If true is returned type contain the Type that contain this function.</param>
+        /// <param name="typeReturn">If true is returned type contain the Type that contain this function.</param>
         /// <returns>True if found, false otherwise</returns>
-        bool IsDefined(string name, TypeInfo[] args, out TypeInfo type);
+        bool IsDefined(string name, TypeInfo[] args, out TypeInfo typeReturn);
 
         /// <summary>
         /// Determines if a type is defined.
@@ -40,7 +40,7 @@ namespace Cool.Semantics
         /// Define a variable.
         /// </summary>
         /// <param name="name">Expected name of the variable.</param>
-        /// <param name="type">Type that contain the implementation of this function.</param>
+        /// <param name="type">Type that contain the type of this variable.</param>
         /// <returns>True if the variable was define correctly, false otherwise.</returns>
         bool Define(string name, TypeInfo type);
 
@@ -49,9 +49,9 @@ namespace Cool.Semantics
         /// </summary>
         /// <param name="name">Expected name of the function.</param>
         /// <param name="args">Array of type arguments of the function.</param>
-        /// <param name="type">Represent the type of the value to return</param>
+        /// <param name="typeReturn">Represent the type of the value to return</param>
         /// <returns>True if the function was define correctly, false otherwise</returns>
-        bool Define(string name, TypeInfo[] args, TypeInfo type);
+        bool Define(string name, TypeInfo[] args, TypeInfo typeReturn);
 
         /// <summary>
         /// Change the type of the variable.

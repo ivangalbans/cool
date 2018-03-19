@@ -7,14 +7,11 @@ namespace Cool.AST
 {
     public abstract class ExpressionNode : ASTNode, IVisit
     {
-        public TypeInfo StaticType;
+        public TypeInfo StaticType = TypeInfo.NULL;
 
         public ExpressionNode(ParserRuleContext context) : base(context) { }
 
-        public ExpressionNode(int line, int column) : base(line, column)
-        {
-            StaticType = TypeInfo.NULL;
-        }
+        public ExpressionNode(int line, int column) : base(line, column) { }
 
         public abstract void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
 
