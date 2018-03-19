@@ -68,19 +68,24 @@ namespace Cool.Semantics
         }
         public bool IsDefineScope(string name, out TypeInfo type)
         {
-            return _variables.TryGetValue(name, out type);
+            if (_variables.TryGetValue(name, out type))
+                return true;
+            type = TypeInfo.OBJECT;
+            return false;
         }
 
         public bool IsDefined(string name, out TypeInfo type)
         {
-            return _variables.TryGetValue(name, out type) ||
-                    Parent.IsDefineScope(name, out type);
+            if (_variables.TryGetValue(name, out type) || Parent.IsDefineScope(name, out type))
+                return true;
+            type = TypeInfo.OBJECT;
+            return false;
         }
 
         public bool IsDefined(string name, TypeInfo[] args, out TypeInfo type)
         {
             type = TypeInfo.OBJECT;
-            if(_functions.ContainsKey(name) && _functions[name].Args.Length == args.Length)
+            if (_functions.ContainsKey(name) && _functions[name].Args.Length == args.Length)
             {
                 bool ok = true;
                 for (int i = 0; i < args.Length; ++i)
@@ -93,13 +98,18 @@ namespace Cool.Semantics
                 }
             }
 
-            return Parent.IsDefined(name, args, out type) ||
-                   Type.Parent.ClassReference.Scope.IsDefined(name, args, out type);
+            if (Parent.IsDefined(name, args, out type) || Type.Parent.ClassReference.Scope.IsDefined(name, args, out type))
+                return true;
+            type = TypeInfo.OBJECT;
+            return false;
         }
 
         public bool IsDefinedType(string name, out TypeInfo type)
         {
-            return _declaredTypes.TryGetValue(name, out type);
+            if (_declaredTypes.TryGetValue(name, out type))
+                return true;
+            type = TypeInfo.OBJECT;
+            return false;
         }
 
         public bool Define(string name, TypeInfo type)
