@@ -8,7 +8,7 @@ namespace Cool.AST
     public class CaseNode : KeywordNode
     {
         public ExpressionNode ExpressionCase { get; set; }
-        public List<(FormalNode, ExpressionNode)> Branches { get; set; }
+        public List<(FormalNode Formal, ExpressionNode Expression)> Branches { get; set; }
 
         public CaseNode(ParserRuleContext context) : base(context)
         {

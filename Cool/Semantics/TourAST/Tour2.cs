@@ -223,7 +223,32 @@ namespace Cool.Semantics
         #region Keywords
         public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            throw new NotImplementedException();
+            node.ExpressionCase.Accept(this, scope, errors);
+
+            int branchSelected = -1;
+            var typeExp0 = node.ExpressionCase.StaticType;
+            var typeExpK = scope.GetType(node.Branches[0].Formal.Type.Text);
+
+            node.StaticType = typeExpK;
+            for (int i = 0; i < node.Branches.Count; ++i)
+            {
+                if (!scope.IsDefinedType(node.Branches[i].Formal.Type.Text, out TypeInfo type))
+                    errors.Add(SemanticError.NotDeclaredType(node.Branches[i].Formal.Type));
+
+                var typeK = scope.GetType(node.Branches[i].Formal.Type.Text);
+
+                var scopeBranch = scope.CreateChild();
+                scopeBranch.Define(node.Branches[i].Formal.Id.Text, typeK);
+
+                node.Branches[i].Expression.Accept(this, scopeBranch, errors);
+
+                typeExpK = node.Branches[i].Expression.StaticType;
+
+                if (branchSelected == -1 && typeExp0 <= typeK)
+                    branchSelected = i;
+
+                node.StaticType = Algorithm.LowerCommonAncestor(node.StaticType, typeExpK);
+            }
         }
 
         public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
