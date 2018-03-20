@@ -16,20 +16,6 @@ namespace Cool
     {
         static readonly int ErrorCode = 1;
 
-        class Num
-        {
-            public int n;
-            public Num(int nn)
-            {
-                n = nn;
-            }
-
-            public override string ToString()
-            {
-                return n.ToString();
-            }
-        }
-
         static void Main(string[] args)
         {
 
@@ -121,14 +107,22 @@ namespace Cool
             var errors = new List<SemanticError>();
 
             var programNode = new Tour1().CheckSemantic(root, scope, errors);
-            programNode = new Tour2().CheckSemantic(programNode, scope, errors);
+            if (errors.Count != 0)
+            {
+                Console.WriteLine();
+                foreach (var error in errors)
+                    Console.WriteLine(error);
+                return false;
+            }
+
+            /*programNode = new Tour2().CheckSemantic(programNode, scope, errors);
 
             if (errors.Count == 0)
                 return true;
 
             Console.WriteLine();
             foreach (var error in errors)
-                Console.WriteLine(error);
+                Console.WriteLine(error);*/
             return false;
         }
 

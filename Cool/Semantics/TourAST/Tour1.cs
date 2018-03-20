@@ -23,7 +23,16 @@ namespace Cool.Semantics
                 return;
 
             node.Classes.ForEach(cclass => scope.AddType(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, scope.GetType(cclass.TypeInherit.Text), cclass)));
-            node.Classes.ForEach(cclass => cclass.Accept(this, scope, errors));
+
+            foreach (var cclass in node.Classes)
+            {
+                if (!scope.IsDefinedType(cclass.TypeInherit.Text, out TypeInfo type))
+                {
+                    errors.Add(SemanticError.NotDeclaredType(cclass.TypeInherit));
+                    return;
+                }
+                cclass.Accept(this, scope, errors);
+            }
         }
 
         public void Visit(ClassNode node, IScope scope, ICollection<SemanticError> errors)
@@ -33,7 +42,6 @@ namespace Cool.Semantics
                 Type = scope.GetType(node.TypeClass.Text),
                 Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope
             };
-
             node.FeatureNodes.ForEach(feature => feature.Accept(this, node.Scope, errors));
         }
 
@@ -41,8 +49,10 @@ namespace Cool.Semantics
         {
             if (!scope.IsDefinedType(node.Formal.Type.Text, out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(node.Formal.Type));
+
             if (scope.IsDefined(node.Formal.Id.Text, out TypeInfo t))
                 errors.Add(SemanticError.RepeatedVariable(node.Formal.Id));
+
             scope.Define(node.Formal.Id.Text, type);
         }
 

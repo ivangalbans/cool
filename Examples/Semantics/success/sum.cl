@@ -1,4 +1,4 @@
-class Main inherits IO {
+class Main inherits PEPE {
 
     a: Int <- 1;
     b: Int <- 2;
