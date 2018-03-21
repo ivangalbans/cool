@@ -19,6 +19,7 @@ namespace Cool.Semantics
         void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(ClassNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors);
+        void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<SemanticError> errors);
         void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(EqualNode node, IScope scope, ICollection<SemanticError> errors);
         void Visit(ComparisonOperation node, IScope scope, ICollection<SemanticError> errors);

@@ -157,6 +157,11 @@ namespace Cool.Semantics
 
             node.StaticType = node.ExpressionRight.StaticType;
         }
+
+        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.StaticType = scope.GetType(node.GetStaticType);
+        }
         #endregion
 
         #region Dispatch

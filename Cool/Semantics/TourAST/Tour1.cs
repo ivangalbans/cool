@@ -171,6 +171,11 @@ namespace Cool.Semantics
         {
             throw new NotImplementedException();
         }
+
+        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<SemanticError> errors)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 

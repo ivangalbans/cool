@@ -16,16 +16,18 @@ namespace Cool.AST
         public abstract void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
 
         #region VOID
-        private static VoidExpression voidExpression = new VoidExpression();
-
-        public static VoidExpression VOID => voidExpression;
 
         public class VoidExpression : ExpressionNode
         {
-            public VoidExpression(int line = 0, int column = 0) : base(line, column) { }
+            public string GetStaticType { get; }
+            public VoidExpression(string type, int line = 0, int column = 0) : base(line, column)
+            {
+                GetStaticType = type;
+            }
 
             public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
             {
+                visitor.Visit(this, scope, errors);
             }
         }
         #endregion

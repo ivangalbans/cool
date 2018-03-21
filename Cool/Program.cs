@@ -29,7 +29,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "object-returned.cl";
+            string file = "any-assign-variable.cl";
             string inputPath = preffixSuccess + file;
             string outputPath = "";
 
@@ -38,7 +38,6 @@ namespace Cool
             //return;
             if (root == null)
             {
-                Console.WriteLine("AST no created");
                 Environment.ExitCode = ErrorCode;
                 return;
             }
