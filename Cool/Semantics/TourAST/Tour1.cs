@@ -64,9 +64,9 @@ namespace Cool.Semantics
             node.TypeReturn = new TypeNode(node.TypeReturn.Line, node.TypeReturn.Column, typeReturn.Text);
 
             TypeInfo[] typeArgs = new TypeInfo[node.Arguments.Count];
-            foreach (var arg in node.Arguments)
-                if (!scope.IsDefinedType(arg.Type.Text, out TypeInfo typeParam))
-                    errors.Add(SemanticError.NotDeclaredType(arg.Type));
+            for(int i = 0; i < node.Arguments.Count; ++i)
+                if (!scope.IsDefinedType(node.Arguments[i].Type.Text, out typeArgs[i]))
+                    errors.Add(SemanticError.NotDeclaredType(node.Arguments[i].Type));
 
             scope.Define(node.Id.Text, typeArgs, typeReturn);
         }
@@ -172,7 +172,6 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
         #endregion
-
     }
 
 }

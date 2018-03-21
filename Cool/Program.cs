@@ -107,23 +107,14 @@ namespace Cool
             var errors = new List<SemanticError>();
 
             var programNode = new Tour1().CheckSemantic(root, scope, errors);
-            if (errors.Count != 0)
-            {
-                Console.WriteLine();
-                foreach (var error in errors)
-                    Console.WriteLine(error);
+            if (Algorithm.ReportError(errors))
                 return false;
-            }
 
-            /*programNode = new Tour2().CheckSemantic(programNode, scope, errors);
+            programNode = new Tour2().CheckSemantic(programNode, scope, errors);
+            if (Algorithm.ReportError(errors))
+                return false;
 
-            if (errors.Count == 0)
-                return true;
-
-            Console.WriteLine();
-            foreach (var error in errors)
-                Console.WriteLine(error);*/
-            return false;
+            return true;
         }
 
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)

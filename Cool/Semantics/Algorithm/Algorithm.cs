@@ -102,5 +102,16 @@ namespace Cool.Semantics
             while(type1 != type2) { type1 = type1.Parent; type2 = type2.Parent; }
             return type1;
         }
+
+        public static bool ReportError(List<SemanticError> errors)
+        {
+            if(errors.Count > 0)
+            {
+                errors.ForEach(err => Console.WriteLine(err));
+                return true;
+            }
+            return false;
+        }
+
     }
 }

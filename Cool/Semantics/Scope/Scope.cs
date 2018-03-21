@@ -97,8 +97,9 @@ namespace Cool.Semantics
                     return true;
                 }
             }
-
-            if (Parent.IsDefined(name, args, out type) || Type.Parent.ClassReference.Scope.IsDefined(name, args, out type))
+            //if (Type.Parent is null)
+                //return false;
+            if (Parent.IsDefined(name, args, out type))
                 return true;
             type = TypeInfo.OBJECT;
             return false;
