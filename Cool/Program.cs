@@ -29,7 +29,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "sum.cl";
+            string file = "object-returned.cl";
             string inputPath = preffixSuccess + file;
             string outputPath = "";
 

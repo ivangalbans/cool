@@ -67,7 +67,7 @@ namespace Cool.Semantics
 
             public override bool Inherit(TypeInfo other)
             {
-                return false;
+                return this == other;
             }
         }
         #endregion
