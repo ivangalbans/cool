@@ -30,8 +30,12 @@ namespace UnitTest
 
                 Scope.Clear();
                 var scope = new Scope();
-                program = new Tour1().CheckSemantic(program, scope, errors);
 
+                program = new Tour1().CheckSemantic(program, scope, errors);
+                foreach (var item in errors)
+                    Assert.Fail(file.Name + ": " + item.ToString());
+
+                program = new Tour2().CheckSemantic(program, scope, errors);
                 foreach (var item in errors)
                     Assert.Fail(file.Name + ": " + item.ToString());
             }
@@ -55,9 +59,17 @@ namespace UnitTest
 
                 Scope.Clear();
                 var scope = new Scope();
-                program = new Tour1().CheckSemantic(program, scope, errors);
 
-                Assert.IsTrue(errors.Any(), file.Name);
+                program = new Tour1().CheckSemantic(program, scope, errors);
+                if(errors.Any())
+                {
+                    Assert.IsTrue(errors.Any(), file.Name);
+                }
+                else
+                {
+                    program = new Tour2().CheckSemantic(program, scope, errors);
+                    Assert.IsTrue(errors.Any(), file.Name);
+                }
             }
         }
     }

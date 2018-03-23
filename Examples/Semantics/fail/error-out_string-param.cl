@@ -4,14 +4,14 @@ Class Complex inherits IO {
 
     toString() : String {
         {
-            out_string(a);
+            out_string(a);      --error, the variable 'a' is not a string
             out_string(" + ");
-            out_string(b);
+            out_string(b);      (*error, the variable 'a' is not a string*)
             out_string("i");
         }
     };
 
-    sum(other : Complex) : Complex {
+    sum(other : Complex) : String {
         out_string("sumando")
     };
 
