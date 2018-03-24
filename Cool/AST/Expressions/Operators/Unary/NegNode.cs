@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     public class NegNode : UnaryOperationNode
     {
-        public override string Symbol => "-";
+        public override string Symbol => "~";
 
         public NegNode(ParserRuleContext context) : base(context)
         {

@@ -90,6 +90,17 @@ namespace Cool.Semantics
             };
         }
 
+        public static SemanticError InvalidUseOfOperator(ArithmeticOperation node)
+        {
+            return new SemanticError
+            {
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' must be applied to types 'Int'."
+            };
+        }
+
         public static SemanticError InvalidUseOfOperator(BinaryOperationNode node, TypeInfo leftOperand, TypeInfo rightOperand)
         {
             return new SemanticError
@@ -116,5 +127,6 @@ namespace Cool.Semantics
                 Message = $"(Line: {node.Line}, Column: {node.Column}) The name '{name}' does not exist in the current context."
             };
         }
+
     }
 }

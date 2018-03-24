@@ -29,8 +29,8 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "other-type.cl";
-            string inputPath = preffixSuccess + file;
+            string file = "assignseq.cl";
+            string inputPath = preffixFail + file;
             string outputPath = "";
 
 

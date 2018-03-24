@@ -117,7 +117,7 @@
   <Class Name="Cool.AST.ExpressionNode" Collapsed="true">
     <Position X="28.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAEAAAAAAAAAAAAAAAAAAIAAAAAAAAAACAA=</HashCode>
+      <HashCode>AIAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Expressions\ExpressionNode.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -345,7 +345,7 @@
   <Class Name="Cool.Semantics.Algorithm" Collapsed="true">
     <Position X="71.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAIAAQIAAAAAAABAAAAAAAAAAAAIAAACBAAQAgA=</HashCode>
+      <HashCode>AAAAQAIAAQIAAAAAAABAAAAAEAAAAAAIAAACBAAQAgA=</HashCode>
       <FileName>Semantics\Algorithm\Algorithm.cs</FileName>
     </TypeIdentifier>
   </Class>

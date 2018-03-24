@@ -251,5 +251,11 @@ namespace Cool.Parsing
                 Operand = Visit(context.expression()) as ExpressionNode
             };
         }
+
+        public override ASTNode VisitParentheses([NotNull] CoolParser.ParenthesesContext context)
+        {
+            return Visit(context.expression());
+        }
+        
     }
 }

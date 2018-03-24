@@ -102,10 +102,13 @@ namespace Cool.Semantics
             node.LeftOperand.Accept(this, scope, errors);
             node.RightOperand.Accept(this, scope, errors);
 
-            if (node.LeftOperand.StaticType.Text != "Int" || node.RightOperand.StaticType.Text != "Int")
+            if(node.LeftOperand.StaticType.Text != node.RightOperand.StaticType.Text)
                 errors.Add(SemanticError.InvalidUseOfOperator(node, node.LeftOperand.StaticType, node.RightOperand.StaticType));
 
-            if(!scope.IsDefinedType("Int", out node.StaticType))
+            else if (node.LeftOperand.StaticType.Text != "Int" || node.RightOperand.StaticType.Text != "Int")
+                errors.Add(SemanticError.InvalidUseOfOperator(node));
+
+            else if(!scope.IsDefinedType("Int", out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
         }
 
@@ -311,6 +314,5 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Object")));
         }
         #endregion
-
     }
 }

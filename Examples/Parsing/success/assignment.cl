@@ -1,4 +1,8 @@
-class Test {
-  foo:Int;
-  bar():Object{foo <- 3 };
+class Test
+{
+	foo:Int;
+	bar() : Object
+	{
+		foo <- 3 
+	};
 };
