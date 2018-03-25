@@ -30,7 +30,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "basic-init.cl";
+            string file = "bool.cl";
             string inputPath = preffixFail + file;
             string outputPath = "";
 
@@ -66,7 +66,7 @@ namespace Cool
 
 
             GenerateCode(rootProgram, outputPath, scope);
-
+            Console.WriteLine("END...");
         }
 
         private static ASTNode ParseInput(string inputPath)

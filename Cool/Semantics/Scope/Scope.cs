@@ -42,26 +42,27 @@ namespace Cool.Semantics
         static Scope()
         {
             _declaredTypes.Add("Object", TypeInfo.OBJECT);
-            _declaredTypes.Add("Bool", new TypeInfo { Text = "Bool", Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Bool", "Object") });
-            _declaredTypes.Add("Int", new TypeInfo { Text = "Int", Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Int", "Object") });
-            _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"], Level = 1 });
-            _declaredTypes.Add("IO", new TypeInfo { Text = "IO", Parent = _declaredTypes["Object"], Level = 1 });
-
             _declaredTypes["Object"].ClassReference = new ClassNode(-1, -1, "Object", "NULL");
             _declaredTypes["Object"].ClassReference.Scope = new Scope(NULL, _declaredTypes["Object"]);
+
+            _declaredTypes.Add("Bool",   new TypeInfo { Text = "Bool",   Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Bool"  , "Object") });
+            _declaredTypes.Add("Int",    new TypeInfo { Text = "Int",    Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "Int"   , "Object") });
+            _declaredTypes.Add("String", new TypeInfo { Text = "String", Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "String", "Object") });
+            _declaredTypes.Add("IO",     new TypeInfo { Text = "IO",     Parent = _declaredTypes["Object"], Level = 1, ClassReference = new ClassNode(-1, -1, "IO"    , "Object") });
+
+            _declaredTypes[ "Bool" ].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes[ "Bool" ]);
+            _declaredTypes[  "Int" ].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes[  "Int" ]);
+            _declaredTypes["String"].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes["String"]);
+            _declaredTypes[  "IO"  ].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes[  "IO"  ]);
+
             _declaredTypes["Object"].ClassReference.Scope.Define("abort", new TypeInfo[0], _declaredTypes["Object"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("type_name", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["Object"].ClassReference.Scope.Define("copy", new TypeInfo[0], _declaredTypes["Object"]);
 
-            _declaredTypes["String"].ClassReference = new ClassNode(-1, -1, "String", "Object");
-            _declaredTypes["String"].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes["Object"]);
             _declaredTypes["String"].ClassReference.Scope.Define("length", new TypeInfo[0], _declaredTypes["Int"]);
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
             
-            
-            _declaredTypes["IO"].ClassReference = new ClassNode(-1, -1, "IO", "Object");
-            _declaredTypes["IO"].ClassReference.Scope = new Scope(_declaredTypes["Object"].ClassReference.Scope, _declaredTypes["Object"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["Int"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], _declaredTypes["String"]);
@@ -180,7 +181,7 @@ namespace Cool.Semantics
         {
 
             public IScope Parent { get; set; }
-            public TypeInfo Type { get; set; } = TypeInfo.OBJECT;
+            public TypeInfo Type { get; set; }
 
             public bool AddType(string name, TypeInfo type)
             {
@@ -197,7 +198,7 @@ namespace Cool.Semantics
                 return new Scope()
                 {
                     Parent = NULL,
-                    Type = TypeInfo.OBJECT
+                    Type = null
                 };
             }
 

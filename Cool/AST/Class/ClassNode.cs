@@ -23,7 +23,6 @@ namespace Cool.AST
         {
             TypeClass = new TypeNode(line, column, className);
             TypeInherit = new TypeNode(line, column, classInherit);
-            Scope = new Scope.NullScope();
         }
 
         public override string ToString()
