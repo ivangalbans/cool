@@ -48,12 +48,23 @@ namespace Cool.Parsing
 
         public override ASTNode VisitProperty([NotNull] CoolParser.PropertyContext context)
         {
-            var formal = Visit(context.formal()) as FormalNode;
-            return new AttributeNode(context)
+            var node = new AttributeNode(context)
             {
-                Formal = formal,
-                AssignExp = (context.expression() != null ? Visit(context.expression()) as ExpressionNode : new ExpressionNode.VoidExpression(formal.Type.Text))
+                Formal = Visit(context.formal()) as FormalNode
             };
+
+            if (context.expression() != null)
+                node.AssignExp = Visit(context.expression()) as ExpressionNode;
+            else if (node.Formal.Type.Text == "Int")
+                node.AssignExp = new IntNode(context, "0");
+            else if (node.Formal.Type.Text == "Bool")
+                node.AssignExp = new BoolNode(context, "false");
+            else if (node.Formal.Type.Text == "String")
+                node.AssignExp = new StringNode(context, "");
+            else
+                node.AssignExp = new ExpressionNode.VoidExpression(node.Formal.Type.Text);
+
+            return node;
         }
 
         public override ASTNode VisitFormal([NotNull] CoolParser.FormalContext context)

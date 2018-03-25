@@ -30,8 +30,10 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "case-order.cl";
-            string inputPath = preffixFail + file;
+            string[] folder = { preffixFail, preffixSuccess };
+            string file = "void-not-call-function.cl";
+            string inputPath = folder[0] + file;
+
             string outputPath = "";
 
             if(!File.Exists(inputPath))
