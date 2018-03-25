@@ -63,11 +63,10 @@ namespace Cool.Semantics
                 }
             }
 
-            List<ClassNode> ans = new List<ClassNode>();
-            foreach (var item in tp)
-                ans.Add(classNodes[item]);
+            ClassNode[] ans = new ClassNode[n];
+            for (int i = 0; i < n; ++i) ans[i] = classNodes[tp[i]];
+            for (int i = 0; i < n; ++i) classNodes[i] = ans[i];
 
-            classNodes = ans;
             return true;
         }
 

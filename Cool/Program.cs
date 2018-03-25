@@ -17,8 +17,16 @@ namespace Cool
     {
         static readonly int ErrorCode = 1;
 
+
+        static void f(ref List<int> pp)
+        {
+            List<int> LOL = new List<int>();
+            pp = LOL;
+        }
+
         static void Main(string[] args)
         {
+
 
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
@@ -31,8 +39,8 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "void-not-call-function.cl";
-            string inputPath = folder[0] + file;
+            string file = "example_coolmanual_pag5.cl";
+            string inputPath = folder[1] + file;
 
             string outputPath = "";
 

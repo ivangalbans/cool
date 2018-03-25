@@ -1,3 +1,4 @@
+
 class Cons inherits List {
 	xcar : Int;
 	xcdr : List;
@@ -10,4 +11,7 @@ class Cons inherits List {
 		new Cons;
 		}
 	};
+};
+
+class List {
 };
