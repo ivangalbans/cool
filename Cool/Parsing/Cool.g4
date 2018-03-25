@@ -27,7 +27,6 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       IF expression THEN expression ELSE expression FI                                                            #if
                 |       WHILE expression LOOP expression POOL                                                                       #while
                 |       '{' (expression ';')+ '}'                                                                                   #block
-                |       LET property (',' property)* IN expression																	#letIn
                 |       CASE expression OF (formal IMPLY expression ';')+ ESAC														#case
                 |       NEW TYPE                                                                                                    #new
                 |       '~' expression                                                                                              #negative
@@ -42,7 +41,8 @@ expression      :       expression ('@' TYPE)? '.' ID '(' (expression (',' expre
                 |       STRING                                                                                                      #string
                 |       value=(TRUE | FALSE)                                                                                        #boolean
                 |       ID ASSIGNMENT expression																					#assignment
-                ;
+                |       LET property (',' property)* IN expression																	#letIn
+				;
 
 
 
