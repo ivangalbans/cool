@@ -30,7 +30,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "bool.cl";
+            string file = "case-order.cl";
             string inputPath = preffixFail + file;
             string outputPath = "";
 

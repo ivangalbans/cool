@@ -259,6 +259,10 @@ namespace Cool.Semantics
 
                 node.StaticType = Algorithm.LowerCommonAncestor(node.StaticType, typeExpK);
             }
+            node.BranchSelected = branchSelected;
+
+            if (node.BranchSelected == -1)
+                errors.Add(SemanticError.NotMatchedBranch(node));
         }
 
         public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)

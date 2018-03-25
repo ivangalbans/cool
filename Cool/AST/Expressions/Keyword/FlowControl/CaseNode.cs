@@ -9,6 +9,7 @@ namespace Cool.AST
     {
         public ExpressionNode ExpressionCase { get; set; }
         public List<(FormalNode Formal, ExpressionNode Expression)> Branches { get; set; }
+        public int BranchSelected { get; set; }
 
         public CaseNode(ParserRuleContext context) : base(context)
         {
