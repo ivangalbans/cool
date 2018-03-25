@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,10 +30,16 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "assignseq.cl";
+            string file = "basicequality.cl";
             string inputPath = preffixFail + file;
             string outputPath = "";
 
+            if(!File.Exists(inputPath))
+            {
+                Console.WriteLine($"Input file path '{inputPath}' is not valid, does not exist or user has no sufficient permission to read it.");
+                Environment.ExitCode = ErrorCode;
+                return;
+            }
 
             ASTNode root = ParseInput(inputPath);
             //return;

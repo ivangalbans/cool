@@ -9,13 +9,17 @@ namespace Cool.Semantics
 {
     public class TypeInfo
     {
-        public string Text { get; set; } = "Object";
-        public TypeInfo Parent { get; set; } = OBJECT;
-        public ClassNode ClassReference { get; set; }
+        public string Text { get; set; }
+        public TypeInfo Parent { get; set; }
+        public ClassNode ClassReference { get; set; } 
         public int Level { get; set; }
 
         public TypeInfo()
         {
+            Text = "Object";
+            Parent = null;
+            ClassReference = null;
+            Level = 0;
         }
 
         public TypeInfo(string text, TypeInfo parent, ClassNode classReference)

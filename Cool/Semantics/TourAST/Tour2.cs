@@ -171,6 +171,8 @@ namespace Cool.Semantics
         public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
         {
             node.Expression.Accept(this, scope, errors);
+            if (node.IdType.Text == "Object")
+                node.IdType = new TypeNode(node.Expression.Line, node.Expression.Column, node.Expression.StaticType.Text);
 
             if (!scope.IsDefinedType(node.IdType.Text, out TypeInfo typeSuperClass))
                 errors.Add(SemanticError.NotDeclaredType(node.IdType));

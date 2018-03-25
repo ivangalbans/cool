@@ -93,11 +93,11 @@ namespace Cool.Parsing
         {
             var node = new DispatchExplicitNode(context)
             {
-                IdType = Visit(context.expression(0)) as TypeNode
+                Expression = Visit(context.expression(0)) as ExpressionNode
             };
 
-            var typeSuperClass = context.TYPE() == null ? node.IdType : new TypeNode(context.TYPE().Symbol.Line,
-                                                            context.TYPE().Symbol.Column, context.TYPE().GetText());
+            var typeSuperClass = context.TYPE() == null ? new TypeNode(node.Expression.Line, node.Expression.Column, node.Expression.StaticType.Text) :
+                                                          new TypeNode(context.TYPE().Symbol.Line, context.TYPE().Symbol.Column, context.TYPE().GetText());
             node.IdType = typeSuperClass;
 
             var idNode = new IdNode(context.ID().Symbol.Line, context.ID().Symbol.Column, context.ID().GetText());
