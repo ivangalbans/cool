@@ -145,7 +145,7 @@ namespace Cool.Semantics
         public bool Change(string name, TypeInfo type)
         {
             if (!_variables.ContainsKey(name))
-                return false;
+                _variables.Add(name, type);
             _variables[name] = type;
             return true;
         }

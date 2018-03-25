@@ -39,7 +39,7 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "let-scope-variable.cl";
+            string file = "let-nested.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
