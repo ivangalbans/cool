@@ -216,11 +216,12 @@ namespace Cool.Parsing
 
         public override ASTNode VisitLetIn([NotNull] CoolParser.LetInContext context)
         {
-            return new LetNode(context)
+            var node = new LetNode(context)
             {
                 Initialization = (from x in context.property() select Visit(x) as AttributeNode).ToList(),
                 ExpressionBody = Visit(context.expression()) as ExpressionNode
             };
+            return node;
         }
 
         public override ASTNode VisitIf([NotNull] CoolParser.IfContext context)

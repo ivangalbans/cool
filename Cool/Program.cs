@@ -39,7 +39,7 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "example_coolmanual_pag5.cl";
+            string file = "let-scope-variable.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";

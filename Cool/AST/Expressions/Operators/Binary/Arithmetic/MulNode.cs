@@ -6,7 +6,7 @@ namespace Cool.AST
 {
     class MulNode : ArithmeticOperation
     {
-        public override string Symbol => "+";
+        public override string Symbol => "*";
 
         public MulNode(ParserRuleContext context) : base(context)
         {
