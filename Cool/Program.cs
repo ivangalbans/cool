@@ -30,7 +30,7 @@ namespace Cool
             string preffixSuccess = "../../../Examples/Semantics/success/";
             string preffixFail = "../../../Examples/Semantics/fail/";
 
-            string file = "basicequality.cl";
+            string file = "basic-init.cl";
             string inputPath = preffixFail + file;
             string outputPath = "";
 

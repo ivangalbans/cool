@@ -114,7 +114,10 @@ namespace Cool.Parsing
 
         public override ASTNode VisitIsvoid([NotNull] CoolParser.IsvoidContext context)
         {
-            return new IsVoidNode(context);
+            return new IsVoidNode(context)
+            {
+                Operand = Visit(context.expression()) as ExpressionNode
+            };
         }
 
         public override ASTNode VisitBlock([NotNull] CoolParser.BlockContext context)
