@@ -39,8 +39,8 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "let-nested.cl";
-            string inputPath = folder[1] + file;
+            string file = "letparens (default initialization not supported).cl";
+            string inputPath = folder[0] + file;
 
             string outputPath = "";
 
