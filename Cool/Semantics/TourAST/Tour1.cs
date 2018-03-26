@@ -24,6 +24,31 @@ namespace Cool.Semantics
 
             node.Classes.ForEach(cclass => scope.AddType(cclass.TypeClass.Text, new TypeInfo(cclass.TypeClass.Text, scope.GetType(cclass.TypeInherit.Text), cclass)));
 
+            int idMain = -1;
+            for (int i = 0; i < node.Classes.Count; ++i)
+                if (node.Classes[i].TypeClass.Text == "Main")
+                    idMain = i;
+
+            if (idMain == -1)
+            {
+                errors.Add(SemanticError.NotFoundClassMain());
+                return;
+            }
+
+            bool mainOK = false;
+            foreach (var item in node.Classes[idMain].FeatureNodes)
+            {
+                if(item is MethodNode)
+                {
+                    var method = item as MethodNode;
+                    if (method.Id.Text == "main" && method.Arguments.Count == 0)
+                        mainOK = true;
+                }
+            }
+
+            if (!mainOK)
+                errors.Add(SemanticError.NotFoundMethodmain(node.Classes[idMain]));
+
             foreach (var cclass in node.Classes)
             {
                 if (!scope.IsDefinedType(cclass.TypeInherit.Text, out TypeInfo type))

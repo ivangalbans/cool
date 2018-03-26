@@ -21,3 +21,9 @@ Class Main inherits IO {
     number1 : Complex;
     number2 : Complex;
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

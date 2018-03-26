@@ -15,3 +15,9 @@ class Cons inherits List {
 
 class List {
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

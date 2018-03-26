@@ -4,3 +4,9 @@ class Test {
   z:Int;
   bar():Int {x=y=z};
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

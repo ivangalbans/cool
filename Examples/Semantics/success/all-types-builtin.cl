@@ -4,4 +4,8 @@ class Main inherits Object {
     c: Object;
     d: Bool;
     e: IO;
+
+    main() : Object {
+		true
+	};
 };

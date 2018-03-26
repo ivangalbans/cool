@@ -35,6 +35,25 @@ namespace Cool.Semantics
             };
         }
 
+        public static SemanticError NotFoundClassMain()
+        {
+            return new SemanticError
+            {
+                Message = $"Couldn't found the class 'Main'."
+            };
+        }
+
+        public static SemanticError NotFoundMethodmain(ClassNode node)
+        {
+            return new SemanticError
+            {
+                Node = node,
+                Line = node.Line,
+                Column = node.Column,
+                Message = $"(Line: {node.Line}, Column: {node.Column}) The class '{node.TypeClass.Text}' has not a method 'main' without parameters."
+            };
+        }
+
         public static SemanticError NotDeclaredVariable(IdentifierNode node)
         {
             return new SemanticError

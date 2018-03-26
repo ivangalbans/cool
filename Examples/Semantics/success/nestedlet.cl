@@ -7,3 +7,9 @@ class A {
             d + 5
   };
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

@@ -6,3 +6,9 @@ class Foo {
 			~a + b;
 		}};
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

@@ -4,3 +4,9 @@ class A {
 
 Class BB__ inherits A {
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

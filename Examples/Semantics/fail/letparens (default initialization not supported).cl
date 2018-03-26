@@ -7,3 +7,9 @@ class Foo {
 		}
 	};
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

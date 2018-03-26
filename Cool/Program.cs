@@ -39,7 +39,7 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "scoping.cl";
+            string file = "assignment.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";

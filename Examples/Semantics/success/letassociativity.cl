@@ -6,3 +6,9 @@ class Goodbye {
    };
 
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

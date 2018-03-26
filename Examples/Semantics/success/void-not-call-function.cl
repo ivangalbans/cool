@@ -14,3 +14,9 @@ class Main1 inherits IO {
         out_string(a.type_name())
     };
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

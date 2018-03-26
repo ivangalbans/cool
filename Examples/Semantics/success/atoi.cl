@@ -106,3 +106,9 @@ numbers are handled correctly.
     };
 
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

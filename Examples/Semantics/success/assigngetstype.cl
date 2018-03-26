@@ -13,3 +13,9 @@ class Hello {
    
    
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

@@ -8,3 +8,9 @@ class Test {
     pool
   };
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

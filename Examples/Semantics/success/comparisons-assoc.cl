@@ -8,3 +8,9 @@ class Test {
     }
   };
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};

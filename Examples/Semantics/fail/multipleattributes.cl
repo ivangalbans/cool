@@ -8,3 +8,9 @@ class A {
   a : String;
   a : IO;
 };
+
+class Main {
+	main() : Int {
+		1
+	};
+};
