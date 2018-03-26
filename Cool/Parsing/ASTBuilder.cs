@@ -133,9 +133,9 @@ namespace Cool.Parsing
 
         public override ASTNode VisitBlock([NotNull] CoolParser.BlockContext context)
         {
-            return new BlockNode(context)
+            return new SequenceNode(context)
             {
-                ExpressionsBlock = context.expression().Select(x => Visit(x) as ExpressionNode).ToList()
+                Sequence = context.expression().Select(x => Visit(x) as ExpressionNode).ToList()
             };
         }
 

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Cool.AST
 {
-    public class BlockNode : ExpressionNode
+    public class SequenceNode : ExpressionNode
     {
-        public List<ExpressionNode> ExpressionsBlock { get; set; }
+        public List<ExpressionNode> Sequence { get; set; }
 
-        public BlockNode(ParserRuleContext context) : base(context)
+        public SequenceNode(ParserRuleContext context) : base(context)
         {
         }
 

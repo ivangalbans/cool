@@ -138,11 +138,11 @@ namespace Cool.Semantics
         #endregion
 
         #region Block and Assignment
-        public void Visit(BlockNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(SequenceNode node, IScope scope, ICollection<SemanticError> errors)
         {
-            node.ExpressionsBlock.ForEach(exp => exp.Accept(this, scope, errors));
+            node.Sequence.ForEach(exp => exp.Accept(this, scope, errors));
 
-            var last = node.ExpressionsBlock[node.ExpressionsBlock.Count - 1];
+            var last = node.Sequence[node.Sequence.Count - 1];
 
             if (!scope.IsDefinedType(last.StaticType.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(last.Line, last.Column, last.StaticType.Text)));

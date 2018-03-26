@@ -86,11 +86,11 @@
       <FileName>AST\Expressions\Atom\StringNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cool.AST.BlockNode" Collapsed="true">
+  <Class Name="Cool.AST.SequenceNode" Collapsed="true">
     <Position X="37.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AST\Expressions\Block\BlockNode.cs</FileName>
+      <FileName>AST\Expressions\Sequence\SequenceNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cool.AST.DispatchExplicitNode" Collapsed="true">
@@ -154,7 +154,7 @@
   <Class Name="Cool.AST.CaseNode" Collapsed="true">
     <Position X="8.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>AST\Expressions\Keyword\FlowControl\CaseNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -294,7 +294,7 @@
   <Class Name="Cool.Parsing.ASTBuilder" Collapsed="true">
     <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAFAAAAUAAIZAgAAAEIEQAABAAAAABQBAAQgQAEAQA=</HashCode>
+      <HashCode>AAAFAAAAUAAIZAgAAAEIERAABAAAAABQBAAQgQAEAQA=</HashCode>
       <FileName>Parsing\ASTBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -338,7 +338,7 @@
   <Class Name="Cool.Program" Collapsed="true">
     <Position X="73.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAIAAAAAAAAAAgAAgAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAIAAAAAAAAAAgAAgAQAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -352,7 +352,7 @@
   <Class Name="Cool.Semantics.SemanticError" Collapsed="true">
     <Position X="76.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAABAAAAYEAABQAAAAAAACAAAIAAAAICEBAAA=</HashCode>
+      <HashCode>AAAgAAAAABAAAAYEAABQABAAAAACAAAIASAAICEBAAA=</HashCode>
       <FileName>Semantics\Error\SemanticError.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -366,7 +366,7 @@
   <Class Name="Cool.Semantics.Scope" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABEAgAAADAIAAAAAAAQAAAAAAAAI0CAQAAAgBABAA=</HashCode>
+      <HashCode>AAABEAAAAADAIAAAAAAAQAAAAAAAAI0CAQAAAgBABAA=</HashCode>
       <FileName>Semantics\Scope\Scope.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -404,7 +404,7 @@
   <Interface Name="Cool.Semantics.IScope" Collapsed="true">
     <Position X="75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAgAAABAIAAAAAAAQAAAAAAAAA0AAQAAAAAABAA=</HashCode>
+      <HashCode>AAABAAAAAABAIAAAAAAAQAAAAAAAAA0AAQAAAAAABAA=</HashCode>
       <FileName>Semantics\Scope\IScope.cs</FileName>
     </TypeIdentifier>
   </Interface>
