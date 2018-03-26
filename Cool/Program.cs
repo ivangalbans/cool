@@ -39,8 +39,8 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "letparens (default initialization not supported).cl";
-            string inputPath = folder[0] + file;
+            string file = "variable-hiden-inherits.cl";
+            string inputPath = folder[1] + file;
 
             string outputPath = "";
 
@@ -92,7 +92,7 @@ namespace Cool
 
                 var tokens = new CommonTokenStream(lexer);
                 var parser = new CoolParser(tokens);
-
+                
                 parser.RemoveErrorListeners();
                 parser.AddErrorListener(new ParserErrorListener(errors));
 

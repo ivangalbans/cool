@@ -12,14 +12,6 @@ namespace Cool.Semantics
     public interface IScope
     {
         /// <summary>
-        /// Determines if a variable is defined only in the current scope.
-        /// </summary>
-        /// <param name="name">Name of the variable to search.</param>
-        /// <param name="type">If true is returned type contain the Type that contain this variable.</param>
-        /// <returns>True if found, false otherwise</returns>
-        bool IsDefineScope(string name, out TypeInfo type);
-
-        /// <summary>
         /// Determines if a variable is defined.
         /// </summary>
         /// <param name="name">Name of the variable to search.</param>

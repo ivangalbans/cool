@@ -79,18 +79,14 @@ namespace Cool.Semantics
                     tmp.Add(item.Key, item.Value);
             _declaredTypes = tmp;
         }
-        public bool IsDefineScope(string name, out TypeInfo type)
-        {
-            if (_variables.TryGetValue(name, out type))
-                return true;
-            type = TypeInfo.OBJECT;
-            return false;
-        }
 
         public bool IsDefined(string name, out TypeInfo type)
         {
-            if (_variables.TryGetValue(name, out type) || Parent.IsDefineScope(name, out type))
+            if (_variables.TryGetValue(name, out type))
                 return true;
+            if (Type == Parent.Type && Parent.IsDefined(name, out type))
+                return true;
+
             type = TypeInfo.OBJECT;
             return false;
         }
@@ -110,10 +106,10 @@ namespace Cool.Semantics
                     return true;
                 }
             }
-            //if (Type.Parent is null)
-                //return false;
+
             if (Parent.IsDefined(name, args, out type))
                 return true;
+
             type = TypeInfo.OBJECT;
             return false;
         }
@@ -230,12 +226,6 @@ namespace Cool.Semantics
             }
 
             public bool IsDefinedType(string name, out TypeInfo type)
-            {
-                type = TypeInfo.OBJECT;
-                return false;
-            }
-
-            public bool IsDefineScope(string name, out TypeInfo type)
             {
                 type = TypeInfo.OBJECT;
                 return false;
