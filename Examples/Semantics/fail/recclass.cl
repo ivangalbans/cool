@@ -13,6 +13,7 @@ class P {
 };
 
 class C inherits P {
+  x : P;
   foo():Object {{
     (new IO).out_string("ok\n");
     x <- new C;      -- but we really have a C

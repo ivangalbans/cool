@@ -82,9 +82,7 @@ namespace Cool.Semantics
 
         public bool IsDefined(string name, out TypeInfo type)
         {
-            if (_variables.TryGetValue(name, out type))
-                return true;
-            if (Type == Parent.Type && Parent.IsDefined(name, out type))
+            if (_variables.TryGetValue(name, out type) || Parent.IsDefined(name, out type))
                 return true;
 
             type = TypeInfo.OBJECT;

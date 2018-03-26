@@ -39,7 +39,7 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "variable-hiden-inherits.cl";
+            string file = "io.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
@@ -74,9 +74,7 @@ namespace Cool
                 return;
             }
 
-
             GenerateCode(rootProgram, outputPath, scope);
-            Console.WriteLine("END...");
         }
 
         private static ASTNode ParseInput(string inputPath)
@@ -135,8 +133,8 @@ namespace Cool
 
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
-
+            Console.WriteLine("CODE GENERATED OK!!!");
         }
-        
+
     }
 }
