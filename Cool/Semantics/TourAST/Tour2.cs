@@ -216,7 +216,7 @@ namespace Cool.Semantics
         }
         #endregion
 
-        #region Identifier and Formal
+        #region Identifier, Formal and Self
         public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
         {
             if (!scope.IsDefined(node.Text, out node.StaticType))
@@ -227,6 +227,11 @@ namespace Cool.Semantics
         {
             if (!scope.IsDefinedType(node.Type.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(node.Type));
+        }
+
+        public void Visit(SelfNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            node.StaticType = scope.Type;
         }
         #endregion
 
@@ -239,7 +244,6 @@ namespace Cool.Semantics
             var typeExp0 = node.ExpressionCase.StaticType;
             var typeExpK = scope.GetType(node.Branches[0].Formal.Type.Text);
 
-            node.StaticType = typeExpK;
             for (int i = 0; i < node.Branches.Count; ++i)
             {
                 if (!scope.IsDefinedType(node.Branches[i].Formal.Type.Text, out TypeInfo type))
@@ -257,6 +261,8 @@ namespace Cool.Semantics
                 if (branchSelected == -1 && typeExp0 <= typeK)
                     branchSelected = i;
 
+                if(i == 0)
+                    node.StaticType = node.Branches[0].Expression.StaticType;
                 node.StaticType = Algorithm.LowerCommonAncestor(node.StaticType, typeExpK);
             }
             node.BranchSelected = branchSelected;

@@ -10,18 +10,18 @@ class A {
 
    value() : Int { var };
 
-   set_var(num : Int) : SELF_TYPE {
+   set_var(num : Int) : A {
       {
          var <- num;
          self;
       }
    };
 
-   method1(num : Int) : SELF_TYPE {  -- same
+   method1(num : Int) : A {  -- same
       self
    };
 
-   method2(num1 : Int, num2 : Int) : B {  -- plus
+   method2(num1 : Int, num2 : Int) : A {  -- plus
       (let x : Int in
 	 {
             x <- num1 + num2;
@@ -30,7 +30,7 @@ class A {
       )
    };
 
-   method3(num : Int) : C {  -- negate
+   method3(num : Int) : A {  -- negate
       (let x : Int in
 	 {
             x <- ~num;
@@ -39,7 +39,7 @@ class A {
       )
    };
 
-   method4(num1 : Int, num2 : Int) : D {  -- diff
+   method4(num1 : Int, num2 : Int) : A {  -- diff
             if num2 < num1 then
                (let x : Int in
 		  {
@@ -57,7 +57,7 @@ class A {
             fi
    };
 
-   method5(num : Int) : E {  -- factorial
+   method5(num : Int) : A {  -- factorial
       (let x : Int <- 1 in
 	 {
 	    (let y : Int <- 1 in
@@ -77,7 +77,7 @@ class A {
 
 class B inherits A {  -- B is a number squared
 
-   method5(num : Int) : E { -- square
+   method5(num : Int) : A { -- square
       (let x : Int in
 	 {
             x <- num * num;
@@ -99,7 +99,7 @@ class C inherits B {
       )
    };
 
-   method5(num : Int) : E {  -- cube
+   method5(num : Int) : A {  -- cube
       (let x : Int in
 	 {
             x <- num * num * num;
@@ -316,7 +316,7 @@ class Main inherits IO {
       )
    };
 
-   class_type(var : A) : SELF_TYPE {
+   class_type(var : A) : String {
       case var of
 	 a : A => out_string("Class type is now A\n");
 	 b : B => out_string("Class type is now B\n");
@@ -327,7 +327,7 @@ class Main inherits IO {
       esac
    };
  
-   print(var : A) : SELF_TYPE {
+   print(var : A) : String {
      (let z : A2I <- new A2I in
 	{
 	   out_string(z.i2a(var.value()));

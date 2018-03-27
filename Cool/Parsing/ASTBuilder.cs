@@ -159,6 +159,8 @@ namespace Cool.Parsing
 
         public override ASTNode VisitId([NotNull] CoolParser.IdContext context)
         {
+            if (context.ID().GetText() == "self")
+                return new SelfNode(context);
             return new IdentifierNode(context, context.ID().GetText());
         }
 

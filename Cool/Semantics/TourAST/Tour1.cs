@@ -201,6 +201,11 @@ namespace Cool.Semantics
         {
             throw new NotImplementedException();
         }
+
+        public void Visit(SelfNode node, IScope scope, ICollection<SemanticError> errors)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 

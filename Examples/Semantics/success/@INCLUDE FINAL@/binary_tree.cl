@@ -3,11 +3,11 @@ class BinaryTreeNode {
 	rightNode : BinaryTreeNode;
 	key: Int;
 	value: Int;
-	setValueAndKey(key: Int, value: Int): Int {
+	setValueAndKey(key: Int, value: Int): SELF_TYPE {
 		{
 			value <- value;
 			key<- key;			
-			--self;
+			self;
 		}
 	};
 	getKey(): Int {
@@ -23,10 +23,10 @@ class BinaryTreeNode {
 		value <- newValue
 	};
 	setLeftNode(leftNode: BinaryTreeNode) : BinaryTreeNode {
-		leftNode <- leftNode
+		leftNode <- leftNode;
 	};
 	setRightNode(rightNode: BinaryTreeNode) : BinaryTreeNode {
-		rightNode <- rightNode
+		rightNode <- rightNode;
 	};
 	getLeftNode() : BinaryTreeNode {
 		leftNode
@@ -35,11 +35,12 @@ class BinaryTreeNode {
 		rightNode
 	};
 };
-
-class BinaryTree {
-	rootNode : BinaryTreeNode;
+(*class BinaryTree {
+	RootNode : BinaryTreeNode;
 	io : IO <- new IO;
-	
+	insert(key: Int, value: Int): BinaryTreeNode {
+		insert_recursive(key, value, RootNode, void, true)
+	};
 	insert_recursive(key: Int, value: Int, 
 		currentNode: BinaryTreeNode, parentNode: BinaryTreeNode, leftDir: Bool) : BinaryTreeNode {
 		if isvoid currentNode
@@ -52,14 +53,14 @@ class BinaryTree {
 				{
 					if leftDir
 					then
-						parentNode.setLeftNode(node)
+						parentNode.setLeftNode(node);
 					else
-						parentNode.setRightNode(node)
+						parentNode.setRightNode(node);
 					fi;
 					node;
 				}
 				else
-					rootNode <- node
+					RootNode <- node
 				fi;
 			}
 		else
@@ -71,10 +72,9 @@ class BinaryTree {
 			fi
 		fi
 	};
-	insert(key: Int, value: Int): BinaryTreeNode {
-		insert_recursive(key, value, rootNode, void, true)
+	find(key: Int): BinaryTreeNode {
+		find_recursive(key, RootNode)
 	};
-	
 	find_recursive(key: Int, node: BinaryTreeNode): BinaryTreeNode {
 		if isvoid node
 		then
@@ -86,37 +86,15 @@ class BinaryTree {
 			else
 				if key< node.getKey()
 				then
-					find_recursive(key, node.getRightNode())
+					find_recursive(key, node.getRightNode());
 				else
-					find_recursive(key, node.getLeftNode())
+					find_recursive(key, node.getLeftNode());
 				fi
 			fi
 		fi
 	};
-	find(key: Int): BinaryTreeNode {
-		find_recursive(key, rootNode)
-	};
-	
-	replace_node_in_parent(parentNode: BinaryTreeNode, node: BinaryTreeNode, leftDir: Bool): BinaryTreeNode {
-		if not isvoid parentNode
-		then
-			if leftDir
-			then
-				parentNode.setLeftNode(node)
-			else
-				parentNode.setRightNode(node)
-			fi
-		else
-			rootNode <- node
-		fi
-	};
-	find_min_node_parent(node: BinaryTreeNode, parent_node: BinaryTreeNode): BinaryTreeNode {
-		if not isvoid node.getLeftNode()
-		then
-			find_min_node_parent(node.getLeftNode(), node)
-		else
-			parent_node
-		fi
+	delete(key: Int): Object {
+		delete_recursive(key, RootNode, void, true)
 	};
 	delete_recursive(key: Int, node: BinaryTreeNode, parentNode: BinaryTreeNode, leftDir: Bool): Object {
 		if isvoid node
@@ -129,19 +107,19 @@ class BinaryTree {
 				then
 					if isvoid node.getLeftNode()
 					then
-						-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.
+						-- Обоих детей нет.
 						replace_node_in_parent(parentNode, void, leftDir)
 					else
-						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						-- Нет правого ребенка.
 						replace_node_in_parent(parentNode, node.getLeftNode(), leftDir)
 					fi
 				else
 					if isvoid node.getLeftNode()
 					then
-						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						-- Нет левого ребенка.
 						replace_node_in_parent(parentNode, node.getRightNode(), leftDir)
 					else
-						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
+						-- Оба ребенка есть.
 						let min_node_parent: BinaryTreeNode <- find_min_node_parent(node.getRightNode(), node),
 							min_node: BinaryTreeNode <- min_node_parent.getLeftNode() in
 						{
@@ -160,14 +138,30 @@ class BinaryTree {
 			fi
 		fi
 	};
-	delete(key: Int): Object {
-		delete_recursive(key, rootNode, void, true)
+	find_min_node_parent(node: BinaryTreeNode, parent_node: BinaryTreeNode): BinaryTreeNode {
+		if not isvoid node.getLeftNode()
+		then
+			find_min_node_parent(node.getLeftNode(), node)
+		else
+			parent_node
+		fi
 	};
-	
-	
-	
-	
-	print_node(node: BinaryTreeNode) : String {
+	replace_node_in_parent(parentNode: BinaryTreeNode, node: BinaryTreeNode, leftDir: Bool): BinaryTreeNode {
+		if not isvoid parentNode
+		then
+			if leftDir
+			then
+				parentNode.setLeftNode(node)
+			else
+				parentNode.setRightNode(node)
+			fi
+		else
+			RootNode <- node
+	}
+	print(): SELF_TYPE {
+		print_node(RootNode)
+	};
+	print_node(node: BinaryTreeNode) : SELF_TYPE {
 		{
 			io.out_int(node.getKey());
 			io.out_string(": ");
@@ -191,7 +185,7 @@ class BinaryTree {
 					io.out_string(" ");
 				}
 				fi;
-				io.out_string("");	
+				io.out_string_line("");	
 				if not isvoid leftNode
 				then
 					print_node(leftNode)
@@ -205,12 +199,9 @@ class BinaryTree {
 					rightNode
 				fi;
 			};
-			--self;
-			--self;
+			self;
+			self;
 		}
-	};
-	print(): String {
-		print_node(rootNode)
 	};
 };
 class Main {
@@ -228,13 +219,13 @@ class Main {
 			tree.insert(4, 4);
 			tree.insert(7, 7);
 			tree.insert(13, 13);
-			io.out_string("result tree:");
+			io.out_string_line("result tree:");
 			tree.print();
-			io.out_string("");
+			io.out_string_line("");
 			let findNode: BinaryTreeNode  <- tree.find(5) in
 				if isvoid findNode
 				then
-					io.out_string("key'5' does not found")
+					io.out_string_line("key'5' does not found")
 				else
 				{
 					io.out_string("value of key'5' is ");
@@ -245,24 +236,24 @@ class Main {
 			let findNode: BinaryTreeNode <- tree.find(13) in
 				if isvoid findNode
 				then
-					io.out_string("key'13' does not found")
+					io.out_string_line("key'13' does not found")
 				else
 				{
 					io.out_string("value of key'13' is ");
-					io.out_int(findNode.getValue());
+					io.out_int_line(findNode.getValue());
 				}
 				fi;
 			let findNode: BinaryTreeNode <- tree.find(8) in
 				if isvoid findNode
 				then
-					io.out_string("key'8' does not found")
+					io.out_string_line("key'8' does not found")
 				else
 				{
 					io.out_string("value of key '8' is ");
 					io.out_int(findNode.getValue());
 				}
 				fi;
-			io.out_string("");
+			io.out_string_line("");
 			while true
 			loop
 			{	
@@ -287,13 +278,13 @@ class Main {
 						else
 							tree.print()
 						fi
-					fi;
-					io.out_string("");
+					fi
+					io.out_string_line("");
 				};
 			}
-			pool;
+			pool
 			io.in_string();
 			void;
 		}
 	};
-};
+};*)

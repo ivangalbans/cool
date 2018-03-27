@@ -52,7 +52,7 @@ class Board inherits IO {
    initial.length()
  };
 
- board_init(start : String) : SELF_TYPE {
+ board_init(start : String) : Board {
    (let size :Int  <- size_of_board(start) in
     {
 	if size = 15 then
@@ -110,7 +110,7 @@ class Board inherits IO {
 class CellularAutomaton inherits Board {
     population_map : String;
    
-    init(map : String) : SELF_TYPE {
+    init(map : String) : CellularAutomaton {
         {
             population_map <- map;
 	    board_init(map);
@@ -121,7 +121,7 @@ class CellularAutomaton inherits Board {
 
 
    
-    print() : SELF_TYPE {
+    print() : CellularAutomaton {
         
 	(let i : Int <- 0 in
 	(let num : Int <- board_size in
@@ -261,7 +261,7 @@ class CellularAutomaton inherits Board {
     };
   
 
-    evolve() : SELF_TYPE {
+    evolve() : CellularAutomaton {
         (let position : Int <- 0 in
         (let num : Int <- num_cells() in
         (let temp : String in
@@ -404,7 +404,7 @@ class CellularAutomaton inherits Board {
 class Main inherits CellularAutomaton {
     cells : CellularAutomaton;
    
-    main() : SELF_TYPE {
+    main() : Main {
         {
 	 (let continue : Bool  in
 	  (let choice : String  in

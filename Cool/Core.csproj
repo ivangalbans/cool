@@ -53,6 +53,7 @@
     <Compile Include="AST\Expressions\Atom\IdentifierNode.cs" />
     <Compile Include="AST\ASTNode\Auxiliary\IdNode.cs" />
     <Compile Include="AST\Expressions\Atom\IntNode.cs" />
+    <Compile Include="AST\Expressions\Atom\SelfNode.cs" />
     <Compile Include="AST\Expressions\Atom\StringNode.cs" />
     <Compile Include="AST\ASTNode\Auxiliary\AuxiliaryNode.cs" />
     <Compile Include="AST\ASTNode\Auxiliary\FormalNode.cs" />
