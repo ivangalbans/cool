@@ -8,11 +8,11 @@ class Stdio inherits IO {
         in_string()
     };
 
-    printInt(n : Int) : Int {
+    printInt(n : Int) : IO {
         out_int(n)
     };
 
-    printString(s : String) : String {
+    printString(s : String) : IO {
         out_string(s)
     };
 };
@@ -23,7 +23,7 @@ class Main inherits Stdio {
     b: Int <- 2;
     s : String <- "hola";
 
-    main(): String {
+    main(): IO {
         {
             a <- scanfInt();
             s <- scanfString();

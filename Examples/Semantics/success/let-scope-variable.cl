@@ -1,6 +1,6 @@
 class Main inherits IO {
 
-    main() : Int {
+    main() : IO {
         {
             let y : Int <- 5 in (y*y);
             out_int(5);        

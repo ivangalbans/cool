@@ -63,8 +63,8 @@ namespace Cool.Semantics
             _declaredTypes["String"].ClassReference.Scope.Define("concat", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
             _declaredTypes["String"].ClassReference.Scope.Define("substr", new TypeInfo[2] { _declaredTypes["Int"], _declaredTypes["Int"] }, _declaredTypes["String"]);
             
-            _declaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["String"]);
-            _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["Int"]);
+            _declaredTypes["IO"].ClassReference.Scope.Define("out_string", new TypeInfo[1] { _declaredTypes["String"] }, _declaredTypes["IO"]);
+            _declaredTypes["IO"].ClassReference.Scope.Define("out_int", new TypeInfo[1] { _declaredTypes["Int"] }, _declaredTypes["IO"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_string", new TypeInfo[0], _declaredTypes["String"]);
             _declaredTypes["IO"].ClassReference.Scope.Define("in_int", new TypeInfo[0], _declaredTypes["Int"]);
             

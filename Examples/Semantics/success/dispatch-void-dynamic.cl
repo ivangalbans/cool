@@ -3,7 +3,7 @@
 
 class Main inherits IO
 {
-  main() : String
+  main() : IO
   {
     let nothing : Object <- while false loop 1 pool in
       out_string(nothing.type_name())

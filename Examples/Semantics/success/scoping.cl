@@ -11,13 +11,13 @@ class Main inherits Bob {
 	        y <- y + 4;
 	        let y:Int <- z + y  in y; -- 25+8 = 33
 	}};
-	print_z(z:Int) : String 
+	print_z(z:Int) : IO 
 	{{
 		out_string("z = "); 
 		out_int(z); 
 		out_string("\n"); 
 	}};
-	main() : String
+	main() : IO
 	{{
 		print_z(z);	-- 23
 		let z:Int <- jack(5,z+2) in

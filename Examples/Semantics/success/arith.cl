@@ -316,7 +316,7 @@ class Main inherits IO {
       )
    };
 
-   class_type(var : A) : String {
+   class_type(var : A) : IO {
       case var of
 	 a : A => out_string("Class type is now A\n");
 	 b : B => out_string("Class type is now B\n");
@@ -327,7 +327,7 @@ class Main inherits IO {
       esac
    };
  
-   print(var : A) : String {
+   print(var : A) : IO {
      (let z : A2I <- new A2I in
 	{
 	   out_string(z.i2a(var.value()));

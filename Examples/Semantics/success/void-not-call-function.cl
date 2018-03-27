@@ -1,7 +1,7 @@
 
 class Main0 inherits IO {
     a : Int;
-    main() : String {
+    main() : IO {
         out_string(a.type_name()) --print 'a'
     };
 };
@@ -10,7 +10,7 @@ class Main0 inherits IO {
 
 class Main1 inherits IO {
     a : Main0;
-    main() : String {
+    main() : IO {
         out_string(a.type_name())
     };
 };

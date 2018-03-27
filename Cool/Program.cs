@@ -39,7 +39,7 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "arith.cl";
+            string file = "book_list.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
