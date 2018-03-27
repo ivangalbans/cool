@@ -1,6 +1,6 @@
 class A {
 	x:Int <- 5;
-	foo(y:Int):SELF_TYPE { { x <- y; self; } };
+	foo(y:Int):A { { x <- y; self; } };
 };
 class B inherits A {
 };

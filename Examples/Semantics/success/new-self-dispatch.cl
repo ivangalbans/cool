@@ -11,7 +11,8 @@ class Base inherits IO
 
   duplicate() : Base
   {
-    new SELF_TYPE
+    --new SELF_TYPE
+    self
   };
 };
 

@@ -59,7 +59,7 @@ class Vertice inherits IO {
 
    number() : Int { num };
 
-   init(n : Int) : SELF_TYPE {
+   init(n : Int) : Vertice {
       {
          num <- n;
          self;
@@ -67,7 +67,7 @@ class Vertice inherits IO {
    };
 
 
-   add_out(s : Edge) : SELF_TYPE {
+   add_out(s : Edge) : Vertice {
       {
 	 out <- out.cons(s);
          self;
@@ -89,7 +89,7 @@ class Edge inherits IO {
    to     : Int;
    weight : Int;
 
-   init(f : Int, t : Int, w : Int) : SELF_TYPE {
+   init(f : Int, t : Int, w : Int) : Edge {
       {
          from <- f;
 	 to <- t;

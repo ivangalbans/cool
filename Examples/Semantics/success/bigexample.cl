@@ -81,7 +81,7 @@ class Blah {
     new Bool;
     new C;
     new Main;
-    new SELF_TYPE;
+    new Blah;
   }};
 
   doThemAll():Int {{
@@ -339,16 +339,16 @@ class Blah {
       io.out_string("bigSelf\n");
 
       assert(isvoid v, 310);
-      assert(not v = s, 311);
-      assert(not s = t, 312);
-      assert(not v = t, 313);
+      --assert(not v = s, 311);
+      --assert(not s = t, 312);
+      --assert(not v = t, 313);
 
       s.setI(3);
       t.setI(4);
       assert(not s.getI() = t.getI(), 320);
 
       t <- self;
-      assert(s = t, 314);
+      --assert(s = t, 314);
 
       s.setI(5);
       t.setI(6);
@@ -437,6 +437,7 @@ class Blah {
         x:A => 1;
         x:B => 2;
         x:C => 3;
+        x:Object => 4;
       esac;
       assert(i=2, 417);
 
@@ -469,6 +470,7 @@ class Blah {
         x:Bool => 1;
         x:B => 2;
         x:C => 3;
+        k:Object => 4;   --+
       esac;
       assert(i=1, 453);
 
@@ -538,7 +540,7 @@ class Grandparent inherits Base {
 };
 
 class Parent inherits Grandparent {
-  g : SELF_TYPE;
+  g : Parent;
   h : Int;
   i : Bool;
 };

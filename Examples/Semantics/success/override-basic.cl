@@ -12,7 +12,7 @@ class Base inherits IO
 
 class Derived inherits Base
 {
-  out_string(s:String) : SELF_TYPE
+  out_string(s:String) : IO
   {
     {
       self@Base.out_string("derived ");

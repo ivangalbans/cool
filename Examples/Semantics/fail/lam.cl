@@ -10,7 +10,7 @@
       |  \x.e	       a function with argument x
       |  e1@e2	       apply function e1 to argument e2
 
-  Jeff Foster
+  Jeff Foster (jfoster@cs.berkeley.edu)
   March 24, 2000
 *)
 
@@ -23,7 +23,7 @@ class VarList inherits IO {
   head()  : Variable { { abort(); new Variable; } };
   tail()  : VarList { { abort(); new VarList; } };
   add(x : Variable) : VarList { (new VarListNE).init(x, self) };
-  print() : SELF_TYPE { out_string("\n") };
+  print() : IO { out_string("\n") };
 };
 
 class VarListNE inherits VarList {
@@ -33,7 +33,7 @@ class VarListNE inherits VarList {
   head()  : Variable { x };
   tail()  : VarList { rest };
   init(y : Variable, r : VarList) : VarListNE { { x <- y; rest <- r; self; } };
-  print() : SELF_TYPE { { x.print_self(); out_string(" ");
+  print() : VarListNE { { x.print_self(); out_string(" ");
 	                  rest.print(); self; } };
 };
 
@@ -80,7 +80,7 @@ class LambdaListRef {
   headE() : VarList { l.headE() };
   headC() : Lambda { l.headC() };
   headN() : Int { l.headN() };
-  reset() : SELF_TYPE {
+  reset() : LambdaListRef {
     {
       nextNum <- 0;
       l <- new LambdaList;
@@ -94,7 +94,7 @@ class LambdaListRef {
       nextNum - 1;
     }
   };
-  removeHead() : SELF_TYPE {
+  removeHead() : LambdaListRef {
     {
       l <- l.tail();
       self;
@@ -111,7 +111,7 @@ class LambdaListRef {
 class Expr inherits IO {
 
   -- Print this lambda term
-  print_self() : SELF_TYPE {
+  print_self() : Expr {
     {
       out_string("\nError: Expr is pure virtual; can't print self\n");
       abort();
@@ -138,7 +138,7 @@ class Expr inherits IO {
   };
 
   -- Generate Cool code to evaluate this expression
-  gen_code(env : VarList, closures : LambdaListRef) : SELF_TYPE {
+  gen_code(env : VarList, closures : LambdaListRef) : Expr {
     {
       out_string("\nError: Expr is pure virtual; can't gen_code\n");
       abort();
@@ -160,7 +160,7 @@ class Variable inherits Expr {
     }
   };
 
-  print_self() : SELF_TYPE {
+  print_self() : IO {
     out_string(name)
   };
 
@@ -170,7 +170,7 @@ class Variable inherits Expr {
     if x = self then e else self fi
   };
 
-  gen_code(env : VarList, closures : LambdaListRef) : SELF_TYPE {
+  gen_code(env : VarList, closures : LambdaListRef) : IO {
     let cur_env : VarList <- env in
       { while (if cur_env.isNil() then
 	          false
@@ -210,7 +210,7 @@ class Lambda inherits Expr {
     }
   };
 
-  print_self() : SELF_TYPE {
+  print_self() : Lambda {
     {
       out_string("\\");
       arg.print_self();
@@ -237,7 +237,7 @@ class Lambda inherits Expr {
     fi
   };
 
-  gen_code(env : VarList, closures : LambdaListRef) : SELF_TYPE {
+  gen_code(env : VarList, closures : LambdaListRef) : IO {
     {
       out_string("((new Closure");
       out_int(closures.add(env, self));
@@ -251,7 +251,7 @@ class Lambda inherits Expr {
   };
 
   gen_closure_code(n : Int, env : VarList,
-		   closures : LambdaListRef) : SELF_TYPE {
+		   closures : LambdaListRef) : IO {
     {
       out_string("class Closure");
       out_int(n);
@@ -283,7 +283,7 @@ class App inherits Expr {
     }
   };
 
-  print_self() : SELF_TYPE {
+  print_self() : App {
     {
       out_string("((");
       fun.print_self();
@@ -311,7 +311,7 @@ class App inherits Expr {
       new_app.init(new_fun, new_arg)
   };
 
-  gen_code(env : VarList, closures : LambdaListRef) : SELF_TYPE {
+  gen_code(env : VarList, closures : LambdaListRef) : IO {
     {
       out_string("(let x : EvalObject <- ");
       fun.gen_code(env, closures);
@@ -409,7 +409,7 @@ class Main inherits Term {
     }
   };
 
-  eval_class() : SELF_TYPE {
+  eval_class() : IO {
     {
       out_string("class EvalObject inherits IO {\n");
       out_string("  eval() : EvalObject { { abort(); self; } };\n");
@@ -417,7 +417,7 @@ class Main inherits Term {
     }
   };
 
-  closure_class() : SELF_TYPE {
+  closure_class() : IO {
     {
       out_string("class Closure inherits EvalObject {\n");
       out_string("  parent : Closure;\n");
@@ -430,7 +430,7 @@ class Main inherits Term {
     }
   };
 
-  gen_code(e : Expr) : SELF_TYPE {
+  gen_code(e : Expr) : IO {
     let cl : LambdaListRef <- (new LambdaListRef).reset() in
       {
 	out_string("Generating code for ");

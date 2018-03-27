@@ -9,7 +9,8 @@ class A {
     (new IO).out_string("\n");
   }}; 
   new_st():A {
-    new SELF_TYPE
+    --new SELF_TYPE
+    self
   };
   bump():Object {
     x <- x + 1

@@ -3,7 +3,7 @@ class BinaryTreeNode {
 	rightNode : BinaryTreeNode;
 	key: Int;
 	value: Int;
-	setValueAndKey(key: Int, value: Int): SELF_TYPE {
+	setValueAndKey(key: Int, value: Int): BinaryTreeNode {
 		{
 			value <- value;
 			key<- key;			
@@ -35,7 +35,7 @@ class BinaryTreeNode {
 		rightNode
 	};
 };
-(*class BinaryTree {
+class BinaryTree {
 	RootNode : BinaryTreeNode;
 	io : IO <- new IO;
 	insert(key: Int, value: Int): BinaryTreeNode {
@@ -107,19 +107,19 @@ class BinaryTreeNode {
 				then
 					if isvoid node.getLeftNode()
 					then
-						-- Обоих детей нет.
+						-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.
 						replace_node_in_parent(parentNode, void, leftDir)
 					else
-						-- Нет правого ребенка.
+						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 						replace_node_in_parent(parentNode, node.getLeftNode(), leftDir)
 					fi
 				else
 					if isvoid node.getLeftNode()
 					then
-						-- Нет левого ребенка.
+						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 						replace_node_in_parent(parentNode, node.getRightNode(), leftDir)
 					else
-						-- Оба ребенка есть.
+						-- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
 						let min_node_parent: BinaryTreeNode <- find_min_node_parent(node.getRightNode(), node),
 							min_node: BinaryTreeNode <- min_node_parent.getLeftNode() in
 						{
@@ -158,10 +158,10 @@ class BinaryTreeNode {
 		else
 			RootNode <- node
 	}
-	print(): SELF_TYPE {
+	print(): BinaryTree {
 		print_node(RootNode)
 	};
-	print_node(node: BinaryTreeNode) : SELF_TYPE {
+	print_node(node: BinaryTreeNode) : BinaryTree {
 		{
 			io.out_int(node.getKey());
 			io.out_string(": ");
@@ -287,4 +287,4 @@ class Main {
 			void;
 		}
 	};
-};*)
+};

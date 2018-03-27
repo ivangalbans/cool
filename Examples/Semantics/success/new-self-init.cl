@@ -6,7 +6,7 @@ class Base inherits IO
 {
   baseAttr : Int <- {report(1); 1;};
 
-  report( value : Int ) : SELF_TYPE
+  report( value : Int ) : Base
   {
     {
       out_int( value );
@@ -17,7 +17,8 @@ class Base inherits IO
 
   duplicate() : Base
   {
-    new SELF_TYPE
+    --new SELF_TYPE
+    self
   };
 };
 
@@ -26,7 +27,7 @@ class Derived inherits Base
 {
   derivedAttr : Int <- {report(2); 2;};
 
-  report( value : Int ) : SELF_TYPE
+  report( value : Int ) : Base
   { 
     {
       out_string("old: ");

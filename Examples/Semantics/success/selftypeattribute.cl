@@ -1,6 +1,6 @@
 class A {
-	x:SELF_TYPE;
-	init():Object { x <- new SELF_TYPE };
+	x:A;
+	init():Object { x <- self };
 	foo():Int { 1 };
 	getx():A { x };
 };
