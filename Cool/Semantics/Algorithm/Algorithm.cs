@@ -28,7 +28,7 @@ namespace Cool.Semantics
                 g[i] = new List<int>();
         }
 
-        public static bool TopologicalSort(List<ClassNode> classNodes, ICollection<SemanticError> errors)
+        public static bool TopologicalSort(List<ClassNode> classNodes, ICollection<string> errors)
         {
             int n = classNodes.Count;
             Init(n);
@@ -102,7 +102,7 @@ namespace Cool.Semantics
             return type1;
         }
 
-        public static bool ReportError(List<SemanticError> errors)
+        public static bool ReportError(List<string> errors)
         {
             if(errors.Count > 0)
             {

@@ -13,7 +13,7 @@ namespace Cool.AST
             Value = int.Parse(text);
         }
 
-        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
         {
             visitor.Visit(this, scope, errors);
         }

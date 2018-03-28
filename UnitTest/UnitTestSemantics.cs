@@ -22,7 +22,7 @@ namespace UnitTest
 
             foreach (var file in files)
             {
-                List<SemanticError> errors = new List<SemanticError>();
+                var errors = new List<string>();
                 List<string> errorParsing = testParsing.ParsingFile(file.FullName);
 
                 foreach (var item in errorParsing)
@@ -54,7 +54,7 @@ namespace UnitTest
 
             foreach (var file in files)
             {
-                List<SemanticError> errors = new List<SemanticError>();
+                var errors = new List<string>();
                 List<string> errorParsing = testParsing.ParsingFile(file.FullName);
 
                 if(errorParsing.Any())

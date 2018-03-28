@@ -118,7 +118,7 @@ namespace Cool
 
         private static bool CheckSemantics(ProgramNode root, Scope scope)
         {
-            var errors = new List<SemanticError>();
+            var errors = new List<string>();
 
             var programNode = new Tour1().CheckSemantic(root, scope, errors);
             if (Algorithm.ReportError(errors))

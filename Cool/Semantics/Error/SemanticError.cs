@@ -9,153 +9,95 @@ namespace Cool.Semantics
 {
     public class SemanticError
     {
-        public string Message { get; set; }
-        public ASTNode Node { get; set; }
-        public int Line { get; set; }
-        public int Column { get; set; }
 
-        public static SemanticError InvalidClassDependency(TypeNode confilctClassA, TypeNode confilctClassB)
+        public static string InvalidClassDependency(TypeNode confilctClassA, TypeNode confilctClassB)
         {
-            return new SemanticError
-            {
-                Message = $"Circular base class dependency involving" +
-                $" '{confilctClassA.Text}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
-                $" '{confilctClassB.Text}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
-            };
+            return  $"Circular base class dependency involving" +
+                    $" '{confilctClassA.Text}' (Line: {confilctClassA.Line} Column: {confilctClassA.Column}) and " +
+                    $" '{confilctClassB.Text}' (Line: {confilctClassB.Line} Column: {confilctClassB.Column})"
+                    ;
         }
 
-        public static SemanticError RepeatedClass(TypeNode node)
+        public static string RepeatedClass(TypeNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The program already contains a definition for '{node.Text}'."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"The program already contains a definition for '{node.Text}'."
+                    ;
         }
 
-        public static SemanticError NotFoundClassMain()
+        public static string NotFoundClassMain()
         {
-            return new SemanticError
-            {
-                Message = $"Couldn't found the class 'Main'."
-            };
+            return  $"Couldn't found the class 'Main'.";
         }
 
-        public static SemanticError NotFoundMethodmain(ClassNode node)
+        public static string NotFoundMethodmain(ClassNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The class '{node.TypeClass.Text}' has not a method 'main' without parameters."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"The class '{node.TypeClass.Text}' has not a method 'main' without parameters."
+                    ;
         }
 
-        public static SemanticError NotDeclaredVariable(IdentifierNode node)
+        public static string NotDeclaredVariable(IdentifierNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The name '{node.Text}' does not exist in the current context."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column}) The name " +
+                    $"'{node.Text}' does not exist in the current context."
+                    ;
         }
 
-        public static SemanticError NotDeclaredType(TypeNode node)
+        public static string NotDeclaredType(TypeNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The type '{node.Text}' could not be found."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"The type '{node.Text}' could not be found."
+                    ;
         }
 
-        public static SemanticError RepeatedVariable(IdentifierNode node)
+        public static string RepeatedVariable(IdentifierNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The variable '{node.Text}' is already defined in this scope."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"The variable '{node.Text}' is already defined in this scope."
+                    ;
         }
 
-        public static SemanticError CannotConvert(ASTNode node, TypeInfo first, TypeInfo second)
+        public static string CannotConvert(ASTNode node, TypeInfo first, TypeInfo second)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Cannot convert from '{first.Text}' to '{second.Text}'."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"Cannot convert from '{first.Text}' to '{second.Text}'."
+                    ;
         }
 
-        public static SemanticError InvalidUseOfOperator(UnaryOperationNode node, TypeInfo operand)
+        public static string InvalidUseOfOperator(UnaryOperationNode node, TypeInfo operand)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{operand.Text}'."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"Operator '{node.Symbol}' cannot be applied to operands of type '{operand.Text}'."
+                    ;
         }
 
-        public static SemanticError InvalidUseOfOperator(ArithmeticOperation node)
+        public static string InvalidUseOfOperator(ArithmeticOperation node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' must be applied to types 'Int'."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"Operator '{node.Symbol}' must be applied to types 'Int'."
+                    ;
         }
 
-        public static SemanticError InvalidUseOfOperator(BinaryOperationNode node, TypeInfo leftOperand, TypeInfo rightOperand)
+        public static string InvalidUseOfOperator(BinaryOperationNode node, TypeInfo leftOperand, TypeInfo rightOperand)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) Operator '{node.Symbol}' cannot be applied to operands of type '{leftOperand.Text}' and '{rightOperand.Text}'."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"Operator '{node.Symbol}' cannot be applied to operands of type '{leftOperand.Text}' and '{rightOperand.Text}'."
+                    ;
         }
 
-        public override string ToString()
+        public static string NotDeclareFunction(DispatchNode node, string name)
         {
-            return $"{Message}";
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"The name '{name}' does not exist in the current context."
+                    ;
         }
 
-        public static SemanticError NotDeclareFunction(DispatchNode node, string name)
+        public static string NotMatchedBranch(CaseNode node)
         {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) The name '{name}' does not exist in the current context."
-            };
-        }
-
-        public static SemanticError NotMatchedBranch(CaseNode node)
-        {
-            return new SemanticError
-            {
-                Node = node,
-                Line = node.Line,
-                Column = node.Column,
-                Message = $"(Line: {node.Line}, Column: {node.Column}) At least one branch must be matched."
-            };
+            return  $"(Line: {node.Line}, Column: {node.Column})" +
+                    $"At least one branch must be matched."
+                    ;
         }
     }
 }

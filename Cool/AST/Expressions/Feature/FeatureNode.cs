@@ -8,6 +8,6 @@ namespace Cool.AST
     {
         public FeatureNode(ParserRuleContext context) : base(context) { }
 
-        public abstract void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
+        public abstract void Accept(IVisitor visitor, IScope scope, ICollection<string> errors);
     }
 }

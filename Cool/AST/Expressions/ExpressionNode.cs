@@ -13,7 +13,7 @@ namespace Cool.AST
 
         public ExpressionNode(int line, int column) : base(line, column) { }
 
-        public abstract void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
+        public abstract void Accept(IVisitor visitor, IScope scope, ICollection<string> errors);
 
         #region VOID
 
@@ -25,7 +25,7 @@ namespace Cool.AST
                 GetStaticType = type;
             }
 
-            public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+            public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
             {
                 visitor.Visit(this, scope, errors);
             }

@@ -7,26 +7,26 @@ namespace Cool.Semantics
 {
     public class Tour2 : IVisitor, ICheckSemantics
     {
-        public ProgramNode CheckSemantic(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
+        public ProgramNode CheckSemantic(ProgramNode node, IScope scope, ICollection<string> errors)
         {
             node.Accept(this, scope, errors);
             return node;
         }
 
         #region Program and Class
-        public void Visit(ProgramNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ProgramNode node, IScope scope, ICollection<string> errors)
         {
             node.Classes.ForEach(cclass => cclass.Accept(this, cclass.Scope, errors));
         }
 
-        public void Visit(ClassNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ClassNode node, IScope scope, ICollection<string> errors)
         {
             node.FeatureNodes.ForEach(feature => feature.Accept(this, scope, errors));
         }
         #endregion
 
         #region Feature
-        public void Visit(AttributeNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(AttributeNode node, IScope scope, ICollection<string> errors)
         {
             node.AssignExp.Accept(this, scope, errors);
             var typeAssignExp = node.AssignExp.StaticType;
@@ -40,7 +40,7 @@ namespace Cool.Semantics
             scope.Define(node.Formal.Id.Text, typeDeclared);
         }
 
-        public void Visit(MethodNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(MethodNode node, IScope scope, ICollection<string> errors)
         {
             var scopeMethod = scope.CreateChild();
             foreach (var arg in node.Arguments)
@@ -65,7 +65,7 @@ namespace Cool.Semantics
         #endregion
 
         #region Unary Operation
-        public void Visit(IsVoidNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(IsVoidNode node, IScope scope, ICollection<string> errors)
         {
             node.Operand.Accept(this, scope, errors);
 
@@ -73,7 +73,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
         }
 
-        public void Visit(NotNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(NotNode node, IScope scope, ICollection<string> errors)
         {
             node.Operand.Accept(this, scope, errors);
 
@@ -84,7 +84,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
         }
 
-        public void Visit(NegNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(NegNode node, IScope scope, ICollection<string> errors)
         {
             node.Operand.Accept(this, scope, errors);
 
@@ -97,7 +97,7 @@ namespace Cool.Semantics
         #endregion
 
         #region Binary Operation
-        public void Visit(ArithmeticOperation node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ArithmeticOperation node, IScope scope, ICollection<string> errors)
         {
             node.LeftOperand.Accept(this, scope, errors);
             node.RightOperand.Accept(this, scope, errors);
@@ -112,7 +112,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
         }
 
-        public void Visit(ComparisonOperation node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ComparisonOperation node, IScope scope, ICollection<string> errors)
         {
             node.LeftOperand.Accept(this, scope, errors);
             node.RightOperand.Accept(this, scope, errors);
@@ -124,7 +124,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Bool")));
         }
 
-        public void Visit(EqualNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(EqualNode node, IScope scope, ICollection<string> errors)
         {
             node.LeftOperand.Accept(this, scope, errors);
             node.RightOperand.Accept(this, scope, errors);
@@ -138,7 +138,7 @@ namespace Cool.Semantics
         #endregion
 
         #region Block and Assignment
-        public void Visit(SequenceNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(SequenceNode node, IScope scope, ICollection<string> errors)
         {
             node.Sequence.ForEach(exp => exp.Accept(this, scope, errors));
 
@@ -148,7 +148,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(last.Line, last.Column, last.StaticType.Text)));
         }
 
-        public void Visit(AssignmentNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(AssignmentNode node, IScope scope, ICollection<string> errors)
         {
             node.ExpressionRight.Accept(this, scope, errors);
 
@@ -161,14 +161,14 @@ namespace Cool.Semantics
             node.StaticType = node.ExpressionRight.StaticType;
         }
 
-        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<string> errors)
         {
             node.StaticType = scope.GetType(node.GetStaticType);
         }
         #endregion
 
         #region Dispatch
-        public void Visit(DispatchExplicitNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(DispatchExplicitNode node, IScope scope, ICollection<string> errors)
         {
             node.Expression.Accept(this, scope, errors);
             if (node.IdType.Text == "Object")
@@ -187,7 +187,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotDeclareFunction(node, node.IdMethod.Text));
         }
 
-        public void Visit(DispatchImplicitNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(DispatchImplicitNode node, IScope scope, ICollection<string> errors)
         {
             node.Arguments.ForEach(expArg => expArg.Accept(this, scope, errors));
 
@@ -197,19 +197,19 @@ namespace Cool.Semantics
         #endregion
 
         #region Atom
-        public void Visit(IntNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(IntNode node, IScope scope, ICollection<string> errors)
         {
             if(!scope.IsDefinedType("Int", out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
         }
 
-        public void Visit(BoolNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(BoolNode node, IScope scope, ICollection<string> errors)
         {
             if (!scope.IsDefinedType("Bool", out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
         }
 
-        public void Visit(StringNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(StringNode node, IScope scope, ICollection<string> errors)
         {
             if (!scope.IsDefinedType("String", out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(new TypeNode(node.Line, node.Column, "Int")));
@@ -217,26 +217,26 @@ namespace Cool.Semantics
         #endregion
 
         #region Identifier, Formal and Self
-        public void Visit(IdentifierNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(IdentifierNode node, IScope scope, ICollection<string> errors)
         {
             if (!scope.IsDefined(node.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredVariable(node));
         }
 
-        public void Visit(FormalNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(FormalNode node, IScope scope, ICollection<string> errors)
         {
             if (!scope.IsDefinedType(node.Type.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(node.Type));
         }
 
-        public void Visit(SelfNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(SelfNode node, IScope scope, ICollection<string> errors)
         {
             node.StaticType = scope.Type;
         }
         #endregion
 
         #region Keywords
-        public void Visit(CaseNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(CaseNode node, IScope scope, ICollection<string> errors)
         {
             node.ExpressionCase.Accept(this, scope, errors);
 
@@ -271,7 +271,7 @@ namespace Cool.Semantics
                 errors.Add(SemanticError.NotMatchedBranch(node));
         }
 
-        public void Visit(IfNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(IfNode node, IScope scope, ICollection<string> errors)
         {
             node.Condition.Accept(this, scope, errors);
             node.Body.Accept(this, scope, errors);
@@ -283,7 +283,7 @@ namespace Cool.Semantics
             node.StaticType = Algorithm.LowerCommonAncestor(node.Body.StaticType, node.ElseBody.StaticType);
         }
 
-        public void Visit(LetNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(LetNode node, IScope scope, ICollection<string> errors)
         {
             var scopeLet = scope.CreateChild();
 
@@ -308,13 +308,13 @@ namespace Cool.Semantics
             node.StaticType = node.ExpressionBody.StaticType;
         }
 
-        public void Visit(NewNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(NewNode node, IScope scope, ICollection<string> errors)
         {
             if (!scope.IsDefinedType(node.TypeId.Text, out node.StaticType))
                 errors.Add(SemanticError.NotDeclaredType(node.TypeId));
         }
 
-        public void Visit(WhileNode node, IScope scope, ICollection<SemanticError> errors)
+        public void Visit(WhileNode node, IScope scope, ICollection<string> errors)
         {
             node.Condition.Accept(this, scope, errors);
             node.Body.Accept(this, scope, errors);

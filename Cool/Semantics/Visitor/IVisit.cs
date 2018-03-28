@@ -8,6 +8,6 @@ namespace Cool.Semantics
 {
     public interface IVisit
     {
-        void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors);
+        void Accept(IVisitor visitor, IScope scope, ICollection<string> errors);
     }
 }

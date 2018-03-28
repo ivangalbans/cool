@@ -30,7 +30,7 @@ namespace Cool.AST
             return $"(Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit}";
         }
 
-        public void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        public void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
         {
             visitor.Visit(this, scope, errors);
         }

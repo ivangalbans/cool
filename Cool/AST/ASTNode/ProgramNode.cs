@@ -13,7 +13,7 @@ namespace Cool.AST
         {
         }
 
-        public void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        public void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
         {
             visitor.Visit(this, scope, errors);
         }

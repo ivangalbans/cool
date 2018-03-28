@@ -14,7 +14,7 @@ namespace Cool.AST
         {
         }
 
-        public override void Accept(IVisitor visitor, IScope scope, ICollection<SemanticError> errors)
+        public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
         {
             visitor.Visit(this, scope, errors);
         }

@@ -22,7 +22,7 @@ namespace UnitTest
 
             foreach (var file in files)
             {
-                List<SemanticError> errors = new List<SemanticError>();
+                var errors = new List<string>();
                 testParsing.ParsingFile(file.FullName);
 
                 var astBuilder = new ASTBuilder();
@@ -44,7 +44,7 @@ namespace UnitTest
 
             foreach (var file in files)
             {
-                List<SemanticError> errors = new List<SemanticError>();
+                var errors = new List<string>();
                 testParsing.ParsingFile(file.FullName);
                 var astBuilder = new ASTBuilder();
                 ProgramNode program = astBuilder.Visit(testParsing.tree) as ProgramNode;
