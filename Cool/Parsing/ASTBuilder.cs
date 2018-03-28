@@ -62,7 +62,7 @@ namespace Cool.Parsing
             else if (node.Formal.Type.Text == "String")
                 node.AssignExp = new StringNode(context, "");
             else
-                node.AssignExp = new ExpressionNode.VoidExpression(node.Formal.Type.Text);
+                node.AssignExp = new VoidNode(node.Formal.Type.Text);
 
             return node;
         }

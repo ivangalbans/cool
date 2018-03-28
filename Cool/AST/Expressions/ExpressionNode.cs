@@ -15,22 +15,5 @@ namespace Cool.AST
 
         public abstract void Accept(IVisitor visitor, IScope scope, ICollection<string> errors);
 
-        #region VOID
-
-        public class VoidExpression : ExpressionNode
-        {
-            public string GetStaticType { get; }
-            public VoidExpression(string type, int line = 0, int column = 0) : base(line, column)
-            {
-                GetStaticType = type;
-            }
-
-            public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
-            {
-                visitor.Visit(this, scope, errors);
-            }
-        }
-        #endregion
-
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="AST\ASTNode\Auxiliary\AuxiliaryNode.cs" />
     <Compile Include="AST\ASTNode\Auxiliary\FormalNode.cs" />
     <Compile Include="AST\ASTNode\Auxiliary\TypeNode.cs" />
+    <Compile Include="AST\Expressions\Atom\VoidNode.cs" />
     <Compile Include="AST\Expressions\Sequence\SequenceNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchExplicitNode.cs" />
     <Compile Include="AST\Expressions\Dispatch\DispatchImplicitNode.cs" />

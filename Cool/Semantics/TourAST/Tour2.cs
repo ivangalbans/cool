@@ -161,7 +161,7 @@ namespace Cool.Semantics
             node.StaticType = node.ExpressionRight.StaticType;
         }
 
-        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<string> errors)
+        public void Visit(VoidNode node, IScope scope, ICollection<string> errors)
         {
             node.StaticType = scope.GetType(node.GetStaticType);
         }

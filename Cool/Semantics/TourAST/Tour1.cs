@@ -197,7 +197,7 @@ namespace Cool.Semantics
             throw new NotImplementedException();
         }
 
-        public void Visit(ExpressionNode.VoidExpression node, IScope scope, ICollection<string> errors)
+        public void Visit(VoidNode node, IScope scope, ICollection<string> errors)
         {
             throw new NotImplementedException();
         }
