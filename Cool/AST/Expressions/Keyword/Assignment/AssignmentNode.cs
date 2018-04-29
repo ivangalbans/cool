@@ -18,5 +18,13 @@ namespace Cool.AST
             visitor.Visit(this, scope, errors);
         }
 
+        public override string ToString()
+        {
+            string repr = $"Assignment Node (Line: {Line}, Column: {Column}),\n";
+            repr += $"{ID} <-\n";
+            repr += $"{ExpressionRight}\n";
+            return repr.Replace("\n","\n| ");
+        }
+
     }
 }

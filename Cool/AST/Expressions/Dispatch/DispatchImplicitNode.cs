@@ -18,5 +18,12 @@ namespace Cool.AST
         {
             visitor.Visit(this, scope, errors);
         }
+
+        public override string ToString()
+        {
+            string repr = $"Dispatch Implicit Node (Line: {Line}, Column: {Column})\n";
+            repr += base.ToString();
+            return repr;
+        }
     }
 }

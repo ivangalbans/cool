@@ -16,5 +16,10 @@ namespace Cool.AST
         {
             visitor.Visit(this, scope, errors);
         }
+        public override string ToString()
+        {
+            string repr = $"New Node (Line: {Line}, Column: {Column}) {TypeId}";
+            return repr;
+        }
     }
 }

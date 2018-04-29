@@ -16,6 +16,11 @@ namespace Cool.AST
             Text = text;
         }
 
+        public override string ToString()
+        {
+            return Text;
+        }
+
         #region NULL
         static readonly NullId nullId = new NullId();
 

@@ -13,6 +13,18 @@ namespace Cool.AST
 
         public DispatchNode(ParserRuleContext context) : base(context)
         {
+
+        }
+
+        public override string ToString()
+        {
+            string repr = $"{IdMethod}(\n";
+            foreach (var a in Arguments)
+            {
+                repr += $"{a}\n";
+            }
+            repr += ")\n";
+            return repr.Replace("\n","\n| ");
         }
 
     }

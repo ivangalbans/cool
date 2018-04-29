@@ -19,5 +19,18 @@ namespace Cool.AST
             visitor.Visit(this, scope, errors);
         }
 
+        public override string ToString()
+        {
+            string repr = $"Let Node (Line: {Line}, Column: {Column}),\n";
+            repr += "Initialization:\n| ";
+            foreach (var a in Initialization)
+            {
+                repr += $"{a}\n";
+            }
+            repr += $"Body:\n| ";
+            repr += $"{ExpressionBody}\n";
+            return repr.Replace("\n","\n| ");
+        }
+
     }
 }

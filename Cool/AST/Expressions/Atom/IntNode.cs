@@ -17,5 +17,10 @@ namespace Cool.AST
         {
             visitor.Visit(this, scope, errors);
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

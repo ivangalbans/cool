@@ -88,6 +88,8 @@
     <Compile Include="AST\Expressions\Operators\Unary\NegNode.cs" />
     <Compile Include="AST\Expressions\Operators\Unary\NotNode.cs" />
     <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\GenerateTour.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />
     <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolLexer.cs" />
@@ -114,7 +116,7 @@
     <None Include="Parsing\Cool.g4" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CodeGeneration\" />
+    <Folder Include="CodeGeneration\ObjectCode\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

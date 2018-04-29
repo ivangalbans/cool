@@ -20,5 +20,21 @@ namespace Cool.AST
         {
             visitor.Visit(this, scope, errors);
         }
+
+        public override string ToString()
+        {
+            string repr = $"Case Node (Line: {Line}, Column: {Column}),\n";
+            repr += "Evaluation:\n| ";
+            repr += $"{ExpressionCase}\n";
+            for(int i = 1; i <= Branches.Count; ++i)
+            {
+                var (f, e) = Branches[i-1];
+                repr += $"Condition {i}\n| ";
+                repr += $"{f}\n";
+                repr += $"Body {i}\n| ";
+                repr += $"{e}\n";
+            }
+            return repr.Replace("\n", "\n| ");
+        }
     }
 }

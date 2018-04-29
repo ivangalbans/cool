@@ -27,7 +27,12 @@ namespace Cool.AST
 
         public override string ToString()
         {
-            return $"(Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit}";
+            string repr = $"Class Node (Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit} \n";
+            foreach (var f in FeatureNodes)
+            {
+                repr += f.ToString() + "\n";
+            }
+            return repr.Replace("\n","\n| ");
         }
 
         public void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)

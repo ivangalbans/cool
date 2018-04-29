@@ -18,5 +18,11 @@ namespace Cool.AST
         {
             visitor.Visit(this, scope, errors);
         }
+
+        public override string ToString()
+        {
+            string repr = $"{Id} : {Type}";
+            return repr;
+        }
     }
 }

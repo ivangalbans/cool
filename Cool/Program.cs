@@ -39,7 +39,8 @@ namespace Cool
             string preffixFail = "../../../Examples/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
-            string file = "new-self-init.cl";
+            //string file = "book_list.cl";
+            string file = "fibo.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
@@ -73,6 +74,9 @@ namespace Cool
                 Environment.ExitCode = ErrorCode;
                 return;
             }
+
+            Console.WriteLine(rootProgram);
+            
 
             GenerateCode(rootProgram, outputPath, scope);
         }
