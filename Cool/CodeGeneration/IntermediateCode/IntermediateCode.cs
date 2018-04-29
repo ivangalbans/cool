@@ -7,7 +7,7 @@ using Cool.CodeGeneration.IntermediateCode.ThreeAddressCode;
 
 namespace Cool.CodeGeneration.IntermediateCode
 {
-    class IntermidiateCode : IIntermediateCode
+    public class IntermediateCode : IIntermediateCode
     {
         List<TypeLine> Type;
         List<DataLine> Data;

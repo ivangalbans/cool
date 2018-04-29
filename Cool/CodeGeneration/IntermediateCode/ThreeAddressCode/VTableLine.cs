@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    class VTableLine : ThreeAddressCodeLine
+    public class VTableLine : ThreeAddressCodeLine
     {
         List<LabelLine> Methods;
 

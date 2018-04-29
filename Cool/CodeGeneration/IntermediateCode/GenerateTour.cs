@@ -12,6 +12,12 @@ namespace Cool.CodeGeneration.IntermediateCode
     class GenerateTour : IVisitor
     {
         IIntermediateCode IntermediateCode;
+
+        public IIntermediateCode GetIntermediateCode(ProgramNode node)
+        {
+            return IntermediateCode;
+        }
+
         public void Visit(ProgramNode node)
         {
             throw new NotImplementedException();
