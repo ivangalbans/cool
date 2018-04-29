@@ -13,9 +13,9 @@ namespace Cool.AST
         {
         }
 
-        public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
+        public override void Accept(IVisitor visitor)
         {
-            visitor.Visit(this, scope, errors);
+            visitor.Visit(this);
         }
     }
 }

@@ -16,9 +16,9 @@ namespace Cool.AST
             Branches = new List<(FormalNode, ExpressionNode)>();
         }
 
-        public override void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
+        public override void Accept(IVisitor visitor)
         {
-            visitor.Visit(this, scope, errors);
+            visitor.Visit(this);
         }
 
         public override string ToString()

@@ -35,9 +35,9 @@ namespace Cool.AST
             return repr.Replace("\n","\n| ");
         }
 
-        public void Accept(IVisitor visitor, IScope scope, ICollection<string> errors)
+        public void Accept(IVisitor visitor)
         {
-            visitor.Visit(this, scope, errors);
+            visitor.Visit(this);
         }
     }
 }

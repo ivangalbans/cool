@@ -11,13 +11,17 @@ namespace Cool.Semantics
 
     public class Tour1 : IVisitor, ICheckSemantics
     {
+        IScope scope;
+        ICollection<string> errors;
         public ProgramNode CheckSemantic(ProgramNode node, IScope scope, ICollection<string> errors)
         {
-            node.Accept(this, scope, errors);
+            this.scope = scope;
+            this.errors = errors;
+            node.Accept(this);
             return node;
         }
 
-        public void Visit(ProgramNode node, IScope scope, ICollection<string> errors)
+        public void Visit(ProgramNode node)
         {
             if (!Algorithm.TopologicalSort(node.Classes, errors))
                 return;
@@ -56,21 +60,25 @@ namespace Cool.Semantics
                     errors.Add(SemanticError.NotDeclaredType(cclass.TypeInherit));
                     return;
                 }
-                cclass.Accept(this, scope, errors);
+                cclass.Accept(this);
             }
         }
 
-        public void Visit(ClassNode node, IScope scope, ICollection<string> errors)
+        public void Visit(ClassNode node)
         {
-            node.Scope = new Scope
+            Tour1 tour = new Tour1();
+            tour.scope = new Scope
             {
                 Type = scope.GetType(node.TypeClass.Text),
                 Parent = scope.GetType(node.TypeInherit.Text).ClassReference.Scope
             };
-            node.FeatureNodes.ForEach(feature => feature.Accept(this, node.Scope, errors));
+            tour.errors = errors;
+            node.Scope = tour.scope;
+
+            node.FeatureNodes.ForEach(feature => feature.Accept(tour));
         }
 
-        public void Visit(AttributeNode node, IScope scope, ICollection<string> errors)
+        public void Visit(AttributeNode node)
         {
             if (!scope.IsDefinedType(node.Formal.Type.Text, out TypeInfo type))
                 errors.Add(SemanticError.NotDeclaredType(node.Formal.Type));
@@ -81,7 +89,7 @@ namespace Cool.Semantics
             scope.Define(node.Formal.Id.Text, type);
         }
 
-        public void Visit(MethodNode node, IScope scope, ICollection<string> errors)
+        public void Visit(MethodNode node)
         {
             if (!scope.IsDefinedType(node.TypeReturn.Text, out TypeInfo typeReturn))
                 errors.Add(SemanticError.NotDeclaredType(node.TypeReturn));
@@ -97,112 +105,112 @@ namespace Cool.Semantics
         }
 
         #region NOT IMPLEMENTATION
-        public void Visit(AssignmentNode node, IScope scope, ICollection<string> errors)
+        public void Visit(AssignmentNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(ArithmeticOperation node, IScope scope, ICollection<string> errors)
+        public void Visit(ArithmeticOperation node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(SequenceNode node, IScope scope, ICollection<string> errors)
+        public void Visit(SequenceNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(BoolNode node, IScope scope, ICollection<string> errors)
+        public void Visit(BoolNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(CaseNode node, IScope scope, ICollection<string> errors)
+        public void Visit(CaseNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(DispatchExplicitNode node, IScope scope, ICollection<string> errors)
+        public void Visit(DispatchExplicitNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(DispatchImplicitNode node, IScope scope, ICollection<string> errors)
+        public void Visit(DispatchImplicitNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(EqualNode node, IScope scope, ICollection<string> errors)
+        public void Visit(EqualNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(ComparisonOperation node, IScope scope, ICollection<string> errors)
+        public void Visit(ComparisonOperation node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(FormalNode formalNode, IScope scope, ICollection<string> errors)
+        public void Visit(FormalNode formalNode)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(IfNode node, IScope scope, ICollection<string> errors)
+        public void Visit(IfNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(IntNode node, IScope scope, ICollection<string> errors)
+        public void Visit(IntNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(IsVoidNode node, IScope scope, ICollection<string> errors)
+        public void Visit(IsVoidNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(LetNode node, IScope scope, ICollection<string> errors)
+        public void Visit(LetNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(NegNode node, IScope scope, ICollection<string> errors)
+        public void Visit(NegNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(NewNode node, IScope scope, ICollection<string> errors)
+        public void Visit(NewNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(NotNode node, IScope scope, ICollection<string> errors)
+        public void Visit(NotNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(StringNode node, IScope scope, ICollection<string> errors)
+        public void Visit(StringNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(IdentifierNode node, IScope scope, ICollection<string> errors)
+        public void Visit(IdentifierNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(WhileNode node, IScope scope, ICollection<string> errors)
+        public void Visit(WhileNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(VoidNode node, IScope scope, ICollection<string> errors)
+        public void Visit(VoidNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(SelfNode node, IScope scope, ICollection<string> errors)
+        public void Visit(SelfNode node)
         {
             throw new NotImplementedException();
         }

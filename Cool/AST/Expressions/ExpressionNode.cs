@@ -13,7 +13,7 @@ namespace Cool.AST
 
         public ExpressionNode(int line, int column) : base(line, column) { }
 
-        public abstract void Accept(IVisitor visitor, IScope scope, ICollection<string> errors);
+        public abstract void Accept(IVisitor visitor);
 
     }
 }

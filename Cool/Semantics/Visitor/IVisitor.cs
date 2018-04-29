@@ -10,31 +10,31 @@ namespace Cool.Semantics
 {
     public interface IVisitor
     {
-        void Visit(ArithmeticOperation  node, IScope scope, ICollection<string> errors);
-        void Visit(AssignmentNode       node, IScope scope, ICollection<string> errors);
-        void Visit(AttributeNode        node, IScope scope, ICollection<string> errors);
-        void Visit(BoolNode             node, IScope scope, ICollection<string> errors);
-        void Visit(CaseNode             node, IScope scope, ICollection<string> errors);
-        void Visit(ClassNode            node, IScope scope, ICollection<string> errors);
-        void Visit(ComparisonOperation  node, IScope scope, ICollection<string> errors);
-        void Visit(DispatchExplicitNode node, IScope scope, ICollection<string> errors);
-        void Visit(DispatchImplicitNode node, IScope scope, ICollection<string> errors);
-        void Visit(EqualNode            node, IScope scope, ICollection<string> errors);
-        void Visit(FormalNode           node, IScope scope, ICollection<string> errors);
-        void Visit(IdentifierNode       node, IScope scope, ICollection<string> errors);
-        void Visit(IfNode               node, IScope scope, ICollection<string> errors);
-        void Visit(IntNode              node, IScope scope, ICollection<string> errors);
-        void Visit(IsVoidNode           node, IScope scope, ICollection<string> errors);
-        void Visit(LetNode              node, IScope scope, ICollection<string> errors);
-        void Visit(MethodNode           node, IScope scope, ICollection<string> errors);
-        void Visit(NegNode              node, IScope scope, ICollection<string> errors);
-        void Visit(NewNode              node, IScope scope, ICollection<string> errors);
-        void Visit(NotNode              node, IScope scope, ICollection<string> errors);
-        void Visit(ProgramNode          node, IScope scope, ICollection<string> errors);
-        void Visit(SelfNode             node, IScope scope, ICollection<string> errors);
-        void Visit(SequenceNode         node, IScope scope, ICollection<string> errors);
-        void Visit(StringNode           node, IScope scope, ICollection<string> errors);
-        void Visit(VoidNode             node, IScope scope, ICollection<string> errors);
-        void Visit(WhileNode            node, IScope scope, ICollection<string> errors);
+        void Visit(ArithmeticOperation  node);
+        void Visit(AssignmentNode       node);
+        void Visit(AttributeNode        node);
+        void Visit(BoolNode             node);
+        void Visit(CaseNode             node);
+        void Visit(ClassNode            node);
+        void Visit(ComparisonOperation  node);
+        void Visit(DispatchExplicitNode node);
+        void Visit(DispatchImplicitNode node);
+        void Visit(EqualNode            node);
+        void Visit(FormalNode           node);
+        void Visit(IdentifierNode       node);
+        void Visit(IfNode               node);
+        void Visit(IntNode              node);
+        void Visit(IsVoidNode           node);
+        void Visit(LetNode              node);
+        void Visit(MethodNode           node);
+        void Visit(NegNode              node);
+        void Visit(NewNode              node);
+        void Visit(NotNode              node);
+        void Visit(ProgramNode          node);
+        void Visit(SelfNode             node);
+        void Visit(SequenceNode         node);
+        void Visit(StringNode           node);
+        void Visit(VoidNode             node);
+        void Visit(WhileNode            node);
     }
 }
