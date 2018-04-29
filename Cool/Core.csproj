@@ -90,7 +90,7 @@
     <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\GenerateTour.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IIntermediateCode.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\IntermidiateCode.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />

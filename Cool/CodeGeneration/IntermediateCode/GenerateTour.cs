@@ -15,12 +15,14 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public IIntermediateCode GetIntermediateCode(ProgramNode node)
         {
+            node.Accept(this);
             return IntermediateCode;
         }
 
         public void Visit(ProgramNode node)
         {
-            throw new NotImplementedException();
+
+            //throw new NotImplementedException();
         }
 
         public void Visit(ClassNode node)

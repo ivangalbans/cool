@@ -13,6 +13,9 @@ namespace Cool.CodeGeneration.IntermediateCode
         List<DataLine> Data;
         List<CodeLine> Code;
 
+        Dictionary<string, LabelLine> VTables;
+        Dictionary<string, LabelLine> AttrTables;
+
         public void AddCodeLine(CodeLine line)
         {
             throw new NotImplementedException();
