@@ -5,11 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Cool.AST;
 using Cool.Semantics;
+using Cool.CodeGeneration.IntermediateCode.ThreeAddressCode;
 
 namespace Cool.CodeGeneration.IntermediateCode
 {
     class GenerateTour : IVisitor
     {
+        IIntermediateCode IntermediateCode;
+        public void Visit(ProgramNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(ClassNode node)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(ArithmeticOperation node)
         {
             throw new NotImplementedException();
@@ -34,11 +46,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(ClassNode node)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public void Visit(ComparisonOperation node)
         {
@@ -106,11 +114,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         }
 
         public void Visit(NotNode node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(ProgramNode node)
         {
             throw new NotImplementedException();
         }

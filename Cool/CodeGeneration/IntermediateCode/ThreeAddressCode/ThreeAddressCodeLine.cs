@@ -11,4 +11,13 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     {
         
     }
+
+    public abstract class DataLine : ThreeAddressCodeLine
+    { }
+
+    public abstract class TypeLine : ThreeAddressCodeLine
+    { }
+
+    public abstract class CodeLine : ThreeAddressCodeLine
+    { }
 }

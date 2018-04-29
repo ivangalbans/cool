@@ -9,12 +9,14 @@ using Antlr4.Runtime.Tree;
 using Cool.AST;
 using Cool.Parsing;
 using Cool.Semantics;
+using Cool.CodeGeneration.IntermediateCode;
 
 namespace Cool
 {
 
     class Program
     {
+
         static readonly int ErrorCode = 1;
 
 
@@ -26,7 +28,6 @@ namespace Cool
 
         static void Main(string[] args)
         {
-
 
             /*Console.WriteLine("Cool Language Compiler. Version 1.0");
             Console.WriteLine("Faculty of Mathematics and Computer Science");
@@ -137,6 +138,7 @@ namespace Cool
 
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
+            new GenerateTour().Visit(root);
             Console.WriteLine("CODE GENERATED OK!!!");
         }
 

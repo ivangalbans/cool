@@ -89,7 +89,11 @@
     <Compile Include="AST\Expressions\Operators\Unary\NotNode.cs" />
     <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\GenerateTour.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\IIntermediateCode.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\IntermidiateCode.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />
     <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolLexer.cs" />
@@ -116,7 +120,7 @@
     <None Include="Parsing\Cool.g4" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CodeGeneration\ObjectCode\" />
+    <Folder Include="CodeGeneration\MIPSCode\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
