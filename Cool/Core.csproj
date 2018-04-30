@@ -92,6 +92,7 @@
     <Compile Include="CodeGeneration\IntermediateCode\IIntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\StringDataLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />

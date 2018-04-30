@@ -41,7 +41,8 @@ namespace Cool
 
             string[] folder = { preffixFail, preffixSuccess };
             //string file = "book_list.cl";
-            string file = "fibo.cl";
+            //string file = "fibo.cl";
+            string file = "arith.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
@@ -139,7 +140,7 @@ namespace Cool
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
 
-            IntermediateCode x = (IntermediateCode)(new GenerateTour()).GetIntermediateCode(root);
+            IntermediateCode x = (IntermediateCode)(new GenerateTour()).GetIntermediateCode(root, scope);
             Console.WriteLine("CODE GENERATED OK!!!");
         }
 

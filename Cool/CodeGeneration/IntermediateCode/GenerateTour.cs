@@ -12,22 +12,39 @@ namespace Cool.CodeGeneration.IntermediateCode
     class GenerateTour : IVisitor
     {
         IIntermediateCode IntermediateCode;
+        IScope Scope;
 
-        public IIntermediateCode GetIntermediateCode(ProgramNode node)
+        public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
+            Scope = scope;
             node.Accept(this);
+            IntermediateCode = new IntermediateCode(scope);
             return IntermediateCode;
         }
 
         public void Visit(ProgramNode node)
         {
+            List<ClassNode> sorted = new List<ClassNode>();
+            sorted.AddRange(node.Classes);
+            sorted.Sort((x,y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
+            
+            foreach (var c in sorted)
+            {
+                Console.WriteLine(c.TypeClass + ":" + c.TypeInherit);
+                c.Accept(this);
+            }
+
+            Console.WriteLine(Scope.GetType("Main"));
+
+            List<int> a = new List<int>() { 1, 4, 6 };
+            Console.WriteLine(a.FindIndex((x) => x == 6));
 
             //throw new NotImplementedException();
         }
 
         public void Visit(ClassNode node)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Visit(ArithmeticOperation node)

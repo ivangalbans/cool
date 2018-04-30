@@ -12,17 +12,17 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         void DefineStringData(string label, string texto);
 
-        void GetString(string label);
+        string GetString(string label);
 
-        void DefineVirtualTable(string cclass, List<LabelLine> methods);
+        void DefineVirtualTable(string cclass, List<string> methods);
 
         List<LabelLine> GetVirtualTable(string cclass);
 
-        int GetVirtualPosition(string cclass, LabelLine method);
+        int GetVirtualPosition(string cclass, string method);
 
         void DefineAttributeTable(string cclass, List<string> attrs);
 
-        List<LabelLine> GetAttributeTable(string cclass);
+        List<string> GetAttributeTable(string cclass);
 
         int GetAttributePosition(string cclass, string attr);
 

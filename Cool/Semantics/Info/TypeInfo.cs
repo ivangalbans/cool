@@ -76,5 +76,9 @@ namespace Cool.Semantics
         }
         #endregion
 
+        public override string ToString()
+        {
+            return Text + " : " + Parent.Text;
+        }
     }
 }

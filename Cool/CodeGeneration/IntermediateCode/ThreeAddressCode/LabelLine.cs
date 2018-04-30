@@ -9,9 +9,13 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     public class LabelLine : ThreeAddressCodeLine
     {
         public string Label { get; }
-        public LabelLine(string label)
+        public string Head { get; }
+        public string Tag { get; }
+        public LabelLine(string head, string tag)
         {
-            Label = label;
+            Head = head;
+            Tag = tag;
+            Label = Head + "." + Tag;
         }
     }
 }
