@@ -12,7 +12,7 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IScope Scope;
         //List<TypeLine> Type;
-        List<DataLine> Data;
+        List<StringDataLine> Strings;
         List<CodeLine> Code;
 
         Dictionary<string, List<LabelLine>> VTables;
@@ -25,9 +25,14 @@ namespace Cool.CodeGeneration.IntermediateCode
             ATables = new Dictionary<string, List<string>>();
 
             DefineVirtualTable("Object", new List<string>() {"abort", "type_name", "copy"});
+            DefineAttributeTable("Object", new List<string>());
+
             DefineVirtualTable("IO", new List<string>() { "out_string", "out_int", "in_string", "in_int" });
+            DefineAttributeTable("IO", new List<string>());
+
             DefineVirtualTable("String", new List<string>() { "length", "concat", "substr" });
-            
+            DefineAttributeTable("String", new List<string>());
+
         }
 
         public void DefineVirtualTable(string cclass, List<string> methods)
@@ -52,7 +57,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 }
             }
             
-            VTables.Add(cclass, table);
+            VTables[cclass] = table;
         }
         public int GetVirtualPosition(string cclass, string method)
         {
@@ -89,12 +94,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void DefineStringData(string label, string texto)
         {
-            Data.Add(new StringDataLine(label, texto));
+            Strings.Add(new StringDataLine(label, texto));
         }
 
         public string GetString(string label)
         {
-            throw new NotImplementedException();
+            return Strings.Find((x) => x.Label == label).Text;
         }
         public void AddCodeLine(CodeLine line)
         {

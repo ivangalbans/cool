@@ -9,8 +9,8 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     
     class StringDataLine : DataLine
     {
-        string Text { get; }
-        string Label { get; }
+        public string Text { get; }
+        public string Label { get; }
 
         public StringDataLine(string label, string text)
         {

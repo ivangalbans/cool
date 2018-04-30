@@ -42,7 +42,8 @@ namespace Cool
             string[] folder = { preffixFail, preffixSuccess };
             //string file = "book_list.cl";
             //string file = "fibo.cl";
-            string file = "arith.cl";
+            //string file = "arith.cl";
+            string file = "assigngetstype.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";

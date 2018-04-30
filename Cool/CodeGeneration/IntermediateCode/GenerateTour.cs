@@ -13,12 +13,14 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IIntermediateCode IntermediateCode;
         IScope Scope;
+        List<string> NodeMethod;
+        List<string> NodeAttr;
 
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
             Scope = scope;
-            node.Accept(this);
             IntermediateCode = new IntermediateCode(scope);
+            node.Accept(this);
             return IntermediateCode;
         }
 
@@ -30,21 +32,34 @@ namespace Cool.CodeGeneration.IntermediateCode
             
             foreach (var c in sorted)
             {
-                Console.WriteLine(c.TypeClass + ":" + c.TypeInherit);
                 c.Accept(this);
             }
 
-            Console.WriteLine(Scope.GetType("Main"));
-
-            List<int> a = new List<int>() { 1, 4, 6 };
-            Console.WriteLine(a.FindIndex((x) => x == 6));
-
-            //throw new NotImplementedException();
         }
 
         public void Visit(ClassNode node)
         {
-            //throw new NotImplementedException();
+            NodeMethod = new List<string>();
+            NodeAttr = new List<string>();
+            foreach (var f in node.FeatureNodes)
+            {
+                f.Accept(this);
+            }
+            IntermediateCode.DefineVirtualTable(node.TypeClass.Text, NodeMethod);
+            IntermediateCode.DefineAttributeTable(node.TypeClass.Text, NodeAttr);
+        }
+
+        public void Visit(MethodNode node)
+        {
+            NodeMethod.Add(node.Id.Text);
+
+
+        }
+
+        public void Visit(AttributeNode node)
+        {
+            NodeAttr.Add(node.Formal.Id.Text);
+
         }
 
         public void Visit(ArithmeticOperation node)
@@ -56,12 +71,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(AttributeNode node)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void Visit(BoolNode node)
         {
             throw new NotImplementedException();
@@ -123,10 +133,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             throw new NotImplementedException();
         }
 
-        public void Visit(MethodNode node)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public void Visit(NegNode node)
         {
