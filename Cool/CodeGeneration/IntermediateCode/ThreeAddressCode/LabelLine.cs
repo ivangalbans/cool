@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    public class LabelLine : ThreeAddressCodeLine
+    public class LabelLine : CodeLine
     {
         public string Label { get; }
         public string Head { get; }

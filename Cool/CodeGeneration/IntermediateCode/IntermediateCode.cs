@@ -18,14 +18,16 @@ namespace Cool.CodeGeneration.IntermediateCode
         Dictionary<string, List<LabelLine>> VTables;
         Dictionary<string, List<string>> ATables;
 
-        Dictionary<string, List<CodeLine>> Constructors;
+        Dictionary<string, List<LabelLine>> Constructors;
 
         public IntermediateCode(IScope scope)
         {
             Scope = scope;
             VTables = new Dictionary<string, List<LabelLine>>();
             ATables = new Dictionary<string, List<string>>();
-            Constructors = new Dictionary<string, List<CodeLine>>();
+            Constructors = new Dictionary<string, List<LabelLine>>();
+            Code = new List<CodeLine>();
+            Strings = new List<StringDataLine>();
 
             DefineMethod("Object", "abort");
             DefineMethod("Object", "type_name");
@@ -40,12 +42,18 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         }
 
+        void Init(string cclass)
+        {
+            VTables[cclass] = new List<LabelLine>();
+            ATables[cclass] = new List<string>();
+            Constructors[cclass] = new List<LabelLine>();
+        }
+
         public void DefineMethod(string cclass, string method)
         {
             if(!VTables.ContainsKey(cclass))
             {
-                VTables[cclass] = new List<LabelLine>();
-                ATables[cclass] = new List<string>();
+                Init(cclass);
                 if (cclass != "Object")
                 {
                     string parent = Scope.GetType(cclass).Parent.Text;
@@ -80,8 +88,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             if (!ATables.ContainsKey(cclass))
             {
-                VTables[cclass] = new List<LabelLine>();
-                ATables[cclass] = new List<string>();
+                Init(cclass);
                 if (cclass != "Object")
                 {
                     string parent = Scope.GetType(cclass).Parent.Text;
@@ -123,8 +130,19 @@ namespace Cool.CodeGeneration.IntermediateCode
         }
         public void AddCodeLine(CodeLine line)
         {
+            Code.Add(line);
+        }
+
+        public List<ThreeAddressCodeLine> GetCode()
+        {
             throw new NotImplementedException();
         }
-        
+
+        public LabelLine AddConstructorCallAttribute(string cclass, string attr)
+        {
+            LabelLine label = new LabelLine(cclass + ".constructor.", "set_" + attr);
+            Constructors[cclass].Add(label);
+            return label;
+        }
     }
 }

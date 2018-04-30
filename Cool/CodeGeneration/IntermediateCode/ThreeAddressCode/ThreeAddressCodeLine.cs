@@ -20,4 +20,5 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
     public abstract class CodeLine : ThreeAddressCodeLine
     { }
+
 }

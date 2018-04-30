@@ -61,13 +61,23 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(AttributeNode node)
         {
             IntermediateCode.DefineAttribute(CurrentClass.TypeClass.Text, node.Formal.Id.Text);
-            
+            LabelLine l = IntermediateCode.AddConstructorCallAttribute(CurrentClass.TypeClass.Text, node.Formal.Id.Text);
+            IntermediateCode.AddCodeLine(l);
 
+            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+            variable_counter++;
+
+            int t1 = variable_counter;
+            node.AssignExp.Accept(this);
+
+
+            IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }
 
         public void Visit(ArithmeticOperation node)
         {
-            throw new NotImplementedException();
+
+            //throw new NotImplementedException();
         }
 
         public void Visit(AssignmentNode node)
