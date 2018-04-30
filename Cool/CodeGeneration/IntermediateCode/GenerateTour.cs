@@ -13,11 +13,15 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IIntermediateCode IntermediateCode;
         IScope Scope;
-        List<string> NodeMethod;
-        List<string> NodeAttr;
+
+        ClassNode CurrentClass;
+        int variable_counter;
+        int jump_labal_counter;
 
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
+            variable_counter = 0;
+            jump_labal_counter = 0;
             Scope = scope;
             IntermediateCode = new IntermediateCode(scope);
             node.Accept(this);
@@ -39,26 +43,25 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ClassNode node)
         {
-            NodeMethod = new List<string>();
-            NodeAttr = new List<string>();
+            CurrentClass = node;
+
             foreach (var f in node.FeatureNodes)
             {
                 f.Accept(this);
             }
-            IntermediateCode.DefineVirtualTable(node.TypeClass.Text, NodeMethod);
-            IntermediateCode.DefineAttributeTable(node.TypeClass.Text, NodeAttr);
         }
 
         public void Visit(MethodNode node)
         {
-            NodeMethod.Add(node.Id.Text);
-
+            IntermediateCode.DefineMethod(CurrentClass.TypeClass.Text, node.Id.Text);
+            
 
         }
 
         public void Visit(AttributeNode node)
         {
-            NodeAttr.Add(node.Formal.Id.Text);
+            IntermediateCode.DefineAttribute(CurrentClass.TypeClass.Text, node.Formal.Id.Text);
+            
 
         }
 

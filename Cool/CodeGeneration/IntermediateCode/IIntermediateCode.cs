@@ -14,13 +14,13 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         string GetString(string label);
 
-        void DefineVirtualTable(string cclass, List<string> methods);
+        void DefineMethod(string cclass, string method);
 
         List<LabelLine> GetVirtualTable(string cclass);
 
         int GetVirtualPosition(string cclass, string method);
 
-        void DefineAttributeTable(string cclass, List<string> attrs);
+        void DefineAttribute(string cclass, string attr);
 
         List<string> GetAttributeTable(string cclass);
 

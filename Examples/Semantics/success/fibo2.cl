@@ -10,6 +10,6 @@ class Main inherits IO {
   };
     
   main():Object {
-    15.copy2()
+    out_int(fibo(15))
   };
 };

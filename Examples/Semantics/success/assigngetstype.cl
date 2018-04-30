@@ -1,6 +1,7 @@
 class Hello {
 
-   foo:Int <- 89;
+   temp:Int <- 20 + foo;
+   foo:Int <- 89 + foo;
    bar:Int;
    
    foo(a:Int, b:Int, c:String): Int  {
