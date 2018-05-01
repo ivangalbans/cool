@@ -17,5 +17,10 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Tag = tag;
             Label = Head + "." + Tag;
         }
+
+        public override string ToString()
+        {
+            return Label + ":";
+        }
     }
 }

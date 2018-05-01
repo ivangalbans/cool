@@ -133,14 +133,15 @@ namespace Cool.CodeGeneration.IntermediateCode
             Code.Add(line);
         }
 
-        public List<ThreeAddressCodeLine> GetCode()
+        public List<CodeLine> GetCode()
         {
+            return Code;
             throw new NotImplementedException();
         }
 
         public LabelLine AddConstructorCallAttribute(string cclass, string attr)
         {
-            LabelLine label = new LabelLine(cclass + ".constructor.", "set_" + attr);
+            LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
             Constructors[cclass].Add(label);
             return label;
         }

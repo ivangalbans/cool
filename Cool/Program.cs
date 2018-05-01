@@ -143,6 +143,10 @@ namespace Cool
 
             IntermediateCode x = (IntermediateCode)(new GenerateTour()).GetIntermediateCode(root, scope);
             Console.WriteLine("CODE GENERATED OK!!!");
+            var g = x.GetCode();
+            Console.WriteLine(g.Count);
+            foreach(var y in g)
+                Console.WriteLine(y);
         }
 
     }

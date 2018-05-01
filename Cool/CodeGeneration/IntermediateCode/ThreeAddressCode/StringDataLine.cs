@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     
-    class StringDataLine : DataLine
+    class StringDataLine : CodeLine
     {
         public string Text { get; }
         public string Label { get; }

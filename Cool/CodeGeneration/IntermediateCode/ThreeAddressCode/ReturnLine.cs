@@ -8,11 +8,16 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class ReturnLine : CodeLine
     {
-        int VariableCounter;
+        int VariableCounter { get; }
 
         public ReturnLine(int variable_counter)
         {
             VariableCounter = variable_counter;
+        }
+
+        public override string ToString()
+        {
+            return "return" + (VariableCounter == -1 ? "" : VariableCounter.ToString()) + ";\n";
         }
     }
 }

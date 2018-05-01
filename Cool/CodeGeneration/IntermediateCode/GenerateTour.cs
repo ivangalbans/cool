@@ -14,7 +14,8 @@ namespace Cool.CodeGeneration.IntermediateCode
         IIntermediateCode IntermediateCode;
         IScope Scope;
 
-        ClassNode CurrentClass;
+        Dictionary<string,int> variable_link;
+        ClassNode current_class;
         int variable_counter;
         int jump_labal_counter;
 
@@ -43,7 +44,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ClassNode node)
         {
-            CurrentClass = node;
+            current_class = node;
 
             foreach (var f in node.FeatureNodes)
             {
@@ -53,23 +54,26 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(MethodNode node)
         {
-            IntermediateCode.DefineMethod(CurrentClass.TypeClass.Text, node.Id.Text);
+            IntermediateCode.DefineMethod(current_class.TypeClass.Text, node.Id.Text);
             
 
         }
 
         public void Visit(AttributeNode node)
         {
-            IntermediateCode.DefineAttribute(CurrentClass.TypeClass.Text, node.Formal.Id.Text);
-            LabelLine l = IntermediateCode.AddConstructorCallAttribute(CurrentClass.TypeClass.Text, node.Formal.Id.Text);
+            IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
+            LabelLine l = IntermediateCode.AddConstructorCallAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
             IntermediateCode.AddCodeLine(l);
 
             IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+            int this_var = variable_counter;
             variable_counter++;
 
             int t1 = variable_counter;
-            node.AssignExp.Accept(this);
+            //node.AssignExp.Accept(this);
 
+            var a = new AssignmentVariableToMemoryLine(this_var, t1, 0);
+            IntermediateCode.AddCodeLine(a);
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }

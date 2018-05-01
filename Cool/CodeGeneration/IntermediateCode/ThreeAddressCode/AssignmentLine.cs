@@ -21,6 +21,12 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Right = right;
             Offset = offset;
         }
+
+        public override string ToString()
+        {
+
+            return $"*(t{Left} + {Offset}) = t{Right}";
+        }
     }
 
     public class AssignmentConstantToMemoryLine : AssignmentLine

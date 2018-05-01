@@ -28,7 +28,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         void AddCodeLine(CodeLine line);
 
-        List<ThreeAddressCodeLine> GetCode();
+        List<CodeLine> GetCode();
 
         LabelLine AddConstructorCallAttribute(string cclass, string attr);
     }
