@@ -5,8 +5,8 @@ class Hello {
    o:Int <- 3*2+8;
    j:Int <- 1+5;
    
-   foo(a:Int, b:Int, c:String): Int  {
-      a <- a
+   foo(a:Int, b:Int, c:String, o:Int): Int  {
+      8 + 7
    };
    
    bar() :Int {

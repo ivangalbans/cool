@@ -74,9 +74,14 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VTables[cclass].Add(new LabelLine(cclass, method));
         }
-        public int GetVirtualPosition(string cclass, string method)
+        public int GetMethodPosition(string cclass, string method)
         {
             return VTables[cclass].FindIndex((x) => x.Tag == method);
+        }
+
+        public LabelLine GetMethodLabel(string cclass, string method)
+        {
+            return VTables[cclass].Find((x) => x.Tag == method);
         }
 
         public List<LabelLine> GetVirtualTable(string cclass)
@@ -117,7 +122,8 @@ namespace Cool.CodeGeneration.IntermediateCode
         public int GetAttributeOffset(string cclass, string attr)
         {
             int index = GetAttributePosition(cclass, attr);
-            return 4 * (index + 2);
+            if (index != -1) return 4 * (index + 2);
+            else return -1;
         }
 
         public List<string> GetAttributeTable(string cclass)

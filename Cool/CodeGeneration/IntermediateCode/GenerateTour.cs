@@ -39,7 +39,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 c.Accept(this);
             }
-
         }
 
         public void Visit(ClassNode node)
@@ -55,15 +54,33 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(MethodNode node)
         {
             IntermediateCode.DefineMethod(current_class.TypeClass.Text, node.Id.Text);
-            
 
+            LabelLine label_function = IntermediateCode.GetMethodLabel(current_class.TypeClass.Text, node.Id.Text);
+            IntermediateCode.AddCodeLine(label_function);
+
+            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+            int this_var = variable_counter;
+            variable_counter++;
+
+            variable_link = new Dictionary<string, int>();
+
+            foreach (var formal in node.Arguments)
+            {
+                IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+                variable_link[formal.Id.Text] = variable_counter;
+                variable_counter++;
+            }
+
+            int t = variable_counter;
+            node.Body.Accept(this);
+            IntermediateCode.AddCodeLine(new ReturnLine(t));
         }
 
         public void Visit(AttributeNode node)
         {
             IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
-            LabelLine l = IntermediateCode.AddConstructorCallAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
-            IntermediateCode.AddCodeLine(l);
+            LabelLine label_function = IntermediateCode.AddConstructorCallAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
+            IntermediateCode.AddCodeLine(label_function);
 
             IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
             int this_var = variable_counter;
@@ -72,9 +89,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             int t1 = variable_counter;
             node.AssignExp.Accept(this);
 
-            var a = new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text));
-            IntermediateCode.AddCodeLine(a);
-
+            IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text)));
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }
 

@@ -18,7 +18,9 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         List<LabelLine> GetVirtualTable(string cclass);
 
-        int GetVirtualPosition(string cclass, string method);
+        int GetMethodPosition(string cclass, string method);
+
+        LabelLine GetMethodLabel(string cclass, string method);
 
         void DefineAttribute(string cclass, string attr);
 

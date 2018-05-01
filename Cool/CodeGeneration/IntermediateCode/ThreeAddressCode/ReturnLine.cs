@@ -17,7 +17,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return "return" + (VariableCounter == -1 ? "" : VariableCounter.ToString()) + ";\n";
+            return "return " + (VariableCounter == -1 ? "" : "t" + VariableCounter.ToString()) + ";\n";
         }
     }
 }
