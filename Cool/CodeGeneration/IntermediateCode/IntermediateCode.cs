@@ -114,6 +114,12 @@ namespace Cool.CodeGeneration.IntermediateCode
             return ATables[cclass].FindIndex((x) => x == attr);
         }
 
+        public int GetAttributeOffset(string cclass, string attr)
+        {
+            int index = GetAttributePosition(cclass, attr);
+            return 4 * (index + 2);
+        }
+
         public List<string> GetAttributeTable(string cclass)
         {
             return ATables[cclass];

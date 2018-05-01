@@ -70,9 +70,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             variable_counter++;
 
             int t1 = variable_counter;
-            //node.AssignExp.Accept(this);
+            node.AssignExp.Accept(this);
 
-            var a = new AssignmentVariableToMemoryLine(this_var, t1, 0);
+            var a = new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text));
             IntermediateCode.AddCodeLine(a);
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));

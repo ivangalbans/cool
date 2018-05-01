@@ -26,6 +26,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         int GetAttributePosition(string cclass, string attr);
 
+        int GetAttributeOffset(string cclass, string attr);
+
         void AddCodeLine(CodeLine line);
 
         List<CodeLine> GetCode();
