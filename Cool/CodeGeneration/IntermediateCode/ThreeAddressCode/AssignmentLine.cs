@@ -24,7 +24,6 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-
             return $"*(t{Left} + {Offset}) = t{Right}";
         }
     }
@@ -60,6 +59,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         {
             Left = left;
             Right = right;
+        }
+
+        public override string ToString()
+        {
+            return $"t{Left} = {Right}";
         }
     }
 }

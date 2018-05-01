@@ -78,10 +78,23 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }
 
+        public void Visit(IntNode node)
+        {
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(variable_counter, node.Value));
+        }
+
         public void Visit(ArithmeticOperation node)
         {
+            int t = variable_counter;
+            ++variable_counter;
+            int t1 = variable_counter;
+            node.LeftOperand.Accept(this);
 
-            //throw new NotImplementedException();
+            ++variable_counter;
+            int t2 = variable_counter;
+            node.RightOperand.Accept(this);
+
+            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
         }
 
         public void Visit(AssignmentNode node)
@@ -134,12 +147,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(IntNode node)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void Visit(IsVoidNode node)
         {
             throw new NotImplementedException();
@@ -174,7 +182,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(SequenceNode node)
         {
-            throw new NotImplementedException();
+            foreach (var s in node.Sequence)
+            {
+                s.Accept(this);
+            }
         }
 
         public void Visit(StringNode node)
