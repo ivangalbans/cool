@@ -6,13 +6,16 @@ class Hello {
    j:Int <- 1+5;
    
    foo(a:Int, b:Int, c:String, o:Int): Int  {
-      8 + 7
+      a <- 2
    };
    
    bar() :Int {
       6
    };
    
+   gog() :Bool {
+      true
+   };
    
 };
 

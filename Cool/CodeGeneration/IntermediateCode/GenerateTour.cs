@@ -18,6 +18,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         ClassNode current_class;
         int variable_counter;
         int jump_labal_counter;
+        int result_variable;
 
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
@@ -71,7 +72,8 @@ namespace Cool.CodeGeneration.IntermediateCode
                 variable_counter++;
             }
 
-            int t = variable_counter;
+            int t = result_variable = variable_counter;
+            Console.WriteLine(t);
             node.Body.Accept(this);
             IntermediateCode.AddCodeLine(new ReturnLine(t));
         }
@@ -84,9 +86,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
             int this_var = variable_counter;
-            variable_counter++;
 
-            int t1 = variable_counter;
+            int t1 = result_variable = ++variable_counter;
             node.AssignExp.Accept(this);
 
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text)));
@@ -95,18 +96,22 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IntNode node)
         {
-            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(variable_counter, node.Value));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(result_variable, node.Value));
+        }
+
+        public void Visit(BoolNode node)
+        {
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(result_variable, node.Value ? 1 : 0));
         }
 
         public void Visit(ArithmeticOperation node)
         {
-            int t = variable_counter;
-            ++variable_counter;
-            int t1 = variable_counter;
+            int t = result_variable;
+
+            int t1 = result_variable = ++variable_counter;
             node.LeftOperand.Accept(this);
 
-            ++variable_counter;
-            int t2 = variable_counter;
+            int t2 = result_variable = ++variable_counter;
             node.RightOperand.Accept(this);
 
             IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
@@ -114,13 +119,21 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(AssignmentNode node)
         {
-            throw new NotImplementedException();
+            if (variable_link.ContainsKey(node.ID.Text))
+            {
+                //int t = variable_counter;
+                //node.ExpressionRight.Accept(this);
+                //IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(variable_counter, node.Value));
+            }
+            else
+            {
+
+            }
+
+            //node.ID.Text;
+            //throw new NotImplementedException();
         }
         
-        public void Visit(BoolNode node)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Visit(CaseNode node)
         {
