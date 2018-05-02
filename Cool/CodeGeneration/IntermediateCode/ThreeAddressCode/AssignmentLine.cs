@@ -28,6 +28,20 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
+    public class AssignmentVariableToVariableLine : AssignmentLine
+    {
+        public AssignmentVariableToVariableLine(int left, int right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override string ToString()
+        {
+            return $"t{Left} = t{Right}";
+        }
+    }
+
     public class AssignmentConstantToMemoryLine : AssignmentLine
     {
         public int Offset { get; }

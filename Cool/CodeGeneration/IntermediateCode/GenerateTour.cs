@@ -17,13 +17,13 @@ namespace Cool.CodeGeneration.IntermediateCode
         Dictionary<string,int> variable_link;
         ClassNode current_class;
         int variable_counter;
-        int jump_labal_counter;
+        int jump_label_counter;
         int result_variable;
 
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
             variable_counter = 0;
-            jump_labal_counter = 0;
+            jump_label_counter = 0;
             Scope = scope;
             IntermediateCode = new IntermediateCode(scope);
             node.Accept(this);
@@ -50,6 +50,28 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 f.Accept(this);
             }
+
+            IntermediateCode.AddCodeLine(new LabelLine(current_class.TypeClass.Text, "constructor"));
+            
+            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+
+            if (current_class.TypeClass.Text != "Object")
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
+                LabelLine label = new LabelLine(current_class.TypeInherit.Text, "constructor");
+                IntermediateCode.AddCodeLine(new CallLine(label));
+                IntermediateCode.AddCodeLine(new PopParamLine(4));
+            }
+
+            foreach (var attr in IntermediateCode.GetAttributeTable(current_class.TypeClass.Text))
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
+                LabelLine label = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + attr);
+                IntermediateCode.AddCodeLine(new CallLine(label));
+                IntermediateCode.AddCodeLine(new PopParamLine(4));
+            }
+            IntermediateCode.AddCodeLine(new ReturnLine(-1));
+            ++variable_counter;
         }
 
         public void Visit(MethodNode node)
@@ -63,8 +85,10 @@ namespace Cool.CodeGeneration.IntermediateCode
             int this_var = variable_counter;
             variable_counter++;
 
-            variable_link = new Dictionary<string, int>();
-            variable_link["class"] = this_var;
+            variable_link = new Dictionary<string, int>
+            {
+                ["class"] = this_var
+            };
 
             foreach (var formal in node.Arguments)
             {
@@ -81,7 +105,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(AttributeNode node)
         {
             IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
-            LabelLine label_function = IntermediateCode.AddConstructorCallAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
+            LabelLine label_function = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + node.Formal.Id.Text);
             IntermediateCode.AddCodeLine(label_function);
 
             IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
@@ -119,10 +143,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(AssignmentNode node)
         {
+            int t = result_variable;
             if (variable_link.ContainsKey(node.ID.Text))
             {
                 result_variable = variable_link[node.ID.Text];
                 node.ExpressionRight.Accept(this);
+                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(t, variable_link[node.ID.Text]));
             }
             else
             {
@@ -132,7 +158,16 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(variable_link["class"], t1, offset));
             }
         }
-        
+
+        public void Visit(SequenceNode node)
+        {
+            int t = result_variable;
+            foreach (var s in node.Sequence)
+            {
+                result_variable = t;
+                s.Accept(this);
+            }
+        }
 
         public void Visit(CaseNode node)
         {
@@ -206,15 +241,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(SequenceNode node)
-        {
-            foreach (var s in node.Sequence)
-            {
-                s.Accept(this);
-            }
-        }
-
+        
         public void Visit(StringNode node)
         {
             throw new NotImplementedException();

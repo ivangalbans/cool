@@ -131,6 +131,11 @@ namespace Cool.CodeGeneration.IntermediateCode
             return ATables[cclass];
         }
 
+        public int GetSizeClass(string cclass)
+        {
+            return (ATables[cclass].Count + 2) * 4;
+        }
+
         public void DefineStringData(string label, string texto)
         {
             Strings.Add(new StringDataLine(label, texto));
@@ -147,14 +152,23 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public List<CodeLine> GetCode()
         {
-            return Code;
-            throw new NotImplementedException();
+            List<CodeLine> code = new List<CodeLine>();
+            
+
+            foreach (var c in Code)
+            {
+                code.Add(c);
+            }
+
+            return code;
         }
 
         public LabelLine AddConstructorCallAttribute(string cclass, string attr)
         {
             LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
-            Constructors[cclass].Add(label);
+
+
+            //Constructors[cclass].Add(label);
             return label;
         }
     }

@@ -14,7 +14,7 @@ class Hello {
    };
    
    foo(a:Int, b:Int, c:String, o:Int): Int  {{
-      a <- 2*8+5;
+      a <- 2*7+8;
       b <- 1*2*3*4;
    }};
    

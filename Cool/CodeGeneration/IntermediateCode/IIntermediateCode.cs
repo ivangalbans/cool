@@ -26,6 +26,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         List<string> GetAttributeTable(string cclass);
 
+        int GetSizeClass(string cclass);
+
         int GetAttributePosition(string cclass, string attr);
 
         int GetAttributeOffset(string cclass, string attr);
@@ -33,7 +35,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         void AddCodeLine(CodeLine line);
 
         List<CodeLine> GetCode();
-
-        LabelLine AddConstructorCallAttribute(string cclass, string attr);
+        
     }
 }

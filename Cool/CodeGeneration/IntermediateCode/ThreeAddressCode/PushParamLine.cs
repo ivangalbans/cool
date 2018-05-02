@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    public class PushLine : CodeLine
+    public class PushParamLine : CodeLine
     {
         int VariableCounter;
-        public PushLine(int variable_counter)
+        public PushParamLine(int variable_counter)
         {
             VariableCounter = variable_counter;
         }
 
         public override string ToString()
         {
-            return "Push v" + VariableCounter + ";";
+            return "PushParam t" + VariableCounter + ";";
         }
     }
 }
