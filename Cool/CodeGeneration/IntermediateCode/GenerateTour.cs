@@ -64,6 +64,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             variable_counter++;
 
             variable_link = new Dictionary<string, int>();
+            variable_link["class"] = this_var;
 
             foreach (var formal in node.Arguments)
             {
@@ -73,7 +74,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
 
             int t = result_variable = variable_counter;
-            Console.WriteLine(t);
             node.Body.Accept(this);
             IntermediateCode.AddCodeLine(new ReturnLine(t));
         }
@@ -121,17 +121,16 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             if (variable_link.ContainsKey(node.ID.Text))
             {
-                //int t = variable_counter;
-                //node.ExpressionRight.Accept(this);
-                //IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(variable_counter, node.Value));
+                result_variable = variable_link[node.ID.Text];
+                node.ExpressionRight.Accept(this);
             }
             else
             {
-
+                int offset = IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.ID.Text);
+                int t1 = result_variable = ++variable_counter;
+                node.ExpressionRight.Accept(this);
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(variable_link["class"], t1, offset));
             }
-
-            //node.ID.Text;
-            //throw new NotImplementedException();
         }
         
 
