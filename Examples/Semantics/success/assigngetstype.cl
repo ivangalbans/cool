@@ -24,6 +24,16 @@ class Hello {
    
 };
 
+
+class Adios {
+   a:Int <- 90;
+};
+
+
+class Hola inherits Adios {
+   b:Int <- 90;
+};
+
 class Main {
 	main() : Int {
 		1

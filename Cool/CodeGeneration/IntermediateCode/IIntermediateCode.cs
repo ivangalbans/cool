@@ -14,9 +14,11 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         string GetString(string label);
 
+        void DefineClass(string cclass);
+
         void DefineMethod(string cclass, string method);
 
-        List<LabelLine> GetVirtualTable(string cclass);
+        VTableLine GetVirtualTable(string cclass);
 
         int GetMethodPosition(string cclass, string method);
 

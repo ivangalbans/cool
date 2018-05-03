@@ -17,50 +17,52 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         Dictionary<string, List<LabelLine>> VTables;
         Dictionary<string, List<string>> ATables;
-
-        Dictionary<string, List<LabelLine>> Constructors;
+        
 
         public IntermediateCode(IScope scope)
         {
             Scope = scope;
             VTables = new Dictionary<string, List<LabelLine>>();
             ATables = new Dictionary<string, List<string>>();
-            Constructors = new Dictionary<string, List<LabelLine>>();
             Code = new List<CodeLine>();
             Strings = new List<StringDataLine>();
 
+            DefineClass("Object");
             DefineMethod("Object", "abort");
             DefineMethod("Object", "type_name");
             DefineMethod("Object", "copy");
+            DefineClass("IO");
             DefineMethod("IO", "out_string");
             DefineMethod("IO", "out_int");
             DefineMethod("IO", "in_string");
             DefineMethod("IO", "in_int");
+            DefineClass("String");
             DefineMethod("String", "length");
             DefineMethod("String", "concat");
             DefineMethod("String", "substr");
-
         }
 
         void Init(string cclass)
         {
             VTables[cclass] = new List<LabelLine>();
             ATables[cclass] = new List<string>();
-            Constructors[cclass] = new List<LabelLine>();
+        }
+
+        public void DefineClass(string cclass)
+        {
+            VTables[cclass] = new List<LabelLine>();
+            ATables[cclass] = new List<string>();
+            
+            if (cclass != "Object")
+            {
+                string parent = Scope.GetType(cclass).Parent.Text;
+                VTables[parent].ForEach(m => VTables[cclass].Add(m));
+                ATables[parent].ForEach(m => ATables[cclass].Add(m));
+            }
         }
 
         public void DefineMethod(string cclass, string method)
         {
-            if(!VTables.ContainsKey(cclass))
-            {
-                Init(cclass);
-                if (cclass != "Object")
-                {
-                    string parent = Scope.GetType(cclass).Parent.Text;
-                    VTables[parent].ForEach(m => VTables[cclass].Add(m));
-                }
-            }
-
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
@@ -84,23 +86,13 @@ namespace Cool.CodeGeneration.IntermediateCode
             return VTables[cclass].Find((x) => x.Tag == method);
         }
 
-        public List<LabelLine> GetVirtualTable(string cclass)
+        public VTableLine GetVirtualTable(string cclass)
         {
-            return VTables[cclass];
+            return new VTableLine(cclass, VTables[cclass]);
         }
-
+        
         public void DefineAttribute(string cclass, string attr)
         {
-            if (!ATables.ContainsKey(cclass))
-            {
-                Init(cclass);
-                if (cclass != "Object")
-                {
-                    string parent = Scope.GetType(cclass).Parent.Text;
-                    ATables[parent].ForEach(m => ATables[cclass].Add(m));
-                }
-            }
-
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
@@ -122,7 +114,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         public int GetAttributeOffset(string cclass, string attr)
         {
             int index = GetAttributePosition(cclass, attr);
-            if (index != -1) return 4 * (index + 2);
+            if (index != -1) return 4 * (index + 3);
             else return -1;
         }
 
@@ -133,7 +125,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public int GetSizeClass(string cclass)
         {
-            return (ATables[cclass].Count + 2) * 4;
+            return (ATables[cclass].Count + 3) * 4;
         }
 
         public void DefineStringData(string label, string texto)
@@ -162,14 +154,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             return code;
         }
-
-        public LabelLine AddConstructorCallAttribute(string cclass, string attr)
-        {
-            LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
-
-
-            //Constructors[cclass].Add(label);
-            return label;
-        }
+        
     }
 }

@@ -45,17 +45,19 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(ClassNode node)
         {
             current_class = node;
+            string cclass = current_class.TypeClass.Text;
+            IntermediateCode.DefineClass(cclass);
 
             foreach (var f in node.FeatureNodes)
             {
                 f.Accept(this);
             }
 
-            IntermediateCode.AddCodeLine(new LabelLine(current_class.TypeClass.Text, "constructor"));
+            IntermediateCode.AddCodeLine(new LabelLine(cclass, "constructor"));
             
             IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
 
-            if (current_class.TypeClass.Text != "Object")
+            if (cclass != "Object")
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
                 LabelLine label = new LabelLine(current_class.TypeInherit.Text, "constructor");
@@ -63,15 +65,17 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
             }
 
-            foreach (var attr in IntermediateCode.GetAttributeTable(current_class.TypeClass.Text))
+            foreach (var attr in IntermediateCode.GetAttributeTable(cclass))
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
-                LabelLine label = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + attr);
+                LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
                 IntermediateCode.AddCodeLine(new CallLine(label));
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
             }
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
             ++variable_counter;
+
+            IntermediateCode.AddCodeLine(IntermediateCode.GetVirtualTable(cclass));
         }
 
         public void Visit(MethodNode node)
