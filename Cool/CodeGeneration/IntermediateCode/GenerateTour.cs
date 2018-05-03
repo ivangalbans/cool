@@ -179,6 +179,11 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
         }
 
+        public void Visit(IdentifierNode node)
+        {
+            IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
+        }
+
         public void Visit(CaseNode node)
         {
             throw new NotImplementedException();
@@ -209,12 +214,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        public void Visit(IdentifierNode node)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void Visit(IfNode node)
         {
             throw new NotImplementedException();
