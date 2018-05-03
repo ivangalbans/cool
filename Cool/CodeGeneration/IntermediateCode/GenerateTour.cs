@@ -181,7 +181,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IdentifierNode node)
         {
-            IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
+            if (variable_link.ContainsKey(node.Text))
+                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
+            else
+            {
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(result_variable, variable_link["class"], IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
+            }
         }
 
         public void Visit(CaseNode node)
@@ -192,7 +197,15 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ComparisonOperation node)
         {
-            throw new NotImplementedException();
+            int t = result_variable;
+
+            int t1 = result_variable = ++variable_counter;
+            node.LeftOperand.Accept(this);
+
+            int t2 = result_variable = ++variable_counter;
+            node.RightOperand.Accept(this);
+
+            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
         }
 
         public void Visit(DispatchExplicitNode node)
@@ -207,7 +220,15 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(EqualNode node)
         {
-            throw new NotImplementedException();
+            int t = result_variable;
+
+            int t1 = result_variable = ++variable_counter;
+            node.LeftOperand.Accept(this);
+
+            int t2 = result_variable = ++variable_counter;
+            node.RightOperand.Accept(this);
+
+            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
         }
 
         public void Visit(FormalNode node)
@@ -229,8 +250,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-
-        
 
         public void Visit(NegNode node)
         {

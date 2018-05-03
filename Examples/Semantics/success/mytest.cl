@@ -1,10 +1,11 @@
-class Hello {
-   foo: Int;
-   
-   moo2(a:Int, b:Int, c:Int, d:Int) : Int {
-      a - b - c - d
-   };
-
+class Test {
+  x : Bool;
+  bar():Bool { 
+	  {
+      x = (3 < 4);
+      3 < 4 = x;
+    }
+  };
 };
 
 class Main {
