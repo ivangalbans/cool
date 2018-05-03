@@ -24,7 +24,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             {
                 repr += m.Label + ", ";
             }
-            repr += ";\n";
+            repr += ";";
             return repr;
         }
 

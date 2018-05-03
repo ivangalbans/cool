@@ -17,5 +17,10 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Text = text;
             Label = label;
         }
+
+        public override string ToString()
+        {
+            return $"{Label}: \"{Text}\"";
+        }
     }
 }

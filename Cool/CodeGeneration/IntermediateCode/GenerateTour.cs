@@ -65,17 +65,23 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
             }
 
+            int attr_counter = 0;
             foreach (var attr in IntermediateCode.GetAttributeTable(cclass))
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
                 LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
                 IntermediateCode.AddCodeLine(new CallLine(label));
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
+                ++attr_counter;
             }
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
             ++variable_counter;
 
-            IntermediateCode.AddCodeLine(IntermediateCode.GetVirtualTable(cclass));
+            VTableLine vt = IntermediateCode.GetVirtualTable(cclass);
+            StringDataLine st = new StringDataLine($"name.{cclass}", cclass);
+            IntermediateCode.AddCodeLine(vt);
+            IntermediateCode.AddCodeLine(st);
+            IntermediateCode.AddCodeLine(new HeadLine(st, (3 + attr_counter) * 4, vt));
         }
 
         public void Visit(MethodNode node)
