@@ -128,15 +128,22 @@ namespace Cool.CodeGeneration.IntermediateCode
             return (ATables[cclass].Count + 3) * 4;
         }
 
-        public void DefineStringData(string label, string texto)
+        /*
+        public string DefineStringData(string texto)
         {
+            string label = "str" + Strings.Count.ToString(); 
             Strings.Add(new StringDataLine(label, texto));
+            return label;
         }
+        */
 
+        /*
         public string GetString(string label)
         {
             return Strings.Find((x) => x.Label == label).Text;
         }
+        */
+
         public void AddCodeLine(CodeLine line)
         {
             Code.Add(line);

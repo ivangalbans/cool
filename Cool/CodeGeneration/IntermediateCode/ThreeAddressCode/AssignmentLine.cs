@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    public abstract class AssignmentLine : CodeLine
+    public abstract class AssignmentLine<T> : CodeLine
     {
         public int Left { get; protected set; }
-        public int Right { get; protected set; }
+        public T Right { get; protected set; }
+
     }
 
-    public class AssignmentVariableToMemoryLine : AssignmentLine
+    public class AssignmentVariableToMemoryLine : AssignmentLine<int>
     {
         public int Offset { get; }
         public AssignmentVariableToMemoryLine(int left, int right, int offset = 0)
@@ -28,7 +29,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class AssignmentVariableToVariableLine : AssignmentLine
+    public class AssignmentVariableToVariableLine : AssignmentLine<int>
     {
         public AssignmentVariableToVariableLine(int left, int right)
         {
@@ -42,7 +43,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class AssignmentConstantToMemoryLine : AssignmentLine
+    public class AssignmentConstantToMemoryLine : AssignmentLine<int>
     {
         public int Offset { get; }
         public AssignmentConstantToMemoryLine(int left, int right, int offset = 0)
@@ -53,7 +54,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class AssignmentMemoryToVariableLine : AssignmentLine
+    public class AssignmentMemoryToVariableLine : AssignmentLine<int>
     {
         public int Offset { get; }
 
@@ -71,7 +72,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     }
 
 
-    public class AssignmentConstantToVariableLine : AssignmentLine
+    public class AssignmentConstantToVariableLine : AssignmentLine<int>
     {
 
         public AssignmentConstantToVariableLine(int left, int right)
@@ -83,6 +84,21 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         public override string ToString()
         {
             return $"t{Left} = {Right}";
+        }
+    }
+
+    public class AssignmentStringToVariable : AssignmentLine<string>
+    {
+
+        public AssignmentStringToVariable(int left, string right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override string ToString()
+        {
+            return $"t{Left} = \"{Right}\"";
         }
     }
 }

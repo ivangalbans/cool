@@ -10,9 +10,9 @@ namespace Cool.CodeGeneration.IntermediateCode
     interface IIntermediateCode
     {
 
-        void DefineStringData(string label, string texto);
+        //string DefineStringData(string texto);
 
-        string GetString(string label);
+        //string GetString(string label);
 
         void DefineClass(string cclass);
 

@@ -1,11 +1,6 @@
-class Test {
-  x : Bool;
-  bar():Bool { 
-	  {
-      x = (3 < 4);
-      3 < 4 = x;
-    }
-  };
+class Hello {
+   foo: Int <- 2;
+   bar: String <- "HELLO!!";
 };
 
 class Main {

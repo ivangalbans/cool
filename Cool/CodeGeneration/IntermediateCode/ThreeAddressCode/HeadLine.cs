@@ -8,10 +8,10 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     class HeadLine : CodeLine
     {
-        StringDataLine Name { get; }
+        string Name { get; }
         int Size { get; }
         VTableLine VTable { get; }
-        public HeadLine(StringDataLine name, int size, VTableLine vtable)
+        public HeadLine(string name, int size, VTableLine vtable)
         {
             Name = name;
             Size = size;
@@ -20,7 +20,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            string repr = $"Head: {Name.Label}, {Size}, VTable {Name.Text};\n";
+            string repr = $"Head: {Name}, {Size}, VTable {Name};\n";
 
             return repr;
         }

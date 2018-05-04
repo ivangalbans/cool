@@ -78,10 +78,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             ++variable_counter;
 
             VTableLine vt = IntermediateCode.GetVirtualTable(cclass);
-            StringDataLine st = new StringDataLine($"name.{cclass}", cclass);
+
             IntermediateCode.AddCodeLine(vt);
-            IntermediateCode.AddCodeLine(st);
-            IntermediateCode.AddCodeLine(new HeadLine(st, (3 + attr_counter) * 4, vt));
+            IntermediateCode.AddCodeLine(new HeadLine(cclass, (3 + attr_counter) * 4, vt));
         }
 
         public void Visit(MethodNode node)
@@ -273,7 +272,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         
         public void Visit(StringNode node)
         {
-            throw new NotImplementedException();
+            IntermediateCode.AddCodeLine(new AssignmentStringToVariable(result_variable, node.Text));
         }
 
         public void Visit(VoidNode node)
