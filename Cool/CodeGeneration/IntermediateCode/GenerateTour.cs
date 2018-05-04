@@ -139,15 +139,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ArithmeticOperation node)
         {
-            int t = result_variable;
-
-            int t1 = result_variable = ++variable_counter;
-            node.LeftOperand.Accept(this);
-
-            int t2 = result_variable = ++variable_counter;
-            node.RightOperand.Accept(this);
-
-            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
+            BinaryOperationVisit(node);
         }
 
         public void Visit(AssignmentNode node)
@@ -196,15 +188,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ComparisonOperation node)
         {
-            int t = result_variable;
-
-            int t1 = result_variable = ++variable_counter;
-            node.LeftOperand.Accept(this);
-
-            int t2 = result_variable = ++variable_counter;
-            node.RightOperand.Accept(this);
-
-            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
+            BinaryOperationVisit(node);
         }
 
         public void Visit(DispatchExplicitNode node)
@@ -219,6 +203,11 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(EqualNode node)
         {
+            BinaryOperationVisit(node);
+        }
+
+        void BinaryOperationVisit(BinaryOperationNode node)
+        {
             int t = result_variable;
 
             int t1 = result_variable = ++variable_counter;
@@ -228,6 +217,11 @@ namespace Cool.CodeGeneration.IntermediateCode
             node.RightOperand.Accept(this);
 
             IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
+        }
+
+        public void Visit(StringNode node)
+        {
+            IntermediateCode.AddCodeLine(new AssignmentStringToVariable(result_variable, node.Text));
         }
 
         public void Visit(FormalNode node)
@@ -270,11 +264,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             throw new NotImplementedException();
         }
         
-        public void Visit(StringNode node)
-        {
-            IntermediateCode.AddCodeLine(new AssignmentStringToVariable(result_variable, node.Text));
-        }
-
         public void Visit(VoidNode node)
         {
             throw new NotImplementedException();
