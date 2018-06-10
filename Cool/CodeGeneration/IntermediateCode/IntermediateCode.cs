@@ -17,7 +17,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         Dictionary<string, List<LabelLine>> VTables;
         Dictionary<string, List<string>> ATables;
-        
+
 
         public IntermediateCode(IScope scope)
         {
@@ -47,6 +47,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             VTables[cclass] = new List<LabelLine>();
             ATables[cclass] = new List<string>();
         }
+
 
         public void DefineClass(string cclass)
         {

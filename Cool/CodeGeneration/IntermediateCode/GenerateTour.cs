@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cool.AST;
 using Cool.Semantics;
 using Cool.CodeGeneration.IntermediateCode.ThreeAddressCode;
@@ -11,21 +8,17 @@ namespace Cool.CodeGeneration.IntermediateCode
 {
     class GenerateTour : IVisitor
     {
-        IIntermediateCode IntermediateCode;
+        IntermediateCode IntermediateCode;
         IScope Scope;
-
-        Dictionary<string,int> variable_link;
         ClassNode current_class;
-        int variable_counter;
-        int jump_label_counter;
-        int result_variable;
-
+        VariableManager VariableManager;
+        
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
-            variable_counter = 0;
-            jump_label_counter = 0;
             Scope = scope;
             IntermediateCode = new IntermediateCode(scope);
+            VariableManager = new VariableManager();
+
             node.Accept(this);
             return IntermediateCode;
         }
@@ -34,12 +27,10 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             List<ClassNode> sorted = new List<ClassNode>();
             sorted.AddRange(node.Classes);
-            sorted.Sort((x,y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
-            
+            sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
+
             foreach (var c in sorted)
-            {
                 c.Accept(this);
-            }
         }
 
         public void Visit(ClassNode node)
@@ -48,39 +39,74 @@ namespace Cool.CodeGeneration.IntermediateCode
             string cclass = current_class.TypeClass.Text;
             IntermediateCode.DefineClass(cclass);
 
+            List<AttributeNode> attributes = new List<AttributeNode>();
+            List<MethodNode> methods = new List<MethodNode>();
+
             foreach (var f in node.FeatureNodes)
+                if (f is AttributeNode)
+                    attributes.Add((AttributeNode)f);
+                else
+                    methods.Add((MethodNode)f);
+
+
+            foreach (var method in methods)
             {
-                f.Accept(this);
+                method.Accept(this);
             }
 
-            IntermediateCode.AddCodeLine(new LabelLine(cclass, "constructor"));
-            
-            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
 
+            //begin constructor function
+
+            int self = VariableManager.VariableCounter = 0;
+            IntermediateCode.AddCodeLine(new LabelLine(cclass, "constructor"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            VariableManager.IncrementVariableCounter();
+
+            //calling first the parent constructor method
             if (cclass != "Object")
             {
-                IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
+                IntermediateCode.AddCodeLine(new PushParamLine(self));
                 LabelLine label = new LabelLine(current_class.TypeInherit.Text, "constructor");
                 IntermediateCode.AddCodeLine(new CallLine(label));
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
             }
 
-            int attr_counter = 0;
-            foreach (var attr in IntermediateCode.GetAttributeTable(cclass))
+
+            foreach (var attr in attributes)
             {
-                IntermediateCode.AddCodeLine(new PushParamLine(variable_counter));
-                LabelLine label = new LabelLine(cclass + ".constructor", "set_" + attr);
-                IntermediateCode.AddCodeLine(new CallLine(label));
-                IntermediateCode.AddCodeLine(new PopParamLine(4));
-                ++attr_counter;
+                IntermediateCode.DefineAttribute(current_class.TypeClass.Text, attr.Formal.Id.Text);
+                VariableManager.PushVariableCounter();
+                attr.Accept(this);
+                VariableManager.PopVariableCounter();
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, attr.Formal.Id.Text)));
             }
+            
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
-            ++variable_counter;
 
             VTableLine vt = IntermediateCode.GetVirtualTable(cclass);
 
             IntermediateCode.AddCodeLine(vt);
-            IntermediateCode.AddCodeLine(new HeadLine(cclass, (3 + attr_counter) * 4, vt));
+            IntermediateCode.AddCodeLine(new HeadLine(cclass, (3 + attributes.Count) * 4, vt));
+        }
+
+        public void Visit(AttributeNode node)
+        {
+            node.AssignExp.Accept(this);
+
+
+
+            //IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
+            //LabelLine label_function = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + node.Formal.Id.Text);
+            //IntermediateCode.AddCodeLine(label_function);
+
+            //IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
+            //int this_var = variable_counter;
+
+            //int t1 = result_variable = ++variable_counter;
+            //node.AssignExp.Accept(this);
+
+            //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text)));
+            //IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }
 
         public void Visit(MethodNode node)
@@ -88,53 +114,40 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.DefineMethod(current_class.TypeClass.Text, node.Id.Text);
 
             LabelLine label_function = IntermediateCode.GetMethodLabel(current_class.TypeClass.Text, node.Id.Text);
+            Console.WriteLine(label_function);
             IntermediateCode.AddCodeLine(label_function);
 
-            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
-            int this_var = variable_counter;
-            variable_counter++;
+            int self = VariableManager.VariableCounter = 0;
+            IntermediateCode.AddCodeLine(new ParamLine(self));
 
-            variable_link = new Dictionary<string, int>
-            {
-                ["class"] = this_var
-            };
+            VariableManager.IncrementVariableCounter();
 
             foreach (var formal in node.Arguments)
             {
-                IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
-                variable_link[formal.Id.Text] = variable_counter;
-                variable_counter++;
+                IntermediateCode.AddCodeLine(new ParamLine(VariableManager.VariableCounter));
+                VariableManager.PushVariable(formal.Id.Text);
+                VariableManager.IncrementVariableCounter();
             }
 
-            int t = result_variable = variable_counter;
+            VariableManager.PushVariableCounter();
             node.Body.Accept(this);
-            IntermediateCode.AddCodeLine(new ReturnLine(t));
-        }
+            IntermediateCode.AddCodeLine(new ReturnLine(VariableManager.PeekVariableCounter()));
+            VariableManager.PopVariableCounter();
 
-        public void Visit(AttributeNode node)
-        {
-            IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
-            LabelLine label_function = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + node.Formal.Id.Text);
-            IntermediateCode.AddCodeLine(label_function);
-
-            IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
-            int this_var = variable_counter;
-
-            int t1 = result_variable = ++variable_counter;
-            node.AssignExp.Accept(this);
-
-            IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text)));
-            IntermediateCode.AddCodeLine(new ReturnLine(-1));
+            foreach (var formal in node.Arguments)
+            {
+                VariableManager.PopVariable(formal.Id.Text);
+            }
         }
 
         public void Visit(IntNode node)
         {
-            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(result_variable, node.Value));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value));
         }
 
         public void Visit(BoolNode node)
         {
-            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(result_variable, node.Value ? 1 : 0));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value ? 1 : 0));
         }
 
         public void Visit(ArithmeticOperation node)
@@ -144,40 +157,69 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(AssignmentNode node)
         {
-            int t = result_variable;
-            if (variable_link.ContainsKey(node.ID.Text))
+
+            node.ExpressionRight.Accept(this);
+
+            int t = VariableManager.GetVariable(node.ID.Text);
+            if (t != -1)
             {
-                result_variable = variable_link[node.ID.Text];
-                node.ExpressionRight.Accept(this);
-                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(t, variable_link[node.ID.Text]));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
             else
             {
                 int offset = IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.ID.Text);
-                int t1 = result_variable = ++variable_counter;
-                node.ExpressionRight.Accept(this);
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(variable_link["class"], t1, offset));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
+
+            //int t = result_variable;
+            //if (variable_link.ContainsKey(node.ID.Text))
+            //{
+            //    result_variable = variable_link[node.ID.Text];
+            //    node.ExpressionRight.Accept(this);
+            //    IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(t, variable_link[node.ID.Text]));
+            //}
+            //else
+            //{
+            //    int offset = IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.ID.Text);
+            //    int t1 = result_variable = ++variable_counter;
+            //    node.ExpressionRight.Accept(this);
+            //    IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(variable_link["class"], t1, offset));
+            //}
         }
 
         public void Visit(SequenceNode node)
         {
-            int t = result_variable;
             foreach (var s in node.Sequence)
             {
-                result_variable = t;
                 s.Accept(this);
             }
+
+            //int t = result_variable;
+            //foreach (var s in node.Sequence)
+            //{
+            //    result_variable = t;
+            //    s.Accept(this);
+            //}
         }
 
         public void Visit(IdentifierNode node)
         {
-            if (variable_link.ContainsKey(node.Text))
-                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
+            int t = VariableManager.GetVariable(node.Text);
+            if (t != -1)
+            {
+                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+            }
             else
             {
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(result_variable, variable_link["class"], IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
             }
+
+            //if (variable_link.ContainsKey(node.Text))
+            //    IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
+            //else
+            //{
+            //    IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(result_variable, variable_link["class"], IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
+            //}
         }
 
         public void Visit(CaseNode node)
@@ -208,20 +250,47 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         void BinaryOperationVisit(BinaryOperationNode node)
         {
-            int t = result_variable;
+            //throw new NotImplementedException();
 
-            int t1 = result_variable = ++variable_counter;
+            VariableManager.PushVariableCounter();
+
+            VariableManager.IncrementVariableCounter();
+            int t1 = VariableManager.VariableCounter;
+            VariableManager.PushVariableCounter();
             node.LeftOperand.Accept(this);
+            VariableManager.PopVariableCounter();
 
-            int t2 = result_variable = ++variable_counter;
+            VariableManager.IncrementVariableCounter();
+            int t2 = VariableManager.VariableCounter;
+            VariableManager.PushVariableCounter();
             node.RightOperand.Accept(this);
+            VariableManager.PopVariableCounter();
 
-            IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
+            VariableManager.PopVariableCounter();
+            IntermediateCode.AddCodeLine(new ArithmeticLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
+
+
+            //int t = result_variable;
+
+            //int t1 = result_variable = ++variable_counter;
+            //node.LeftOperand.Accept(this);
+
+            //int t2 = result_variable = ++variable_counter;
+            //node.RightOperand.Accept(this);
+
+            //IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
         }
 
         public void Visit(StringNode node)
         {
-            IntermediateCode.AddCodeLine(new AssignmentStringToVariable(result_variable, node.Text));
+            throw new NotImplementedException();
+            //IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(result_variable, node.Text));
+        }
+
+        public void Visit(LetNode node)
+        {
+            
+            throw new NotImplementedException();
         }
 
         public void Visit(FormalNode node)
@@ -235,11 +304,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         }
         
         public void Visit(IsVoidNode node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(LetNode node)
         {
             throw new NotImplementedException();
         }

@@ -87,10 +87,10 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class AssignmentStringToVariable : AssignmentLine<string>
+    public class AssignmentStringToVariableLine : AssignmentLine<string>
     {
 
-        public AssignmentStringToVariable(int left, string right)
+        public AssignmentStringToVariableLine(int left, string right)
         {
             Left = left;
             Right = right;
