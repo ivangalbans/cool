@@ -71,9 +71,8 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new PushParamLine(self));
                 LabelLine label = new LabelLine(node.TypeInherit.Text, "constructor");
                 IntermediateCode.AddCodeLine(new CallLabelLine(label));
-                IntermediateCode.AddCodeLine(new PopParamLine(4));
+                IntermediateCode.AddCodeLine(new PopParamLine(1));
             }
-
 
             foreach (var attr in attributes)
             {
@@ -153,21 +152,6 @@ namespace Cool.CodeGeneration.IntermediateCode
                 int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
-
-            //int t = result_variable;
-            //if (variable_link.ContainsKey(node.ID.Text))
-            //{
-            //    result_variable = variable_link[node.ID.Text];
-            //    node.ExpressionRight.Accept(this);
-            //    IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(t, variable_link[node.ID.Text]));
-            //}
-            //else
-            //{
-            //    int offset = IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.ID.Text);
-            //    int t1 = result_variable = ++variable_counter;
-            //    node.ExpressionRight.Accept(this);
-            //    IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(variable_link["class"], t1, offset));
-            //}
         }
 
         public void Visit(SequenceNode node)
@@ -177,13 +161,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 s.Accept(this);
             }
-
-            //int t = result_variable;
-            //foreach (var s in node.Sequence)
-            //{
-            //    result_variable = t;
-            //    s.Accept(this);
-            //}
         }
 
         public void Visit(IdentifierNode node)
@@ -197,13 +174,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.Text)));
             }
-
-            //if (variable_link.ContainsKey(node.Text))
-            //    IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result_variable, variable_link[node.Text]));
-            //else
-            //{
-            //    IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(result_variable, variable_link["class"], IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
-            //}
         }
         
 
@@ -214,18 +184,93 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(DispatchExplicitNode node)
         {
-            List<int> parameters = new List<int>();
             string cclass = node.IdType.Text;
-            string method = node.IdMethod.Text;
-
             node.Expression.Accept(this);
 
+            DispatchVisit(node, cclass);
+
+            //string method = node.IdMethod.Text;
+            //VariableManager.PushVariableCounter();
+
+            //int t = VariableManager.IncrementVariableCounter();
+            //int function_address = VariableManager.IncrementVariableCounter();
+            //int offset = IntermediateCode.GetMethodOffset(cclass, method);
+
+            //List<int> parameters = new List<int>();
+            //foreach (var p in node.Arguments)
+            //{
+            //    VariableManager.IncrementVariableCounter();
+            //    VariableManager.PushVariableCounter();
+            //    parameters.Add(VariableManager.VariableCounter);
+            //    p.Accept(this);
+            //    VariableManager.PopVariableCounter();
+            //}
+
+            //VariableManager.PopVariableCounter();
+
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
+
+            //foreach (var p in parameters)
+            //{
+            //    IntermediateCode.AddCodeLine(new PushParamLine(p));
+            //}
+
+            //IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
+            //IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count));
+        }
+
+        public void Visit(DispatchImplicitNode node)
+        {
+            string cclass = VariableManager.CurrentClass;
+
+            DispatchVisit(node, cclass);
+
+            //string method = node.IdMethod.Text;
+
+            //VariableManager.PushVariableCounter();
+
+            //int t = VariableManager.IncrementVariableCounter();
+            //int function_address = VariableManager.IncrementVariableCounter();
+            //int offset = IntermediateCode.GetMethodOffset(cclass, method);
+
+            //List<int> parameters = new List<int>();
+            //foreach (var p in node.Arguments)
+            //{
+            //    VariableManager.IncrementVariableCounter();
+            //    VariableManager.PushVariableCounter();
+            //    parameters.Add(VariableManager.VariableCounter);
+            //    p.Accept(this);
+            //    VariableManager.PopVariableCounter();
+            //}
+
+            //VariableManager.PopVariableCounter();
+
+
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
+
+            //foreach (var p in parameters)
+            //{
+            //    IntermediateCode.AddCodeLine(new PushParamLine(p));
+            //}
+
+            //IntermediateCode.AddCodeLine(new CallAddressLine(function_address));
+        }
+
+        void DispatchVisit(DispatchNode node, string cclass)
+        {
+
+            //node.Expression.Accept(this);
+
+            string method = node.IdMethod.Text;
             VariableManager.PushVariableCounter();
 
             int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             int offset = IntermediateCode.GetMethodOffset(cclass, method);
 
+            List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
             {
                 VariableManager.IncrementVariableCounter();
@@ -237,7 +282,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
 
-
             IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
             IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
 
@@ -246,12 +290,8 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new PushParamLine(p));
             }
 
-            IntermediateCode.AddCodeLine(new CallAddressLine(function_address));
-        }
-
-        public void Visit(DispatchImplicitNode node)
-        {
-            throw new NotImplementedException();
+            IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count));
         }
 
         public void Visit(EqualNode node)
@@ -310,6 +350,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(node.TypeId.Text, "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
 
             //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
 

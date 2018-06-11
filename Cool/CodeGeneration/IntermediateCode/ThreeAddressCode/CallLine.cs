@@ -9,28 +9,38 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     class CallLabelLine : CodeLine
     {
         LabelLine Method { get; }
-        public CallLabelLine(LabelLine method)
+        int Result { get; }
+        public CallLabelLine(LabelLine method, int result_variable = -1)
         {
             Method = method;
+            Result = result_variable;
         }
 
         public override string ToString()
         {
-            return $"Call {Method.Label};";
+            if(Result == -1)
+                return $"Call {Method.Label};";
+            else
+                return $"t{Result} = Call {Method.Label};";
         }
     }
 
     class CallAddressLine : CodeLine
     {
         int Address { get; }
-        public CallAddressLine(int address)
+        int Result { get; }
+        public CallAddressLine(int address, int result_variable = -1)
         {
             Address = address;
+            Result = result_variable;
         }
 
         public override string ToString()
         {
-            return $"Call t{Address};";
+            if(Result == -1)
+                return $"Call t{Address};";
+            else
+                return $"t{Result} = Call t{Address};";
         }
     }
 }

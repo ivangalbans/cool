@@ -11,7 +11,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         int Times;
         public PopParamLine(int times)
         {
-            Times = times;
+            Times = 4*times;
         }
 
         public override string ToString()

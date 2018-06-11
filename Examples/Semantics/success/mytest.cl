@@ -10,11 +10,16 @@ class Hello {
 };
 
 class Main {
+	moo3(a:Int, b:Int, c:Int, d:Int) : Int {
+	  a * b * c * d
+	};
+
   main():Int {
     let
       t:Hello <- new Hello
     in {
       t.moo2(1,2,3,4);
+      --moo3(1,2,3,4);
     }
   };
 };
