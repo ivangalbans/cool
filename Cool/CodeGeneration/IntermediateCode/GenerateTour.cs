@@ -326,6 +326,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(LetNode node)
         {
+            VariableManager.PushVariableCounter();
             foreach (var attr in node.Initialization)
             {
                 VariableManager.IncrementVariableCounter();
@@ -335,6 +336,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
                 VariableManager.PopVariableCounter();
             }
+            VariableManager.PopVariableCounter();
 
             node.ExpressionBody.Accept(this);
 
@@ -389,7 +391,18 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IfNode node)
         {
-            throw new NotImplementedException();
+            string tag = IntermediateCode.CountLines().ToString();
+
+            node.Condition.Accept(this);
+
+
+
+            node.Body.Accept(this);
+
+
+            node.ElseBody.Accept(this);
+
+
         }
         
 

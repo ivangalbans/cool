@@ -169,6 +169,11 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             return code;
         }
+
+        public int CountLines()
+        {
+            return Code.Count;
+        }
         
     }
 }
