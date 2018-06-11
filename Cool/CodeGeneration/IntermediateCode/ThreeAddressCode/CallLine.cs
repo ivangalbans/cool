@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    class CallLine : CodeLine
+    class CallLabelLine : CodeLine
     {
         LabelLine Method { get; }
-        public CallLine(LabelLine method)
+        public CallLabelLine(LabelLine method)
         {
             Method = method;
         }
@@ -17,6 +17,20 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         public override string ToString()
         {
             return $"Call {Method.Label};";
+        }
+    }
+
+    class CallAddressLine : CodeLine
+    {
+        int Address { get; }
+        public CallAddressLine(int address)
+        {
+            Address = address;
+        }
+
+        public override string ToString()
+        {
+            return $"Call t{Address};";
         }
     }
 }

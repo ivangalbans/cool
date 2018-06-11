@@ -82,6 +82,13 @@ namespace Cool.CodeGeneration.IntermediateCode
             return VTables[cclass].FindIndex((x) => x.Tag == method);
         }
 
+        public int GetMethodOffset(string cclass, string method)
+        {
+            int index = GetMethodPosition(cclass, method);
+            if (index != -1) return 4 * index;
+            else return -1;
+        }
+
         public LabelLine GetMethodLabel(string cclass, string method)
         {
             return VTables[cclass].Find((x) => x.Tag == method);

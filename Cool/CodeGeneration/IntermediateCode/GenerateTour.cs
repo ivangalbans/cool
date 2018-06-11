@@ -10,7 +10,6 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IntermediateCode IntermediateCode;
         IScope Scope;
-        ClassNode current_class;
         VariableManager VariableManager;
         
         public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
@@ -35,9 +34,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ClassNode node)
         {
-            current_class = node;
-            string cclass = current_class.TypeClass.Text;
-            IntermediateCode.DefineClass(cclass);
+            VariableManager.CurrentClass = node.TypeClass.Text;
+            IntermediateCode.DefineClass(VariableManager.CurrentClass);
 
             List<AttributeNode> attributes = new List<AttributeNode>();
             List<MethodNode> methods = new List<MethodNode>();
@@ -46,11 +44,16 @@ namespace Cool.CodeGeneration.IntermediateCode
                 if (f is AttributeNode)
                     attributes.Add((AttributeNode)f);
                 else
+                {
                     methods.Add((MethodNode)f);
+                    IntermediateCode.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
+                }
 
 
             foreach (var method in methods)
             {
+                LabelLine label_function = IntermediateCode.GetMethodLabel(node.TypeClass.Text, method.Id.Text);
+                IntermediateCode.AddCodeLine(label_function);
                 method.Accept(this);
             }
 
@@ -58,35 +61,35 @@ namespace Cool.CodeGeneration.IntermediateCode
             //begin constructor function
 
             int self = VariableManager.VariableCounter = 0;
-            IntermediateCode.AddCodeLine(new LabelLine(cclass, "constructor"));
+            IntermediateCode.AddCodeLine(new LabelLine(VariableManager.CurrentClass, "constructor"));
             IntermediateCode.AddCodeLine(new ParamLine(self));
             VariableManager.IncrementVariableCounter();
 
             //calling first the parent constructor method
-            if (cclass != "Object")
+            if (VariableManager.CurrentClass != "Object")
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(self));
-                LabelLine label = new LabelLine(current_class.TypeInherit.Text, "constructor");
-                IntermediateCode.AddCodeLine(new CallLine(label));
+                LabelLine label = new LabelLine(node.TypeInherit.Text, "constructor");
+                IntermediateCode.AddCodeLine(new CallLabelLine(label));
                 IntermediateCode.AddCodeLine(new PopParamLine(4));
             }
 
 
             foreach (var attr in attributes)
             {
-                IntermediateCode.DefineAttribute(current_class.TypeClass.Text, attr.Formal.Id.Text);
+                IntermediateCode.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetAttributeOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
             
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
 
-            VTableLine vt = IntermediateCode.GetVirtualTable(cclass);
+            VTableLine vt = IntermediateCode.GetVirtualTable(VariableManager.CurrentClass);
 
             IntermediateCode.AddCodeLine(vt);
-            IntermediateCode.AddCodeLine(new HeadLine(cclass, (3 + attributes.Count) * 4, vt));
+            IntermediateCode.AddCodeLine(new HeadLine(VariableManager.CurrentClass, (3 + attributes.Count) * 4, vt));
         }
 
         public void Visit(AttributeNode node)
@@ -96,11 +99,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(MethodNode node)
         {
-            IntermediateCode.DefineMethod(current_class.TypeClass.Text, node.Id.Text);
-
-            LabelLine label_function = IntermediateCode.GetMethodLabel(current_class.TypeClass.Text, node.Id.Text);
-            Console.WriteLine(label_function);
-            IntermediateCode.AddCodeLine(label_function);
 
             int self = VariableManager.VariableCounter = 0;
             IntermediateCode.AddCodeLine(new ParamLine(self));
@@ -152,7 +150,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                int offset = IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.ID.Text);
+                int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
 
@@ -197,7 +195,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.Text)));
             }
 
             //if (variable_link.ContainsKey(node.Text))
@@ -206,12 +204,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             //{
             //    IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(result_variable, variable_link["class"], IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Text)));
             //}
-        }
-
-        public void Visit(CaseNode node)
-        {
-
-            throw new NotImplementedException();
         }
         
 
@@ -222,12 +214,44 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(DispatchExplicitNode node)
         {
-            //throw new NotImplementedException();
+            List<int> parameters = new List<int>();
+            string cclass = node.IdType.Text;
+            string method = node.IdMethod.Text;
+
+            node.Expression.Accept(this);
+
+            VariableManager.PushVariableCounter();
+
+            int t = VariableManager.IncrementVariableCounter();
+            int function_address = VariableManager.IncrementVariableCounter();
+            int offset = IntermediateCode.GetMethodOffset(cclass, method);
+
+            foreach (var p in node.Arguments)
+            {
+                VariableManager.IncrementVariableCounter();
+                VariableManager.PushVariableCounter();
+                parameters.Add(VariableManager.VariableCounter);
+                p.Accept(this);
+                VariableManager.PopVariableCounter();
+            }
+
+            VariableManager.PopVariableCounter();
+
+
+            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
+            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
+
+            foreach (var p in parameters)
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(p));
+            }
+
+            IntermediateCode.AddCodeLine(new CallAddressLine(function_address));
         }
 
         public void Visit(DispatchImplicitNode node)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Visit(EqualNode node)
@@ -285,7 +309,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             int size = IntermediateCode.GetSizeClass(node.TypeId.Text);
             IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
-            IntermediateCode.AddCodeLine(new CallLine(new LabelLine(node.TypeId.Text, "constructor")));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(node.TypeId.Text, "constructor")));
 
             //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
 
@@ -330,6 +354,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(WhileNode node)
         {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(CaseNode node)
+        {
+
             throw new NotImplementedException();
         }
 

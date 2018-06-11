@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cool.AST;
 
 namespace Cool.CodeGeneration.IntermediateCode
 {
@@ -11,6 +12,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         Stack<int> variable_counter_stack;
         public int VariableCounter { set; get; }
+
+        public string CurrentClass { set; get; }
 
         Dictionary<string, Stack<int>> VariableLink;
 
@@ -58,9 +61,10 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableCounter = variable_counter_stack.Pop();
         }
 
-        public void IncrementVariableCounter()
+        public int IncrementVariableCounter()
         {
             ++VariableCounter;
+            return VariableCounter;
         }
     }
 }
