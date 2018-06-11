@@ -92,21 +92,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(AttributeNode node)
         {
             node.AssignExp.Accept(this);
-
-
-
-            //IntermediateCode.DefineAttribute(current_class.TypeClass.Text, node.Formal.Id.Text);
-            //LabelLine label_function = new LabelLine(current_class.TypeClass.Text + ".constructor", "set_" + node.Formal.Id.Text);
-            //IntermediateCode.AddCodeLine(label_function);
-
-            //IntermediateCode.AddCodeLine(new ParamLine(variable_counter));
-            //int this_var = variable_counter;
-
-            //int t1 = result_variable = ++variable_counter;
-            //node.AssignExp.Accept(this);
-
-            //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(this_var, t1, IntermediateCode.GetAttributeOffset(current_class.TypeClass.Text, node.Formal.Id.Text)));
-            //IntermediateCode.AddCodeLine(new ReturnLine(-1));
         }
 
         public void Visit(MethodNode node)
@@ -189,6 +174,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(SequenceNode node)
         {
+            Console.WriteLine("------");
             foreach (var s in node.Sequence)
             {
                 s.Accept(this);
@@ -224,6 +210,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(CaseNode node)
         {
+
             throw new NotImplementedException();
         }
         
@@ -235,12 +222,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(DispatchExplicitNode node)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Visit(DispatchImplicitNode node)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Visit(EqualNode node)
@@ -250,8 +237,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         void BinaryOperationVisit(BinaryOperationNode node)
         {
-            //throw new NotImplementedException();
-
             VariableManager.PushVariableCounter();
 
             VariableManager.IncrementVariableCounter();
@@ -268,57 +253,87 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
             IntermediateCode.AddCodeLine(new ArithmeticLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
-
-
-            //int t = result_variable;
-
-            //int t1 = result_variable = ++variable_counter;
-            //node.LeftOperand.Accept(this);
-
-            //int t2 = result_variable = ++variable_counter;
-            //node.RightOperand.Accept(this);
-
-            //IntermediateCode.AddCodeLine(new ArithmeticLine(t, t1, t2, node.Symbol));
         }
 
         public void Visit(StringNode node)
         {
-            throw new NotImplementedException();
-            //IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(result_variable, node.Text));
+            IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), node.Text));
         }
 
         public void Visit(LetNode node)
         {
-            
-            throw new NotImplementedException();
+            foreach (var attr in node.Initialization)
+            {
+                VariableManager.IncrementVariableCounter();
+                VariableManager.PushVariable(attr.Formal.Id.Text);
+                VariableManager.PushVariableCounter();
+                attr.Accept(this);
+                //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
+                VariableManager.PopVariableCounter();
+            }
+
+            node.ExpressionBody.Accept(this);
+
+            foreach (var attr in node.Initialization)
+            {
+                VariableManager.PopVariable(attr.Formal.Id.Text);
+            }
         }
 
-        public void Visit(FormalNode node)
+        public void Visit(NewNode node)
         {
-            throw new NotImplementedException();
+            int size = IntermediateCode.GetSizeClass(node.TypeId.Text);
+            IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new CallLine(new LabelLine(node.TypeId.Text, "constructor")));
+
+            //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
+
+            //throw new NotImplementedException();
         }
-        
+
+        public void Visit(IsVoidNode node)
+        {
+            UnaryOperationVisit(node);
+        }
+
+        public void Visit(NegNode node)
+        {
+            UnaryOperationVisit(node);
+        }
+
+
+        public void Visit(NotNode node)
+        {
+            UnaryOperationVisit(node);
+        }
+
+        void UnaryOperationVisit(UnaryOperationNode node)
+        {
+            VariableManager.PushVariableCounter();
+
+            VariableManager.IncrementVariableCounter();
+            int t1 = VariableManager.VariableCounter;
+            VariableManager.PushVariableCounter();
+            node.Operand.Accept(this);
+
+            VariableManager.PopVariableCounter();
+
+            IntermediateCode.AddCodeLine(new ArithmeticLine(VariableManager.PeekVariableCounter(), t1, -1, node.Symbol));
+        }
+
         public void Visit(IfNode node)
         {
             throw new NotImplementedException();
         }
         
-        public void Visit(IsVoidNode node)
+
+        public void Visit(WhileNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(NegNode node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(NewNode node)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(NotNode node)
+        public void Visit(VoidNode node)
         {
             throw new NotImplementedException();
         }
@@ -327,15 +342,10 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             throw new NotImplementedException();
         }
-        
-        public void Visit(VoidNode node)
+        public void Visit(FormalNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void Visit(WhileNode node)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
