@@ -92,12 +92,13 @@
     <Compile Include="CodeGeneration\IntermediateCode\IIntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AllocateLine.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ArithmeticLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\OperationLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AssignmentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CallLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\HeadLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\JumpLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\NullLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PopParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PushParamLine.cs" />

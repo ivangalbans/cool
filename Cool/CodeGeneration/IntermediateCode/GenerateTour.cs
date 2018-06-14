@@ -316,7 +316,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PopVariableCounter();
 
             VariableManager.PopVariableCounter();
-            IntermediateCode.AddCodeLine(new ArithmeticLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
+            IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
         }
 
         public void Visit(StringNode node)
@@ -386,7 +386,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
 
-            IntermediateCode.AddCodeLine(new ArithmeticLine(VariableManager.PeekVariableCounter(), t1, -1, node.Symbol));
+            IntermediateCode.AddCodeLine(new UnaryOperationLine(VariableManager.PeekVariableCounter(), t1, node.Symbol));
         }
 
         public void Visit(IfNode node)
@@ -395,20 +395,34 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             node.Condition.Accept(this);
 
-
+            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("else", tag)));
 
             node.Body.Accept(this);
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("end", tag)));
 
-
+            IntermediateCode.AddCodeLine(new LabelLine("else", tag));
             node.ElseBody.Accept(this);
 
+            IntermediateCode.AddCodeLine(new LabelLine("end", tag));
 
         }
-        
+
 
         public void Visit(WhileNode node)
         {
-            throw new NotImplementedException();
+            string tag = IntermediateCode.CountLines().ToString();
+
+            IntermediateCode.AddCodeLine(new LabelLine("whilecondition", tag));
+
+            node.Condition.Accept(this);
+
+            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("endwhile", tag)));
+
+            node.Body.Accept(this);
+
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("whilecondition", tag)));
+
+            IntermediateCode.AddCodeLine(new LabelLine("endwhile", tag));
         }
 
         public void Visit(CaseNode node)
@@ -419,12 +433,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(VoidNode node)
         {
-            throw new NotImplementedException();
+            IntermediateCode.AddCodeLine(new NullLine(VariableManager.PeekVariableCounter()));
         }
 
         public void Visit(SelfNode node)
         {
-            throw new NotImplementedException();
+            IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(),0));
         }
         public void Visit(FormalNode node)
         {

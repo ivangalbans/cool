@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    public class GotoJumpLine
+    public class GotoJumpLine : CodeLine
     {
         LabelLine Label;
 
-        GotoJumpLine(LabelLine label)
+        public GotoJumpLine(LabelLine label)
         {
             Label = label;
         }
@@ -21,11 +21,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class ConditionalJumpLine
+    public class ConditionalJumpLine : CodeLine
     {
         LabelLine Label;
         int ConditionalVar;
-        ConditionalJumpLine(int conditional_var, LabelLine label)
+        public ConditionalJumpLine(int conditional_var, LabelLine label)
         {
             Label = label;
             ConditionalVar = conditional_var;
