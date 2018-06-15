@@ -24,12 +24,25 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ProgramNode node)
         {
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
+
             List<ClassNode> sorted = new List<ClassNode>();
             sorted.AddRange(node.Classes);
             sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
 
             foreach (var c in sorted)
                 c.Accept(this);
+
+            Start();
+        }
+
+        void Start()
+        {
+            IntermediateCode.AddCodeLine(new LabelLine("start"));
+            New("Main");
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Main", "main")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
         }
 
         public void Visit(ClassNode node)
@@ -156,7 +169,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(SequenceNode node)
         {
-            Console.WriteLine("------");
             foreach (var s in node.Sequence)
             {
                 s.Accept(this);
@@ -348,15 +360,26 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(NewNode node)
         {
-            int size = IntermediateCode.GetSizeClass(node.TypeId.Text);
-            IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
-            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
-            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(node.TypeId.Text, "constructor")));
-            IntermediateCode.AddCodeLine(new PopParamLine(1));
+            New(node.TypeId.Text);
+
+            //int size = IntermediateCode.GetSizeClass(node.TypeId.Text);
+            //IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
+            //IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            //IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(node.TypeId.Text, "constructor")));
+            //IntermediateCode.AddCodeLine(new PopParamLine(1));
 
             //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
 
             //throw new NotImplementedException();
+        }
+
+        public void New(string cclass)
+        {
+            int size = IntermediateCode.GetSizeClass(cclass);
+            IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
         }
 
         public void Visit(IsVoidNode node)
@@ -398,12 +421,12 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("else", tag)));
 
             node.Body.Accept(this);
-            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("end", tag)));
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("endif", tag)));
 
             IntermediateCode.AddCodeLine(new LabelLine("else", tag));
             node.ElseBody.Accept(this);
 
-            IntermediateCode.AddCodeLine(new LabelLine("end", tag));
+            IntermediateCode.AddCodeLine(new LabelLine("endif", tag));
 
         }
 
@@ -427,7 +450,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(CaseNode node)
         {
-
+            //compare t0[0]
             throw new NotImplementedException();
         }
 

@@ -11,11 +11,14 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         public string Label { get; }
         public string Head { get; }
         public string Tag { get; }
-        public LabelLine(string head, string tag)
+        public LabelLine(string head, string tag = "")
         {
             Head = head;
             Tag = tag;
-            Label = Head + "." + Tag;
+            if (tag != "")
+                Label = Head + "." + Tag;
+            else
+                Label = Head;
         }
 
         public override string ToString()
