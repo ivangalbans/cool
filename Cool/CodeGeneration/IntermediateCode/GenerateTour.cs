@@ -9,6 +9,7 @@ namespace Cool.CodeGeneration.IntermediateCode
     class GenerateTour : IVisitor
     {
         IntermediateCode IntermediateCode;
+        VirtualTable VirtualTable;
         IScope Scope;
         VariableManager VariableManager;
         
@@ -17,6 +18,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             Scope = scope;
             IntermediateCode = new IntermediateCode(scope);
             VariableManager = new VariableManager();
+            VirtualTable = new VirtualTable(scope);
 
             node.Accept(this);
             return IntermediateCode;
@@ -48,7 +50,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(ClassNode node)
         {
             VariableManager.CurrentClass = node.TypeClass.Text;
-            IntermediateCode.DefineClass(VariableManager.CurrentClass);
+            VirtualTable.DefineClass(VariableManager.CurrentClass);
 
             List<AttributeNode> attributes = new List<AttributeNode>();
             List<MethodNode> methods = new List<MethodNode>();
@@ -59,7 +61,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 else
                 {
                     methods.Add((MethodNode)f);
-                    IntermediateCode.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
+                    VirtualTable.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
                 }
 
 
@@ -90,26 +92,26 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             foreach (var attr in attributes)
             {
-                IntermediateCode.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
+                VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
                 IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
             foreach (var method in methods)
             {
-                (string, string) label = IntermediateCode.GetDefinition(node.TypeClass.Text, method.Id.Text);
+                (string, string) label = VirtualTable.GetDefinition(node.TypeClass.Text, method.Id.Text);
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), IntermediateCode.GetOffset(node.TypeClass.Text, method.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
             IntermediateCode.AddCodeLine(new CommentLine("class name: " + node.TypeClass.Text));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
-            IntermediateCode.AddCodeLine(new CommentLine("class size: " + IntermediateCode.GetSizeClass(node.TypeClass.Text) + " words"));
-            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, IntermediateCode.GetSizeClass(node.TypeClass.Text), 1));
+            IntermediateCode.AddCodeLine(new CommentLine("class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
 
@@ -178,7 +180,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             else
             {
                 //int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
-                int offset = IntermediateCode.GetOffset(VariableManager.CurrentClass, node.ID.Text);
+                int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
         }
@@ -200,7 +202,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetOffset(VariableManager.CurrentClass, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
         
@@ -297,7 +299,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             //int offset = IntermediateCode.GetMethodOffset(cclass, method);
-            int offset = IntermediateCode.GetOffset(cclass, method);
+            int offset = VirtualTable.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
@@ -392,7 +394,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void New(string cclass)
         {
-            int size = IntermediateCode.GetSizeClass(cclass);
+            int size = VirtualTable.GetSizeClass(cclass);
             IntermediateCode.AddCodeLine(new AllocateLine(VariableManager.PeekVariableCounter(), size));
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, "constructor")));
