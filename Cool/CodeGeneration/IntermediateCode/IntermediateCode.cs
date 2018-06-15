@@ -12,7 +12,8 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IScope Scope;
         //List<TypeLine> Type;
-        List<StringDataLine> Strings;
+        //List<StringDataLine> Strings;
+        //List<(String, String)> Strings;
         List<CodeLine> Code;
 
         Dictionary<string, List<LabelLine>> VTables;
@@ -25,7 +26,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             VTables = new Dictionary<string, List<LabelLine>>();
             ATables = new Dictionary<string, List<string>>();
             Code = new List<CodeLine>();
-            Strings = new List<StringDataLine>();
+            //Strings = new List<(String,String)>();
 
             DefineClass("Object");
             DefineMethod("Object", "abort");
@@ -160,7 +161,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         public List<CodeLine> GetCode()
         {
             List<CodeLine> code = new List<CodeLine>();
-            
 
             foreach (var c in Code)
             {

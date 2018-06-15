@@ -103,7 +103,6 @@
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PopParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PushParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ReturnLine.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\StringDataLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\VariableManager.cs" />

@@ -95,7 +95,10 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableManager.PopVariableCounter();
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetAttributeOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
-            
+
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, IntermediateCode.GetSizeClass(node.TypeClass.Text), 4));
+
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
 
             VTableLine vt = IntermediateCode.GetVirtualTable(VariableManager.CurrentClass);

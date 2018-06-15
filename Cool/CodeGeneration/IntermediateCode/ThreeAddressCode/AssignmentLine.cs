@@ -52,6 +52,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Right = right;
             Offset = offset;
         }
+
+        public override string ToString()
+        {
+            return $"*(t{Left} + {Offset}) = {Right}";
+        }
     }
 
     public class AssignmentMemoryToVariableLine : AssignmentLine<int>
@@ -101,4 +106,48 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             return $"t{Left} = \"{Right}\"";
         }
     }
+
+    public class AssignmentStringToMemoryLine : AssignmentLine<string>
+    {
+        public int Offset { get; }
+        public AssignmentStringToMemoryLine(int left, string right, int offset = 0)
+        {
+            Left = left;
+            Right = right;
+            Offset = offset;
+        }
+
+        public override string ToString()
+        {
+            return $"*(t{Left} + {Offset}) = \"{Right}\"";
+        }
+    }
+
+    //public class AssignmentLabelToVariableLine : AssignmentLine<string>
+    //{
+    //    public AssignmentLabelToVariableLine(int left, string right)
+    //    {
+    //        Left = left;
+    //        Right = right;
+    //    }
+
+    //    public override string ToString()
+    //    {
+    //        return $"t{Left} = \"{Right}\"";
+    //    }
+    //}
+
+    //public class AssignmentLabelToMemoryLine : AssignmentLine<string>
+    //{
+    //    public AssignmentLabelToMemoryLine(int left, string right)
+    //    {
+    //        Left = left;
+    //        Right = right;
+    //    }
+
+    //    public override string ToString()
+    //    {
+    //        return $"t{Left} = \"{Right}\"";
+    //    }
+    //}
 }
