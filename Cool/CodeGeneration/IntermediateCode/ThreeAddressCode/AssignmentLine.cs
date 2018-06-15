@@ -123,31 +123,49 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    //public class AssignmentLabelToVariableLine : AssignmentLine<string>
-    //{
-    //    public AssignmentLabelToVariableLine(int left, string right)
-    //    {
-    //        Left = left;
-    //        Right = right;
-    //    }
+    public class AssignmentVirtualTableToMemoryLine : AssignmentLine<string>
+    {
+        public int Offset { get; }
+        public AssignmentVirtualTableToMemoryLine(int left, string right, int offset = 0)
+        {
+            Left = left;
+            Right = right;
+            Offset = offset;
+        }
 
-    //    public override string ToString()
-    //    {
-    //        return $"t{Left} = \"{Right}\"";
-    //    }
-    //}
+        public override string ToString()
+        {
+            return $"*(t{Left} + {Offset}) = \"{Right}\"";
+        }
+    }
 
-    //public class AssignmentLabelToMemoryLine : AssignmentLine<string>
-    //{
-    //    public AssignmentLabelToMemoryLine(int left, string right)
-    //    {
-    //        Left = left;
-    //        Right = right;
-    //    }
+    public class AssignmentLabelToVariableLine : AssignmentLine<LabelLine>
+    {
+        public AssignmentLabelToVariableLine(int left, LabelLine right)
+        {
+            Left = left;
+            Right = right;
+        }
 
-    //    public override string ToString()
-    //    {
-    //        return $"t{Left} = \"{Right}\"";
-    //    }
-    //}
+        public override string ToString()
+        {
+            return $"t{Left} = \"{Right.Label}\"";
+        }
+    }
+    
+    public class AssignmentLabelToMemoryLine : AssignmentLine<LabelLine>
+    {
+        public int Offset { get; }
+        public AssignmentLabelToMemoryLine(int left, LabelLine right, int offset)
+        {
+            Left = left;
+            Right = right;
+            Offset = offset;
+        }
+
+        public override string ToString()
+        {
+            return $"*(t{Left} + {Offset}) = \"{Right.Label}\"";
+        }
+    }
 }

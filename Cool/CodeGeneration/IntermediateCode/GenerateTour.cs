@@ -12,7 +12,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         IScope Scope;
         VariableManager VariableManager;
         
-        public IIntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
+        public IntermediateCode GetIntermediateCode(ProgramNode node, IScope scope)
         {
             Scope = scope;
             IntermediateCode = new IntermediateCode(scope);
@@ -65,8 +65,9 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             foreach (var method in methods)
             {
-                LabelLine label_function = IntermediateCode.GetMethodLabel(node.TypeClass.Text, method.Id.Text);
-                IntermediateCode.AddCodeLine(label_function);
+                //LabelLine label_function = IntermediateCode.GetMethodLabel(node.TypeClass.Text, method.Id.Text);
+                //IntermediateCode.AddCodeLine(label_function);
+                IntermediateCode.AddCodeLine(new LabelLine(node.TypeClass.Text, method.Id.Text));
                 method.Accept(this);
             }
 
@@ -93,18 +94,29 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetAttributeOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
-            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text));
-            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, IntermediateCode.GetSizeClass(node.TypeClass.Text), 4));
+            foreach (var method in methods)
+            {
+                (string, string) label = IntermediateCode.GetDefinition(node.TypeClass.Text, method.Id.Text);
+                IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), IntermediateCode.GetOffset(node.TypeClass.Text, method.Id.Text)));
+                //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+            }
+
+            IntermediateCode.AddCodeLine(new CommentLine("class name: " + node.TypeClass.Text));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
+            IntermediateCode.AddCodeLine(new CommentLine("class size: " + IntermediateCode.GetSizeClass(node.TypeClass.Text) + " words"));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, IntermediateCode.GetSizeClass(node.TypeClass.Text), 1));
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
 
-            VTableLine vt = IntermediateCode.GetVirtualTable(VariableManager.CurrentClass);
+            //VTableLine vt = IntermediateCode.GetVirtualTable(VariableManager.CurrentClass);
 
-            IntermediateCode.AddCodeLine(vt);
-            IntermediateCode.AddCodeLine(new HeadLine(VariableManager.CurrentClass, (3 + attributes.Count) * 4, vt));
+            //IntermediateCode.AddCodeLine(vt);
+            //IntermediateCode.AddCodeLine(new HeadLine(VariableManager.CurrentClass, (3 + attributes.Count) * 4, vt));
         }
 
         public void Visit(AttributeNode node)
@@ -165,7 +177,8 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
+                //int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
+                int offset = IntermediateCode.GetOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
         }
@@ -187,7 +200,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, IntermediateCode.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
         
@@ -283,7 +296,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
-            int offset = IntermediateCode.GetMethodOffset(cclass, method);
+            //int offset = IntermediateCode.GetMethodOffset(cclass, method);
+            int offset = IntermediateCode.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
@@ -297,7 +311,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
 
-            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
             IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
 
             foreach (var p in parameters)
@@ -453,7 +467,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(CaseNode node)
         {
-            //compare t0[0]
             throw new NotImplementedException();
         }
 

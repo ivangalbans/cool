@@ -92,6 +92,7 @@
     <Compile Include="CodeGeneration\IntermediateCode\IIntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AllocateLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CommentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\OperationLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AssignmentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CallLine.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\VariableManager.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\VirtualTable.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />
     <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolLexer.cs" />

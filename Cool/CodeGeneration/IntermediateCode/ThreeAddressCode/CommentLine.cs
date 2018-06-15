@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    public class PopParamLine : CodeLine
+    class CommentLine : CodeLine
     {
-        int Times;
-        public PopParamLine(int times)
+        string Comment { get; }
+        public CommentLine(string comment)
         {
-            Times = times;
+            Comment = comment;
         }
 
         public override string ToString()
         {
-            return $"PopParam {Times};" ;
+            return "// " + Comment;
         }
     }
 }

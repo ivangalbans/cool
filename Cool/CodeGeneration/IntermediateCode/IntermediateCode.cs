@@ -8,23 +8,19 @@ using Cool.Semantics;
 
 namespace Cool.CodeGeneration.IntermediateCode
 {
-    public class IntermediateCode : IIntermediateCode
+    public class IntermediateCode //: IIntermediateCode
     {
         IScope Scope;
-        //List<TypeLine> Type;
-        //List<StringDataLine> Strings;
-        //List<(String, String)> Strings;
         List<CodeLine> Code;
 
-        Dictionary<string, List<LabelLine>> VTables;
-        Dictionary<string, List<string>> ATables;
-
+        Dictionary<string, List<(string, string)>> VTables;
 
         public IntermediateCode(IScope scope)
         {
             Scope = scope;
-            VTables = new Dictionary<string, List<LabelLine>>();
-            ATables = new Dictionary<string, List<string>>();
+            VTables = new Dictionary<string, List<(string, string)>>();
+            //VTables = new Dictionary<string, List<LabelLine>>();
+            //ATables = new Dictionary<string, List<string>>();
             Code = new List<CodeLine>();
             //Strings = new List<(String,String)>();
 
@@ -45,114 +41,70 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         void Init(string cclass)
         {
-            VTables[cclass] = new List<LabelLine>();
-            ATables[cclass] = new List<string>();
+            VTables[cclass] = new List<(string, string)>();
+            //VTables[cclass] = new List<LabelLine>();
+            //ATables[cclass] = new List<string>();
         }
 
 
         public void DefineClass(string cclass)
         {
-            VTables[cclass] = new List<LabelLine>();
-            ATables[cclass] = new List<string>();
+            VTables[cclass] = new List<(string, string)>();
             
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
                 VTables[parent].ForEach(m => VTables[cclass].Add(m));
-                ATables[parent].ForEach(m => ATables[cclass].Add(m));
             }
         }
 
         public void DefineMethod(string cclass, string method)
         {
+            string label = cclass + "." + method;
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
-                int i = VTables[parent].FindIndex((x) => x.Tag == method);
+                int i = VTables[parent].FindIndex((x) => x.Item2 == method);
+                //keep with the same parent address for that method (use in override)
                 if (i != -1)
                 {
-                    VTables[cclass][i] = new LabelLine(cclass, method);
+                    VTables[cclass][i] = (cclass, method);
                     return;
                 }
             }
 
-            VTables[cclass].Add(new LabelLine(cclass, method));
-        }
-        public int GetMethodPosition(string cclass, string method)
-        {
-            return VTables[cclass].FindIndex((x) => x.Tag == method);
+            VTables[cclass].Add((cclass, method));
         }
 
-        public int GetMethodOffset(string cclass, string method)
+        public int GetOffset(string cclass, string item)
         {
-            int index = GetMethodPosition(cclass, method);
-            if (index != -1) return 4 * index;
-            else return -1;
+            return VTables[cclass].FindIndex((x) => x.Item2 == item);
         }
 
-        public LabelLine GetMethodLabel(string cclass, string method)
+        public (string, string) GetDefinition(string cclass, string item)
         {
-            return VTables[cclass].Find((x) => x.Tag == method);
+            return VTables[cclass].Find((x) => x.Item2 == item);
         }
 
-        public VTableLine GetVirtualTable(string cclass)
-        {
-            return new VTableLine(cclass, VTables[cclass]);
-        }
-        
         public void DefineAttribute(string cclass, string attr)
         {
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
-                int i = ATables[parent].FindIndex((x) => x == attr);
+                int i = VTables[parent].FindIndex((x) => x.Item2 == attr);
+                //keep with the same parent address
                 if (i != -1)
-                {
                     return;
-                }
             }
 
-            ATables[cclass].Add(attr);
+            VTables[cclass].Add((cclass, attr));
         }
-
-        public int GetAttributePosition(string cclass, string attr)
-        {
-            return ATables[cclass].FindIndex((x) => x == attr);
-        }
-
-        public int GetAttributeOffset(string cclass, string attr)
-        {
-            int index = GetAttributePosition(cclass, attr);
-            if (index != -1) return 4 * (index + 3);
-            else return -1;
-        }
-
-        public List<string> GetAttributeTable(string cclass)
-        {
-            return ATables[cclass];
-        }
-
+        
         public int GetSizeClass(string cclass)
         {
-            return (ATables[cclass].Count + 3) * 4;
+            return (VTables[cclass].Count + 3);
         }
-
-        /*
-        public string DefineStringData(string texto)
-        {
-            string label = "str" + Strings.Count.ToString(); 
-            Strings.Add(new StringDataLine(label, texto));
-            return label;
-        }
-        */
-
-        /*
-        public string GetString(string label)
-        {
-            return Strings.Find((x) => x.Label == label).Text;
-        }
-        */
-
+        
         public void AddCodeLine(CodeLine line)
         {
             Code.Add(line);
