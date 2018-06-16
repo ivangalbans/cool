@@ -10,7 +10,6 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public abstract class CodeLine
     {
-
         public abstract void Accept(ICodeVisitor visitor);
     }
 

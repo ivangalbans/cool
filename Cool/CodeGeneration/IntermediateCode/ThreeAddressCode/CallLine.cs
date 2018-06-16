@@ -7,7 +7,7 @@ using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    class CallLabelLine : CodeLine
+    public class CallLabelLine : CodeLine
     {
         LabelLine Method { get; }
         int Result { get; }
@@ -31,7 +31,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    class CallAddressLine : CodeLine
+    public class CallAddressLine : CodeLine
     {
         int Address { get; }
         int Result { get; }

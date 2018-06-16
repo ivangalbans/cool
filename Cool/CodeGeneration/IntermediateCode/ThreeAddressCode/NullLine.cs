@@ -7,7 +7,7 @@ using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
-    class NullLine : CodeLine
+    public class NullLine : CodeLine
     {
         int Variable { get; }
 

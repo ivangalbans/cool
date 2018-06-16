@@ -12,7 +12,6 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IScope Scope;
         List<CodeLine> Code;
-        Dictionary<string, List<(string, string)>> VTables;
 
         public IntermediateCode(IScope scope)
         {
