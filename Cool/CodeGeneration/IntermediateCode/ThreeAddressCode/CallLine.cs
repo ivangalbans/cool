@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
@@ -23,6 +24,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             else
                 return $"t{Result} = Call {Method.Label};";
         }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
     class CallAddressLine : CodeLine
@@ -41,6 +47,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
                 return $"Call t{Address};";
             else
                 return $"t{Result} = Call t{Address};";
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

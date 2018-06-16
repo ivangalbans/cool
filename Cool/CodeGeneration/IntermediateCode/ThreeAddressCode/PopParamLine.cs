@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
@@ -12,6 +13,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         public PopParamLine(int times)
         {
             Times = times;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()

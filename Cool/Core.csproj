@@ -96,7 +96,6 @@
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\OperationLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AssignmentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CallLine.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\HeadLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\JumpLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\NullLine.cs" />
@@ -105,9 +104,10 @@
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PushParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ReturnLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ThreeAddressCodeLine.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\VTableLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\VariableManager.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\VirtualTable.cs" />
+    <Compile Include="CodeGeneration\MIPSCode\ICodeVisitor.cs" />
+    <Compile Include="CodeGeneration\MIPSCode\IMIPSCodeGenerator.cs" />
     <Compile Include="Parsing\ASTBuilder.cs" />
     <Compile Include="Parsing\CoolBaseVisitor.cs" />
     <Compile Include="Parsing\CoolLexer.cs" />
@@ -133,8 +133,6 @@
     <None Include="packages.config" />
     <None Include="Parsing\Cool.g4" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CodeGeneration\MIPSCode\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

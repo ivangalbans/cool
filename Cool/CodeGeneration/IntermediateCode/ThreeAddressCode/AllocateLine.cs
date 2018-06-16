@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
@@ -15,6 +16,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         {
             Variable = variable;
             Size = size;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()

@@ -17,8 +17,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         void DefineClass(string cclass);
 
         void DefineMethod(string cclass, string method);
-
-        VTableLine GetVirtualTable(string cclass);
+        
 
         int GetMethodPosition(string cclass, string method);
 

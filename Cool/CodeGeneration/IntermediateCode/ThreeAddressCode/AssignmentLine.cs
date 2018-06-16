@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
@@ -23,6 +24,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Offset = offset;
         }
 
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return $"*(t{Left} + {Offset}) = t{Right}";
@@ -35,6 +41,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         {
             Left = left;
             Right = right;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()
@@ -51,6 +62,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Left = left;
             Right = right;
             Offset = offset;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()
@@ -70,6 +86,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Offset = offset;
         }
 
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return $"t{Left} = *(t{Right} + {Offset})"; ;
@@ -86,6 +107,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Right = right;
         }
 
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return $"t{Left} = {Right}";
@@ -99,6 +125,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         {
             Left = left;
             Right = right;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()
@@ -117,6 +148,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Offset = offset;
         }
 
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return $"*(t{Left} + {Offset}) = \"{Right}\"";
@@ -133,6 +169,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Offset = offset;
         }
 
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return $"*(t{Left} + {Offset}) = \"{Right}\"";
@@ -145,6 +186,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         {
             Left = left;
             Right = right;
+        }
+        
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()
@@ -161,6 +207,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             Left = left;
             Right = right;
             Offset = offset;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()
