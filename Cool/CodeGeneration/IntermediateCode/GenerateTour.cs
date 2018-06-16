@@ -30,19 +30,30 @@ namespace Cool.CodeGeneration.IntermediateCode
             sorted.AddRange(node.Classes);
             sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
 
-            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
-
-
+            InitCode();
 
             foreach (var c in sorted)
                 c.Accept(this);
 
             VariableManager.PushVariableCounter();
-            Start();
+            StartFunction();
             VariableManager.PopVariableCounter();
         }
 
-        void Start()
+        void InitCode()
+        {
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
+
+            //IntermediateCode.AddCodeLine(new LabelLine("Object", ));
+
+            //IntermediateCode.AddCodeLine(new LabelLine());
+            //IntermediateCode.AddCodeLine(new LabelLine());
+            //IntermediateCode.AddCodeLine(new LabelLine());
+            //IntermediateCode.AddCodeLine(new LabelLine());
+
+        }
+
+        void StartFunction()
         {
             IntermediateCode.AddCodeLine(new LabelLine("start"));
             New("Main");
@@ -240,7 +251,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             //int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             //int offset = IntermediateCode.GetMethodOffset(cclass, method);
-            int offset = VirtualTable.GetOffset(cclass, method);
+            int offset = 3 + VirtualTable.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
