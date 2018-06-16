@@ -12,24 +12,26 @@ namespace Cool.CodeGeneration.IntermediateCode
         IScope Scope;
         Dictionary<string, List<(string, string)>> VTables;
 
+        public static List<string> Object = new List<string> { "abort", "type_name", "copy" };
+        public static List<string> IO = new List<string> { "out_string", "out_int", "in_string", "in_int" };
+        public static List<string> String = new List<string> { "length", "concat", "substr" };
+
         public VirtualTable(IScope scope)
         {
             Scope = scope;
             VTables = new Dictionary<string, List<(string, string)>>();
 
             DefineClass("Object");
-            DefineMethod("Object", "abort");
-            DefineMethod("Object", "type_name");
-            DefineMethod("Object", "copy");
+            foreach (var f in Object)
+                DefineMethod("Object", f);
+            
             DefineClass("IO");
-            DefineMethod("IO", "out_string");
-            DefineMethod("IO", "out_int");
-            DefineMethod("IO", "in_string");
-            DefineMethod("IO", "in_int");
+            foreach (var f in IO)
+                DefineMethod("IO", f);
+
             DefineClass("String");
-            DefineMethod("String", "length");
-            DefineMethod("String", "concat");
-            DefineMethod("String", "substr");
+            foreach (var f in String)
+                DefineMethod("String", f);
         }
 
         public void DefineClass(string cclass)
@@ -87,7 +89,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public int GetSizeClass(string cclass)
         {
-            return (VTables[cclass].Count + 3);
+            return (VTables[cclass].Count + 2);
         }
 
     }

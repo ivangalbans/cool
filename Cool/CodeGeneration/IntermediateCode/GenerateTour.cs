@@ -20,7 +20,16 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager = new VariableManager();
             VirtualTable = new VirtualTable(scope);
 
+            VariableManager.PushVariableCounter();
+            InitCode();
+            VariableManager.PopVariableCounter();
+
             node.Accept(this);
+
+            VariableManager.PushVariableCounter();
+            StartFunctionCode();
+            VariableManager.PopVariableCounter();
+
             return IntermediateCode;
         }
 
@@ -30,30 +39,40 @@ namespace Cool.CodeGeneration.IntermediateCode
             sorted.AddRange(node.Classes);
             sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
 
-            InitCode();
-
             foreach (var c in sorted)
                 c.Accept(this);
-
-            VariableManager.PushVariableCounter();
-            StartFunction();
-            VariableManager.PopVariableCounter();
         }
 
         void InitCode()
         {
+            int self = VariableManager.PeekVariableCounter();
+            (string, string) label;
+            List<string> obj = new List<string> { "abort", "type_name", "copy" };
+
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
 
-            //IntermediateCode.AddCodeLine(new LabelLine("Object", ));
+            IntermediateCode.AddCodeLine(new LabelLine("Object", "constructor"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            foreach (var f in VirtualTable.Object)
+            {
+                label = VirtualTable.GetDefinition("Object", f);
+                IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset("Object", f)));
+            }
+            IntermediateCode.AddCodeLine(new ReturnLine());
 
-            //IntermediateCode.AddCodeLine(new LabelLine());
-            //IntermediateCode.AddCodeLine(new LabelLine());
-            //IntermediateCode.AddCodeLine(new LabelLine());
-            //IntermediateCode.AddCodeLine(new LabelLine());
-
+            IntermediateCode.AddCodeLine(new LabelLine("IO", "constructor"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            foreach (var f in VirtualTable.IO)
+            {
+                label = VirtualTable.GetDefinition("IO", f);
+                IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset("IO", f)));
+            }
+            IntermediateCode.AddCodeLine(new ReturnLine());
         }
 
-        void StartFunction()
+        void StartFunctionCode()
         {
             IntermediateCode.AddCodeLine(new LabelLine("start"));
             New("Main");
@@ -127,9 +146,9 @@ namespace Cool.CodeGeneration.IntermediateCode
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
-            IntermediateCode.AddCodeLine(new CommentLine("class name: " + node.TypeClass.Text));
+            IntermediateCode.AddCodeLine(new CommentLine("set class name: " + node.TypeClass.Text));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
-            IntermediateCode.AddCodeLine(new CommentLine("class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
+            IntermediateCode.AddCodeLine(new CommentLine("set class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
             IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
@@ -195,7 +214,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                //int offset = IntermediateCode.GetAttributeOffset(VariableManager.CurrentClass, node.ID.Text);
                 int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
@@ -214,10 +232,12 @@ namespace Cool.CodeGeneration.IntermediateCode
             int t = VariableManager.GetVariable(node.Text);
             if (t != -1)
             {
+                IntermediateCode.AddCodeLine(new CommentLine("get veriable: " + node.Text));
                 IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
             else
             {
+                IntermediateCode.AddCodeLine(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
                 IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
@@ -238,7 +258,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(DispatchImplicitNode node)
         {
             string cclass = VariableManager.CurrentClass;
-
             IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), 0));
             DispatchVisit(node, cclass);
         }
@@ -251,7 +270,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             //int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             //int offset = IntermediateCode.GetMethodOffset(cclass, method);
-            int offset = 3 + VirtualTable.GetOffset(cclass, method);
+            int offset = 2 + VirtualTable.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
@@ -266,6 +285,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PopVariableCounter();
 
             //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
+            IntermediateCode.AddCodeLine(new CommentLine("get method: " + cclass + "." + method));
             IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
             //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
 

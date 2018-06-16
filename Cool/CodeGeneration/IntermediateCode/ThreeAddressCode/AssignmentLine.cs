@@ -216,7 +216,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return $"*(t{Left} + {Offset}) = \"{Right.Label}\"";
+            return $"*(t{Left} + {Offset}) = Label \"{Right.Label}\"";
         }
     }
 }

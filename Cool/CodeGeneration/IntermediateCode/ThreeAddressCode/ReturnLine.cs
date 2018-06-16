@@ -11,7 +11,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
     {
         int VariableCounter { get; }
 
-        public ReturnLine(int variable_counter)
+        public ReturnLine(int variable_counter = -1)
         {
             VariableCounter = variable_counter;
         }
