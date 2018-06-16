@@ -26,16 +26,20 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ProgramNode node)
         {
-            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
-
             List<ClassNode> sorted = new List<ClassNode>();
             sorted.AddRange(node.Classes);
             sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
 
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("start")));
+
+
+
             foreach (var c in sorted)
                 c.Accept(this);
 
+            VariableManager.PushVariableCounter();
             Start();
+            VariableManager.PopVariableCounter();
         }
 
         void Start()
@@ -51,19 +55,28 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             VariableManager.CurrentClass = node.TypeClass.Text;
             VirtualTable.DefineClass(VariableManager.CurrentClass);
+            int self = VariableManager.VariableCounter = 0;
+            VariableManager.IncrementVariableCounter();
+            VariableManager.PushVariableCounter();
 
             List<AttributeNode> attributes = new List<AttributeNode>();
             List<MethodNode> methods = new List<MethodNode>();
 
             foreach (var f in node.FeatureNodes)
                 if (f is AttributeNode)
+                {
                     attributes.Add((AttributeNode)f);
+                }
                 else
                 {
                     methods.Add((MethodNode)f);
                     VirtualTable.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
                 }
 
+            foreach (var attr in attributes)
+            {
+                VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
+            }
 
             foreach (var method in methods)
             {
@@ -74,10 +87,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             //begin constructor function
 
-            int self = VariableManager.VariableCounter = 0;
             IntermediateCode.AddCodeLine(new LabelLine(VariableManager.CurrentClass, "constructor"));
             IntermediateCode.AddCodeLine(new ParamLine(self));
-            VariableManager.IncrementVariableCounter();
 
             //calling first the parent constructor method
             if (VariableManager.CurrentClass != "Object")
@@ -90,12 +101,11 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             foreach (var attr in attributes)
             {
-                VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
                 IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
             foreach (var method in methods)
@@ -112,6 +122,8 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
+
+            VariableManager.PopVariableCounter();
         }
 
         public void Visit(AttributeNode node)
@@ -195,7 +207,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
         
@@ -209,7 +221,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             string cclass = node.IdType.Text;
             node.Expression.Accept(this);
-
             DispatchVisit(node, cclass);
         }
 
@@ -217,6 +228,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             string cclass = VariableManager.CurrentClass;
 
+            IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), 0));
             DispatchVisit(node, cclass);
         }
 
@@ -225,7 +237,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             string method = node.IdMethod.Text;
             VariableManager.PushVariableCounter();
 
-            int t = VariableManager.IncrementVariableCounter();
+            //int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             //int offset = IntermediateCode.GetMethodOffset(cclass, method);
             int offset = VirtualTable.GetOffset(cclass, method);
@@ -243,15 +255,19 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PopVariableCounter();
 
             //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
-            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
+            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
+            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
 
+            parameters.Reverse();
             foreach (var p in parameters)
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(p));
             }
 
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+
             IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
-            IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count));
+            IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count+1));
         }
 
         public void Visit(EqualNode node)
