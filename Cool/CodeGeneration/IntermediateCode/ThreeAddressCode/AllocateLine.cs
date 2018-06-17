@@ -9,8 +9,8 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class AllocateLine : CodeLine
     {
-        int Variable { get; }
-        int Size { get; }
+        public int Variable { get; }
+        public int Size { get; }
 
         public AllocateLine(int variable, int size)
         {

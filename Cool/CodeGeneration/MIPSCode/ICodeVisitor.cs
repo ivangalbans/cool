@@ -24,9 +24,7 @@ namespace Cool.CodeGeneration.MIPSCode
         void Visit(AssignmentStringToVariableLine line);
 
         void Visit(AssignmentStringToMemoryLine line);
-
-        void Visit(AssignmentVirtualTableToMemoryLine line);
-
+        
         void Visit(AssignmentLabelToVariableLine line);
 
         void Visit(AssignmentLabelToMemoryLine line);

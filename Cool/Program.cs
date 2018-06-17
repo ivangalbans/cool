@@ -10,6 +10,7 @@ using Cool.AST;
 using Cool.Parsing;
 using Cool.Semantics;
 using Cool.CodeGeneration.IntermediateCode;
+using Cool.CodeGeneration.MIPSCode;
 
 namespace Cool
 {
@@ -147,6 +148,10 @@ namespace Cool
             Console.WriteLine(g.Count);
             foreach(var y in g)
                 Console.WriteLine(y);
+
+            Console.WriteLine();
+            string code = (new StackMIPSGenerator()).GenerateCode(g);
+            Console.WriteLine(code);
         }
 
     }

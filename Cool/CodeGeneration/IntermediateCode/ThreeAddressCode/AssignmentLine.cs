@@ -159,26 +159,6 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         }
     }
 
-    public class AssignmentVirtualTableToMemoryLine : AssignmentLine<string>
-    {
-        public int Offset { get; }
-        public AssignmentVirtualTableToMemoryLine(int left, string right, int offset = 0)
-        {
-            Left = left;
-            Right = right;
-            Offset = offset;
-        }
-
-        public override void Accept(ICodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override string ToString()
-        {
-            return $"*(t{Left} + {Offset}) = \"{Right}\"";
-        }
-    }
 
     public class AssignmentLabelToVariableLine : AssignmentLine<LabelLine>
     {

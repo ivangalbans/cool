@@ -1,0 +1,2 @@
+﻿	.data
+buffer .word 65536

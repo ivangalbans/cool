@@ -9,7 +9,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class ParamLine : CodeLine
     {
-        int VariableCounter;
+        public int VariableCounter;
         public ParamLine(int variable_counter)
         {
             VariableCounter = variable_counter;
