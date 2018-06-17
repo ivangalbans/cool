@@ -97,7 +97,6 @@
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CallLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\JumpLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\LabelLine.cs" />
-    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\NullLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\ParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PopParamLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\PushParamLine.cs" />

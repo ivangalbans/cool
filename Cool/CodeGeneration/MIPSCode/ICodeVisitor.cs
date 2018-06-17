@@ -41,7 +41,7 @@ namespace Cool.CodeGeneration.MIPSCode
 
         void Visit(LabelLine line);
 
-        void Visit(NullLine line);
+        void Visit(AssignmentNullToVariableLine line);
 
         void Visit(BinaryOperationLine line);
 

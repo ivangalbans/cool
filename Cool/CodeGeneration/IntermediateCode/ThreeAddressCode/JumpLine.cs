@@ -9,7 +9,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class GotoJumpLine : CodeLine
     {
-        LabelLine Label;
+        public LabelLine Label;
 
         public GotoJumpLine(LabelLine label)
         {
@@ -30,8 +30,8 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
     public class ConditionalJumpLine : CodeLine
     {
-        LabelLine Label;
-        int ConditionalVar;
+        public LabelLine Label;
+        public int ConditionalVar;
         public ConditionalJumpLine(int conditional_var, LabelLine label)
         {
             Label = label;

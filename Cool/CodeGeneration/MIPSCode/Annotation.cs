@@ -12,15 +12,19 @@ namespace Cool.CodeGeneration.MIPSCode
         public Dictionary<string, int> FunctionVarsSize;
         public Dictionary<string, (int, int)> FunctionLimits;
         public Dictionary<string, int> FunctionParamsCount;
+        public Dictionary<string, int> StringsCounter;
 
         int current_line;
-        string current_funtion;
+        string current_function;
+        int string_counter;
 
         public Annotation(List<CodeLine> lines)
         {
             FunctionVarsSize = new Dictionary<string, int>();
             FunctionLimits = new Dictionary<string, (int, int)>();
             FunctionParamsCount = new Dictionary<string, int>();
+            StringsCounter = new Dictionary<string, int>();
+            string_counter = 0;
 
             for (current_line = 0; current_line < lines.Count; ++current_line)
             {
@@ -30,124 +34,144 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(LabelLine line)
         {
-            if (!char.IsNumber(line.Tag[0]))
+            if (line.Head[0] != '_')
             {
-                current_funtion = line.Label;
-                FunctionVarsSize[current_funtion] = 0;
-                FunctionLimits[current_funtion] = (current_line, -1);
-                FunctionParamsCount[current_funtion] = 0;
+                current_function = line.Label;
+                FunctionVarsSize[current_function] = 0;
+                FunctionLimits[current_function] = (current_line, -1);
+                FunctionParamsCount[current_function] = 0;
             }
         }
 
         public void Visit(AllocateLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Variable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Variable);
         }
 
         public void Visit(AssignmentVariableToVariableLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
         }
 
         public void Visit(AssignmentMemoryToVariableLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
         }
 
         public void Visit(AssignmentConstantToVariableLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
         }
 
         public void Visit(AssignmentStringToVariableLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            if (!StringsCounter.ContainsKey(line.Right))
+            {
+                StringsCounter[line.Right] = string_counter++;
+            }
+
         }
 
         public void Visit(AssignmentLabelToVariableLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
         }
 
         public void Visit(BinaryOperationLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.AssignVariable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable);
         }
 
         public void Visit(UnaryOperationLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.AssignVariable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable);
         }
 
         public void Visit(ParamLine line)
         {
-            FunctionVarsSize[current_funtion] = Math.Max(FunctionVarsSize[current_funtion], line.VariableCounter);
-            ++FunctionParamsCount[current_funtion];
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.VariableCounter);
+            ++FunctionParamsCount[current_function];
         }
 
         public void Visit(ReturnLine line)
         {
-            FunctionLimits[current_funtion] = (FunctionLimits[current_funtion].Item1, current_line);
+            FunctionLimits[current_function] = (FunctionLimits[current_function].Item1, current_line);
+        }
+
+        public void Visit(AssignmentStringToMemoryLine line)
+        {
+            if (!StringsCounter.ContainsKey(line.Right))
+            {
+                StringsCounter[line.Right] = string_counter++;
+            }
         }
 
         public void Visit(AssignmentVariableToMemoryLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(AssignmentConstantToMemoryLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
-        public void Visit(AssignmentStringToMemoryLine line)
-        {
-            throw new NotImplementedException();
-        }
         
         public void Visit(AssignmentLabelToMemoryLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(CallLabelLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(CallAddressLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(CommentLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(GotoJumpLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(ConditionalJumpLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
 
-        public void Visit(NullLine line)
+        public void Visit(AssignmentNullToVariableLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(PopParamLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 
         public void Visit(PushParamLine line)
         {
+            return;
             throw new NotImplementedException();
         }
 

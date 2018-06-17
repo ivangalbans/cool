@@ -9,8 +9,8 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class CallLabelLine : CodeLine
     {
-        LabelLine Method { get; }
-        int Result { get; }
+        public LabelLine Method { get; }
+        public int Result { get; }
         public CallLabelLine(LabelLine method, int result_variable = -1)
         {
             Method = method;
@@ -33,8 +33,8 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
     public class CallAddressLine : CodeLine
     {
-        int Address { get; }
-        int Result { get; }
+        public int Address { get; }
+        public int Result { get; }
         public CallAddressLine(int address, int result_variable = -1)
         {
             Address = address;

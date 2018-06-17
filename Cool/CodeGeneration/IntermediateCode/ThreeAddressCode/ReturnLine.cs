@@ -9,11 +9,11 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class ReturnLine : CodeLine
     {
-        int VariableCounter { get; }
+        public int Variable { get; }
 
-        public ReturnLine(int variable_counter = -1)
+        public ReturnLine(int variable = -1)
         {
-            VariableCounter = variable_counter;
+            Variable = variable;
         }
 
         public override void Accept(ICodeVisitor visitor)
@@ -23,7 +23,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return "return " + (VariableCounter == -1 ? "" : "t" + VariableCounter.ToString()) + ";\n";
+            return "return " + (Variable == -1 ? "" : "t" + Variable) + ";\n";
         }
     }
 }

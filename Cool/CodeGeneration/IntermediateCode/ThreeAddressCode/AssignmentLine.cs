@@ -199,4 +199,25 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             return $"*(t{Left} + {Offset}) = Label \"{Right.Label}\"";
         }
     }
+
+    public class AssignmentNullToVariableLine : CodeLine
+    {
+        public int Variable { get; }
+
+        public AssignmentNullToVariableLine(int variable)
+        {
+            Variable = variable;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+
+        public override string ToString()
+        {
+            return $"t{Variable} = NULL;";
+        }
+    }
 }

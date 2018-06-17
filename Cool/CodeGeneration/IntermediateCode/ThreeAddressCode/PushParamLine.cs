@@ -9,10 +9,10 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 {
     public class PushParamLine : CodeLine
     {
-        int VariableCounter;
-        public PushParamLine(int variable_counter)
+        public int Variable;
+        public PushParamLine(int variable)
         {
-            VariableCounter = variable_counter;
+            Variable = variable;
         }
 
         public override void Accept(ICodeVisitor visitor)
@@ -22,7 +22,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return "PushParam t" + VariableCounter + ";";
+            return "PushParam t" + Variable + ";";
         }
     }
 }

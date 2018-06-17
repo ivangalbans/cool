@@ -403,15 +403,15 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             node.Condition.Accept(this);
 
-            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("else", tag)));
+            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_else", tag)));
 
             node.Body.Accept(this);
-            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("endif", tag)));
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endif", tag)));
 
-            IntermediateCode.AddCodeLine(new LabelLine("else", tag));
+            IntermediateCode.AddCodeLine(new LabelLine("_else", tag));
             node.ElseBody.Accept(this);
 
-            IntermediateCode.AddCodeLine(new LabelLine("endif", tag));
+            IntermediateCode.AddCodeLine(new LabelLine("_endif", tag));
 
         }
 
@@ -420,17 +420,17 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             string tag = IntermediateCode.CountLines().ToString();
 
-            IntermediateCode.AddCodeLine(new LabelLine("whilecondition", tag));
+            IntermediateCode.AddCodeLine(new LabelLine("_whilecondition", tag));
 
             node.Condition.Accept(this);
 
-            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("endwhile", tag)));
+            IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_endwhile", tag)));
 
             node.Body.Accept(this);
 
-            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("whilecondition", tag)));
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_whilecondition", tag)));
 
-            IntermediateCode.AddCodeLine(new LabelLine("endwhile", tag));
+            IntermediateCode.AddCodeLine(new LabelLine("_endwhile", tag));
         }
 
         public void Visit(CaseNode node)
@@ -440,7 +440,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(VoidNode node)
         {
-            IntermediateCode.AddCodeLine(new NullLine(VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new AssignmentNullToVariableLine(VariableManager.PeekVariableCounter()));
         }
 
         public void Visit(SelfNode node)
