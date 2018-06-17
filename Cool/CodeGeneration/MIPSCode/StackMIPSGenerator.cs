@@ -24,6 +24,14 @@ namespace Cool.CodeGeneration.MIPSCode
             param_count = 0;
             annotation = new Annotation(lines);
 
+            foreach (var str in annotation.StringsCounter)
+            {
+                if (str.Key[0] == '\"')
+                    Data.Add($"str{str.Value}: .asciiz \"{str.Key.Substring(1, str.Key.Length - 2)}\"");
+                else
+                    Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");
+            }
+
             for (int i = 0; i < lines.Count; ++i)
             {
                 lines[i].Accept(this);
@@ -33,9 +41,15 @@ namespace Cool.CodeGeneration.MIPSCode
 
             //System.IO.File.ReadAllText("Code.txt");
 
+            gen += ".data\n";
+            gen += "buffer: .space 65536\n";
             foreach (string s in Data)
                 gen += s + "\n";
-            
+
+            gen += "\n.globl main\n";
+            gen += ".text\n";
+            gen += "\nmain:\n";
+
             foreach (string s in Code)
                 gen += s + "\n";
 
@@ -169,23 +183,23 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(CallLabelLine line)
         {
-            Code.Add($"sw $ra, {-size}($sp)");
+            Code.Add($"sw $ra, {-size*4}($sp)");
             Code.Add($"addi $sp, $sp, {-(size + 1)*4}");
             Code.Add($"jal {line.Method.Label}");
             Code.Add($"addi $sp, $sp, {(size + 1) * 4}");
-            Code.Add($"lw $ra, {-size}($sp)");
+            Code.Add($"lw $ra, {-size*4}($sp)");
             if(line.Result != -1)
                 Code.Add($"sw $v0, {-line.Result*4}($sp)");
         }
 
         public void Visit(CallAddressLine line)
         {
-            Code.Add($"sw $ra, {-size}($sp)");
+            Code.Add($"sw $ra, {-size * 4}($sp)");
             Code.Add($"addi $sp, $sp, {-(size + 1) * 4}");
             Code.Add($"lw $a0, {-line.Address * 4}($sp)");
             Code.Add($"jalr $ra, $a0");
             Code.Add($"addi $sp, $sp, {(size + 1) * 4}");
-            Code.Add($"lw $ra, {-size}($sp)");
+            Code.Add($"lw $ra, {-size * 4}($sp)");
             if (line.Result != -1)
                 Code.Add($"sw $v0, {-line.Result * 4}($sp)");
         }

@@ -79,6 +79,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Main", "main")));
             IntermediateCode.AddCodeLine(new PopParamLine(1));
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Main", "abort")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
         }
 
         public void Visit(ClassNode node)

@@ -150,8 +150,13 @@ namespace Cool
                 Console.WriteLine(y);
 
             Console.WriteLine();
+            Console.WriteLine("CODE");
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine();
             string code = (new StackMIPSGenerator()).GenerateCode(g);
             Console.WriteLine(code);
+
+            File.WriteAllText(@"C:\Users\Yagami\Desktop\mips\2.asm", code);
         }
 
     }
