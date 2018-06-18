@@ -223,7 +223,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
+                int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text) + 2;
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
         }
@@ -247,7 +247,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             else
             {
                 IntermediateCode.AddCodeLine(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, 2 + VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
         
