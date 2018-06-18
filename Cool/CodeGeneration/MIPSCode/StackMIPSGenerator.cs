@@ -29,7 +29,7 @@ namespace Cool.CodeGeneration.MIPSCode
 
             foreach (var str in annotation.StringsCounter)
             {
-                if (str.Key[0] == '\"')
+                if (str.Key.Length > 0 && str.Key[0] == '\"')
                     Data.Add($"str{str.Value}: .asciiz \"{str.Key.Substring(1, str.Key.Length - 2)}\"");
                 else
                     Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");

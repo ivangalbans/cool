@@ -137,14 +137,6 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new PopParamLine(1));
             }
 
-            foreach (var attr in attributes)
-            {
-                VariableManager.PushVariableCounter();
-                attr.Accept(this);
-                VariableManager.PopVariableCounter();
-                IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), 2 + VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
-            }
 
             foreach (var method in methods)
             {
@@ -153,6 +145,17 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
+
+
+            foreach (var attr in attributes)
+            {
+                VariableManager.PushVariableCounter();
+                attr.Accept(this);
+                VariableManager.PopVariableCounter();
+                IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), 2 + VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+            }
+            
 
             IntermediateCode.AddCodeLine(new CommentLine("set class name: " + node.TypeClass.Text));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
