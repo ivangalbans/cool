@@ -24,6 +24,9 @@ namespace Cool.CodeGeneration.MIPSCode
             param_count = 0;
             annotation = new Annotation(lines);
 
+            foreach(var x in annotation.FunctionParamsCount)
+                Console.WriteLine($"{x.Key} {x.Value}");
+
             foreach (var str in annotation.StringsCounter)
             {
                 if (str.Key[0] == '\"')
@@ -34,8 +37,19 @@ namespace Cool.CodeGeneration.MIPSCode
 
             for (int i = 0; i < lines.Count; ++i)
             {
+                Code.Add($"# {lines[i]}");
                 lines[i].Accept(this);
             }
+
+            List<string> t = new List<string>();
+            foreach (var s in Code)
+            {
+                t.Add(s);
+                //t.Add("nop");
+                //t.Add("nop");
+            }
+
+            Code = t;
 
             string gen = "";
 
@@ -47,7 +61,27 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n.globl main\n";
             gen += ".text\n";
 
+            gen += "Object.abort:\n";
+            gen += "Object.type_name:\n";
+            gen += "Object.copy:\n";
 
+            gen += "IO.out_string:\n";
+            gen += "IO.out_int:\n";
+            gen += "IO.in_string:\n";
+            gen += "IO.in_int:\n";
+
+            gen += "String.length:\n";
+            gen += "String.concat:\n";
+            gen += "String.substr:\n";
+            gen += "String.abort:\n";
+            gen += "String.type_name:\n";
+            gen += "String.copy:\n";
+
+            gen += "li $v0, 4\n";
+            gen += "la $a0, str0\n";
+            gen += "syscall\n";
+            gen += "jr $ra\n";
+            
             gen += "\nmain:\n";
 
             foreach (string s in Code)
@@ -111,7 +145,7 @@ namespace Cool.CodeGeneration.MIPSCode
         {
             Code.Add($"lw $a0, {-line.Right * 4}($sp)");
             Code.Add($"lw $a1, {line.Offset * 4}($a0)");
-            Code.Add($"sw $a1, {line.Left * 4}($sp)");
+            Code.Add($"sw $a1, {-line.Left * 4}($sp)");
         }
 
         public void Visit(AssignmentConstantToVariableLine line)
@@ -183,9 +217,10 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(CallLabelLine line)
         {
             Code.Add($"sw $ra, {-size*4}($sp)");
-            Code.Add($"addi $sp, $sp, {-(size + 1)*4}");
+            Code.Add($"addiu $sp, $sp, {-(size + 1)*4}");
             Code.Add($"jal {line.Method.Label}");
-            Code.Add($"addi $sp, $sp, {(size + 1) * 4}");
+            //Code.Add($"nop");
+            Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
             Code.Add($"lw $ra, {-size*4}($sp)");
             if(line.Result != -1)
                 Code.Add($"sw $v0, {-line.Result*4}($sp)");
@@ -194,10 +229,11 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(CallAddressLine line)
         {
             Code.Add($"sw $ra, {-size * 4}($sp)");
-            Code.Add($"addi $sp, $sp, {-(size + 1) * 4}");
             Code.Add($"lw $a0, {-line.Address * 4}($sp)");
+            Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
             Code.Add($"jalr $ra, $a0");
-            Code.Add($"addi $sp, $sp, {(size + 1) * 4}");
+            //Code.Add($"nop");
+            Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
             Code.Add($"lw $ra, {-size * 4}($sp)");
             if (line.Result != -1)
                 Code.Add($"sw $v0, {-line.Result * 4}($sp)");

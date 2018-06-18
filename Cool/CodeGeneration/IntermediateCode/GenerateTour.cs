@@ -79,9 +79,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Main", "main")));
             IntermediateCode.AddCodeLine(new PopParamLine(1));
-            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
-            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Main", "abort")));
-            IntermediateCode.AddCodeLine(new PopParamLine(1));
+            //IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            //IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object", "abort")));
+            //IntermediateCode.AddCodeLine(new PopParamLine(1));
         }
 
         public void Visit(ClassNode node)
@@ -268,6 +268,26 @@ namespace Cool.CodeGeneration.IntermediateCode
         void DispatchVisit(DispatchNode node, string cclass)
         {
             string method = node.IdMethod.Text;
+
+            if (method == "abort" && (cclass == "Int" || cclass == "String" || cclass == "Bool"))
+            {
+                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object","abort")));
+                return;
+            }
+
+            if (method == "type_name")
+            {
+                if (cclass == "Int" || cclass == "Bool" || cclass == "String")
+                    IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
+                return;
+            }
+
+            //important for define
+            if (method == "copy")
+            {
+
+            }
+
             VariableManager.PushVariableCounter();
 
             //int t = VariableManager.IncrementVariableCounter();

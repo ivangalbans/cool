@@ -1,7 +1,13 @@
-class Main {-- inherits IO {
-  --s : String <- "this is a";
+class Main inherits IO {
+  a : Int <- 2;
+  s : String <- "this is a";
   main() : Int { {
-    4;
+    --a <- a * a;
+    --out_int(29)
+    a.copy();
+    a.abort();
+    s.abort();
+    17;
     --s <- in_string();
     --s.concat(" string\n");
     --s.length();

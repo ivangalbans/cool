@@ -45,27 +45,27 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(AllocateLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Variable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Variable + 1);
         }
 
         public void Visit(AssignmentVariableToVariableLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left + 1);
         }
 
         public void Visit(AssignmentMemoryToVariableLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left + 1);
         }
 
         public void Visit(AssignmentConstantToVariableLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left + 1);
         }
 
         public void Visit(AssignmentStringToVariableLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left + 1);
             if (!StringsCounter.ContainsKey(line.Right))
             {
                 StringsCounter[line.Right] = string_counter++;
@@ -75,22 +75,22 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(AssignmentLabelToVariableLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.Left + 1);
         }
 
         public void Visit(BinaryOperationLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable + 1);
         }
 
         public void Visit(UnaryOperationLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.AssignVariable + 1);
         }
 
         public void Visit(ParamLine line)
         {
-            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.VariableCounter);
+            FunctionVarsSize[current_function] = Math.Max(FunctionVarsSize[current_function], line.VariableCounter + 1);
             ++FunctionParamsCount[current_function];
         }
 
