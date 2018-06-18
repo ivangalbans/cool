@@ -45,8 +45,6 @@ namespace Cool.CodeGeneration.MIPSCode
             foreach (var s in Code)
             {
                 t.Add(s);
-                //t.Add("nop");
-                //t.Add("nop");
             }
 
             Code = t;
@@ -62,6 +60,9 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += ".text\n";
 
             gen += "Object.abort:\n";
+            gen += "li $v0, 10\n";
+            gen += "syscall\n";
+
             gen += "Object.type_name:\n";
             gen += "Object.copy:\n";
 
@@ -73,8 +74,6 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "String.length:\n";
             gen += "String.concat:\n";
             gen += "String.substr:\n";
-            gen += "String.abort:\n";
-            gen += "String.type_name:\n";
             gen += "String.copy:\n";
 
             gen += "li $v0, 4\n";

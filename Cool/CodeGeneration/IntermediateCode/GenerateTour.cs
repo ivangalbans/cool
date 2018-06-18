@@ -62,7 +62,12 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new ReturnLine());
 
             IntermediateCode.AddCodeLine(new LabelLine("IO", "constructor"));
+
             IntermediateCode.AddCodeLine(new ParamLine(self));
+            IntermediateCode.AddCodeLine(new PushParamLine(self));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
+
             foreach (var f in VirtualTable.IO)
             {
                 label = VirtualTable.GetDefinition("IO", f);

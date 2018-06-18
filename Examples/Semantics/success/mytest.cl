@@ -1,13 +1,14 @@
 class Main inherits IO {
   a : Int <- 2;
+  c : Bool <- true;
   s : String <- "this is a";
   main() : Int { {
+    --out_int(29);
+    abort();
+    4;
     --a <- a * a;
     --out_int(29)
-    a.copy();
-    a.abort();
-    s.abort();
-    17;
+    --a.type_name();
     --s <- in_string();
     --s.concat(" string\n");
     --s.length();
