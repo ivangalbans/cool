@@ -281,7 +281,7 @@ namespace Cool.CodeGeneration.MIPSCode
                     Code.Add($"mflo $a0");
                     break;
                 case "<":
-                    Code.Add($"sgt $a0, $a0, $a1");
+                    Code.Add($"sge $a0, $a0, $a1");
                     Code.Add($"li $a1, 1");
                     Code.Add($"sub $a0, $a1, $a0");
                     break;
