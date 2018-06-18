@@ -1,7 +1,8 @@
-class Main inherits IO {
-  s : String <- "this is a";
-  main() : String { {
-    s <- in_string();
+class Main {-- inherits IO {
+  --s : String <- "this is a";
+  main() : Int { {
+    4;
+    --s <- in_string();
     --s.concat(" string\n");
     --s.length();
     --out_int(4);

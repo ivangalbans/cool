@@ -39,8 +39,6 @@ namespace Cool.CodeGeneration.MIPSCode
 
             string gen = "";
 
-            //System.IO.File.ReadAllText("Code.txt");
-
             gen += ".data\n";
             gen += "buffer: .space 65536\n";
             foreach (string s in Data)
@@ -48,12 +46,12 @@ namespace Cool.CodeGeneration.MIPSCode
 
             gen += "\n.globl main\n";
             gen += ".text\n";
+
+
             gen += "\nmain:\n";
 
             foreach (string s in Code)
                 gen += s + "\n";
-
-
 
             return gen;
         }
@@ -74,7 +72,8 @@ namespace Cool.CodeGeneration.MIPSCode
             Code.Add($"# Begin Allocate");
             Code.Add($"li $v0, 9");
             Code.Add($"li $a0, {4*line.Size}");
-            Code.Add($"sw $v0, {4*line.Variable}($sp)");
+            Code.Add($"syscall");
+            Code.Add($"sw $v0, {-4*line.Variable}($sp)");
             Code.Add($"# End Allocate");
         }
 
