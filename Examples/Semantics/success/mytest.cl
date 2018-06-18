@@ -1,10 +1,13 @@
 class Main inherits IO {
-  a : String;
+  --a : String;
   main():Object {{
-    out_string(a);
-    a <- "HELLO\n";
-    out_string(a);
-    a <- in_string();
-    out_string(a);
+    out_int("hola".length());
+    --out_string(a);
+    --out_int(a.length());
+    --a <- "HELLO\n";
+    --out_int(a.length());
+    --out_string(a);
+    --a <- in_string();
+    --out_string(a);
   }};
 };

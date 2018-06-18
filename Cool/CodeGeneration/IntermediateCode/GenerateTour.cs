@@ -297,6 +297,14 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             }
 
+            if (cclass == "String")
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new PopParamLine(1));
+                return;
+            }
+
             VariableManager.PushVariableCounter();
 
             //int t = VariableManager.IncrementVariableCounter();
