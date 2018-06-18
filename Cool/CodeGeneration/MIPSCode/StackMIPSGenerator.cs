@@ -67,7 +67,10 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "Object.copy:\n";
 
             gen += "IO.out_string:\n";
-
+            gen += "li $v0, 4\n";
+            gen += "lw $a0, -4($sp)\n";
+            gen += "syscall\n";
+            gen += "jr $ra\n";
 
             gen += "IO.out_int:\n";
             gen += "li $v0, 1\n";
@@ -98,6 +101,10 @@ namespace Cool.CodeGeneration.MIPSCode
 
             foreach (string s in Code)
                 gen += s + "\n";
+
+
+            gen += "li $v0, 10\n";
+            gen += "syscall\n";
 
             return gen;
         }
@@ -254,7 +261,42 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(BinaryOperationLine line)
         {
-            throw new NotImplementedException();
+            Code.Add($"lw $a0, {-line.LeftOperandVariable * 4}($sp)");
+            Code.Add($"lw $a1, {-line.RightOperandVariable * 4}($sp)");
+
+            switch (line.Symbol)
+            {
+                case "+":
+                    Code.Add($"add $a0, $a0, $a1");
+                    break;
+                case "-":
+                    Code.Add($"sub $a0, $a0, $a1");
+                    break;
+                case "*":
+                    Code.Add($"mul $a0, $a1");
+                    Code.Add($"mflo $a0");
+                    break;
+                case "/":
+                    Code.Add($"div $a0, $a1");
+                    Code.Add($"mflo $a0");
+                    break;
+                case "<":
+                    Code.Add($"sgt $a0, $a0, $a1");
+                    Code.Add($"li $a1, 1");
+                    Code.Add($"sub $a0, $a1, $a0");
+                    break;
+                case "<=":
+                    Code.Add($"sle $a0, $a0, $a1");
+                    break;
+                case "=":
+                    Code.Add($"seq $a0, $a0, $a1");
+                    break;
+                default:
+                    throw new NotImplementedException();
+                    break;
+            }
+
+            Code.Add($"sw $a0, {-line.AssignVariable * 4}($sp)");
         }
 
         public void Visit(UnaryOperationLine line)

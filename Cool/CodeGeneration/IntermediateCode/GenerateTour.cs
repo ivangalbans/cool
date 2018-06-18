@@ -218,7 +218,8 @@ namespace Cool.CodeGeneration.IntermediateCode
             int t = VariableManager.GetVariable(node.ID.Text);
             if (t != -1)
             {
-                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+                //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(t, VariableManager.PeekVariableCounter()));
             }
             else
             {
