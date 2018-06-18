@@ -143,14 +143,14 @@ namespace Cool.CodeGeneration.IntermediateCode
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
                 IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), 2 + VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
             foreach (var method in methods)
             {
                 (string, string) label = VirtualTable.GetDefinition(node.TypeClass.Text, method.Id.Text);
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
@@ -317,13 +317,13 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
             //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
 
-            parameters.Reverse();
+            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+            
+            //parameters.Reverse();
             foreach (var p in parameters)
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(p));
             }
-
-            IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
 
             IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
             IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count+1));

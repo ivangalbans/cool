@@ -2,10 +2,9 @@ class Main inherits IO {
   a : Int <- 2;
   c : Bool <- true;
   s : String <- "this is a";
-  main() : Int { {
-    --out_int(29);
-    abort();
-    4;
+  main() : IO { {
+    a <- in_int();
+    out_int(a);
     --a <- a * a;
     --out_int(29)
     --a.type_name();

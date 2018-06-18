@@ -67,9 +67,22 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "Object.copy:\n";
 
             gen += "IO.out_string:\n";
+
+
             gen += "IO.out_int:\n";
+            gen += "li $v0, 1\n";
+            gen += "lw $a0, -4($sp)\n";
+            gen += "syscall\n";
+            gen += "jr $ra\n";
+
+
             gen += "IO.in_string:\n";
+
             gen += "IO.in_int:\n";
+            gen += "li $v0, 5\n";
+            gen += "syscall\n";
+            gen += "jr $ra\n";
+
 
             gen += "String.length:\n";
             gen += "String.concat:\n";
