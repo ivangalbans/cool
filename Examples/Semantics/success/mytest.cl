@@ -10,13 +10,6 @@ class Main inherits IO {
   };
     
   main():Object {
-    let i:Int <- 1 in
-      while i < 16 loop {
-        out_int(i);
-        out_string(" -> ");
-        out_int(fibo(i));
-        out_string("\n");
-        i <- i+1;
-      } pool
+    if isvoid 0 then out_string("HI\n") else out_string("NOT HI\n") fi
   };
 };

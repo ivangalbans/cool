@@ -301,7 +301,26 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(UnaryOperationLine line)
         {
-            throw new NotImplementedException();
+            Code.Add($"lw $a0, {-line.OperandVariable * 4}($sp)");
+
+            switch (line.Symbol)
+            {
+                case "not":
+                    Code.Add($"li $a1, 1");
+                    Code.Add($"sub $a0, $a1, $a0");
+                    break;
+                case "isvoid":
+                    Code.Add($"seq $a0, $a0, $zero");
+                    break;
+                case "~":
+                    Code.Add($"not $a0, $a0");
+                    break;
+                default:
+                    throw new NotImplementedException();
+                    break;
+            }
+
+            Code.Add($"sw $a0, {-line.AssignVariable * 4}($sp)");
         }
 
 

@@ -400,7 +400,13 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IsVoidNode node)
         {
-            UnaryOperationVisit(node);
+            //if special types non void;
+            if (node.Operand.StaticType.Text == "Int" ||
+               node.Operand.StaticType.Text == "String" ||
+               node.Operand.StaticType.Text == "Bool")
+                IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
+            else
+                UnaryOperationVisit(node);
         }
 
         public void Visit(NegNode node)
