@@ -273,7 +273,7 @@ namespace Cool.CodeGeneration.MIPSCode
                     Code.Add($"sub $a0, $a0, $a1");
                     break;
                 case "*":
-                    Code.Add($"mul $a0, $a1");
+                    Code.Add($"mult $a0, $a1");
                     Code.Add($"mflo $a0");
                     break;
                 case "/":

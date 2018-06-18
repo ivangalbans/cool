@@ -363,6 +363,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(LetNode node)
         {
             VariableManager.PushVariableCounter();
+
             foreach (var attr in node.Initialization)
             {
                 VariableManager.IncrementVariableCounter();
@@ -372,7 +373,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
                 VariableManager.PopVariableCounter();
             }
-            VariableManager.PopVariableCounter();
+            VariableManager.IncrementVariableCounter();
 
             node.ExpressionBody.Accept(this);
 
@@ -380,6 +381,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 VariableManager.PopVariable(attr.Formal.Id.Text);
             }
+            VariableManager.PopVariableCounter();
         }
 
         public void Visit(NewNode node)
