@@ -431,6 +431,15 @@ namespace Cool.CodeGeneration.MIPSCode
             Code.Add($"sw $a0, {-line.AssignVariable * 4}($sp)");
         }
 
+        public void Visit(InheritLine line)
+        {
 
+            //throw new NotImplementedException();
+        }
+
+        public void Visit(AssignmentInheritToVariable line)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

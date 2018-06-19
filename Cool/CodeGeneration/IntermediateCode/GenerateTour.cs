@@ -163,7 +163,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ClassNode node)
         {
-            VariableManager.CurrentClass = node.TypeClass.Text;
+            string cclass;
+            cclass = VariableManager.CurrentClass = node.TypeClass.Text;
+            IntermediateCode.AddCodeLine(new InheritLine(node.TypeClass.Text, Scope.GetType(node.TypeClass.Text).Parent.Text));
+
             VirtualTable.DefineClass(VariableManager.CurrentClass);
             int self = VariableManager.VariableCounter = 0;
             VariableManager.IncrementVariableCounter();
@@ -233,6 +236,8 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
             IntermediateCode.AddCodeLine(new CommentLine("set class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
             IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
+            IntermediateCode.AddCodeLine(new CommentLine("set class generation label"));
+            IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", node.TypeClass.Text), 2));
 
             IntermediateCode.AddCodeLine(new ReturnLine(-1));
 

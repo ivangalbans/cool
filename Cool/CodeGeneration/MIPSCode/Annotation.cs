@@ -13,6 +13,7 @@ namespace Cool.CodeGeneration.MIPSCode
         public Dictionary<string, (int, int)> FunctionLimits;
         public Dictionary<string, int> FunctionParamsCount;
         public Dictionary<string, int> StringsCounter;
+        public Dictionary<string, string> Inherit;
 
         int current_line;
         string current_function;
@@ -24,6 +25,7 @@ namespace Cool.CodeGeneration.MIPSCode
             FunctionLimits = new Dictionary<string, (int, int)>();
             FunctionParamsCount = new Dictionary<string, int>();
             StringsCounter = new Dictionary<string, int>();
+            Inherit = new Dictionary<string, string>();
             string_counter = 0;
 
             for (current_line = 0; current_line < lines.Count; ++current_line)
@@ -107,6 +109,11 @@ namespace Cool.CodeGeneration.MIPSCode
             }
         }
 
+        public void Visit(InheritLine line)
+        {
+            Inherit[line.Child] = line.Parent;
+        }
+
         public void Visit(AssignmentVariableToMemoryLine line)
         {
             return;
@@ -175,5 +182,10 @@ namespace Cool.CodeGeneration.MIPSCode
             throw new NotImplementedException();
         }
 
+        public void Visit(AssignmentInheritToVariable line)
+        {
+            return;
+            throw new NotImplementedException();
+        }
     }
 }

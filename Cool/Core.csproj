@@ -92,6 +92,7 @@
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AllocateLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CommentLine.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\InheritLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\OperationLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AssignmentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CallLine.cs" />

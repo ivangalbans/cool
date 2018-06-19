@@ -220,4 +220,29 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
             return $"t{Variable} = NULL;";
         }
     }
+
+    public class AssignmentInheritToVariable : CodeLine
+    {
+        public int Result { get; }
+        public int Child { get; }
+        public int Parent { get; }
+
+        public AssignmentInheritToVariable(int result, int child, int parent)
+        {
+            Result = result;
+            Child = child;
+            Parent = parent;
+        }
+
+        public override void Accept(ICodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+
+        public override string ToString()
+        {
+            return $"t{Result} = t{Child} inherit t{Parent};";
+        }
+    }
 }

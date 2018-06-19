@@ -54,5 +54,7 @@ namespace Cool.CodeGeneration.MIPSCode
         void Visit(PushParamLine line);
 
         void Visit(ReturnLine line);
+        void Visit(InheritLine line);
+        void Visit(AssignmentInheritToVariable line);
     }
 }
