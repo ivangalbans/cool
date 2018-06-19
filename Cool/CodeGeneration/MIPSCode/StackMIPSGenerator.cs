@@ -59,25 +59,26 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n.globl main\n";
             gen += ".text\n";
 
-            gen += "Object.abort:\n";
-            gen += "li $v0, 10\n";
-            gen += "syscall\n";
 
             gen += "Object.type_name:\n";
             gen += "Object.copy:\n";
+            gen += "Object.abort:\n";
+            gen += "li $v0, 10\n";
+            gen += "syscall\n";
 
             gen += "IO.out_string:\n";
             gen += "li $v0, 4\n";
             gen += "lw $a0, -4($sp)\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
+            gen += "\n";
 
             gen += "IO.out_int:\n";
             gen += "li $v0, 1\n";
             gen += "lw $a0, -4($sp)\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
-
+            gen += "\n";
 
             gen += "IO.in_string:\n";
 
@@ -85,12 +86,85 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "li $v0, 5\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
-
+            gen += "\n";
 
             gen += "String.length:\n";
+            gen += "lw $a0, 0($sp)\n";
+            gen += "_str.length.loop:\n";
+            gen += "lb $a1, 0($a0)\n";
+            gen += "beqz $a1, _str.length.end\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "j _str.length.loop\n";
+            gen += "_str.length.end:\n";
+            gen += "lw $a1, 0($sp)\n";
+            gen += "subu $v0, $a0, $a1\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
             gen += "String.concat:\n";
+            gen += "move $a2, $ra\n";
+            gen += "jal String.length\n";
+            gen += "move $v1, $v0\n";
+            gen += "addiu $sp, $sp, -4\n";
+            gen += "jal String.length\n";
+            gen += "addiu $sp, $sp, 4\n";
+            gen += "add $v1, $v1, $v0\n";
+            gen += "addi $v1, $v1, 1\n";
+            gen += "li $v0, 9\n";
+            gen += "move $a0, $v1\n";
+            gen += "syscall\n";
+            gen += "move $v1, $v0\n";
+            gen += "lw $a0, 0($sp)\n";
+            gen += "_str.concat.loop1:\n";
+            gen += "lb $a1, 0($a0)\n";
+            gen += "beqz $a1, _str.concat.end1\n";
+            gen += "sb $a1, 0($v1)\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "addiu $v1, $v1, 1\n";
+            gen += "j _str.concat.loop1\n";
+            gen += "_str.concat.end1:\n";
+            gen += "lw $a0, -4($sp)\n";
+            gen += "_str.concat.loop2:\n";
+            gen += "lb $a1, 0($a0)\n";
+            gen += "beqz $a1, _str.concat.end2\n";
+            gen += "sb $a1, 0($v1)\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "addiu $v1, $v1, 1\n";
+            gen += "j _str.concat.loop2\n";
+            gen += "_str.concat.end2:\n";
+            gen += "sb $zero, 0($v1)\n";
+            gen += "move $ra, $a2\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
+
             gen += "String.substr:\n";
-            gen += "String.copy:\n";
+            gen += "lw $a0, -8($sp)\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "li $v0, 9\n";
+            gen += "syscall\n";
+            gen += "move $v1, $v0\n";
+            gen += "lw $a0, 0($sp)\n";
+            gen += "lw $a1, -4($sp)\n";
+            gen += "add $a0, $a0, $a1\n";
+            gen += "lw $a2, -8($sp)\n";
+            gen += "_str.substr.loop:\n";
+            gen += "beqz $a2, _str.substr.end\n";
+            gen += "lb $a1, 0($a0)\n";
+            gen += "sb $a1, 0($v1)\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "addiu $v1, $v1, 1\n";
+            gen += "addiu $a2, $a2, -1\n";
+            gen += "j _str.substr.loop\n";
+            gen += "_str.substr.end:\n";
+            gen += "sb $zero, 0($v1)\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
+
+
+
+
 
             gen += "li $v0, 4\n";
             gen += "la $a0, str0\n";

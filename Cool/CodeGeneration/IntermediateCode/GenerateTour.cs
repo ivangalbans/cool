@@ -294,15 +294,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             //important for define
             if (method == "copy")
             {
-
-            }
-
-            if (cclass == "String")
-            {
-                IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
-                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
-                IntermediateCode.AddCodeLine(new PopParamLine(1));
-                return;
+                //IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
             }
 
             VariableManager.PushVariableCounter();
@@ -324,20 +316,28 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
 
-            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(t, VariableManager.PeekVariableCounter(), 2 * 4));
-            IntermediateCode.AddCodeLine(new CommentLine("get method: " + cclass + "." + method));
-            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
-            //IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, t, offset));
+            if (cclass != "String")
+            {
+                IntermediateCode.AddCodeLine(new CommentLine("get method: " + cclass + "." + method));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
+            }
 
             IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
             
-            //parameters.Reverse();
             foreach (var p in parameters)
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(p));
             }
 
-            IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
+            if (cclass != "String")
+            {
+                IntermediateCode.AddCodeLine(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
+            }
+            else
+            {
+                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
+            }
+
             IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count+1));
         }
 
