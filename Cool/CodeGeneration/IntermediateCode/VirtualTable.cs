@@ -65,7 +65,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public int GetOffset(string cclass, string item)
         {
-            return VTables[cclass].FindIndex((x) => x.Item2 == item);
+            return VTables[cclass].FindIndex((x) => x.Item2 == item) + 3;
         }
 
         public (string, string) GetDefinition(string cclass, string item)
@@ -89,7 +89,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public int GetSizeClass(string cclass)
         {
-            return (VTables[cclass].Count + 2);
+            return (VTables[cclass].Count + 3);
         }
 
     }

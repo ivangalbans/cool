@@ -43,6 +43,78 @@ namespace Cool.CodeGeneration.IntermediateCode
                 c.Accept(this);
         }
 
+        public void Visit(CaseNode node)
+        {
+            return;
+
+            string tag = IntermediateCode.CountLines().ToString();
+
+            VariableManager.PushVariableCounter();
+
+            int expr = VariableManager.IncrementVariableCounter();
+            node.ExpressionCase.Accept(this);
+
+            List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
+            sorted.AddRange(node.Branches);
+            sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
+
+            for (int i = 0; i < sorted.Count; ++i)
+            {
+                IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + i));
+                string type = sorted[i].Formal.Type.Text;
+
+                VariableManager.PushVariable(sorted[i].Formal.Id.Text);
+
+                while (! (type == "Object" ))
+                {
+                    VariableManager.PushVariableCounter();
+
+                    int t1 = VariableManager.IncrementVariableCounter();
+                    int t2 = VariableManager.IncrementVariableCounter();
+
+                    IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(t1, type));
+                    
+                    IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.VariableCounter, t1, t2, "="));
+
+                    VariableManager.PopVariableCounter();
+
+                    type = Scope.GetType(type).Parent.Text;
+                }
+
+
+
+                sorted[i].Expression.Accept(this);
+                IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
+
+
+                VariableManager.PopVariable(sorted[i].Formal.Id.Text);
+            }
+
+            IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + sorted.Count));
+
+
+
+            IntermediateCode.AddCodeLine(new LabelLine("_endcase", tag));
+
+            VariableManager.PopVariableCounter();
+
+            //throw new NotImplementedException();
+
+            //Scope.Type.Parent
+
+            //node.Condition.Accept(this);
+
+            //IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_else", tag)));
+
+            //node.Body.Accept(this);
+            //IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endif", tag)));
+
+            //IntermediateCode.AddCodeLine(new LabelLine("_else", tag));
+            //node.ElseBody.Accept(this);
+
+            //IntermediateCode.AddCodeLine(new LabelLine("_endif", tag));
+        }
+
         void InitCode()
         {
             int self = VariableManager.PeekVariableCounter();
@@ -57,7 +129,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 label = VirtualTable.GetDefinition("Object", f);
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset("Object", f)));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("Object", f)));
             }
             IntermediateCode.AddCodeLine(new ReturnLine());
 
@@ -72,7 +144,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 label = VirtualTable.GetDefinition("IO", f);
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset("IO", f)));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("IO", f)));
             }
             IntermediateCode.AddCodeLine(new ReturnLine());
         }
@@ -142,7 +214,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 (string, string) label = VirtualTable.GetDefinition(node.TypeClass.Text, method.Id.Text);
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), 2 + VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
@@ -153,7 +225,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
                 IntermediateCode.AddCodeLine(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), 2 + VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
             
 
@@ -226,7 +298,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             else
             {
-                int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text) + 2;
+                int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
         }
@@ -250,7 +322,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             else
             {
                 IntermediateCode.AddCodeLine(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
-                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, 2 + VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
+                IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
         }
         
@@ -304,7 +376,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             //int t = VariableManager.IncrementVariableCounter();
             int function_address = VariableManager.IncrementVariableCounter();
             //int offset = IntermediateCode.GetMethodOffset(cclass, method);
-            int offset = 2 + VirtualTable.GetOffset(cclass, method);
+            int offset = VirtualTable.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
             foreach (var p in node.Arguments)
@@ -483,10 +555,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new LabelLine("_endwhile", tag));
         }
 
-        public void Visit(CaseNode node)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Visit(VoidNode node)
         {
