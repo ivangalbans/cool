@@ -287,8 +287,10 @@ namespace Cool.CodeGeneration.IntermediateCode
             if (method == "type_name")
             {
                 if (cclass == "Int" || cclass == "Bool" || cclass == "String")
+                {
                     IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
-                return;
+                    return;
+                }
             }
 
             //important for define

@@ -59,12 +59,17 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n.globl main\n";
             gen += ".text\n";
 
-
             gen += "Object.type_name:\n";
+            gen += "lw $a0, 0($sp)\n";
+            gen += "lw $v0, 0($a0)\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
             gen += "Object.copy:\n";
             gen += "Object.abort:\n";
             gen += "li $v0, 10\n";
             gen += "syscall\n";
+            gen += "\n";
 
             gen += "IO.out_string:\n";
             gen += "li $v0, 4\n";
