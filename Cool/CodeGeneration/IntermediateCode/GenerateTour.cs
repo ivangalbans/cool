@@ -147,6 +147,12 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("IO", f)));
             }
             IntermediateCode.AddCodeLine(new ReturnLine());
+
+            IntermediateCode.AddCodeLine(new InheritLine("IO", "Object"));
+            IntermediateCode.AddCodeLine(new InheritLine("Int", "Object"));
+            IntermediateCode.AddCodeLine(new InheritLine("Bool", "Object"));
+            IntermediateCode.AddCodeLine(new InheritLine("String", "Object"));
+
         }
 
         void StartFunctionCode()

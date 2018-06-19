@@ -35,6 +35,21 @@ namespace Cool.CodeGeneration.MIPSCode
                     Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");
             }
 
+            foreach (var x in annotation.Inherit)
+            {
+                string s = $"_class.{ x.Key}: .word ";
+
+                string p = x.Value;
+                while (p != "Object")
+                {
+                    s += $"str{annotation.StringsCounter[p]}, ";
+                    p = annotation.Inherit[p];
+                }
+
+                s += $"str{annotation.StringsCounter["Object"]}, 0";
+                Data.Add(s);
+            }
+
             for (int i = 0; i < lines.Count; ++i)
             {
                 Code.Add($"# {lines[i]}");

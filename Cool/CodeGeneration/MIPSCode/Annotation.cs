@@ -112,6 +112,11 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(InheritLine line)
         {
             Inherit[line.Child] = line.Parent;
+
+            if (!StringsCounter.ContainsKey(line.Child))
+                StringsCounter[line.Child] = string_counter++;
+            if (!StringsCounter.ContainsKey(line.Parent))
+                StringsCounter[line.Parent] = string_counter++;
         }
 
         public void Visit(AssignmentVariableToMemoryLine line)
