@@ -86,6 +86,35 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n";
 
             gen += "IO.in_string:\n";
+            gen += "move $a3, $ra\n";
+            gen += "la $a0, buffer\n";
+            gen += "li $a1, 65536\n";
+            gen += "li $v0, 8\n";
+            gen += "syscall\n";
+            gen += "addiu $sp, $sp, -4\n";
+            gen += "sw $a0, 0($sp)\n";
+            gen += "jal String.length\n";
+            gen += "addiu $sp, $sp, 4\n";
+            gen += "move $a2, $v0\n";
+            gen += "addiu $a2, $a2, -1\n";
+            gen += "move $a0, $v0\n";
+            gen += "li $v0, 9\n";
+            gen += "syscall\n";
+            gen += "move $v1, $v0\n";
+            gen += "la $a0, buffer\n";
+            gen += "_io.in_string.loop:\n";
+            gen += "beqz $a2, _io.in_string.end\n";
+            gen += "lb $a1, 0($a0)\n";
+            gen += "sb $a1, 0($v1)\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "addiu $v1, $v1, 1\n";
+            gen += "addiu $a2, $a2, -1\n";
+            gen += "j _io.in_string.loop\n";
+            gen += "_io.in_string.end:\n";
+            gen += "sb $zero, 0($v1)\n";
+            gen += "move $ra, $a3\n";
+            gen += "jr $ra\n";
+            gen += "\n";
 
             gen += "IO.in_int:\n";
             gen += "li $v0, 5\n";
