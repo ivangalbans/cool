@@ -71,9 +71,6 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(CaseNode node)
         {
             string static_type = node.ExpressionCase.StaticType.Text;
-            bool static_case = (static_type == "String" ||
-                                static_type == "Int" ||
-                                static_type == "Bool");
 
             int expr = VariableManager.IncrementVariableCounter();
 
@@ -81,7 +78,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             node.ExpressionCase.Accept(this);
             VariableManager.PopVariableCounter();
 
-            if (static_case)
+            if (static_type == "String" ||
+                static_type == "Int" ||
+                static_type == "Bool")
             {
                 //int index = node.BranchSelected
                 //string v = node.Branches[index].Formal.Id.Text;
@@ -101,6 +100,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
                 IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
+            else if (static_type == "Object")
+            {
+
+            }
             else
             {
                 string tag = IntermediateCode.CountLines().ToString();
@@ -109,7 +112,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 sorted.AddRange(node.Branches);
                 sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
 
-               
+
 
                 //VariableManager.IncrementVariableCounter();
                 for (int i = 0; i < sorted.Count; ++i)
@@ -221,7 +224,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             foreach (var method in methods)
             {
-                IntermediateCode.AddCodeLine(new LabelLine(node.TypeClass.Text, method.Id.Text));
                 method.Accept(this);
             }
 
@@ -279,6 +281,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(MethodNode node)
         {
+            IntermediateCode.AddCodeLine(new LabelLine(VariableManager.CurrentClass, node.Id.Text));
+
+            if (node.TypeReturn.Text == "Object")
+                note_object_return_type = true;
 
             int self = VariableManager.VariableCounter = 0;
             IntermediateCode.AddCodeLine(new ParamLine(self));
@@ -294,28 +300,42 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PushVariableCounter();
             node.Body.Accept(this);
-            IntermediateCode.AddCodeLine(new ReturnLine(VariableManager.PeekVariableCounter()));
+
+            if (!note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnLine(VariableManager.PeekVariableCounter()));
+            else
+                IntermediateCode.AddCodeLine(new SpecialObjectReturn(VariableManager.PeekVariableCounter()));
+
+
             VariableManager.PopVariableCounter();
 
             foreach (var formal in node.Arguments)
             {
                 VariableManager.PopVariable(formal.Id.Text);
             }
+
+            note_object_return_type = false;
         }
 
         public void Visit(IntNode node)
         {
             IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value));
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Int"));
         }
 
         public void Visit(BoolNode node)
         {
             IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value ? 1 : 0));
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Bool"));
         }
 
         public void Visit(ArithmeticOperation node)
         {
             BinaryOperationVisit(node);
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Int"));
         }
 
         public void Visit(AssignmentNode node)
@@ -357,12 +377,22 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
                 IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
+
+            if (note_object_return_type)
+            {
+                if (node.StaticType.Text == "Int" ||
+                    node.StaticType.Text == "Bool" ||
+                    node.StaticType.Text == "String")
+                    IntermediateCode.AddCodeLine(new ReturnTypeLine(node.StaticType.Text));
+            }
         }
         
 
         public void Visit(ComparisonOperation node)
         {
             BinaryOperationVisit(node);
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Bool"));
         }
 
         public void Visit(DispatchExplicitNode node)
@@ -445,12 +475,22 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
             }
 
+            if (note_object_return_type)
+            {
+                if (node.StaticType.Text == "Int" ||
+                    node.StaticType.Text == "Bool" ||
+                    node.StaticType.Text == "String")
+                    IntermediateCode.AddCodeLine(new ReturnTypeLine(node.StaticType.Text));
+            }
+
             IntermediateCode.AddCodeLine(new PopParamLine(parameters.Count+1));
         }
 
         public void Visit(EqualNode node)
         {
             BinaryOperationVisit(node);
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Bool"));
         }
 
         void BinaryOperationVisit(BinaryOperationNode node)
@@ -507,11 +547,38 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableManager.PopVariable(attr.Formal.Id.Text);
             }
             VariableManager.PopVariableCounter();
+
+            if (note_object_return_type)
+            {
+                if (node.StaticType.Text == "Int" ||
+                    node.StaticType.Text == "Bool" ||
+                    node.StaticType.Text == "String")
+                    IntermediateCode.AddCodeLine(new ReturnTypeLine(node.StaticType.Text));
+            }
         }
 
         public void Visit(NewNode node)
         {
-            New(node.TypeId.Text);
+            if (node.TypeId.Text == "Int" ||
+                node.TypeId.Text == "Bool" ||
+                node.TypeId.Text == "String")
+            {
+                if (node.TypeId.Text == "Int" || node.TypeId.Text == "Bool")
+                    IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
+                else
+                    IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), ""));
+
+                if (note_object_return_type)
+                {
+                    IntermediateCode.AddCodeLine(new ReturnTypeLine(node.TypeId.Text));
+                }
+            }
+            else
+            {
+                New(node.TypeId.Text);
+            }
+
+
         }
 
         public void New(string cclass)
@@ -532,17 +599,30 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
             else
                 UnaryOperationVisit(node);
+
+            if (note_object_return_type)
+            {
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Bool"));
+            }
         }
 
         public void Visit(NegNode node)
         {
             UnaryOperationVisit(node);
+            if (note_object_return_type)
+            {
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Int"));
+            }
         }
 
 
         public void Visit(NotNode node)
         {
             UnaryOperationVisit(node);
+            if (note_object_return_type)
+            {
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("Bool"));
+            }
         }
 
         void UnaryOperationVisit(UnaryOperationNode node)

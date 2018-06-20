@@ -498,12 +498,12 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(SpecialObjectReturn line)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Visit(ReturnTypeLine line)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return "return " + (Variable == -1 ? "" : "t" + Variable) + ";\n";
+            return "Return " + (Variable == -1 ? "" : "t" + Variable) + ";\n";
         }
     }
 
@@ -43,17 +43,18 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
 
         public override string ToString()
         {
-            return "objectreturn t" + Variable + ";\n";
+            return "ObjectReturn t" + Variable + ";\n";
         }
     }
 
     public class ReturnTypeLine : CodeLine
     {
-        public enum ReturnType {Int, String, Bool, Other};
-    
-        ReturnType Type;
+        //public enum ReturnType { Generic, Int, String, Bool };
 
-        public ReturnTypeLine(ReturnType type)
+        //ReturnType Type;
+        string Type;
+
+        public ReturnTypeLine(string type)
         {
             Type = type;
         }
