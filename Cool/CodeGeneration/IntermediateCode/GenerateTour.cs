@@ -191,25 +191,34 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "Int"));
             IntermediateCode.AddCodeLine(new ParamLine(self));
             IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Int") + 1));
+            IntermediateCode.AddCodeLine(new PushParamLine(self + 1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Int", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Int")));
-            IntermediateCode.AddCodeLine(new ReturnLine(self));
+            IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
 
             //Bool wrapper for runtime check typing
             IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "Bool"));
             IntermediateCode.AddCodeLine(new ParamLine(self));
             IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Bool") + 1));
+            IntermediateCode.AddCodeLine(new PushParamLine(self + 1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Bool", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Bool")));
-            IntermediateCode.AddCodeLine(new ReturnLine(self));
+            IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
 
             //String wrapper for runtime check typing
             IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "String"));
             IntermediateCode.AddCodeLine(new ParamLine(self));
             IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("String") + 1));
+            IntermediateCode.AddCodeLine(new PushParamLine(self + 1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "String", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
-            IntermediateCode.AddCodeLine(new ReturnLine(self));
+            IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
         }
 
         void StartFunctionCode()
@@ -568,6 +577,8 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(StringNode node)
         {
             IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), node.Text));
+            if (note_object_return_type)
+                IntermediateCode.AddCodeLine(new ReturnTypeLine("String"));
         }
 
         public void Visit(LetNode node)

@@ -337,7 +337,7 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(AssignmentStringToMemoryLine line)
         {
             Code.Add($"la $a0, str{annotation.StringsCounter[line.Right]}");
-            Code.Add($"lw $a1, {-line.Left}($sp)");
+            Code.Add($"lw $a1, {-line.Left * 4}($sp)");
             Code.Add($"sw $a0, {line.Offset * 4}($a1)");
         }
 
@@ -499,11 +499,41 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(SpecialObjectReturn line)
         {
-            //Code.Add($"sw $ra, {-size * 4}($sp)");
-            //Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
-            //Code.Add($"jal {line.Method.Label}");
-            //Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
-            //Code.Add($"lw $ra, {-size * 4}($sp)");
+            Code.Add($"lw $v0, {-line.Variable * 4}($sp)");
+            Code.Add($"move $a0, $v0");
+            Code.Add($"sw $ra, {-size * 4}($sp)");
+            Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
+
+            Code.Add($"sw $a0, 0($sp)");
+
+            int t = Code.Count;
+
+            Code.Add($"li $a1, 1");
+            Code.Add($"beq $t9, $a1, __wi.{t}");
+            Code.Add($"li $a1, 2");
+            Code.Add($"beq $t9, $a1, __wb.{t}");
+            Code.Add($"li $a1, 3");
+            Code.Add($"beq $t9, $a1, __ws.{t}");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__wi.{t}:");
+            Code.Add($"jal _wrapper.Int");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__wb.{t}:");
+            Code.Add($"jal _wrapper.Bool");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__ws.{t}:");
+            Code.Add($"jal _wrapper.String");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__we.{t}:");
+
+            Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
+            Code.Add($"lw $ra, {-size * 4}($sp)");
+
+            Code.Add($"jr $ra");
         }
 
         public void Visit(ReturnTypeLine line)
