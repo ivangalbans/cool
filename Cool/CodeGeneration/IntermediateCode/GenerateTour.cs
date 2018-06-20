@@ -69,58 +69,95 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(CaseNode node)
         {
-            return;
-
-            string tag = IntermediateCode.CountLines().ToString();
-
-            VariableManager.PushVariableCounter();
+            string static_type = node.ExpressionCase.StaticType.Text;
+            bool static_case = (static_type == "String" ||
+                                static_type == "Int" ||
+                                static_type == "Bool");
 
             int expr = VariableManager.IncrementVariableCounter();
+
+            VariableManager.PushVariableCounter();
             node.ExpressionCase.Accept(this);
+            VariableManager.PopVariableCounter();
 
-            List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
-            sorted.AddRange(node.Branches);
-            sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
-
-            for (int i = 0; i < sorted.Count; ++i)
+            if (static_case)
             {
-                IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + i));
-                string type = sorted[i].Formal.Type.Text;
+                //int index = node.BranchSelected
+                //string v = node.Branches[index].Formal.Id.Text;
+                int index = node.Branches.FindIndex((x) => x.Formal.Type.Text == static_type);
+                string v = node.Branches[index].Formal.Id.Text;
 
-                VariableManager.PushVariable(sorted[i].Formal.Id.Text);
+                VariableManager.PushVariable(v);
 
-                while (! (type == "Object" ))
-                {
-                    VariableManager.PushVariableCounter();
+                VariableManager.IncrementVariableCounter();
+                VariableManager.PushVariableCounter();
 
-                    int t1 = VariableManager.IncrementVariableCounter();
-                    int t2 = VariableManager.IncrementVariableCounter();
+                node.Branches[index].Expression.Accept(this);
 
-                    IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(t1, type));
-                    
-                    IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.VariableCounter, t1, t2, "="));
+                VariableManager.PopVariableCounter();
 
-                    VariableManager.PopVariableCounter();
+                VariableManager.PopVariable(v);
+            }
+            else
+            {
 
-                    type = Scope.GetType(type).Parent.Text;
-                }
-
-
-
-                sorted[i].Expression.Accept(this);
-                IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
-
-
-                VariableManager.PopVariable(sorted[i].Formal.Id.Text);
             }
 
-            IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + sorted.Count));
+
+            return;
+
+            //string tag = IntermediateCode.CountLines().ToString();
+
+            //VariableManager.PushVariableCounter();
+
+            //int expr = VariableManager.IncrementVariableCounter();
+            //node.ExpressionCase.Accept(this);
+
+            //List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
+            //sorted.AddRange(node.Branches);
+            //sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
+
+            //for (int i = 0; i < sorted.Count; ++i)
+            //{
+            //    IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + i));
+            //    string type = sorted[i].Formal.Type.Text;
+
+            //    VariableManager.PushVariable(sorted[i].Formal.Id.Text);
+
+            //    while (! (type == "Object" ))
+            //    {
+            //        VariableManager.PushVariableCounter();
+
+            //        int t1 = VariableManager.IncrementVariableCounter();
+            //        int t2 = VariableManager.IncrementVariableCounter();
+
+            //        IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(t1, type));
+                    
+            //        IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.VariableCounter, t1, t2, "="));
+
+            //        VariableManager.PopVariableCounter();
+
+            //        type = Scope.GetType(type).Parent.Text;
+            //    }
 
 
 
-            IntermediateCode.AddCodeLine(new LabelLine("_endcase", tag));
+            //    sorted[i].Expression.Accept(this);
+            //    IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
 
-            VariableManager.PopVariableCounter();
+
+            //    VariableManager.PopVariable(sorted[i].Formal.Id.Text);
+            //}
+
+            //IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + sorted.Count));
+
+
+
+            //IntermediateCode.AddCodeLine(new LabelLine("_endcase", tag));
+
+            //VariableManager.PopVariableCounter();
+
+
 
             //throw new NotImplementedException();
 
@@ -207,21 +244,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             foreach (var f in node.FeatureNodes)
                 if (f is AttributeNode)
-                {
                     attributes.Add((AttributeNode)f);
-                }
                 else
-                {
                     methods.Add((MethodNode)f);
-                    //VirtualTable.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
-                }
 
-
-
-            //foreach (var attr in attributes)
-            //{
-            //    VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
-            //}
 
             foreach (var method in methods)
             {

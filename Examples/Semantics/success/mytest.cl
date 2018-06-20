@@ -54,6 +54,13 @@ class Main inherits IO {
   }};
 
   main():Object {{
+
+    case "HOLA" of
+      o : Object => out_string( "Object\n" );
+      s : String => out_string( "String\n" );
+      i : Int => out_string("Int\n");
+    esac;
+
     out_int((new A).f());
     out_int((new B).f());
     out_int(h(new A));
@@ -61,5 +68,8 @@ class Main inherits IO {
     out_int(h(new C));
     out_int(h(new D));
     out_int(h(new E));
+
+
+
   }};
 };
