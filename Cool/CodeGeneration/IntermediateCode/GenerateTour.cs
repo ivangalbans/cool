@@ -187,6 +187,29 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new InheritLine("Bool", "Object"));
             IntermediateCode.AddCodeLine(new InheritLine("String", "Object"));
 
+            //Int wrapper for runtime check typing
+            IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "Int"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Int") + 1));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Int", 0));
+            IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Int")));
+            IntermediateCode.AddCodeLine(new ReturnLine(self));
+
+            //Bool wrapper for runtime check typing
+            IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "Bool"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Bool") + 1));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Bool", 0));
+            IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Bool")));
+            IntermediateCode.AddCodeLine(new ReturnLine(self));
+
+            //String wrapper for runtime check typing
+            IntermediateCode.AddCodeLine(new LabelLine("_wrapper", "String"));
+            IntermediateCode.AddCodeLine(new ParamLine(self));
+            IntermediateCode.AddCodeLine(new AllocateLine(self + 1, VirtualTable.GetSizeClass("String") + 1));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "String", 0));
+            IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
+            IntermediateCode.AddCodeLine(new ReturnLine(self));
         }
 
         void StartFunctionCode()

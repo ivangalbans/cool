@@ -32,6 +32,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             DefineClass("String");
             foreach (var f in String)
                 DefineMethod("String", f);
+
+            DefineClass("Int");
+            DefineClass("Bool");
         }
 
         public void DefineClass(string cclass)

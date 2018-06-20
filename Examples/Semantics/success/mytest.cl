@@ -11,7 +11,8 @@ class Main inherits IO {
   f() : Object {
     --if 1 = 2 then 7 else "hola" fi
     --if 1 = 2 then g() else h() fi
-    2
+    --2
+    (new A);
   };
 
   main():Object {{
@@ -21,7 +22,7 @@ class Main inherits IO {
 
     --let x : Object in x <- f();
 
-    let x : Object <- f() in 7;
+    let x : Object <- f() in out_string(x.type_name());
 
     --case "HOLA" of
     --  o : Object => o;
