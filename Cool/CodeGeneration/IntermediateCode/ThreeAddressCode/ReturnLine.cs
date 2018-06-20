@@ -52,7 +52,7 @@ namespace Cool.CodeGeneration.IntermediateCode.ThreeAddressCode
         //public enum ReturnType { Generic, Int, String, Bool };
 
         //ReturnType Type;
-        string Type;
+        public string Type { get; }
 
         public ReturnTypeLine(string type)
         {

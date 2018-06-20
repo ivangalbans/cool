@@ -269,6 +269,7 @@ namespace Cool.CodeGeneration.MIPSCode
             {
                 current_function = line.Label;
                 size = annotation.FunctionVarsSize[current_function];
+                Code.Add($"li $v0, 0");
             }
             Code.Add($"\n");
             Code.Add($"{line.Label}:");
@@ -498,12 +499,23 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(SpecialObjectReturn line)
         {
-            //throw new NotImplementedException();
+            //Code.Add($"sw $ra, {-size * 4}($sp)");
+            //Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
+            //Code.Add($"jal {line.Method.Label}");
+            //Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
+            //Code.Add($"lw $ra, {-size * 4}($sp)");
         }
 
         public void Visit(ReturnTypeLine line)
         {
-            //throw new NotImplementedException();
+            if(line.Type == "Int")
+                Code.Add($"li $t9, 1");
+
+            if (line.Type == "Bool")
+                Code.Add($"li $t9, 2");
+
+            if (line.Type == "String")
+                Code.Add($"li $t9, 3");
         }
     }
 }
