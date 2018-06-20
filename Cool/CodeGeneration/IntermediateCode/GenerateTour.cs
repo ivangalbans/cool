@@ -277,6 +277,16 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(AttributeNode node)
         {
             node.AssignExp.Accept(this);
+
+            if ((node.AssignExp.StaticType.Text == "Int" ||
+                node.AssignExp.StaticType.Text == "Bool" ||
+                node.AssignExp.StaticType.Text == "String") &&
+                node.Formal.Type.Text == "Object")
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", node.AssignExp.StaticType.Text), VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new PopParamLine(1));
+            }
         }
 
         public void Visit(MethodNode node)
@@ -343,6 +353,16 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             node.ExpressionRight.Accept(this);
 
+            if ((node.ExpressionRight.StaticType.Text == "Int" ||
+                node.ExpressionRight.StaticType.Text == "Bool" ||
+                node.ExpressionRight.StaticType.Text == "String") &&
+                node.ID.StaticType.Text == "Object")
+            {
+                IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", node.ExpressionRight.StaticType.Text), VariableManager.PeekVariableCounter()));
+                IntermediateCode.AddCodeLine(new PopParamLine(1));
+            }
+
             int t = VariableManager.GetVariable(node.ID.Text);
             if (t != -1)
             {
@@ -354,6 +374,8 @@ namespace Cool.CodeGeneration.IntermediateCode
                 int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
                 IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
+
+            
         }
 
         public void Visit(SequenceNode node)

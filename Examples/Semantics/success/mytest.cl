@@ -8,16 +8,20 @@ class Main inherits IO {
     (new Int)
   };
 
-  f() : Object{
+  f() : Object {
     --if 1 = 2 then 7 else "hola" fi
-    if 1 = 2 then g() else h() fi
-    --2
+    --if 1 = 2 then g() else h() fi
+    2
   };
 
   main():Object {{
     --out_string("HI");
 
-    let x : Object <- f() in out_string(x.type_name());
+    --let x : Object <- f() in out_string(x.type_name());
+
+    --let x : Object in x <- f();
+
+    let x : Object <- f() in 7;
 
     --case "HOLA" of
     --  o : Object => o;
