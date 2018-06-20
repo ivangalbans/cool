@@ -40,6 +40,30 @@ namespace Cool.CodeGeneration.IntermediateCode
             sorted.Sort((x, y) => (Scope.GetType(x.TypeClass.Text) <= Scope.GetType(y.TypeClass.Text) ? 1 : -1));
 
             foreach (var c in sorted)
+            {
+                VirtualTable.DefineClass(c.TypeClass.Text);
+
+                List<AttributeNode> attributes = new List<AttributeNode>();
+                List<MethodNode> methods = new List<MethodNode>();
+
+                foreach (var f in c.FeatureNodes)
+                    if (f is AttributeNode)
+                    {
+                        attributes.Add((AttributeNode)f);
+                    }
+                    else
+                    {
+                        methods.Add((MethodNode)f);
+                    }
+
+                foreach (var method in methods)
+                    VirtualTable.DefineMethod(c.TypeClass.Text, method.Id.Text);
+
+                foreach (var attr in attributes)
+                    VirtualTable.DefineAttribute(c.TypeClass.Text, attr.Formal.Id.Text);
+            }
+
+            foreach (var c in sorted)
                 c.Accept(this);
         }
 
@@ -173,7 +197,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             cclass = VariableManager.CurrentClass = node.TypeClass.Text;
             IntermediateCode.AddCodeLine(new InheritLine(node.TypeClass.Text, Scope.GetType(node.TypeClass.Text).Parent.Text));
 
-            VirtualTable.DefineClass(VariableManager.CurrentClass);
+            //VirtualTable.DefineClass(VariableManager.CurrentClass);
             int self = VariableManager.VariableCounter = 0;
             VariableManager.IncrementVariableCounter();
             VariableManager.PushVariableCounter();
@@ -189,13 +213,15 @@ namespace Cool.CodeGeneration.IntermediateCode
                 else
                 {
                     methods.Add((MethodNode)f);
-                    VirtualTable.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
+                    //VirtualTable.DefineMethod(VariableManager.CurrentClass, ((MethodNode)f).Id.Text);
                 }
 
-            foreach (var attr in attributes)
-            {
-                VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
-            }
+
+
+            //foreach (var attr in attributes)
+            //{
+            //    VirtualTable.DefineAttribute(node.TypeClass.Text, attr.Formal.Id.Text);
+            //}
 
             foreach (var method in methods)
             {
