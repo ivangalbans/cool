@@ -210,16 +210,35 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "jr $ra\n";
             gen += "\n";
 
-
-
-
-
-
-            gen += "li $v0, 4\n";
-            gen += "la $a0, str0\n";
-            gen += "syscall\n";
+            gen += "_stringcmp:\n";
+            gen += "li $v0, 1\n";
+            gen += "_stringcmp.loop:\n";
+            gen += "lb $a2, 0($a0)\n";
+            gen += "lb $a3, 0($a1)\n";
+            gen += "beqz $a2, _stringcmp.end\n";
+            gen += "beq $a2, $zero, _stringcmp.end\n";
+            gen += "beq $a3, $zero, _stringcmp.end\n";
+            gen += "bne $a2, $a3, _stringcmp.differents\n";
+            gen += "addiu $a0, $a0, 1\n";
+            gen += "addiu $a1, $a1, 1\n";
+            gen += "j _stringcmp.loop\n";
+            gen += "_stringcmp.end:\n";
+            gen += "beq $a2, $a3, _stringcmp.equals\n";
+            gen += "_stringcmp.differents:\n";
+            gen += "li $v0, 0\n";
             gen += "jr $ra\n";
-            
+            gen += "_stringcmp.equals:\n";
+            gen += "li $v0, 1\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
+
+
+            //gen += "li $v0, 4\n";
+            //gen += "la $a0, str0\n";
+            //gen += "syscall\n";
+            //gen += "jr $ra\n";
+
             gen += "\nmain:\n";
 
             foreach (string s in Code)
@@ -413,6 +432,14 @@ namespace Cool.CodeGeneration.MIPSCode
                     break;
                 case "=":
                     Code.Add($"seq $a0, $a0, $a1");
+                    break;
+                case "=:=":
+                    //Code.Add($"sw $ra, {-size * 4}($sp)");
+                    Code.Add($"move $v1, $ra");
+                    Code.Add($"jal _stringcmp");
+                    //Code.Add($"lw $ra, {-size * 4}($sp)");
+                    Code.Add($"move $ra, $v1");
+                    Code.Add($"move $a0, $v0");
                     break;
                 default:
                     throw new NotImplementedException();

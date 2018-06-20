@@ -448,6 +448,13 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PopVariableCounter();
 
             VariableManager.PopVariableCounter();
+
+            if (node.LeftOperand.StaticType.Text == "String" && node.Symbol == "=")
+            {
+                IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, "=:="));
+                return;
+            }
+
             IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
         }
 
