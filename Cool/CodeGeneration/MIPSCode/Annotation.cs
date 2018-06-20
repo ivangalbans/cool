@@ -192,5 +192,15 @@ namespace Cool.CodeGeneration.MIPSCode
             return;
             throw new NotImplementedException();
         }
+
+        public void Visit(SpecialObjectReturn line)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(ReturnTypeLine line)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
