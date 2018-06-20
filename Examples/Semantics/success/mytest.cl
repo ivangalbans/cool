@@ -7,6 +7,17 @@ class Main inherits IO {
     --if "okok" = "ok" then out_string("HI\n") else out_string("BYTE\n") fi;
     --if "ok" = "ok" then out_string("HI\n") else out_string("BYTE\n") fi;
 
+    out_string("holamundo".substr(0,5));
+    out_string("\n");
+    out_string("holamundo".substr(1,5));
+    out_string("\n");
+    out_string("holamundo".substr(2,5));
+    out_string("\n");
+    out_string("holamundo".substr(4,5));
+    out_string("\n");
+    out_string("holamundo".substr(5,5));
+    out_string("\n");
+
     let a:String <- in_string(), b:String <- in_string() in
     {
       --out_string(a.concat("\n"));

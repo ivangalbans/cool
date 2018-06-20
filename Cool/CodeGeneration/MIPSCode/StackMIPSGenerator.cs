@@ -68,6 +68,9 @@ namespace Cool.CodeGeneration.MIPSCode
 
             gen += ".data\n";
             gen += "buffer: .space 65536\n";
+            gen += "strsubstrexception: .asciiz \"Substring index exception\n\"\n";
+            
+
             foreach (string s in Data)
                 gen += s + "\n";
 
@@ -200,6 +203,7 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "_str.substr.loop:\n";
             gen += "beqz $a2, _str.substr.end\n";
             gen += "lb $a1, 0($a0)\n";
+            gen += "beqz $a1, _substrexception\n";
             gen += "sb $a1, 0($v1)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "addiu $v1, $v1, 1\n";
@@ -208,6 +212,14 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "_str.substr.end:\n";
             gen += "sb $zero, 0($v1)\n";
             gen += "jr $ra\n";
+            gen += "\n";
+
+            gen += "_substrexception:\n";
+            gen += "la $a0, strsubstrexception\n";
+            gen += "li $v0, 4\n";
+            gen += "syscall\n";
+            gen += "li $v0, 10\n";
+            gen += "syscall\n";
             gen += "\n";
 
             gen += "_stringcmp:\n";
