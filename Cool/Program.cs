@@ -44,7 +44,7 @@ namespace Cool
             //string file = "book_list.cl";
             //string file = "fibo.cl";
             //string file = "arith.cl";
-            string file = "mytest.cl";
+            string file = "print_string.cl";
             string inputPath = folder[1] + file;
 
             string outputPath = "";
@@ -81,8 +81,7 @@ namespace Cool
 
             Console.WriteLine(rootProgram);
             
-
-            GenerateCode(rootProgram, outputPath, scope);
+            //GenerateCode(rootProgram, outputPath, scope);
         }
 
         private static ASTNode ParseInput(string inputPath)
@@ -97,6 +96,7 @@ namespace Cool
                 lexer.AddErrorListener(new LexerErrorListener(errors));
 
                 var tokens = new CommonTokenStream(lexer);
+
                 var parser = new CoolParser(tokens);
                 
                 parser.RemoveErrorListeners();
