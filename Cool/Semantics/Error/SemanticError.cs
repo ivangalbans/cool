@@ -65,6 +65,13 @@ namespace Cool.Semantics
                     ;
         }
 
+        public static string NotInheritsOf(ClassNode node, TypeInfo type)
+        {
+            return $"(Line: {node.Line}, Column: {node.Column})" +
+                   $"Is not allowed inherit of {type.Text}"
+                   ;
+        }
+
         public static string InvalidUseOfOperator(UnaryOperationNode node, TypeInfo operand)
         {
             return  $"(Line: {node.Line}, Column: {node.Column})" +

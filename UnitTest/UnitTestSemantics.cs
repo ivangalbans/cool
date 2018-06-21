@@ -16,7 +16,7 @@ namespace UnitTest
         public void TestSemanticsSuccess()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directorySuccess = "../../../Examples/Semantics/success/";
+            string directorySuccess = "../../../TestCases/Semantics/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 
@@ -48,7 +48,7 @@ namespace UnitTest
         public void TestSemanticsFail()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directoryFail = "../../../Examples/Semantics/fail/";
+            string directoryFail = "../../../TestCases/Semantics/fail/";
             DirectoryInfo directory = new DirectoryInfo(directoryFail);
             FileInfo[] files = directory.GetFiles();
 

@@ -37,8 +37,8 @@ namespace Cool
             Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
             Console.WriteLine("All Rights Reserved.\n");*/
 
-            string preffixSuccess = "../../../Examples/Semantics/success/";
-            string preffixFail = "../../../Examples/Semantics/fail/";
+            string preffixSuccess = "../../../TestCases/Semantics/success/";
+            string preffixFail = "../../../TestCases/Semantics/fail/";
 
             string[] folder = { preffixFail, preffixSuccess };
             //string file = "book_list.cl";

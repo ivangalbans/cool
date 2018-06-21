@@ -13,7 +13,7 @@ namespace UnitTest
         public void ASTBuilderSuccess()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directorySuccess = "../../../Examples/Parsing/success/";
+            string directorySuccess = "../../../TestCases/Parsing/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 

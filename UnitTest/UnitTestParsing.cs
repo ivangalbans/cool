@@ -40,7 +40,7 @@ namespace UnitTest
         [TestMethod]
         public void ParsingSuccess()
         {
-            string directorySuccess = "../../../Examples/Parsing/success/";
+            string directorySuccess = "../../../TestCases/Parsing/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 
@@ -57,7 +57,7 @@ namespace UnitTest
         [TestMethod]
         public void ParsingFail()
         {
-            string directoryFail = "../../../Examples/Parsing/fail/";
+            string directoryFail = "../../../TestCases/Parsing/fail/";
             DirectoryInfo directory = new DirectoryInfo(directoryFail);
             FileInfo[] files = directory.GetFiles();
 
