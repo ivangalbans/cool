@@ -154,7 +154,7 @@ namespace Cool
             Console.WriteLine("------------------------------------------");
             Console.WriteLine();
             string code = (new StackMIPSGenerator()).GenerateCode(g);
-            Console.WriteLine(code);
+            //Console.WriteLine(code);
 
             File.WriteAllText(@"C:\Users\Yagami\Desktop\mips\2.asm", code);
         }

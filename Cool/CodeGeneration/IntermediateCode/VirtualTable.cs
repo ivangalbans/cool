@@ -12,6 +12,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         IScope Scope;
         Dictionary<string, List<(string, string)>> VTables;
         Dictionary<(string, string), List<string>> MethodParametersTypes;
+        Dictionary<(string, string), string> AttributeType;
 
         public static List<string> Object = new List<string> { "abort", "type_name", "copy" };
         public static List<string> IO = new List<string> { "out_string", "out_int", "in_string", "in_int" };
@@ -22,6 +23,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             Scope = scope;
             VTables = new Dictionary<string, List<(string, string)>>();
             MethodParametersTypes = new Dictionary<(string, string), List<string>>();
+            AttributeType = new Dictionary<(string, string), string>();
 
             DefineClass("Object");
             foreach (var f in Object)
@@ -83,13 +85,15 @@ namespace Cool.CodeGeneration.IntermediateCode
             return VTables[cclass].Find((x) => x.Item2 == item);
         }
 
-        public List<string> GetParametersTypes(string cclass, string item)
+        public List<string> GetParametersTypes(string cclass, string method)
         {
-            return MethodParametersTypes[GetDefinition(cclass, item)];
+            return MethodParametersTypes[GetDefinition(cclass, method)];
         }
 
-        public void DefineAttribute(string cclass, string attr)
+        public void DefineAttribute(string cclass, string attr, string type)
         {
+            AttributeType[(cclass, attr)] = type;
+
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
@@ -100,6 +104,11 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
 
             VTables[cclass].Add((cclass, attr));
+        }
+
+        public string GetAttributeType(string cclass, string attr)
+        {
+            return AttributeType[GetDefinition(cclass, attr)];
         }
 
         public int GetSizeClass(string cclass)

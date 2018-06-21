@@ -15,21 +15,21 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public string CurrentClass { set; get; }
 
-        Dictionary<string, Stack<int>> VariableLink;
+        Dictionary<string, Stack<(int, string)>> VariableLink;
 
         public VariableManager()
         {
             VariableCounter = 0;
-            VariableLink = new Dictionary<string, Stack<int>>();
+            VariableLink = new Dictionary<string, Stack<(int, string)>>();
             variable_counter_stack = new Stack<int>();
         }
 
-        public void PushVariable(string name)
+        public void PushVariable(string name, string type)
         {
             if (!VariableLink.ContainsKey(name))
-                VariableLink[name] = new Stack<int>();
+                VariableLink[name] = new Stack<(int, string)>();
 
-            VariableLink[name].Push(VariableCounter);
+            VariableLink[name].Push((VariableCounter, type));
         }
 
         public void PopVariable(string name)
@@ -38,12 +38,12 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableLink[name].Pop();
         }
 
-        public int GetVariable(string name)
+        public (int, string) GetVariable(string name)
         {
             if (VariableLink.ContainsKey(name) && VariableLink[name].Count > 0)
                 return VariableLink[name].Peek();
             else
-                return -1;
+                return (-1, "");
         }
 
         public void PushVariableCounter()

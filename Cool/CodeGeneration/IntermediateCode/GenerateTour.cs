@@ -67,7 +67,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 }
 
                 foreach (var attr in attributes)
-                    VirtualTable.DefineAttribute(c.TypeClass.Text, attr.Formal.Id.Text);
+                    VirtualTable.DefineAttribute(c.TypeClass.Text, attr.Formal.Id.Text, attr.Formal.Type.Text);
             }
 
             foreach (var c in sorted)
@@ -93,7 +93,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                 int index = node.Branches.FindIndex((x) => x.Formal.Type.Text == static_type);
                 string v = node.Branches[index].Formal.Id.Text;
 
-                VariableManager.PushVariable(v);// v <- expr
+                VariableManager.PushVariable(v, node.Branches[index].Formal.Type.Text);// v <- expr
 
                 int t = VariableManager.IncrementVariableCounter();
                 VariableManager.PushVariableCounter();
@@ -123,12 +123,10 @@ namespace Cool.CodeGeneration.IntermediateCode
                 //VariableManager.IncrementVariableCounter();
                 for (int i = 0; i < sorted.Count; ++i)
                 {
-                    VariableManager.PushVariable(sorted[i].Formal.Id.Text);
+                    VariableManager.PushVariable(sorted[i].Formal.Id.Text, sorted[i].Formal.Type.Text);
                     VariableManager.PushVariableCounter();
 
-
                     int t = VariableManager.IncrementVariableCounter();
-
 
                     IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + i));
                     string type = sorted[i].Formal.Type.Text;
@@ -137,10 +135,7 @@ namespace Cool.CodeGeneration.IntermediateCode
                     sorted[i].Expression.Accept(this);
                     VariableManager.PopVariableCounter();
 
-
-
                     IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
-
 
                     VariableManager.PopVariableCounter();
                     VariableManager.PopVariable(sorted[i].Formal.Id.Text);
@@ -151,8 +146,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
                 IntermediateCode.AddCodeLine(new LabelLine("_endcase", tag));
             }
-
-
         }
 
         void InitCode()
@@ -171,7 +164,17 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
                 IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("Object", f)));
             }
+
+            IntermediateCode.AddCodeLine(new CommentLine("set class name: Object"));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, "Object", 0));
+            IntermediateCode.AddCodeLine(new CommentLine("set class size: " + VirtualTable.GetSizeClass("Object") + " words"));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("Object"), 1));
+            //IntermediateCode.AddCodeLine(new CommentLine("set class generation label"));
+            //IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", node.TypeClass.Text), 2));
+
             IntermediateCode.AddCodeLine(new ReturnLine());
+
+
 
             IntermediateCode.AddCodeLine(new LabelLine("IO", "constructor"));
 
@@ -186,7 +189,16 @@ namespace Cool.CodeGeneration.IntermediateCode
                 IntermediateCode.AddCodeLine(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
                 IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("IO", f)));
             }
+
+            IntermediateCode.AddCodeLine(new CommentLine("set class name: Object"));
+            IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(0, "IO", 0));
+            IntermediateCode.AddCodeLine(new CommentLine("set class size: " + VirtualTable.GetSizeClass("IO") + " words"));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("IO"), 1));
+            IntermediateCode.AddCodeLine(new CommentLine("set class generation label"));
+            IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", "IO"), 2));
+
             IntermediateCode.AddCodeLine(new ReturnLine());
+
 
             IntermediateCode.AddCodeLine(new InheritLine("IO", "Object"));
             IntermediateCode.AddCodeLine(new InheritLine("Int", "Object"));
@@ -342,7 +354,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             foreach (var formal in node.Arguments)
             {
                 IntermediateCode.AddCodeLine(new ParamLine(VariableManager.VariableCounter));
-                VariableManager.PushVariable(formal.Id.Text);
+                VariableManager.PushVariable(formal.Id.Text, formal.Id.Text);
                 VariableManager.IncrementVariableCounter();
             }
 
@@ -390,18 +402,23 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
 
             node.ExpressionRight.Accept(this);
+            var (t, type) = VariableManager.GetVariable(node.ID.Text);
+
+            if (type == "")
+                type = VirtualTable.GetAttributeType(VariableManager.CurrentClass, node.ID.Text);
+
 
             if ((node.ExpressionRight.StaticType.Text == "Int" ||
                 node.ExpressionRight.StaticType.Text == "Bool" ||
                 node.ExpressionRight.StaticType.Text == "String") &&
-                node.StaticType.Text == "Object")
+                type == "Object")
+                //node.StaticType.Text == "Object")
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
                 IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", node.ExpressionRight.StaticType.Text), VariableManager.PeekVariableCounter()));
                 IntermediateCode.AddCodeLine(new PopParamLine(1));
             }
 
-            int t = VariableManager.GetVariable(node.ID.Text);
             if (t != -1)
             {
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
@@ -426,7 +443,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IdentifierNode node)
         {
-            int t = VariableManager.GetVariable(node.Text);
+            var (t, type) = VariableManager.GetVariable(node.Text);
             if (t != -1)
             {
                 IntermediateCode.AddCodeLine(new CommentLine("get veriable: " + node.Text));
@@ -440,9 +457,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             if (note_object_return_type)
             {
-                if (node.StaticType.Text == "Int" ||
-                    node.StaticType.Text == "Bool" ||
-                    node.StaticType.Text == "String")
+                //if (node.StaticType.Text == "Int" ||
+                //    node.StaticType.Text == "Bool" ||
+                //    node.StaticType.Text == "String")
+                if (type == "Int" ||
+                    type == "Bool" ||
+                    type == "String")
                     IntermediateCode.AddCodeLine(new ReturnTypeLine(node.StaticType.Text));
             }
         }
@@ -606,7 +626,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             foreach (var attr in node.Initialization)
             {
                 VariableManager.IncrementVariableCounter();
-                VariableManager.PushVariable(attr.Formal.Id.Text);
+                VariableManager.PushVariable(attr.Formal.Id.Text, attr.Formal.Type.Text);
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 //IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), VariableManager.VariableCounter));
