@@ -10,7 +10,7 @@ namespace Cool.AST
 
         public StringNode(ParserRuleContext context, string text) : base(context)
         {
-            Text = "";
+            /*Text = "";
 
             // 0 to Length - 1 in order to remove the (Antlr delivered) ""
             for(int i = 1; i < text.Length-1; ++i)
@@ -39,7 +39,9 @@ namespace Cool.AST
                         Text += c;
                     }
                 }
-            }
+            }*/
+
+            Text = text.Substring(1, text.Length-2);
 
         }
 
