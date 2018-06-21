@@ -11,27 +11,34 @@ namespace Cool.CodeGeneration.IntermediateCode
     {
         IScope Scope;
         Dictionary<string, List<(string, string)>> VTables;
+        Dictionary<(string, string), List<string>> MethodParametersTypes;
+        Dictionary<(string, string), string> AttributeType;
 
         public static List<string> Object = new List<string> { "abort", "type_name", "copy" };
         public static List<string> IO = new List<string> { "out_string", "out_int", "in_string", "in_int" };
-        public static List<string> String = new List<string> { "length", "concat", "substr" };
+        //public static List<string> String = new List<string> { "length", "concat", "substr" };
 
         public VirtualTable(IScope scope)
         {
             Scope = scope;
             VTables = new Dictionary<string, List<(string, string)>>();
+            MethodParametersTypes = new Dictionary<(string, string), List<string>>();
+            AttributeType = new Dictionary<(string, string), string>();
 
             DefineClass("Object");
             foreach (var f in Object)
-                DefineMethod("Object", f);
+                DefineMethod("Object", f, new List<string>());
             
             DefineClass("IO");
-            foreach (var f in IO)
-                DefineMethod("IO", f);
+            DefineMethod("IO", "out_string", new List<string>() { "String" });
+            DefineMethod("IO", "out_int", new List<string>() { "Int" });
+            DefineMethod("IO", "in_string", new List<string>());
+            DefineMethod("IO", "in_int", new List<string>());
 
             DefineClass("String");
-            foreach (var f in String)
-                DefineMethod("String", f);
+            DefineMethod("String", "length", new List<string>());
+            DefineMethod("String", "concat", new List<string>() { "String" });
+            DefineMethod("String", "substr", new List<string>() { "Int", "Int" });
 
             DefineClass("Int");
             DefineClass("Bool");
@@ -48,8 +55,10 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
         }
 
-        public void DefineMethod(string cclass, string method)
+        public void DefineMethod(string cclass, string method, List<string> args_types)
         {
+            MethodParametersTypes[(cclass, method)] = args_types;
+
             string label = cclass + "." + method;
             if (cclass != "Object")
             {
@@ -76,8 +85,15 @@ namespace Cool.CodeGeneration.IntermediateCode
             return VTables[cclass].Find((x) => x.Item2 == item);
         }
 
-        public void DefineAttribute(string cclass, string attr)
+        public List<string> GetParametersTypes(string cclass, string method)
         {
+            return MethodParametersTypes[GetDefinition(cclass, method)];
+        }
+
+        public void DefineAttribute(string cclass, string attr, string type)
+        {
+            AttributeType[(cclass, attr)] = type;
+
             if (cclass != "Object")
             {
                 string parent = Scope.GetType(cclass).Parent.Text;
@@ -88,6 +104,11 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
 
             VTables[cclass].Add((cclass, attr));
+        }
+
+        public string GetAttributeType(string cclass, string attr)
+        {
+            return AttributeType[GetDefinition(cclass, attr)];
         }
 
         public int GetSizeClass(string cclass)

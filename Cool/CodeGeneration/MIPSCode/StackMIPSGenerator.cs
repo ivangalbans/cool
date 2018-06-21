@@ -24,8 +24,8 @@ namespace Cool.CodeGeneration.MIPSCode
             param_count = 0;
             annotation = new Annotation(lines);
 
-            foreach(var x in annotation.FunctionParamsCount)
-                Console.WriteLine($"{x.Key} {x.Value}");
+            //foreach(var x in annotation.FunctionParamsCount)
+            //    Console.WriteLine($"{x.Key} {x.Value}");
 
             foreach (var str in annotation.StringsCounter)
             {
@@ -37,7 +37,7 @@ namespace Cool.CodeGeneration.MIPSCode
 
             foreach (var x in annotation.Inherit)
             {
-                string s = $"_class.{ x.Key}: .word ";
+                string s = $"_class.{ x.Key}: .word str{annotation.StringsCounter[x.Key]}, ";
 
                 string p = x.Value;
                 while (p != "Object")
@@ -77,33 +77,70 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n.globl main\n";
             gen += ".text\n";
 
-            gen += "Object.type_name:\n";
-            gen += "lw $a0, 0($sp)\n";
-            gen += "lw $v0, 0($a0)\n";
+            gen += "_inherit:\n";
+            gen += "lw $a0, 8($a0)\n";
+            gen += "_inherit.loop:\n";
+            gen += "lw $a2, 0($a0)\n";
+            gen += "beq $a1, $a2, _inherit_true\n";
+            gen += "beq $a2, $zero, _inherit_false\n";
+            gen += "addiu $a0, $a0, 4\n";
+            gen += "j _inherit.loop\n";
+            gen += "_inherit_false:\n";
+            gen += "li $v0, 0\n";
+            gen += "jr $ra\n";
+            gen += "_inherit_true:\n";
+            gen += "li $v0, 1\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+            
+            //gen += "Object.type_name:\n";
+            //gen += "lw $a0, 0($sp)\n";
+            //gen += "lw $v0, 0($a0)\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            gen += "Object.copy:\n";
+            gen += "lw $a1, 0($sp)\n";
+            gen += "lw $a0, 4($a1)\n";
+            gen += "li $a3, 4\n";
+            gen += "mul $a0, $a0, $a3\n";
+            gen += "li $v0, 9\n";
+            gen += "syscall\n";
+            gen += "lw $a1, 0($sp)\n";
+            gen += "lw $a0, 4($a1)\n";
+            gen += "move $a3, $v0\n";
+            gen += "Object.copy.loop:\n";
+            gen += "lw $a2, 0($a1)\n";
+            gen += "sw $a2, 0($a3)\n";
+            gen += "addiu $a0, $a0, -1\n";
+            gen += "addiu $a1, $a1, 4\n";
+            gen += "addiu $a3, $a3, 4\n";
+            gen += "beq $a0, $zero, Object.copy.end\n";
+            gen += "j Object.copy.loop\n";
+            gen += "Object.copy.end:\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "Object.copy:\n";
-            gen += "Object.abort:\n";
+            gen += "_abort:\n";
             gen += "li $v0, 10\n";
             gen += "syscall\n";
             gen += "\n";
 
-            gen += "IO.out_string:\n";
+            gen += "_out_string:\n";
             gen += "li $v0, 4\n";
-            gen += "lw $a0, -4($sp)\n";
+            gen += "lw $a0, 0($sp)\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "IO.out_int:\n";
+            gen += "_out_int:\n";
             gen += "li $v0, 1\n";
-            gen += "lw $a0, -4($sp)\n";
+            gen += "lw $a0, 0($sp)\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "IO.in_string:\n";
+            gen += "_in_string:\n";
             gen += "move $a3, $ra\n";
             gen += "la $a0, buffer\n";
             gen += "li $a1, 65536\n";
@@ -120,45 +157,98 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "syscall\n";
             gen += "move $v1, $v0\n";
             gen += "la $a0, buffer\n";
-            gen += "_io.in_string.loop:\n";
-            gen += "beqz $a2, _io.in_string.end\n";
+            gen += "_in_string.loop:\n";
+            gen += "beqz $a2, _in_string.end\n";
             gen += "lb $a1, 0($a0)\n";
             gen += "sb $a1, 0($v1)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "addiu $v1, $v1, 1\n";
             gen += "addiu $a2, $a2, -1\n";
-            gen += "j _io.in_string.loop\n";
-            gen += "_io.in_string.end:\n";
+            gen += "j _in_string.loop\n";
+            gen += "_in_string.end:\n";
             gen += "sb $zero, 0($v1)\n";
             gen += "move $ra, $a3\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "IO.in_int:\n";
+            gen += "_in_int:\n";
             gen += "li $v0, 5\n";
             gen += "syscall\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "String.length:\n";
+
+
+            //gen += "_out_string:\n";
+            //gen += "li $v0, 4\n";
+            //gen += "lw $a0, -4($sp)\n";
+            //gen += "syscall\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            //gen += "_out_int:\n";
+            //gen += "li $v0, 1\n";
+            //gen += "lw $a0, -4($sp)\n";
+            //gen += "syscall\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            //gen += "_in_string:\n";
+            //gen += "move $a3, $ra\n";
+            //gen += "la $a0, buffer\n";
+            //gen += "li $a1, 65536\n";
+            //gen += "li $v0, 8\n";
+            //gen += "syscall\n";
+            //gen += "addiu $sp, $sp, -4\n";
+            //gen += "sw $a0, 0($sp)\n";
+            //gen += "jal String.length\n";
+            //gen += "addiu $sp, $sp, 4\n";
+            //gen += "move $a2, $v0\n";
+            //gen += "addiu $a2, $a2, -1\n";
+            //gen += "move $a0, $v0\n";
+            //gen += "li $v0, 9\n";
+            //gen += "syscall\n";
+            //gen += "move $v1, $v0\n";
+            //gen += "la $a0, buffer\n";
+            //gen += "_io.in_string.loop:\n";
+            //gen += "beqz $a2, _io.in_string.end\n";
+            //gen += "lb $a1, 0($a0)\n";
+            //gen += "sb $a1, 0($v1)\n";
+            //gen += "addiu $a0, $a0, 1\n";
+            //gen += "addiu $v1, $v1, 1\n";
+            //gen += "addiu $a2, $a2, -1\n";
+            //gen += "j _io.in_string.loop\n";
+            //gen += "_io.in_string.end:\n";
+            //gen += "sb $zero, 0($v1)\n";
+            //gen += "move $ra, $a3\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            //gen += "_in_int:\n";
+            //gen += "li $v0, 5\n";
+            //gen += "syscall\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            gen += "_stringlength:\n";
             gen += "lw $a0, 0($sp)\n";
-            gen += "_str.length.loop:\n";
+            gen += "_stringlength.loop:\n";
             gen += "lb $a1, 0($a0)\n";
-            gen += "beqz $a1, _str.length.end\n";
+            gen += "beqz $a1, _stringlength.end\n";
             gen += "addiu $a0, $a0, 1\n";
-            gen += "j _str.length.loop\n";
-            gen += "_str.length.end:\n";
+            gen += "j _stringlength.loop\n";
+            gen += "_stringlength.end:\n";
             gen += "lw $a1, 0($sp)\n";
             gen += "subu $v0, $a0, $a1\n";
             gen += "jr $ra\n";
             gen += "\n";
 
-            gen += "String.concat:\n";
+            gen += "_stringconcat:\n";
             gen += "move $a2, $ra\n";
-            gen += "jal String.length\n";
+            gen += "jal _stringlength\n";
             gen += "move $v1, $v0\n";
             gen += "addiu $sp, $sp, -4\n";
-            gen += "jal String.length\n";
+            gen += "jal _stringlength\n";
             gen += "addiu $sp, $sp, 4\n";
             gen += "add $v1, $v1, $v0\n";
             gen += "addi $v1, $v1, 1\n";
@@ -167,30 +257,30 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "syscall\n";
             gen += "move $v1, $v0\n";
             gen += "lw $a0, 0($sp)\n";
-            gen += "_str.concat.loop1:\n";
+            gen += "_stringconcat.loop1:\n";
             gen += "lb $a1, 0($a0)\n";
-            gen += "beqz $a1, _str.concat.end1\n";
+            gen += "beqz $a1, _stringconcat.end1\n";
             gen += "sb $a1, 0($v1)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "addiu $v1, $v1, 1\n";
-            gen += "j _str.concat.loop1\n";
-            gen += "_str.concat.end1:\n";
+            gen += "j _stringconcat.loop1\n";
+            gen += "_stringconcat.end1:\n";
             gen += "lw $a0, -4($sp)\n";
-            gen += "_str.concat.loop2:\n";
+            gen += "_stringconcat.loop2:\n";
             gen += "lb $a1, 0($a0)\n";
-            gen += "beqz $a1, _str.concat.end2\n";
+            gen += "beqz $a1, _stringconcat.end2\n";
             gen += "sb $a1, 0($v1)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "addiu $v1, $v1, 1\n";
-            gen += "j _str.concat.loop2\n";
-            gen += "_str.concat.end2:\n";
+            gen += "j _stringconcat.loop2\n";
+            gen += "_stringconcat.end2:\n";
             gen += "sb $zero, 0($v1)\n";
             gen += "move $ra, $a2\n";
             gen += "jr $ra\n";
             gen += "\n";
 
 
-            gen += "String.substr:\n";
+            gen += "_stringsubstr:\n";
             gen += "lw $a0, -8($sp)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "li $v0, 9\n";
@@ -200,16 +290,16 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "lw $a1, -4($sp)\n";
             gen += "add $a0, $a0, $a1\n";
             gen += "lw $a2, -8($sp)\n";
-            gen += "_str.substr.loop:\n";
-            gen += "beqz $a2, _str.substr.end\n";
+            gen += "_stringsubstr.loop:\n";
+            gen += "beqz $a2, _stringsubstr.end\n";
             gen += "lb $a1, 0($a0)\n";
             gen += "beqz $a1, _substrexception\n";
             gen += "sb $a1, 0($v1)\n";
             gen += "addiu $a0, $a0, 1\n";
             gen += "addiu $v1, $v1, 1\n";
             gen += "addiu $a2, $a2, -1\n";
-            gen += "j _str.substr.loop\n";
-            gen += "_str.substr.end:\n";
+            gen += "j _stringsubstr.loop\n";
+            gen += "_stringsubstr.end:\n";
             gen += "sb $zero, 0($v1)\n";
             gen += "jr $ra\n";
             gen += "\n";
@@ -272,6 +362,7 @@ namespace Cool.CodeGeneration.MIPSCode
             }
             Code.Add($"\n");
             Code.Add($"{line.Label}:");
+            Code.Add($"li $t9, 0");
         }
 
         public void Visit(AllocateLine line)
@@ -311,7 +402,7 @@ namespace Cool.CodeGeneration.MIPSCode
         {
             Code.Add($"lw $a0, {-line.Left * 4}($sp)");
             Code.Add($"li $a1, {line.Right}");
-            Code.Add($"sw $a1, {-line.Offset * 4}($a0)");
+            Code.Add($"sw $a1, {line.Offset * 4}($a0)");
         }
 
         public void Visit(AssignmentMemoryToVariableLine line)
@@ -336,7 +427,7 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(AssignmentStringToMemoryLine line)
         {
             Code.Add($"la $a0, str{annotation.StringsCounter[line.Right]}");
-            Code.Add($"lw $a1, {-line.Left}($sp)");
+            Code.Add($"lw $a1, {-line.Left * 4}($sp)");
             Code.Add($"sw $a0, {line.Offset * 4}($a1)");
         }
 
@@ -350,7 +441,7 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(AssignmentLabelToMemoryLine line)
         {
             Code.Add($"la $a0, {line.Right.Label}");
-            Code.Add($"lw $a1, {-line.Left}($sp)");
+            Code.Add($"lw $a1, {-line.Left * 4}($sp)");
             Code.Add($"sw $a0, {line.Offset * 4}($a1)");
         }
         public void Visit(AssignmentNullToVariableLine line)
@@ -453,6 +544,12 @@ namespace Cool.CodeGeneration.MIPSCode
                     Code.Add($"move $ra, $v1");
                     Code.Add($"move $a0, $v0");
                     break;
+                case "inherit":
+                    Code.Add($"move $v1, $ra");
+                    Code.Add($"jal _inherit");
+                    Code.Add($"move $ra, $v1");
+                    Code.Add($"move $a0, $v0");
+                    break;
                 default:
                     throw new NotImplementedException();
                     break;
@@ -493,17 +590,58 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(AssignmentInheritToVariable line)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Visit(SpecialObjectReturn line)
         {
-            //throw new NotImplementedException();
+            Code.Add($"lw $v0, {-line.Variable * 4}($sp)");
+            Code.Add($"move $a0, $v0");
+            Code.Add($"sw $ra, {-size * 4}($sp)");
+            Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
+
+            Code.Add($"sw $a0, 0($sp)");
+
+            int t = Code.Count;
+
+            Code.Add($"li $a1, 1");
+            Code.Add($"beq $t9, $a1, __wi.{t}");
+            Code.Add($"li $a1, 2");
+            Code.Add($"beq $t9, $a1, __wb.{t}");
+            Code.Add($"li $a1, 3");
+            Code.Add($"beq $t9, $a1, __ws.{t}");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__wi.{t}:");
+            Code.Add($"jal _wrapper.Int");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__wb.{t}:");
+            Code.Add($"jal _wrapper.Bool");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__ws.{t}:");
+            Code.Add($"jal _wrapper.String");
+            Code.Add($"j __we.{t}");
+
+            Code.Add($"__we.{t}:");
+
+            Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
+            Code.Add($"lw $ra, {-size * 4}($sp)");
+
+            Code.Add($"jr $ra");
         }
 
         public void Visit(ReturnTypeLine line)
         {
-            //throw new NotImplementedException();
+            if(line.Type == "Int")
+                Code.Add($"li $t9, 1");
+
+            if (line.Type == "Bool")
+                Code.Add($"li $t9, 2");
+
+            if (line.Type == "String")
+                Code.Add($"li $t9, 3");
         }
     }
 }

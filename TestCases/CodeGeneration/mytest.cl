@@ -1,33 +1,28 @@
 class Main inherits IO {
 
-  g() : String {
-    "HI"
-  };
-
-  h() : Int {
-    (new Int)
-  };
-
-  f() : Int {
-    --if 1 = 2 then 7 else "hola" fi
-    --if 1 = 2 then g() else h() fi
-    2
-  };
 
   main():Object {{
-    --out_string("HI");
+    --out_int(2);
+    --out_string("hola");
 
-    --let x : Object <- f() in out_string(x.type_name());
+    --let x:Int <- in_int(), y:String <- in_string() in {
+    --  out_int(x*x);
+    --  out_string(y.concat("HI"));
+    --};
 
-    --let x : Object in x <- f();
+    out_string("holamundo".substr(0,5));
+    out_string("\n");
+    out_string("holamundo".substr(1,5));
+    out_string("\n");
+    out_string("holamundo".substr(2,5));
+    out_string("\n");
+    out_string("holamundo".substr(4,5));
+    out_string("\n");
+    out_string("holamundo".substr(5,5));
+    out_string("\n");
 
-    let x : Object <- f() in out_string(x.type_name());
-
-    --case "HOLA" of
-    --  o : Object => o;
-    --  s : String => s;
-    --  i : Int => i;
-    --esac;
-
+    --t(2.copy());
+    --t((new A).copy());
+    --let x:Int <- 2, y:Int <- x * 8, z:Int <- y/3 in out_int(z);
   }};
 };
