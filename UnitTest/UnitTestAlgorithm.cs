@@ -16,7 +16,7 @@ namespace UnitTest
         public void TopologicalSortSuccess()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directorySuccess = "../../../Examples/Algorithm/success/";
+            string directorySuccess = "../../../TestCases/Algorithm/success/";
             DirectoryInfo directory = new DirectoryInfo(directorySuccess);
             FileInfo[] files = directory.GetFiles();
 
@@ -38,7 +38,7 @@ namespace UnitTest
         public void TopologicalSortFail()
         {
             UnitTestParsing testParsing = new UnitTestParsing();
-            string directoryFail = "../../../Examples/Algorithm/fail/";
+            string directoryFail = "../../../TestCases/Algorithm/fail/";
             DirectoryInfo directory = new DirectoryInfo(directoryFail);
             FileInfo[] files = directory.GetFiles();
 

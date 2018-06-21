@@ -60,6 +60,11 @@ namespace Cool.Semantics
                     errors.Add(SemanticError.NotDeclaredType(cclass.TypeInherit));
                     return;
                 }
+                if(new List<string>{ "Bool", "Int", "String"}.Contains(type.Text))
+                {
+                    errors.Add(SemanticError.NotInheritsOf(cclass, type));
+                    return;
+                }
                 cclass.Accept(this);
             }
         }

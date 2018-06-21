@@ -37,17 +37,21 @@ namespace Cool
             Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
             Console.WriteLine("All Rights Reserved.\n");*/
 
-            string preffixSuccess = "../../../Examples/CodeGeneration/";
-            string preffixFail = "../../../Examples/CodeGeneration/";
+            string preffixSuccess = "../../../TestCases/Semantics/success/";
+            string preffixFail = "../../../TestCases/Semantics/fail/";
+            string codes = "../../../TestCases/CodeGeneration/";
 
-            string[] folder = { preffixFail, preffixSuccess };
+            string[] folder = { preffixFail, preffixSuccess, codes };
             //string file = "book_list.cl";
             //string file = "fibo.cl";
             //string file = "arith.cl";
-            string file = "mytest.cl";
-            string inputPath = folder[1] + file;
+            string fileName = "hello_world";
+            string extension = ".cl";
 
-            string outputPath = "";
+            string file = fileName + extension;
+
+            string inputPath = folder[2] + file;
+            string outputPath = $"../../../TestCases/CodeGeneration/{fileName}.s";
 
             if(!File.Exists(inputPath))
             {
@@ -81,7 +85,6 @@ namespace Cool
 
             Console.WriteLine(rootProgram);
             
-
             GenerateCode(rootProgram, outputPath, scope);
         }
 
@@ -97,6 +100,7 @@ namespace Cool
                 lexer.AddErrorListener(new LexerErrorListener(errors));
 
                 var tokens = new CommonTokenStream(lexer);
+
                 var parser = new CoolParser(tokens);
                 
                 parser.RemoveErrorListeners();
@@ -142,7 +146,7 @@ namespace Cool
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
 
-            IntermediateCode x = (IntermediateCode)(new GenerateTour()).GetIntermediateCode(root, scope);
+            IntermediateCode x = (new GenerateTour()).GetIntermediateCode(root, scope);
             Console.WriteLine("CODE GENERATED OK!!!");
             var g = x.GetCode();
             Console.WriteLine(g.Count);
@@ -154,9 +158,9 @@ namespace Cool
             Console.WriteLine("------------------------------------------");
             Console.WriteLine();
             string code = (new StackMIPSGenerator()).GenerateCode(g);
-            //Console.WriteLine(code);
+            Console.WriteLine(code);
 
-            File.WriteAllText(@"C:\Users\Yagami\Desktop\mips\2.asm", code);
+            File.WriteAllText(outputPath, code);
         }
 
     }

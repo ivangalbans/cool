@@ -27,12 +27,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public List<CodeLine> GetCode()
         {
-            List<CodeLine> code = new List<CodeLine>();
-
-            foreach (var c in Code)
-                code.Add(c);
-
-            return code;
+            return new List<CodeLine>(Code);
         }
 
         public int CountLines()

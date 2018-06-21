@@ -29,7 +29,6 @@ namespace Cool.Semantics
         public void Visit(ProgramNode node)
         {
             node.Classes.ForEach(cclass => cclass.Accept(new Tour2(cclass.Scope, errors)));
-            //node.Classes.ForEach(cclass => cclass.Accept(this, cclass.Scope, errors));
         }
 
         public void Visit(ClassNode node)
