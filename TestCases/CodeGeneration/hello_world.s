@@ -2,44 +2,74 @@
 buffer: .space 65536
 strsubstrexception: .asciiz "Substring index exception
 "
-str0: .asciiz "IO"
-str1: .asciiz "Object"
+str0: .asciiz "Object"
+str1: .asciiz "IO"
 str2: .asciiz "Int"
 str3: .asciiz "Bool"
 str4: .asciiz "String"
 str5: .asciiz "Main"
 str6: .asciiz "Hello, World.\n"
-_class.IO: .word str1, 0
-_class.Int: .word str1, 0
-_class.Bool: .word str1, 0
-_class.String: .word str1, 0
-_class.Main: .word str0, str1, 0
+_class.IO: .word str1, str0, 0
+_class.Int: .word str2, str0, 0
+_class.Bool: .word str3, str0, 0
+_class.String: .word str4, str0, 0
+_class.Main: .word str5, str1, str0, 0
 
 .globl main
 .text
-Object.type_name:
-lw $a0, 0($sp)
-lw $v0, 0($a0)
+_inherit:
+lw $a0, 8($a0)
+_inherit.loop:
+lw $a2, 0($a0)
+beq $a1, $a2, _inherit_true
+beq $a2, $zero, _inherit_false
+addiu $a0, $a0, 4
+j _inherit.loop
+_inherit_false:
+li $v0, 0
+jr $ra
+_inherit_true:
+li $v0, 1
 jr $ra
 
 Object.copy:
-Object.abort:
+lw $a1, 0($sp)
+lw $a0, 4($a1)
+li $a3, 4
+mul $a0, $a0, $a3
+li $v0, 9
+syscall
+lw $a1, 0($sp)
+lw $a0, 4($a1)
+move $a3, $v0
+Object.copy.loop:
+lw $a2, 0($a1)
+sw $a2, 0($a3)
+addiu $a0, $a0, -1
+addiu $a1, $a1, 4
+addiu $a3, $a3, 4
+beq $a0, $zero, Object.copy.end
+j Object.copy.loop
+Object.copy.end:
+jr $ra
+
+_abort:
 li $v0, 10
 syscall
 
-IO.out_string:
+_out_string:
 li $v0, 4
-lw $a0, -4($sp)
+lw $a0, 0($sp)
 syscall
 jr $ra
 
-IO.out_int:
+_out_int:
 li $v0, 1
-lw $a0, -4($sp)
+lw $a0, 0($sp)
 syscall
 jr $ra
 
-IO.in_string:
+_in_string:
 move $a3, $ra
 la $a0, buffer
 li $a1, 65536
@@ -56,42 +86,42 @@ li $v0, 9
 syscall
 move $v1, $v0
 la $a0, buffer
-_io.in_string.loop:
-beqz $a2, _io.in_string.end
+_in_string.loop:
+beqz $a2, _in_string.end
 lb $a1, 0($a0)
 sb $a1, 0($v1)
 addiu $a0, $a0, 1
 addiu $v1, $v1, 1
 addiu $a2, $a2, -1
-j _io.in_string.loop
-_io.in_string.end:
+j _in_string.loop
+_in_string.end:
 sb $zero, 0($v1)
 move $ra, $a3
 jr $ra
 
-IO.in_int:
+_in_int:
 li $v0, 5
 syscall
 jr $ra
 
-String.length:
+_stringlength:
 lw $a0, 0($sp)
-_str.length.loop:
+_stringlength.loop:
 lb $a1, 0($a0)
-beqz $a1, _str.length.end
+beqz $a1, _stringlength.end
 addiu $a0, $a0, 1
-j _str.length.loop
-_str.length.end:
+j _stringlength.loop
+_stringlength.end:
 lw $a1, 0($sp)
 subu $v0, $a0, $a1
 jr $ra
 
-String.concat:
+_stringconcat:
 move $a2, $ra
-jal String.length
+jal _stringlength
 move $v1, $v0
 addiu $sp, $sp, -4
-jal String.length
+jal _stringlength
 addiu $sp, $sp, 4
 add $v1, $v1, $v0
 addi $v1, $v1, 1
@@ -100,28 +130,28 @@ move $a0, $v1
 syscall
 move $v1, $v0
 lw $a0, 0($sp)
-_str.concat.loop1:
+_stringconcat.loop1:
 lb $a1, 0($a0)
-beqz $a1, _str.concat.end1
+beqz $a1, _stringconcat.end1
 sb $a1, 0($v1)
 addiu $a0, $a0, 1
 addiu $v1, $v1, 1
-j _str.concat.loop1
-_str.concat.end1:
+j _stringconcat.loop1
+_stringconcat.end1:
 lw $a0, -4($sp)
-_str.concat.loop2:
+_stringconcat.loop2:
 lb $a1, 0($a0)
-beqz $a1, _str.concat.end2
+beqz $a1, _stringconcat.end2
 sb $a1, 0($v1)
 addiu $a0, $a0, 1
 addiu $v1, $v1, 1
-j _str.concat.loop2
-_str.concat.end2:
+j _stringconcat.loop2
+_stringconcat.end2:
 sb $zero, 0($v1)
 move $ra, $a2
 jr $ra
 
-String.substr:
+_stringsubstr:
 lw $a0, -8($sp)
 addiu $a0, $a0, 1
 li $v0, 9
@@ -131,16 +161,16 @@ lw $a0, 0($sp)
 lw $a1, -4($sp)
 add $a0, $a0, $a1
 lw $a2, -8($sp)
-_str.substr.loop:
-beqz $a2, _str.substr.end
+_stringsubstr.loop:
+beqz $a2, _stringsubstr.end
 lb $a1, 0($a0)
 beqz $a1, _substrexception
 sb $a1, 0($v1)
 addiu $a0, $a0, 1
 addiu $v1, $v1, 1
 addiu $a2, $a2, -1
-j _str.substr.loop
-_str.substr.end:
+j _stringsubstr.loop
+_stringsubstr.end:
 sb $zero, 0($v1)
 jr $ra
 
@@ -184,6 +214,7 @@ lw $ra, 0($sp)
 
 
 Object.constructor:
+li $t9, 0
 # PARAM t0;
 # // set method: Object.abort
 # *(t0 + 3) = Label "Object.abort"
@@ -200,6 +231,16 @@ sw $a0, 16($a1)
 la $a0, Object.copy
 lw $a1, 0($sp)
 sw $a0, 20($a1)
+# // set class name: Object
+# *(t0 + 0) = "Object"
+la $a0, str0
+lw $a1, 0($sp)
+sw $a0, 0($a1)
+# // set class size: 6 words
+# *(t0 + 1) = 6
+lw $a0, 0($sp)
+li $a1, 6
+sw $a1, 4($a0)
 # Return ;
 
 lw $v0, 4($sp)
@@ -208,6 +249,7 @@ jr $ra
 
 
 IO.constructor:
+li $t9, 0
 # PARAM t0;
 # PushParam t0;
 lw $a0, 0($sp)
@@ -239,6 +281,21 @@ sw $a0, 32($a1)
 la $a0, IO.in_int
 lw $a1, 0($sp)
 sw $a0, 36($a1)
+# // set class name: Object
+# *(t0 + 0) = "IO"
+la $a0, str1
+lw $a1, 0($sp)
+sw $a0, 0($a1)
+# // set class size: 10 words
+# *(t0 + 1) = 10
+lw $a0, 0($sp)
+li $a1, 10
+sw $a1, 4($a0)
+# // set class generation label
+# *(t0 + 2) = Label "_class.IO"
+la $a0, _class.IO
+lw $a1, 0($sp)
+sw $a0, 8($a1)
 # Return ;
 
 lw $v0, 4($sp)
@@ -251,6 +308,7 @@ jr $ra
 
 
 _wrapper.Int:
+li $t9, 0
 # PARAM t0;
 # t1 = Alloc 7;
 # Begin Allocate
@@ -259,22 +317,37 @@ li $a0, 28
 syscall
 sw $v0, -4($sp)
 # End Allocate
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -12($sp)
+# Call Object.constructor;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal Object.constructor
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+# PopParam 1;
 # *(t1 + 0) = "Int"
 la $a0, str2
-lw $a1, -1($sp)
+lw $a1, -4($sp)
 sw $a0, 0($a1)
 # *(t1 + 6) = t0
 lw $a0, 0($sp)
 lw $a1, -4($sp)
 sw $a0, 24($a1)
-# Return t0;
+# *(t1 + 2) = Label "_class.Int"
+la $a0, _class.Int
+lw $a1, -4($sp)
+sw $a0, 8($a1)
+# Return t1;
 
-lw $v0, 0($sp)
+lw $v0, -4($sp)
 jr $ra
 # _wrapper.Bool:
 
 
 _wrapper.Bool:
+li $t9, 0
 # PARAM t0;
 # t1 = Alloc 7;
 # Begin Allocate
@@ -283,22 +356,37 @@ li $a0, 28
 syscall
 sw $v0, -4($sp)
 # End Allocate
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -12($sp)
+# Call Object.constructor;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal Object.constructor
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+# PopParam 1;
 # *(t1 + 0) = "Bool"
 la $a0, str3
-lw $a1, -1($sp)
+lw $a1, -4($sp)
 sw $a0, 0($a1)
 # *(t1 + 6) = t0
 lw $a0, 0($sp)
 lw $a1, -4($sp)
 sw $a0, 24($a1)
-# Return t0;
+# *(t1 + 2) = Label "_class.Bool"
+la $a0, _class.Bool
+lw $a1, -4($sp)
+sw $a0, 8($a1)
+# Return t1;
 
-lw $v0, 0($sp)
+lw $v0, -4($sp)
 jr $ra
 # _wrapper.String:
 
 
 _wrapper.String:
+li $t9, 0
 # PARAM t0;
 # t1 = Alloc 10;
 # Begin Allocate
@@ -307,14 +395,202 @@ li $a0, 40
 syscall
 sw $v0, -4($sp)
 # End Allocate
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -12($sp)
+# Call Object.constructor;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal Object.constructor
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+# PopParam 1;
 # *(t1 + 0) = "String"
 la $a0, str4
-lw $a1, -1($sp)
+lw $a1, -4($sp)
 sw $a0, 0($a1)
 # *(t1 + 9) = t0
 lw $a0, 0($sp)
 lw $a1, -4($sp)
 sw $a0, 36($a1)
+# *(t1 + 2) = Label "_class.String"
+la $a0, _class.String
+lw $a1, -4($sp)
+sw $a0, 8($a1)
+# Return t1;
+
+lw $v0, -4($sp)
+jr $ra
+# Object.abort:
+
+
+Object.abort:
+li $t9, 0
+# Goto _abort
+j _abort
+# Object.type_name:
+
+
+Object.type_name:
+li $t9, 0
+# PARAM t0;
+# t0 = *(t0 + 0)
+lw $a0, 0($sp)
+lw $a1, 0($a0)
+sw $a1, 0($sp)
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# IO.out_string:
+
+
+IO.out_string:
+li $t9, 0
+# PARAM t0;
+# PARAM t1;
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -12($sp)
+# t0 = Call _out_string;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal _out_string
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+sw $v0, 0($sp)
+# PopParam 1;
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# IO.out_int:
+
+
+IO.out_int:
+li $t9, 0
+# PARAM t0;
+# PARAM t1;
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -12($sp)
+# t0 = Call _out_int;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal _out_int
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+sw $v0, 0($sp)
+# PopParam 1;
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# IO.in_string:
+
+
+IO.in_string:
+li $t9, 0
+# PARAM t0;
+# t0 = Call _in_string;
+sw $ra, -4($sp)
+addiu $sp, $sp, -8
+jal _in_string
+addiu $sp, $sp, 8
+lw $ra, -4($sp)
+sw $v0, 0($sp)
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# IO.in_int:
+
+
+IO.in_int:
+li $t9, 0
+# PARAM t0;
+# t0 = Call _in_int;
+sw $ra, -4($sp)
+addiu $sp, $sp, -8
+jal _in_int
+addiu $sp, $sp, 8
+lw $ra, -4($sp)
+sw $v0, 0($sp)
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# String.length:
+
+
+String.length:
+li $t9, 0
+# PARAM t0;
+# PushParam t0;
+lw $a0, 0($sp)
+sw $a0, -8($sp)
+# t0 = Call _stringlength;
+sw $ra, -4($sp)
+addiu $sp, $sp, -8
+jal _stringlength
+addiu $sp, $sp, 8
+lw $ra, -4($sp)
+sw $v0, 0($sp)
+# PopParam 1;
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# String.concat:
+
+
+String.concat:
+li $t9, 0
+# PARAM t0;
+# PARAM t1;
+# PushParam t0;
+lw $a0, 0($sp)
+sw $a0, -12($sp)
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -16($sp)
+# t0 = Call _stringconcat;
+sw $ra, -8($sp)
+addiu $sp, $sp, -12
+jal _stringconcat
+addiu $sp, $sp, 12
+lw $ra, -8($sp)
+sw $v0, 0($sp)
+# PopParam 2;
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# String.substr:
+
+
+String.substr:
+li $t9, 0
+# PARAM t0;
+# PARAM t1;
+# PARAM t2;
+# PushParam t0;
+lw $a0, 0($sp)
+sw $a0, -16($sp)
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -20($sp)
+# PushParam t2;
+lw $a0, -8($sp)
+sw $a0, -24($sp)
+# t0 = Call _stringsubstr;
+sw $ra, -12($sp)
+addiu $sp, $sp, -16
+jal _stringsubstr
+addiu $sp, $sp, 16
+lw $ra, -12($sp)
+sw $v0, 0($sp)
+# PopParam 3;
 # Return t0;
 
 lw $v0, 0($sp)
@@ -324,6 +600,7 @@ jr $ra
 
 
 Main.main:
+li $t9, 0
 # PARAM t0;
 # t1 = t0
 lw $a0, 0($sp)
@@ -359,6 +636,7 @@ jr $ra
 
 
 Main.constructor:
+li $t9, 0
 # PARAM t0;
 # PushParam t0;
 lw $a0, 0($sp)
@@ -384,7 +662,7 @@ sw $a0, 0($a1)
 # *(t0 + 1) = 11
 lw $a0, 0($sp)
 li $a1, 11
-sw $a1, -4($a0)
+sw $a1, 4($a0)
 # // set class generation label
 # *(t0 + 2) = Label "_class.Main"
 la $a0, _class.Main
@@ -398,6 +676,7 @@ jr $ra
 
 
 start:
+li $t9, 0
 # t1 = Alloc 11;
 # Begin Allocate
 li $v0, 9
