@@ -263,6 +263,49 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
             IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "String"), 2));
             IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
+
+
+            //abort, typename, copy
+            IntermediateCode.AddCodeLine(new LabelLine("Object", "abort"));
+            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_abort")));
+
+            IntermediateCode.AddCodeLine(new LabelLine("Object", "type_name"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(0, 0, 0));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
+            //io: in_string, out_string, in_int, out_int
+            IntermediateCode.AddCodeLine(new LabelLine("IO", "out_string"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new ParamLine(1));
+            IntermediateCode.AddCodeLine(new PushParamLine(1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_out_string"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+            IntermediateCode.AddCodeLine(new LabelLine("IO", "out_int"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new ParamLine(1));
+            IntermediateCode.AddCodeLine(new PushParamLine(1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_out_int"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
+            IntermediateCode.AddCodeLine(new LabelLine("IO", "in_string"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_in_string"), 0));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
+            IntermediateCode.AddCodeLine(new LabelLine("IO", "in_int"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_in_int"), 0));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
+
         }
 
         void StartFunctionCode()
