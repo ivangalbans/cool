@@ -45,7 +45,8 @@ namespace Cool
             //string file = "book_list.cl";
             //string file = "fibo.cl";
             //string file = "arith.cl";
-            string fileName = "hello_world";
+            //string fileName = "hello_world";
+            string fileName = "mytest";
             string extension = ".cl";
 
             string file = fileName + extension;
