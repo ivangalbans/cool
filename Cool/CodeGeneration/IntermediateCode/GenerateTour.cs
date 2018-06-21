@@ -275,6 +275,19 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new ReturnLine(0));
 
 
+            IntermediateCode.AddCodeLine(new LabelLine("Object", "copy"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(1, 0, 1));
+            IntermediateCode.AddCodeLine(new AssignmentConstantToVariableLine(2, 4));
+            IntermediateCode.AddCodeLine(new BinaryOperationLine(1, 1, 2, "*"));
+            IntermediateCode.AddCodeLine(new PushParamLine(0));
+            IntermediateCode.AddCodeLine(new PushParamLine(1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_copy"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(2));
+
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
             //io: in_string, out_string, in_int, out_int
             IntermediateCode.AddCodeLine(new LabelLine("IO", "out_string"));
             IntermediateCode.AddCodeLine(new ParamLine(0));

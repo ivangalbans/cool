@@ -92,32 +92,52 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "li $v0, 1\n";
             gen += "jr $ra\n";
             gen += "\n";
-            
+
             //gen += "Object.type_name:\n";
             //gen += "lw $a0, 0($sp)\n";
             //gen += "lw $v0, 0($a0)\n";
             //gen += "jr $ra\n";
             //gen += "\n";
 
-            gen += "Object.copy:\n";
+            //gen += "Object.copy:\n";
+            //gen += "lw $a1, 0($sp)\n";
+            //gen += "lw $a0, 4($a1)\n";
+            //gen += "li $a3, 4\n";
+            //gen += "mul $a0, $a0, $a3\n";
+            //gen += "li $v0, 9\n";
+            //gen += "syscall\n";
+            //gen += "lw $a1, 0($sp)\n";
+            //gen += "lw $a0, 4($a1)\n";
+            //gen += "move $a3, $v0\n";
+            //gen += "Object.copy.loop:\n";
+            //gen += "lw $a2, 0($a1)\n";
+            //gen += "sw $a2, 0($a3)\n";
+            //gen += "addiu $a0, $a0, -1\n";
+            //gen += "addiu $a1, $a1, 4\n";
+            //gen += "addiu $a3, $a3, 4\n";
+            //gen += "beq $a0, $zero, Object.copy.end\n";
+            //gen += "j Object.copy.loop\n";
+            //gen += "Object.copy.end:\n";
+            //gen += "jr $ra\n";
+            //gen += "\n";
+
+            gen += "_copy:\n";
             gen += "lw $a1, 0($sp)\n";
-            gen += "lw $a0, 4($a1)\n";
-            gen += "li $a3, 4\n";
-            gen += "mul $a0, $a0, $a3\n";
+            gen += "lw $a0, -4($sp)\n";
             gen += "li $v0, 9\n";
             gen += "syscall\n";
             gen += "lw $a1, 0($sp)\n";
             gen += "lw $a0, 4($a1)\n";
             gen += "move $a3, $v0\n";
-            gen += "Object.copy.loop:\n";
+            gen += "_copy.loop:\n";
             gen += "lw $a2, 0($a1)\n";
             gen += "sw $a2, 0($a3)\n";
             gen += "addiu $a0, $a0, -1\n";
             gen += "addiu $a1, $a1, 4\n";
             gen += "addiu $a3, $a3, 4\n";
-            gen += "beq $a0, $zero, Object.copy.end\n";
-            gen += "j Object.copy.loop\n";
-            gen += "Object.copy.end:\n";
+            gen += "beq $a0, $zero, _copy.end\n";
+            gen += "j _copy.loop\n";
+            gen += "_copy.end:\n";
             gen += "jr $ra\n";
             gen += "\n";
 
