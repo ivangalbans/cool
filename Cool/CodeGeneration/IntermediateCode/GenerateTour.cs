@@ -304,8 +304,35 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_in_int"), 0));
             IntermediateCode.AddCodeLine(new ReturnLine(0));
 
+            //string: substr, concat, length
+            IntermediateCode.AddCodeLine(new LabelLine("String", "length"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new PushParamLine(0));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_stringlength"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(1));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
 
 
+            IntermediateCode.AddCodeLine(new LabelLine("String", "concat"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new ParamLine(1));
+            IntermediateCode.AddCodeLine(new PushParamLine(0));
+            IntermediateCode.AddCodeLine(new PushParamLine(1));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_stringconcat"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(2));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
+
+
+            IntermediateCode.AddCodeLine(new LabelLine("String", "substr"));
+            IntermediateCode.AddCodeLine(new ParamLine(0));
+            IntermediateCode.AddCodeLine(new ParamLine(1));
+            IntermediateCode.AddCodeLine(new ParamLine(2));
+            IntermediateCode.AddCodeLine(new PushParamLine(0));
+            IntermediateCode.AddCodeLine(new PushParamLine(1));
+            IntermediateCode.AddCodeLine(new PushParamLine(2));
+            IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_stringsubstr"), 0));
+            IntermediateCode.AddCodeLine(new PopParamLine(3));
+            IntermediateCode.AddCodeLine(new ReturnLine(0));
         }
 
         void StartFunctionCode()
