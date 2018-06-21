@@ -537,7 +537,13 @@ namespace Cool.CodeGeneration.IntermediateCode
             //important for define
             if (method == "copy")
             {
-                //IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
+                if (cclass == "Int" || cclass == "Bool" || cclass == "String")
+                {
+                    IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+                    IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", cclass), VariableManager.PeekVariableCounter()));
+                    IntermediateCode.AddCodeLine(new PopParamLine(1));
+                    return;
+                }
             }
 
             VariableManager.PushVariableCounter();

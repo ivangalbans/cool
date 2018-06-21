@@ -42,10 +42,6 @@ class Main inherits IO {
     case x of
       o : Object => out_string( o.type_name() );
       a : A => out_int( a.f() );
-      --b : B => out_string( "B\n" );
-      --c : C => out_string( "C\n" );
-      d : D => out_string( "D\n" );
-      --e : E => out_string( "E\n" );
       s : String => out_string( s );
       i : Int => out_int(i);
     esac;
@@ -53,21 +49,8 @@ class Main inherits IO {
   }};
 
   main():Object {{
-    t(new A);
-    out_string("\n");
-    t(new B);
-    out_string("\n");
-    t(new C);
-    out_string("\n");
-    t(new D);
-    out_string("\n");
-    t(new E);
-    out_string("\n");
-    t(7);
-    out_string("\n");
-    t(true);
-    out_string("\n");
-    t("Hola");
-    out_string("\n");
+    t(2.copy());
+    --t((new A).copy());
+    --let x:Int <- 2, y:Int <- x * 8, z:Int <- y/3 in out_int(z);
   }};
 };

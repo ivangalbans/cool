@@ -83,7 +83,7 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "lw $a2, 0($a0)\n";
             gen += "beq $a1, $a2, _inherit_true\n";
             gen += "beq $a2, $zero, _inherit_false\n";
-            gen += "add $a0, $a0, 4\n";
+            gen += "addiu $a0, $a0, 4\n";
             gen += "j _inherit.loop\n";
             gen += "_inherit_false:\n";
             gen += "li $v0, 0\n";
@@ -100,6 +100,27 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n";
 
             gen += "Object.copy:\n";
+            gen += "lw $a1, 0($sp)\n";
+            gen += "lw $a0, 4($a1)\n";
+            gen += "li $a3, 4\n";
+            gen += "mul $a0, $a0, $a3\n";
+            gen += "li $v0, 9\n";
+            gen += "syscall\n";
+            gen += "lw $a1, 0($sp)\n";
+            gen += "lw $a0, 4($a1)\n";
+            gen += "move $a3, $v0\n";
+            gen += "Object.copy.loop:\n";
+            gen += "lw $a2, 0($a1)\n";
+            gen += "sw $a2, 0($a3)\n";
+            gen += "addiu $a0, $a0, -1\n";
+            gen += "addiu $a1, $a1, 4\n";
+            gen += "addiu $a3, $a3, 4\n";
+            gen += "beq $a0, $zero, Object.copy.end\n";
+            gen += "j Object.copy.loop\n";
+            gen += "Object.copy.end:\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+
             gen += "Object.abort:\n";
             gen += "li $v0, 10\n";
             gen += "syscall\n";
@@ -328,7 +349,7 @@ namespace Cool.CodeGeneration.MIPSCode
         {
             Code.Add($"lw $a0, {-line.Left * 4}($sp)");
             Code.Add($"li $a1, {line.Right}");
-            Code.Add($"sw $a1, {-line.Offset * 4}($a0)");
+            Code.Add($"sw $a1, {line.Offset * 4}($a0)");
         }
 
         public void Visit(AssignmentMemoryToVariableLine line)
