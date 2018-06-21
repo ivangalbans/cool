@@ -78,18 +78,19 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             string static_type = node.ExpressionCase.StaticType.Text;
 
+            int result = VariableManager.PeekVariableCounter();
             int expr = VariableManager.IncrementVariableCounter();
 
             VariableManager.PushVariableCounter();
             node.ExpressionCase.Accept(this);
             VariableManager.PopVariableCounter();
 
+            //VariableManager.IncrementVariableCounter();
+
             if (static_type == "String" ||
                 static_type == "Int" ||
                 static_type == "Bool")
             {
-                //int index = node.BranchSelected
-                //string v = node.Branches[index].Formal.Id.Text;
                 int index = node.Branches.FindIndex((x) => x.Formal.Type.Text == static_type);
                 string v = node.Branches[index].Formal.Id.Text;
 
@@ -106,10 +107,6 @@ namespace Cool.CodeGeneration.IntermediateCode
 
                 IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
-            else if (static_type == "Object")
-            {
-
-            }
             else
             {
                 string tag = IntermediateCode.CountLines().ToString();
@@ -117,27 +114,53 @@ namespace Cool.CodeGeneration.IntermediateCode
                 List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
                 sorted.AddRange(node.Branches);
                 sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
-
-
-
-                //VariableManager.IncrementVariableCounter();
+                
                 for (int i = 0; i < sorted.Count; ++i)
                 {
+                    //same that expr integer
                     VariableManager.PushVariable(sorted[i].Formal.Id.Text, sorted[i].Formal.Type.Text);
-                    VariableManager.PushVariableCounter();
 
-                    int t = VariableManager.IncrementVariableCounter();
+                    string branch_type = sorted[i].Formal.Type.Text;
+                    VariableManager.PushVariableCounter();
+                    VariableManager.IncrementVariableCounter();
 
                     IntermediateCode.AddCodeLine(new LabelLine("_case", tag + "." + i));
-                    string type = sorted[i].Formal.Type.Text;
+                    IntermediateCode.AddCodeLine(new AssignmentStringToVariableLine(VariableManager.VariableCounter, branch_type));
+                    IntermediateCode.AddCodeLine(new BinaryOperationLine(VariableManager.VariableCounter, expr, VariableManager.VariableCounter, "inherit"));
+                    IntermediateCode.AddCodeLine(new ConditionalJumpLine(VariableManager.VariableCounter, new LabelLine("_case", tag + "." + (i + 1))));
 
-                    VariableManager.PushVariableCounter();
-                    sorted[i].Expression.Accept(this);
+
+                    if ((branch_type == "Int" ||
+                        branch_type == "Bool" ||
+                        branch_type == "String"))
+                    {
+                        if (static_type == "Object")
+                        {
+
+                            IntermediateCode.AddCodeLine(new AssignmentMemoryToVariableLine(expr, expr, VirtualTable.GetSizeClass(branch_type)));
+
+                            VariableManager.PushVariableCounter();
+                            sorted[i].Expression.Accept(this);
+                            VariableManager.PopVariableCounter();
+
+                            IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                            IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                        }
+                    }
+                    else
+                    {
+                        VariableManager.PushVariableCounter();
+                        sorted[i].Expression.Accept(this);
+                        VariableManager.PopVariableCounter();
+
+                        IntermediateCode.AddCodeLine(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                        IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                    }
+
+
+
                     VariableManager.PopVariableCounter();
 
-                    IntermediateCode.AddCodeLine(new GotoJumpLine(new LabelLine("_endcase", tag)));
-
-                    VariableManager.PopVariableCounter();
                     VariableManager.PopVariable(sorted[i].Formal.Id.Text);
                 }
 
@@ -214,6 +237,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Int", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Int")));
+            IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Int"), 2));
             IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
 
             //Bool wrapper for runtime check typing
@@ -225,6 +249,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "Bool", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Bool")));
+            IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Bool"), 2));
             IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
 
             //String wrapper for runtime check typing
@@ -236,6 +261,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             IntermediateCode.AddCodeLine(new PopParamLine(1));
             IntermediateCode.AddCodeLine(new AssignmentStringToMemoryLine(self + 1, "String", 0));
             IntermediateCode.AddCodeLine(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
+            IntermediateCode.AddCodeLine(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "String"), 2));
             IntermediateCode.AddCodeLine(new ReturnLine(self + 1));
         }
 
@@ -354,7 +380,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             foreach (var formal in node.Arguments)
             {
                 IntermediateCode.AddCodeLine(new ParamLine(VariableManager.VariableCounter));
-                VariableManager.PushVariable(formal.Id.Text, formal.Id.Text);
+                VariableManager.PushVariable(formal.Id.Text, formal.Type.Text);
                 VariableManager.IncrementVariableCounter();
             }
 

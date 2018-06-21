@@ -24,8 +24,8 @@ namespace Cool.CodeGeneration.MIPSCode
             param_count = 0;
             annotation = new Annotation(lines);
 
-            foreach(var x in annotation.FunctionParamsCount)
-                Console.WriteLine($"{x.Key} {x.Value}");
+            //foreach(var x in annotation.FunctionParamsCount)
+            //    Console.WriteLine($"{x.Key} {x.Value}");
 
             foreach (var str in annotation.StringsCounter)
             {
@@ -37,7 +37,7 @@ namespace Cool.CodeGeneration.MIPSCode
 
             foreach (var x in annotation.Inherit)
             {
-                string s = $"_class.{ x.Key}: .word ";
+                string s = $"_class.{ x.Key}: .word str{annotation.StringsCounter[x.Key]}, ";
 
                 string p = x.Value;
                 while (p != "Object")
@@ -77,6 +77,22 @@ namespace Cool.CodeGeneration.MIPSCode
             gen += "\n.globl main\n";
             gen += ".text\n";
 
+            gen += "_inherit:\n";
+            gen += "lw $a0, 8($a0)\n";
+            gen += "_inherit.loop:\n";
+            gen += "lw $a2, 0($a0)\n";
+            gen += "beq $a1, $a2, _inherit_true\n";
+            gen += "beq $a2, $zero, _inherit_false\n";
+            gen += "add $a0, $a0, 4\n";
+            gen += "j _inherit.loop\n";
+            gen += "_inherit_false:\n";
+            gen += "li $v0, 0\n";
+            gen += "jr $ra\n";
+            gen += "_inherit_true:\n";
+            gen += "li $v0, 1\n";
+            gen += "jr $ra\n";
+            gen += "\n";
+            
             gen += "Object.type_name:\n";
             gen += "lw $a0, 0($sp)\n";
             gen += "lw $v0, 0($a0)\n";
@@ -351,7 +367,7 @@ namespace Cool.CodeGeneration.MIPSCode
         public void Visit(AssignmentLabelToMemoryLine line)
         {
             Code.Add($"la $a0, {line.Right.Label}");
-            Code.Add($"lw $a1, {-line.Left}($sp)");
+            Code.Add($"lw $a1, {-line.Left * 4}($sp)");
             Code.Add($"sw $a0, {line.Offset * 4}($a1)");
         }
         public void Visit(AssignmentNullToVariableLine line)
@@ -454,6 +470,12 @@ namespace Cool.CodeGeneration.MIPSCode
                     Code.Add($"move $ra, $v1");
                     Code.Add($"move $a0, $v0");
                     break;
+                case "inherit":
+                    Code.Add($"move $v1, $ra");
+                    Code.Add($"jal _inherit");
+                    Code.Add($"move $ra, $v1");
+                    Code.Add($"move $a0, $v0");
+                    break;
                 default:
                     throw new NotImplementedException();
                     break;
@@ -494,7 +516,7 @@ namespace Cool.CodeGeneration.MIPSCode
 
         public void Visit(AssignmentInheritToVariable line)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Visit(SpecialObjectReturn line)
