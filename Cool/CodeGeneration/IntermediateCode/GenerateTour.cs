@@ -58,7 +58,13 @@ namespace Cool.CodeGeneration.IntermediateCode
                     }
 
                 foreach (var method in methods)
-                    VirtualTable.DefineMethod(c.TypeClass.Text, method.Id.Text);
+                {
+                    List<string> params_type = new List<string>();
+                    foreach (var x in method.Arguments)
+                        params_type.Add(x.Type.Text);
+
+                    VirtualTable.DefineMethod(c.TypeClass.Text, method.Id.Text, params_type);
+                }
 
                 foreach (var attr in attributes)
                     VirtualTable.DefineAttribute(c.TypeClass.Text, attr.Formal.Id.Text);
@@ -388,7 +394,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             if ((node.ExpressionRight.StaticType.Text == "Int" ||
                 node.ExpressionRight.StaticType.Text == "Bool" ||
                 node.ExpressionRight.StaticType.Text == "String") &&
-                node.ID.StaticType.Text == "Object")
+                node.StaticType.Text == "Object")
             {
                 IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
                 IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", node.ExpressionRight.StaticType.Text), VariableManager.PeekVariableCounter()));
@@ -496,12 +502,24 @@ namespace Cool.CodeGeneration.IntermediateCode
             int offset = VirtualTable.GetOffset(cclass, method);
 
             List<int> parameters = new List<int>();
-            foreach (var p in node.Arguments)
+            List<string> parameters_types = VirtualTable.GetParametersTypes(cclass, method);
+            for (int i = 0; i < node.Arguments.Count; ++i)
             {
                 VariableManager.IncrementVariableCounter();
                 VariableManager.PushVariableCounter();
                 parameters.Add(VariableManager.VariableCounter);
-                p.Accept(this);
+                node.Arguments[i].Accept(this);
+
+                if (parameters_types[i] == "Object" && (
+                    node.Arguments[i].StaticType.Text == "Int" ||
+                    node.Arguments[i].StaticType.Text == "Bool" ||
+                    node.Arguments[i].StaticType.Text == "String"))
+                {
+                    IntermediateCode.AddCodeLine(new PushParamLine(VariableManager.PeekVariableCounter()));
+                    IntermediateCode.AddCodeLine(new CallLabelLine(new LabelLine("_wrapper", node.Arguments[i].StaticType.Text), VariableManager.PeekVariableCounter()));
+                    IntermediateCode.AddCodeLine(new PopParamLine(1));
+                }
+
                 VariableManager.PopVariableCounter();
             }
 

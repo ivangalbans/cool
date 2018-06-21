@@ -30,9 +30,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             List<CodeLine> code = new List<CodeLine>();
 
             foreach (var c in Code)
-            {
                 code.Add(c);
-            }
 
             return code;
         }

@@ -269,10 +269,10 @@ namespace Cool.CodeGeneration.MIPSCode
             {
                 current_function = line.Label;
                 size = annotation.FunctionVarsSize[current_function];
-                Code.Add($"li $v0, 0");
             }
             Code.Add($"\n");
             Code.Add($"{line.Label}:");
+            Code.Add($"li $t9, 0");
         }
 
         public void Visit(AllocateLine line)
