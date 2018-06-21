@@ -8,11 +8,10 @@ class Main inherits IO {
     (new Int)
   };
 
-  f() : Object {
+  f() : Int {
     --if 1 = 2 then 7 else "hola" fi
     --if 1 = 2 then g() else h() fi
-    --2
-    (new A);
+    2
   };
 
   main():Object {{
