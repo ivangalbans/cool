@@ -18,7 +18,7 @@ namespace Cool.AST
                 Text += text[i];
             }
 
-            Text = text;
+            //Text = text;
         }
 
         public override void Accept(IVisitor visitor)
