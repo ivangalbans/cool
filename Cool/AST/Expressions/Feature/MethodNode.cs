@@ -21,17 +21,17 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            string repr = $"Method Node (Line: {Line}, Column: {Column}) ";
-            repr += $"{Id} (";
-            foreach (var a in Arguments)
-            {
-                repr += a.ToString() + ", ";
-            }
-            repr += $") : {TypeReturn}\n";
-            repr += $"{Body}";
-            return repr.Replace("\n", "\n| ");
-        }
+        //public override string ToString()
+        //{
+        //    string repr = $"Method Node (Line: {Line}, Column: {Column}) ";
+        //    repr += $"{Id} (";
+        //    foreach (var a in Arguments)
+        //    {
+        //        repr += a.ToString() + ", ";
+        //    }
+        //    repr += $") : {TypeReturn}\n";
+        //    repr += $"{Body}";
+        //    return repr.Replace("\n", "\n| ");
+        //}
     }
 }

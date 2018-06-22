@@ -18,14 +18,14 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            string repr = $"While Node (Line: {Line}, Column: {Column}),\n";
-            repr += "Condition:\n| ";
-            repr += $"{Condition}\n";
-            repr += "Then:\n| ";
-            repr += $"{Body}\n";
-            return repr.Replace("\n", "\n| ");
-        }
+        //public override string ToString()
+        //{
+        //    string repr = $"While Node (Line: {Line}, Column: {Column}),\n";
+        //    repr += "Condition:\n| ";
+        //    repr += $"{Condition}\n";
+        //    repr += "Then:\n| ";
+        //    repr += $"{Body}\n";
+        //    return repr.Replace("\n", "\n| ");
+        //}
     }
 }

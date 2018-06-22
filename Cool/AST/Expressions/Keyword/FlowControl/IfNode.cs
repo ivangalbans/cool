@@ -19,17 +19,17 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            string repr = $"If Node (Line: {Line}, Column: {Column}),\n";
-            repr += "Condition:\n| ";
-            repr += $"{Condition}\n";
-            repr += "Then:\n| ";
-            repr += $"{Body}\n";
-            repr += "Else:\n| ";
-            repr += $"{ElseBody}\n";
-            return repr.Replace("\n","\n| ");
-        }
+        //public override string ToString()
+        //{
+        //    string repr = $"If Node (Line: {Line}, Column: {Column}),\n";
+        //    repr += "Condition:\n| ";
+        //    repr += $"{Condition}\n";
+        //    repr += "Then:\n| ";
+        //    repr += $"{Body}\n";
+        //    repr += "Else:\n| ";
+        //    repr += $"{ElseBody}\n";
+        //    return repr.Replace("\n","\n| ");
+        //}
 
     }
 }

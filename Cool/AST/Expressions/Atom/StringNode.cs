@@ -26,9 +26,9 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return Text;
-        }
+        //public override string ToString()
+        //{
+        //    return Text;
+        //}
     }
 }

@@ -19,16 +19,16 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            string repr = $"Dispatch Explicit Node (Line: {Line}, Column: {Column})\n";
-            repr += "Object:\n| ";
-            repr += $"{Expression}\n";
-            repr += "@Type:\n| ";
-            repr += $"{IdType}\n";
-            repr += "Dispatch:\n| ";
-            repr += base.ToString();
-            return repr.Replace("\n", "\n| ");
-        }
+        //public override string ToString()
+        //{
+        //    string repr = $"Dispatch Explicit Node (Line: {Line}, Column: {Column})\n";
+        //    repr += "Object:\n| ";
+        //    repr += $"{Expression}\n";
+        //    repr += "@Type:\n| ";
+        //    repr += $"{IdType}\n";
+        //    repr += "Dispatch:\n| ";
+        //    repr += base.ToString();
+        //    return repr.Replace("\n", "\n| ");
+        //}
     }
 }

@@ -19,9 +19,9 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return "SELF";
-        }
+        //public override string ToString()
+        //{
+        //    return "SELF";
+        //}
     }
 }

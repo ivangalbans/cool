@@ -19,10 +19,10 @@ namespace Cool.AST
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            string repr = $"{Id} : {Type}";
-            return repr;
-        }
+        //public override string ToString()
+        //{
+        //    string repr = $"{Id} : {Type}";
+        //    return repr;
+        //}
     }
 }

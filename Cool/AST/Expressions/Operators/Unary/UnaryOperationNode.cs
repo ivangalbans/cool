@@ -12,13 +12,13 @@ namespace Cool.AST
         {
         }
 
-        public override string ToString()
-        {
-            string[] name = base.ToString().Split('.');
-            string repr = name[name.Length - 1] + $" (Line: {Line}, Column: {Column})\n";
-            repr += $"{Symbol} \n";
-            repr += $"{Operand}\n";
-            return repr.Replace("\n", "\n| ");
-        }
+        //public override string ToString()
+        //{
+        //    string[] name = base.ToString().Split('.');
+        //    string repr = name[name.Length - 1] + $" (Line: {Line}, Column: {Column})\n";
+        //    repr += $"{Symbol} \n";
+        //    repr += $"{Operand}\n";
+        //    return repr.Replace("\n", "\n| ");
+        //}
     }
 }

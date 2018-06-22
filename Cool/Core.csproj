@@ -88,6 +88,7 @@
     <Compile Include="AST\Expressions\Operators\Unary\NegNode.cs" />
     <Compile Include="AST\Expressions\Operators\Unary\NotNode.cs" />
     <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
+    <Compile Include="AST\StringTour.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\GenerateTour.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\OptimizationTour.cs" />

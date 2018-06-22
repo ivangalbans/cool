@@ -85,6 +85,10 @@ namespace Cool
             }
 
             Console.WriteLine(rootProgram);
+
+            var t = (new StringTour());
+            t.Visit(rootProgram);
+            Console.WriteLine(t.Repr);
             
             GenerateCode(rootProgram, outputPath, scope);
         }
