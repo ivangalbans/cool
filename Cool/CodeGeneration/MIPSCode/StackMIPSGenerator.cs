@@ -517,61 +517,6 @@ namespace Cool.CodeGeneration.MIPSCode
 
             //throw new NotImplementedException();
         }
-
-        public void Visit(AssignmentInheritToVariable line)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Visit(SpecialObjectReturn line)
-        {
-            Code.Add($"lw $v0, {-line.Variable * 4}($sp)");
-            Code.Add($"move $a0, $v0");
-            Code.Add($"sw $ra, {-size * 4}($sp)");
-            Code.Add($"addiu $sp, $sp, {-(size + 1) * 4}");
-
-            Code.Add($"sw $a0, 0($sp)");
-
-            int t = Code.Count;
-
-            Code.Add($"li $a1, 1");
-            Code.Add($"beq $t9, $a1, __wi.{t}");
-            Code.Add($"li $a1, 2");
-            Code.Add($"beq $t9, $a1, __wb.{t}");
-            Code.Add($"li $a1, 3");
-            Code.Add($"beq $t9, $a1, __ws.{t}");
-            Code.Add($"j __we.{t}");
-
-            Code.Add($"__wi.{t}:");
-            Code.Add($"jal _wrapper.Int");
-            Code.Add($"j __we.{t}");
-
-            Code.Add($"__wb.{t}:");
-            Code.Add($"jal _wrapper.Bool");
-            Code.Add($"j __we.{t}");
-
-            Code.Add($"__ws.{t}:");
-            Code.Add($"jal _wrapper.String");
-            Code.Add($"j __we.{t}");
-
-            Code.Add($"__we.{t}:");
-
-            Code.Add($"addiu $sp, $sp, {(size + 1) * 4}");
-            Code.Add($"lw $ra, {-size * 4}($sp)");
-
-            Code.Add($"jr $ra");
-        }
-
-        public void Visit(ReturnTypeLine line)
-        {
-            if(line.Type == "Int")
-                Code.Add($"li $t9, 1");
-
-            if (line.Type == "Bool")
-                Code.Add($"li $t9, 2");
-
-            if (line.Type == "String")
-                Code.Add($"li $t9, 3");
-        }
+        
     }
 }

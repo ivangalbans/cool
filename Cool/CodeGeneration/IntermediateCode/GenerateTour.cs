@@ -8,11 +8,12 @@ namespace Cool.CodeGeneration.IntermediateCode
 {
     class GenerateTour : IVisitor
     {
-        List<CodeLine> IntermediateCode;
+        List<CodeLine> IC;
         VirtualTable VirtualTable;
         IScope Scope;
         VariableManager VariableManager;
-        bool note_object_return_type = false;
+        bool special_object_return_type = false;
+        static int return_type_variable = 1;
         
         public List<CodeLine> GetIntermediateCode(ProgramNode node, IScope scope)
         {
@@ -20,7 +21,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             //node = (new OptimizationTour()).Optimize(node, scope);
 
-            IntermediateCode = new List<CodeLine>();
+            IC = new List<CodeLine>();
             VariableManager = new VariableManager();
             VirtualTable = new VirtualTable(scope);
 
@@ -34,7 +35,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             StartFunctionCode();
             VariableManager.PopVariableCounter();
 
-            return IntermediateCode;
+            return IC;
         }
 
         public void Visit(ProgramNode node)
@@ -108,11 +109,11 @@ namespace Cool.CodeGeneration.IntermediateCode
 
                 VariableManager.PopVariable(v);
 
-                IntermediateCode.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+                IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
             else
             {
-                string tag = IntermediateCode.Count.ToString();
+                string tag = IC.Count.ToString();
 
                 List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
                 sorted.AddRange(node.Branches);
@@ -127,10 +128,10 @@ namespace Cool.CodeGeneration.IntermediateCode
                     VariableManager.PushVariableCounter();
                     VariableManager.IncrementVariableCounter();
 
-                    IntermediateCode.Add(new LabelLine("_case", tag + "." + i));
-                    IntermediateCode.Add(new AssignmentStringToVariableLine(VariableManager.VariableCounter, branch_type));
-                    IntermediateCode.Add(new BinaryOperationLine(VariableManager.VariableCounter, expr, VariableManager.VariableCounter, "inherit"));
-                    IntermediateCode.Add(new ConditionalJumpLine(VariableManager.VariableCounter, new LabelLine("_case", tag + "." + (i + 1))));
+                    IC.Add(new LabelLine("_case", tag + "." + i));
+                    IC.Add(new AssignmentStringToVariableLine(VariableManager.VariableCounter, branch_type));
+                    IC.Add(new BinaryOperationLine(VariableManager.VariableCounter, expr, VariableManager.VariableCounter, "inherit"));
+                    IC.Add(new ConditionalJumpLine(VariableManager.VariableCounter, new LabelLine("_case", tag + "." + (i + 1))));
 
 
                     if ((branch_type == "Int" ||
@@ -140,14 +141,14 @@ namespace Cool.CodeGeneration.IntermediateCode
                         if (static_type == "Object")
                         {
 
-                            IntermediateCode.Add(new AssignmentMemoryToVariableLine(expr, expr, VirtualTable.GetSizeClass(branch_type)));
+                            IC.Add(new AssignmentMemoryToVariableLine(expr, expr, VirtualTable.GetSizeClass(branch_type)));
 
                             VariableManager.PushVariableCounter();
                             sorted[i].Expression.Accept(this);
                             VariableManager.PopVariableCounter();
 
-                            IntermediateCode.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
-                            IntermediateCode.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                            IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                            IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
                         }
                     }
                     else
@@ -156,8 +157,8 @@ namespace Cool.CodeGeneration.IntermediateCode
                         sorted[i].Expression.Accept(this);
                         VariableManager.PopVariableCounter();
 
-                        IntermediateCode.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
-                        IntermediateCode.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                        IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                        IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
                     }
 
 
@@ -167,10 +168,10 @@ namespace Cool.CodeGeneration.IntermediateCode
                     VariableManager.PopVariable(sorted[i].Formal.Id.Text);
                 }
 
-                IntermediateCode.Add(new LabelLine("_case", tag + "." + sorted.Count));
-                IntermediateCode.Add(new GotoJumpLine(new LabelLine("_caseselectionexception")));
+                IC.Add(new LabelLine("_case", tag + "." + sorted.Count));
+                IC.Add(new GotoJumpLine(new LabelLine("_caseselectionexception")));
 
-                IntermediateCode.Add(new LabelLine("_endcase", tag));
+                IC.Add(new LabelLine("_endcase", tag));
             }
         }
 
@@ -180,184 +181,183 @@ namespace Cool.CodeGeneration.IntermediateCode
             (string, string) label;
             List<string> obj = new List<string> { "abort", "type_name", "copy" };
 
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("start")));
+            IC.Add(new CallLabelLine(new LabelLine("start")));
 
-            IntermediateCode.Add(new LabelLine("Object", "constructor"));
-            IntermediateCode.Add(new ParamLine(self));
+            IC.Add(new LabelLine("Object", "constructor"));
+            IC.Add(new ParamLine(self));
             foreach (var f in VirtualTable.Object)
             {
                 label = VirtualTable.GetDefinition("Object", f);
-                IntermediateCode.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("Object", f)));
+                IC.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IC.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("Object", f)));
             }
 
-            IntermediateCode.Add(new CommentLine("set class name: Object"));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(0, "Object", 0));
-            IntermediateCode.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass("Object") + " words"));
-            IntermediateCode.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("Object"), 1));
+            IC.Add(new CommentLine("set class name: Object"));
+            IC.Add(new AssignmentStringToMemoryLine(0, "Object", 0));
+            IC.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass("Object") + " words"));
+            IC.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("Object"), 1));
             //IntermediateCode.Add(new CommentLine("set class generation label"));
             //IntermediateCode.Add(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", node.TypeClass.Text), 2));
 
-            IntermediateCode.Add(new ReturnLine());
+            IC.Add(new ReturnLine());
 
 
+            IC.Add(new LabelLine("IO", "constructor"));
 
-            IntermediateCode.Add(new LabelLine("IO", "constructor"));
-
-            IntermediateCode.Add(new ParamLine(self));
-            IntermediateCode.Add(new PushParamLine(self));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
-            IntermediateCode.Add(new PopParamLine(1));
+            IC.Add(new ParamLine(self));
+            IC.Add(new PushParamLine(self));
+            IC.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IC.Add(new PopParamLine(1));
 
             foreach (var f in VirtualTable.IO)
             {
                 label = VirtualTable.GetDefinition("IO", f);
-                IntermediateCode.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("IO", f)));
+                IC.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IC.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset("IO", f)));
             }
 
-            IntermediateCode.Add(new CommentLine("set class name: Object"));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(0, "IO", 0));
-            IntermediateCode.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass("IO") + " words"));
-            IntermediateCode.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("IO"), 1));
-            IntermediateCode.Add(new CommentLine("set class generation label"));
-            IntermediateCode.Add(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", "IO"), 2));
+            IC.Add(new CommentLine("set class name: Object"));
+            IC.Add(new AssignmentStringToMemoryLine(0, "IO", 0));
+            IC.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass("IO") + " words"));
+            IC.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass("IO"), 1));
+            IC.Add(new CommentLine("set class generation label"));
+            IC.Add(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", "IO"), 2));
 
-            IntermediateCode.Add(new ReturnLine());
+            IC.Add(new ReturnLine());
 
 
-            IntermediateCode.Add(new InheritLine("IO", "Object"));
-            IntermediateCode.Add(new InheritLine("Int", "Object"));
-            IntermediateCode.Add(new InheritLine("Bool", "Object"));
-            IntermediateCode.Add(new InheritLine("String", "Object"));
+            IC.Add(new InheritLine("IO", "Object"));
+            IC.Add(new InheritLine("Int", "Object"));
+            IC.Add(new InheritLine("Bool", "Object"));
+            IC.Add(new InheritLine("String", "Object"));
 
             //Int wrapper for runtime check typing
-            IntermediateCode.Add(new LabelLine("_wrapper", "Int"));
-            IntermediateCode.Add(new ParamLine(self));
-            IntermediateCode.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Int") + 1));
-            IntermediateCode.Add(new PushParamLine(self + 1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(self + 1, "Int", 0));
-            IntermediateCode.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Int")));
-            IntermediateCode.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Int"), 2));
-            IntermediateCode.Add(new ReturnLine(self + 1));
+            IC.Add(new LabelLine("_wrapper", "Int"));
+            IC.Add(new ParamLine(self));
+            IC.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Int") + 1));
+            IC.Add(new PushParamLine(self + 1));
+            IC.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new AssignmentStringToMemoryLine(self + 1, "Int", 0));
+            IC.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Int")));
+            IC.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Int"), 2));
+            IC.Add(new ReturnLine(self + 1));
 
             //Bool wrapper for runtime check typing
-            IntermediateCode.Add(new LabelLine("_wrapper", "Bool"));
-            IntermediateCode.Add(new ParamLine(self));
-            IntermediateCode.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Bool") + 1));
-            IntermediateCode.Add(new PushParamLine(self + 1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(self + 1, "Bool", 0));
-            IntermediateCode.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Bool")));
-            IntermediateCode.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Bool"), 2));
-            IntermediateCode.Add(new ReturnLine(self + 1));
+            IC.Add(new LabelLine("_wrapper", "Bool"));
+            IC.Add(new ParamLine(self));
+            IC.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("Bool") + 1));
+            IC.Add(new PushParamLine(self + 1));
+            IC.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new AssignmentStringToMemoryLine(self + 1, "Bool", 0));
+            IC.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("Bool")));
+            IC.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "Bool"), 2));
+            IC.Add(new ReturnLine(self + 1));
 
             //String wrapper for runtime check typing
-            IntermediateCode.Add(new LabelLine("_wrapper", "String"));
-            IntermediateCode.Add(new ParamLine(self));
-            IntermediateCode.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("String") + 1));
-            IntermediateCode.Add(new PushParamLine(self + 1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(self + 1, "String", 0));
-            IntermediateCode.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
-            IntermediateCode.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "String"), 2));
-            IntermediateCode.Add(new ReturnLine(self + 1));
+            IC.Add(new LabelLine("_wrapper", "String"));
+            IC.Add(new ParamLine(self));
+            IC.Add(new AllocateLine(self + 1, VirtualTable.GetSizeClass("String") + 1));
+            IC.Add(new PushParamLine(self + 1));
+            IC.Add(new CallLabelLine(new LabelLine("Object", "constructor")));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new AssignmentStringToMemoryLine(self + 1, "String", 0));
+            IC.Add(new AssignmentVariableToMemoryLine(self + 1, self, VirtualTable.GetSizeClass("String")));
+            IC.Add(new AssignmentLabelToMemoryLine(self + 1, new LabelLine("_class", "String"), 2));
+            IC.Add(new ReturnLine(self + 1));
 
 
             //abort, typename, copy
-            IntermediateCode.Add(new LabelLine("Object", "abort"));
-            IntermediateCode.Add(new GotoJumpLine(new LabelLine("_abort")));
+            IC.Add(new LabelLine("Object", "abort"));
+            IC.Add(new GotoJumpLine(new LabelLine("_abort")));
 
-            IntermediateCode.Add(new LabelLine("Object", "type_name"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new AssignmentMemoryToVariableLine(0, 0, 0));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("Object", "type_name"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new AssignmentMemoryToVariableLine(0, 0, 0));
+            IC.Add(new ReturnLine(0));
 
 
-            IntermediateCode.Add(new LabelLine("Object", "copy"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new AssignmentMemoryToVariableLine(1, 0, 1));
-            IntermediateCode.Add(new AssignmentConstantToVariableLine(2, 4));
-            IntermediateCode.Add(new BinaryOperationLine(1, 1, 2, "*"));
-            IntermediateCode.Add(new PushParamLine(0));
-            IntermediateCode.Add(new PushParamLine(1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_copy"), 0));
-            IntermediateCode.Add(new PopParamLine(2));
+            IC.Add(new LabelLine("Object", "copy"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new AssignmentMemoryToVariableLine(1, 0, 1));
+            IC.Add(new AssignmentConstantToVariableLine(2, 4));
+            IC.Add(new BinaryOperationLine(1, 1, 2, "*"));
+            IC.Add(new PushParamLine(0));
+            IC.Add(new PushParamLine(1));
+            IC.Add(new CallLabelLine(new LabelLine("_copy"), 0));
+            IC.Add(new PopParamLine(2));
 
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new ReturnLine(0));
 
 
             //io: in_string, out_string, in_int, out_int
-            IntermediateCode.Add(new LabelLine("IO", "out_string"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new ParamLine(1));
-            IntermediateCode.Add(new PushParamLine(1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_out_string"), 0));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("IO", "out_string"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new ParamLine(1));
+            IC.Add(new PushParamLine(1));
+            IC.Add(new CallLabelLine(new LabelLine("_out_string"), 0));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new ReturnLine(0));
 
-            IntermediateCode.Add(new LabelLine("IO", "out_int"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new ParamLine(1));
-            IntermediateCode.Add(new PushParamLine(1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_out_int"), 0));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new ReturnLine(0));
-
-
-            IntermediateCode.Add(new LabelLine("IO", "in_string"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_in_string"), 0));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("IO", "out_int"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new ParamLine(1));
+            IC.Add(new PushParamLine(1));
+            IC.Add(new CallLabelLine(new LabelLine("_out_int"), 0));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new ReturnLine(0));
 
 
-            IntermediateCode.Add(new LabelLine("IO", "in_int"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_in_int"), 0));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("IO", "in_string"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new CallLabelLine(new LabelLine("_in_string"), 0));
+            IC.Add(new ReturnLine(0));
+
+
+            IC.Add(new LabelLine("IO", "in_int"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new CallLabelLine(new LabelLine("_in_int"), 0));
+            IC.Add(new ReturnLine(0));
 
             //string: substr, concat, length
-            IntermediateCode.Add(new LabelLine("String", "length"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new PushParamLine(0));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_stringlength"), 0));
-            IntermediateCode.Add(new PopParamLine(1));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("String", "length"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new PushParamLine(0));
+            IC.Add(new CallLabelLine(new LabelLine("_stringlength"), 0));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new ReturnLine(0));
 
 
-            IntermediateCode.Add(new LabelLine("String", "concat"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new ParamLine(1));
-            IntermediateCode.Add(new PushParamLine(0));
-            IntermediateCode.Add(new PushParamLine(1));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_stringconcat"), 0));
-            IntermediateCode.Add(new PopParamLine(2));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("String", "concat"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new ParamLine(1));
+            IC.Add(new PushParamLine(0));
+            IC.Add(new PushParamLine(1));
+            IC.Add(new CallLabelLine(new LabelLine("_stringconcat"), 0));
+            IC.Add(new PopParamLine(2));
+            IC.Add(new ReturnLine(0));
 
 
-            IntermediateCode.Add(new LabelLine("String", "substr"));
-            IntermediateCode.Add(new ParamLine(0));
-            IntermediateCode.Add(new ParamLine(1));
-            IntermediateCode.Add(new ParamLine(2));
-            IntermediateCode.Add(new PushParamLine(0));
-            IntermediateCode.Add(new PushParamLine(1));
-            IntermediateCode.Add(new PushParamLine(2));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("_stringsubstr"), 0));
-            IntermediateCode.Add(new PopParamLine(3));
-            IntermediateCode.Add(new ReturnLine(0));
+            IC.Add(new LabelLine("String", "substr"));
+            IC.Add(new ParamLine(0));
+            IC.Add(new ParamLine(1));
+            IC.Add(new ParamLine(2));
+            IC.Add(new PushParamLine(0));
+            IC.Add(new PushParamLine(1));
+            IC.Add(new PushParamLine(2));
+            IC.Add(new CallLabelLine(new LabelLine("_stringsubstr"), 0));
+            IC.Add(new PopParamLine(3));
+            IC.Add(new ReturnLine(0));
         }
 
         void StartFunctionCode()
         {
-            IntermediateCode.Add(new LabelLine("start"));
+            IC.Add(new LabelLine("start"));
             New("Main");
-            IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine("Main", "main")));
-            IntermediateCode.Add(new PopParamLine(1));
+            IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IC.Add(new CallLabelLine(new LabelLine("Main", "main")));
+            IC.Add(new PopParamLine(1));
             //IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
             //IntermediateCode.Add(new CallLabelLine(new LabelLine("Object", "abort")));
             //IntermediateCode.Add(new PopParamLine(1));
@@ -367,7 +367,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             string cclass;
             cclass = VariableManager.CurrentClass = node.TypeClass.Text;
-            IntermediateCode.Add(new InheritLine(node.TypeClass.Text, Scope.GetType(node.TypeClass.Text).Parent.Text));
+            IC.Add(new InheritLine(node.TypeClass.Text, Scope.GetType(node.TypeClass.Text).Parent.Text));
 
             //VirtualTable.DefineClass(VariableManager.CurrentClass);
             int self = VariableManager.VariableCounter = 0;
@@ -392,24 +392,24 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             //begin constructor function
 
-            IntermediateCode.Add(new LabelLine(VariableManager.CurrentClass, "constructor"));
-            IntermediateCode.Add(new ParamLine(self));
+            IC.Add(new LabelLine(VariableManager.CurrentClass, "constructor"));
+            IC.Add(new ParamLine(self));
 
             //calling first the parent constructor method
             if (VariableManager.CurrentClass != "Object")
             {
-                IntermediateCode.Add(new PushParamLine(self));
+                IC.Add(new PushParamLine(self));
                 LabelLine label = new LabelLine(node.TypeInherit.Text, "constructor");
-                IntermediateCode.Add(new CallLabelLine(label));
-                IntermediateCode.Add(new PopParamLine(1));
+                IC.Add(new CallLabelLine(label));
+                IC.Add(new PopParamLine(1));
             }
 
 
             foreach (var method in methods)
             {
                 (string, string) label = VirtualTable.GetDefinition(node.TypeClass.Text, method.Id.Text);
-                IntermediateCode.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
-                IntermediateCode.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
+                IC.Add(new CommentLine("set method: " + label.Item1 + "." + label.Item2));
+                IC.Add(new AssignmentLabelToMemoryLine(self, new LabelLine(label.Item1, label.Item2), VirtualTable.GetOffset(node.TypeClass.Text, method.Id.Text)));
                 //IntermediateCode.Add(new AssignmentVariableToMemoryLine(self, VariableManager.VariableCounter, IntermediateCode.GetVirtualTableOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
 
@@ -419,19 +419,19 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableManager.PushVariableCounter();
                 attr.Accept(this);
                 VariableManager.PopVariableCounter();
-                IntermediateCode.Add(new CommentLine("set attribute: " + attr.Formal.Id.Text));
-                IntermediateCode.Add(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
+                IC.Add(new CommentLine("set attribute: " + attr.Formal.Id.Text));
+                IC.Add(new AssignmentVariableToMemoryLine(self, VariableManager.PeekVariableCounter(), VirtualTable.GetOffset(node.TypeClass.Text, attr.Formal.Id.Text)));
             }
             
 
-            IntermediateCode.Add(new CommentLine("set class name: " + node.TypeClass.Text));
-            IntermediateCode.Add(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
-            IntermediateCode.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
-            IntermediateCode.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
-            IntermediateCode.Add(new CommentLine("set class generation label"));
-            IntermediateCode.Add(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", node.TypeClass.Text), 2));
+            IC.Add(new CommentLine("set class name: " + node.TypeClass.Text));
+            IC.Add(new AssignmentStringToMemoryLine(0, node.TypeClass.Text, 0));
+            IC.Add(new CommentLine("set class size: " + VirtualTable.GetSizeClass(node.TypeClass.Text) + " words"));
+            IC.Add(new AssignmentConstantToMemoryLine(0, VirtualTable.GetSizeClass(node.TypeClass.Text), 1));
+            IC.Add(new CommentLine("set class generation label"));
+            IC.Add(new AssignmentLabelToMemoryLine(0, new LabelLine("_class", node.TypeClass.Text), 2));
 
-            IntermediateCode.Add(new ReturnLine(-1));
+            IC.Add(new ReturnLine(-1));
 
             VariableManager.PopVariableCounter();
         }
@@ -445,27 +445,30 @@ namespace Cool.CodeGeneration.IntermediateCode
                 node.AssignExp.StaticType.Text == "String") &&
                 node.Formal.Type.Text == "Object")
             {
-                IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-                IntermediateCode.Add(new CallLabelLine(new LabelLine("_wrapper", node.AssignExp.StaticType.Text), VariableManager.PeekVariableCounter()));
-                IntermediateCode.Add(new PopParamLine(1));
+                IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+                IC.Add(new CallLabelLine(new LabelLine("_wrapper", node.AssignExp.StaticType.Text), VariableManager.PeekVariableCounter()));
+                IC.Add(new PopParamLine(1));
             }
         }
 
         public void Visit(MethodNode node)
         {
-            IntermediateCode.Add(new LabelLine(VariableManager.CurrentClass, node.Id.Text));
+            IC.Add(new LabelLine(VariableManager.CurrentClass, node.Id.Text));
 
-            if (node.TypeReturn.Text == "Object")
-                note_object_return_type = true;
+            special_object_return_type = node.TypeReturn.Text == "Object";
 
             int self = VariableManager.VariableCounter = 0;
-            IntermediateCode.Add(new ParamLine(self));
+            IC.Add(new ParamLine(self));
+
+            //if return type is object, annotation type is needed
+            if (special_object_return_type)
+                VariableManager.IncrementVariableCounter();
 
             VariableManager.IncrementVariableCounter();
 
             foreach (var formal in node.Arguments)
             {
-                IntermediateCode.Add(new ParamLine(VariableManager.VariableCounter));
+                IC.Add(new ParamLine(VariableManager.VariableCounter));
                 VariableManager.PushVariable(formal.Id.Text, formal.Type.Text);
                 VariableManager.IncrementVariableCounter();
             }
@@ -473,10 +476,15 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PushVariableCounter();
             node.Body.Accept(this);
 
-            if (!note_object_return_type)
-                IntermediateCode.Add(new ReturnLine(VariableManager.PeekVariableCounter()));
-            else
-                IntermediateCode.Add(new SpecialObjectReturn(VariableManager.PeekVariableCounter()));
+            //if (!special_object_return_type)
+            //    IC.Add(new ReturnLine(VariableManager.PeekVariableCounter()));
+            //else
+            //    IC.Add(new SpecialObjectReturn(VariableManager.PeekVariableCounter()));
+
+            if (special_object_return_type)
+                ReturnObjectWrapping();
+
+            IC.Add(new ReturnLine(VariableManager.PeekVariableCounter()));
 
 
             VariableManager.PopVariableCounter();
@@ -486,28 +494,74 @@ namespace Cool.CodeGeneration.IntermediateCode
                 VariableManager.PopVariable(formal.Id.Text);
             }
 
-            note_object_return_type = false;
+            special_object_return_type = false;
+        }
+
+        void ReturnObjectWrapping()
+        {
+            int t;
+            int result = VariableManager.PeekVariableCounter();
+            string tag = IC.Count.ToString();
+
+            VariableManager.PushVariableCounter();
+            VariableManager.IncrementVariableCounter();
+            t = VariableManager.VariableCounter;
+            IC.Add(new AssignmentStringToVariableLine(t, "Int"));
+            IC.Add(new BinaryOperationLine(t, return_type_variable, t, "="));
+            IC.Add(new ConditionalJumpLine(t, new LabelLine("_attempt_bool", tag)));
+            IC.Add(new PushParamLine(result));
+            IC.Add(new CallLabelLine(new LabelLine("_wrapper", "Int"), result));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new GotoJumpLine(new LabelLine("_not_more_attempt", tag)));
+            VariableManager.PopVariableCounter();
+
+            IC.Add(new LabelLine("_attempt_bool", tag));
+            VariableManager.PushVariableCounter();
+            VariableManager.IncrementVariableCounter();
+            t = VariableManager.VariableCounter;
+            IC.Add(new AssignmentStringToVariableLine(t, "Bool"));
+            IC.Add(new BinaryOperationLine(t, return_type_variable, t, "="));
+            IC.Add(new ConditionalJumpLine(t, new LabelLine("_attempt_string", tag)));
+            IC.Add(new PushParamLine(result));
+            IC.Add(new CallLabelLine(new LabelLine("_wrapper", "Bool"), result));
+            IC.Add(new PopParamLine(1));
+            IC.Add(new GotoJumpLine(new LabelLine("_not_more_attempt", tag)));
+            VariableManager.PopVariableCounter();
+
+            IC.Add(new LabelLine("_attempt_string", tag));
+            VariableManager.PushVariableCounter();
+            VariableManager.IncrementVariableCounter();
+            t = VariableManager.VariableCounter;
+            IC.Add(new AssignmentStringToVariableLine(t, "String"));
+            IC.Add(new BinaryOperationLine(t, return_type_variable, t, "="));
+            IC.Add(new ConditionalJumpLine(t, new LabelLine("_not_more_attempt", tag)));
+            IC.Add(new PushParamLine(result));
+            IC.Add(new CallLabelLine(new LabelLine("_wrapper", "String"), result));
+            IC.Add(new PopParamLine(1));
+            VariableManager.PopVariableCounter();
+
+            IC.Add(new LabelLine("_not_more_attempt", tag));
         }
 
         public void Visit(IntNode node)
         {
-            IntermediateCode.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value));
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("Int"));
+            IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value));
+            if (special_object_return_type)
+                SetReturnType("Int");
         }
 
         public void Visit(BoolNode node)
         {
-            IntermediateCode.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value ? 1 : 0));
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("Bool"));
+            IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value ? 1 : 0));
+            if (special_object_return_type)
+                SetReturnType("Bool");
         }
 
         public void Visit(ArithmeticOperation node)
         {
             BinaryOperationVisit(node);
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("Int"));
+            if (special_object_return_type)
+                SetReturnType("Int");
         }
 
         public void Visit(AssignmentNode node)
@@ -526,20 +580,20 @@ namespace Cool.CodeGeneration.IntermediateCode
                 type == "Object")
                 //node.StaticType.Text == "Object")
             {
-                IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-                IntermediateCode.Add(new CallLabelLine(new LabelLine("_wrapper", node.ExpressionRight.StaticType.Text), VariableManager.PeekVariableCounter()));
-                IntermediateCode.Add(new PopParamLine(1));
+                IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+                IC.Add(new CallLabelLine(new LabelLine("_wrapper", node.ExpressionRight.StaticType.Text), VariableManager.PeekVariableCounter()));
+                IC.Add(new PopParamLine(1));
             }
 
             if (t != -1)
             {
                 //IntermediateCode.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
-                IntermediateCode.Add(new AssignmentVariableToVariableLine(t, VariableManager.PeekVariableCounter()));
+                IC.Add(new AssignmentVariableToVariableLine(t, VariableManager.PeekVariableCounter()));
             }
             else
             {
                 int offset = VirtualTable.GetOffset(VariableManager.CurrentClass, node.ID.Text);
-                IntermediateCode.Add(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
+                IC.Add(new AssignmentVariableToMemoryLine(0, VariableManager.PeekVariableCounter(), offset));
             }
 
             
@@ -558,33 +612,28 @@ namespace Cool.CodeGeneration.IntermediateCode
             var (t, type) = VariableManager.GetVariable(node.Text);
             if (t != -1)
             {
-                IntermediateCode.Add(new CommentLine("get veriable: " + node.Text));
-                IntermediateCode.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+                IC.Add(new CommentLine("get veriable: " + node.Text));
+                IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
             }
             else
             {
-                IntermediateCode.Add(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
-                IntermediateCode.Add(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
+                IC.Add(new CommentLine("get attribute: " + VariableManager.CurrentClass + "." + node.Text));
+                IC.Add(new AssignmentMemoryToVariableLine(VariableManager.PeekVariableCounter(), 0, VirtualTable.GetOffset(VariableManager.CurrentClass, node.Text)));
             }
 
-            if (note_object_return_type)
-            {
-                //if (node.StaticType.Text == "Int" ||
-                //    node.StaticType.Text == "Bool" ||
-                //    node.StaticType.Text == "String")
-                if (type == "Int" ||
-                    type == "Bool" ||
-                    type == "String")
-                    IntermediateCode.Add(new ReturnTypeLine(node.StaticType.Text));
-            }
+            if (special_object_return_type)
+                SetReturnType(type);
         }
         
 
         public void Visit(ComparisonOperation node)
         {
             BinaryOperationVisit(node);
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("Bool"));
+            if (special_object_return_type)
+            {
+                IC.Add(new CommentLine($"set bool as return type"));
+                IC.Add(new AssignmentStringToVariableLine(return_type_variable, "Bool"));
+            }
         }
 
         public void Visit(DispatchExplicitNode node)
@@ -597,7 +646,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         public void Visit(DispatchImplicitNode node)
         {
             string cclass = VariableManager.CurrentClass;
-            IntermediateCode.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), 0));
+            IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), 0));
             DispatchVisit(node, cclass);
         }
 
@@ -607,7 +656,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             if (method == "abort" && (cclass == "Int" || cclass == "String" || cclass == "Bool"))
             {
-                IntermediateCode.Add(new CallLabelLine(new LabelLine("Object","abort")));
+                IC.Add(new CallLabelLine(new LabelLine("Object","abort")));
                 return;
             }
 
@@ -615,7 +664,7 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 if (cclass == "Int" || cclass == "Bool" || cclass == "String")
                 {
-                    IntermediateCode.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
+                    IC.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), cclass));
                     return;
                 }
             }
@@ -625,9 +674,9 @@ namespace Cool.CodeGeneration.IntermediateCode
             {
                 if (cclass == "Int" || cclass == "Bool" || cclass == "String")
                 {
-                    IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-                    IntermediateCode.Add(new CallLabelLine(new LabelLine("_wrapper", cclass), VariableManager.PeekVariableCounter()));
-                    IntermediateCode.Add(new PopParamLine(1));
+                    IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+                    IC.Add(new CallLabelLine(new LabelLine("_wrapper", cclass), VariableManager.PeekVariableCounter()));
+                    IC.Add(new PopParamLine(1));
                     return;
                 }
             }
@@ -653,9 +702,9 @@ namespace Cool.CodeGeneration.IntermediateCode
                     node.Arguments[i].StaticType.Text == "Bool" ||
                     node.Arguments[i].StaticType.Text == "String"))
                 {
-                    IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-                    IntermediateCode.Add(new CallLabelLine(new LabelLine("_wrapper", node.Arguments[i].StaticType.Text), VariableManager.PeekVariableCounter()));
-                    IntermediateCode.Add(new PopParamLine(1));
+                    IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+                    IC.Add(new CallLabelLine(new LabelLine("_wrapper", node.Arguments[i].StaticType.Text), VariableManager.PeekVariableCounter()));
+                    IC.Add(new PopParamLine(1));
                 }
 
                 VariableManager.PopVariableCounter();
@@ -665,42 +714,54 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             if (cclass != "String")
             {
-                IntermediateCode.Add(new CommentLine("get method: " + cclass + "." + method));
-                IntermediateCode.Add(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
+                IC.Add(new CommentLine("get method: " + cclass + "." + method));
+                IC.Add(new AssignmentMemoryToVariableLine(function_address, VariableManager.PeekVariableCounter(), offset));
             }
 
-            IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
             
             foreach (var p in parameters)
             {
-                IntermediateCode.Add(new PushParamLine(p));
+                IC.Add(new PushParamLine(p));
             }
 
             if (cclass != "String")
             {
-                IntermediateCode.Add(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
+                IC.Add(new CallAddressLine(function_address, VariableManager.PeekVariableCounter()));
             }
             else
             {
-                IntermediateCode.Add(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
+                IC.Add(new CallLabelLine(new LabelLine(cclass, method), VariableManager.PeekVariableCounter()));
             }
 
-            if (note_object_return_type)
-            {
-                if (node.StaticType.Text == "Int" ||
-                    node.StaticType.Text == "Bool" ||
-                    node.StaticType.Text == "String")
-                    IntermediateCode.Add(new ReturnTypeLine(node.StaticType.Text));
-            }
+            if (special_object_return_type)
+                SetReturnType(node.StaticType.Text);
 
-            IntermediateCode.Add(new PopParamLine(parameters.Count+1));
+            IC.Add(new PopParamLine(parameters.Count+1));
         }
+
+        void SetReturnType(string type)
+        {
+            if (type == "Int" ||
+                type == "Bool" ||
+                type == "String")
+            {
+                IC.Add(new CommentLine($"set {type} as return type"));
+                IC.Add(new AssignmentStringToVariableLine(return_type_variable, type));
+            }
+            else
+            {
+                IC.Add(new CommentLine($"set object as return type"));
+                IC.Add(new AssignmentStringToVariableLine(return_type_variable, "Object"));
+            }
+        }
+
 
         public void Visit(EqualNode node)
         {
             BinaryOperationVisit(node);
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("Bool"));
+            if (special_object_return_type)
+                SetReturnType("Bool");
         }
 
         void BinaryOperationVisit(BinaryOperationNode node)
@@ -721,18 +782,18 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             if (node.LeftOperand.StaticType.Text == "String" && node.Symbol == "=")
             {
-                IntermediateCode.Add(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, "=:="));
+                IC.Add(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, "=:="));
                 return;
             }
 
-            IntermediateCode.Add(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
+            IC.Add(new BinaryOperationLine(VariableManager.PeekVariableCounter(), t1, t2, node.Symbol));
         }
 
         public void Visit(StringNode node)
         {
-            IntermediateCode.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), node.Text));
-            if (note_object_return_type)
-                IntermediateCode.Add(new ReturnTypeLine("String"));
+            IC.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), node.Text));
+            if (special_object_return_type)
+                SetReturnType("String");
         }
 
         public void Visit(LetNode node)
@@ -758,13 +819,8 @@ namespace Cool.CodeGeneration.IntermediateCode
             }
             VariableManager.PopVariableCounter();
 
-            if (note_object_return_type)
-            {
-                if (node.StaticType.Text == "Int" ||
-                    node.StaticType.Text == "Bool" ||
-                    node.StaticType.Text == "String")
-                    IntermediateCode.Add(new ReturnTypeLine(node.StaticType.Text));
-            }
+            if (special_object_return_type)
+                SetReturnType(node.StaticType.Text);
         }
 
         public void Visit(NewNode node)
@@ -774,30 +830,26 @@ namespace Cool.CodeGeneration.IntermediateCode
                 node.TypeId.Text == "String")
             {
                 if (node.TypeId.Text == "Int" || node.TypeId.Text == "Bool")
-                    IntermediateCode.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
+                    IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
                 else
-                    IntermediateCode.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), ""));
-
-                if (note_object_return_type)
-                {
-                    IntermediateCode.Add(new ReturnTypeLine(node.TypeId.Text));
-                }
+                    IC.Add(new AssignmentStringToVariableLine(VariableManager.PeekVariableCounter(), ""));
             }
             else
             {
                 New(node.TypeId.Text);
             }
 
-
+            if (special_object_return_type)
+                SetReturnType(node.TypeId.Text);
         }
 
         public void New(string cclass)
         {
             int size = VirtualTable.GetSizeClass(cclass);
-            IntermediateCode.Add(new AllocateLine(VariableManager.PeekVariableCounter(), size));
-            IntermediateCode.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
-            IntermediateCode.Add(new CallLabelLine(new LabelLine(cclass, "constructor")));
-            IntermediateCode.Add(new PopParamLine(1));
+            IC.Add(new AllocateLine(VariableManager.PeekVariableCounter(), size));
+            IC.Add(new PushParamLine(VariableManager.PeekVariableCounter()));
+            IC.Add(new CallLabelLine(new LabelLine(cclass, "constructor")));
+            IC.Add(new PopParamLine(1));
         }
 
         public void Visit(IsVoidNode node)
@@ -806,33 +858,27 @@ namespace Cool.CodeGeneration.IntermediateCode
             if (node.Operand.StaticType.Text == "Int" ||
                node.Operand.StaticType.Text == "String" ||
                node.Operand.StaticType.Text == "Bool")
-                IntermediateCode.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
+                IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), 0));
             else
                 UnaryOperationVisit(node);
 
-            if (note_object_return_type)
-            {
-                IntermediateCode.Add(new ReturnTypeLine("Bool"));
-            }
+            if (special_object_return_type)
+                SetReturnType("Bool");
         }
 
         public void Visit(NegNode node)
         {
             UnaryOperationVisit(node);
-            if (note_object_return_type)
-            {
-                IntermediateCode.Add(new ReturnTypeLine("Int"));
-            }
+            if (special_object_return_type)
+                SetReturnType("Int");
         }
 
 
         public void Visit(NotNode node)
         {
             UnaryOperationVisit(node);
-            if (note_object_return_type)
-            {
-                IntermediateCode.Add(new ReturnTypeLine("Bool"));
-            }
+            if (special_object_return_type)
+                SetReturnType("Bool");
         }
 
         void UnaryOperationVisit(UnaryOperationNode node)
@@ -846,54 +892,54 @@ namespace Cool.CodeGeneration.IntermediateCode
 
             VariableManager.PopVariableCounter();
 
-            IntermediateCode.Add(new UnaryOperationLine(VariableManager.PeekVariableCounter(), t1, node.Symbol));
+            IC.Add(new UnaryOperationLine(VariableManager.PeekVariableCounter(), t1, node.Symbol));
         }
 
         public void Visit(IfNode node)
         {
-            string tag = IntermediateCode.Count.ToString();
+            string tag = IC.Count.ToString();
 
             node.Condition.Accept(this);
 
-            IntermediateCode.Add(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_else", tag)));
+            IC.Add(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_else", tag)));
 
             node.Body.Accept(this);
-            IntermediateCode.Add(new GotoJumpLine(new LabelLine("_endif", tag)));
+            IC.Add(new GotoJumpLine(new LabelLine("_endif", tag)));
 
-            IntermediateCode.Add(new LabelLine("_else", tag));
+            IC.Add(new LabelLine("_else", tag));
             node.ElseBody.Accept(this);
 
-            IntermediateCode.Add(new LabelLine("_endif", tag));
+            IC.Add(new LabelLine("_endif", tag));
 
         }
 
 
         public void Visit(WhileNode node)
         {
-            string tag = IntermediateCode.Count.ToString();
+            string tag = IC.Count.ToString();
 
-            IntermediateCode.Add(new LabelLine("_whilecondition", tag));
+            IC.Add(new LabelLine("_whilecondition", tag));
 
             node.Condition.Accept(this);
 
-            IntermediateCode.Add(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_endwhile", tag)));
+            IC.Add(new ConditionalJumpLine(VariableManager.PeekVariableCounter(), new LabelLine("_endwhile", tag)));
 
             node.Body.Accept(this);
 
-            IntermediateCode.Add(new GotoJumpLine(new LabelLine("_whilecondition", tag)));
+            IC.Add(new GotoJumpLine(new LabelLine("_whilecondition", tag)));
 
-            IntermediateCode.Add(new LabelLine("_endwhile", tag));
+            IC.Add(new LabelLine("_endwhile", tag));
         }
 
 
         public void Visit(VoidNode node)
         {
-            IntermediateCode.Add(new AssignmentNullToVariableLine(VariableManager.PeekVariableCounter()));
+            IC.Add(new AssignmentNullToVariableLine(VariableManager.PeekVariableCounter()));
         }
 
         public void Visit(SelfNode node)
         {
-            IntermediateCode.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(),0));
+            IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(),0));
         }
         public void Visit(FormalNode node)
         {
