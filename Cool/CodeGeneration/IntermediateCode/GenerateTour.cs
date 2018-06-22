@@ -19,7 +19,7 @@ namespace Cool.CodeGeneration.IntermediateCode
         {
             Scope = scope;
 
-            //node = (new OptimizationTour()).Optimize(node, scope);
+            node = (new OptimizationTour()).Optimize(node, scope);
 
             IC = new List<CodeLine>();
             VariableManager = new VariableManager();
@@ -78,102 +78,6 @@ namespace Cool.CodeGeneration.IntermediateCode
                 c.Accept(this);
         }
 
-        public void Visit(CaseNode node)
-        {
-            string static_type = node.ExpressionCase.StaticType.Text;
-
-            int result = VariableManager.PeekVariableCounter();
-            int expr = VariableManager.IncrementVariableCounter();
-
-            VariableManager.PushVariableCounter();
-            node.ExpressionCase.Accept(this);
-            VariableManager.PopVariableCounter();
-
-            //VariableManager.IncrementVariableCounter();
-
-            if (static_type == "String" ||
-                static_type == "Int" ||
-                static_type == "Bool")
-            {
-                int index = node.Branches.FindIndex((x) => x.Formal.Type.Text == static_type);
-                string v = node.Branches[index].Formal.Id.Text;
-
-                VariableManager.PushVariable(v, node.Branches[index].Formal.Type.Text);// v <- expr
-
-                int t = VariableManager.IncrementVariableCounter();
-                VariableManager.PushVariableCounter();
-
-                node.Branches[index].Expression.Accept(this);
-
-                VariableManager.PopVariableCounter();
-
-                VariableManager.PopVariable(v);
-
-                IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
-            }
-            else
-            {
-                string tag = IC.Count.ToString();
-
-                List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
-                sorted.AddRange(node.Branches);
-                sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
-                
-                for (int i = 0; i < sorted.Count; ++i)
-                {
-                    //same that expr integer
-                    VariableManager.PushVariable(sorted[i].Formal.Id.Text, sorted[i].Formal.Type.Text);
-
-                    string branch_type = sorted[i].Formal.Type.Text;
-                    VariableManager.PushVariableCounter();
-                    VariableManager.IncrementVariableCounter();
-
-                    IC.Add(new LabelLine("_case", tag + "." + i));
-                    IC.Add(new AssignmentStringToVariableLine(VariableManager.VariableCounter, branch_type));
-                    IC.Add(new BinaryOperationLine(VariableManager.VariableCounter, expr, VariableManager.VariableCounter, "inherit"));
-                    IC.Add(new ConditionalJumpLine(VariableManager.VariableCounter, new LabelLine("_case", tag + "." + (i + 1))));
-
-
-                    if ((branch_type == "Int" ||
-                        branch_type == "Bool" ||
-                        branch_type == "String"))
-                    {
-                        if (static_type == "Object")
-                        {
-
-                            IC.Add(new AssignmentMemoryToVariableLine(expr, expr, VirtualTable.GetSizeClass(branch_type)));
-
-                            VariableManager.PushVariableCounter();
-                            sorted[i].Expression.Accept(this);
-                            VariableManager.PopVariableCounter();
-
-                            IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
-                            IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
-                        }
-                    }
-                    else
-                    {
-                        VariableManager.PushVariableCounter();
-                        sorted[i].Expression.Accept(this);
-                        VariableManager.PopVariableCounter();
-
-                        IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
-                        IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
-                    }
-
-
-
-                    VariableManager.PopVariableCounter();
-
-                    VariableManager.PopVariable(sorted[i].Formal.Id.Text);
-                }
-
-                IC.Add(new LabelLine("_case", tag + "." + sorted.Count));
-                IC.Add(new GotoJumpLine(new LabelLine("_caseselectionexception")));
-
-                IC.Add(new LabelLine("_endcase", tag));
-            }
-        }
 
         void InitCode()
         {
@@ -476,11 +380,6 @@ namespace Cool.CodeGeneration.IntermediateCode
             VariableManager.PushVariableCounter();
             node.Body.Accept(this);
 
-            //if (!special_object_return_type)
-            //    IC.Add(new ReturnLine(VariableManager.PeekVariableCounter()));
-            //else
-            //    IC.Add(new SpecialObjectReturn(VariableManager.PeekVariableCounter()));
-
             if (special_object_return_type)
                 ReturnObjectWrapping();
 
@@ -543,6 +442,104 @@ namespace Cool.CodeGeneration.IntermediateCode
             IC.Add(new LabelLine("_not_more_attempt", tag));
         }
 
+
+        public void Visit(CaseNode node)
+        {
+            string static_type = node.ExpressionCase.StaticType.Text;
+
+            int result = VariableManager.PeekVariableCounter();
+            int expr = VariableManager.IncrementVariableCounter();
+
+            VariableManager.PushVariableCounter();
+            node.ExpressionCase.Accept(this);
+            VariableManager.PopVariableCounter();
+
+            //VariableManager.IncrementVariableCounter();
+
+            if (static_type == "String" ||
+                static_type == "Int" ||
+                static_type == "Bool")
+            {
+                int index = node.Branches.FindIndex((x) => x.Formal.Type.Text == static_type);
+                string v = node.Branches[index].Formal.Id.Text;
+
+                VariableManager.PushVariable(v, node.Branches[index].Formal.Type.Text);// v <- expr
+
+                int t = VariableManager.IncrementVariableCounter();
+                VariableManager.PushVariableCounter();
+
+                node.Branches[index].Expression.Accept(this);
+
+                VariableManager.PopVariableCounter();
+
+                VariableManager.PopVariable(v);
+
+                IC.Add(new AssignmentVariableToVariableLine(VariableManager.PeekVariableCounter(), t));
+            }
+            else
+            {
+                string tag = IC.Count.ToString();
+
+                List<(FormalNode Formal, ExpressionNode Expression)> sorted = new List<(FormalNode Formal, ExpressionNode Expression)>();
+                sorted.AddRange(node.Branches);
+                sorted.Sort((x, y) => (Scope.GetType(x.Formal.Type.Text) <= Scope.GetType(y.Formal.Type.Text) ? -1 : 1));
+
+                for (int i = 0; i < sorted.Count; ++i)
+                {
+                    //same that expr integer
+                    VariableManager.PushVariable(sorted[i].Formal.Id.Text, sorted[i].Formal.Type.Text);
+
+                    string branch_type = sorted[i].Formal.Type.Text;
+                    VariableManager.PushVariableCounter();
+                    VariableManager.IncrementVariableCounter();
+
+                    IC.Add(new LabelLine("_case", tag + "." + i));
+                    IC.Add(new AssignmentStringToVariableLine(VariableManager.VariableCounter, branch_type));
+                    IC.Add(new BinaryOperationLine(VariableManager.VariableCounter, expr, VariableManager.VariableCounter, "inherit"));
+                    IC.Add(new ConditionalJumpLine(VariableManager.VariableCounter, new LabelLine("_case", tag + "." + (i + 1))));
+
+
+                    if ((branch_type == "Int" ||
+                        branch_type == "Bool" ||
+                        branch_type == "String"))
+                    {
+                        if (static_type == "Object")
+                        {
+
+                            IC.Add(new AssignmentMemoryToVariableLine(expr, expr, VirtualTable.GetSizeClass(branch_type)));
+
+                            VariableManager.PushVariableCounter();
+                            sorted[i].Expression.Accept(this);
+                            VariableManager.PopVariableCounter();
+
+                            IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                            IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                        }
+                    }
+                    else
+                    {
+                        VariableManager.PushVariableCounter();
+                        sorted[i].Expression.Accept(this);
+                        VariableManager.PopVariableCounter();
+
+                        IC.Add(new AssignmentVariableToVariableLine(result, VariableManager.PeekVariableCounter()));
+                        IC.Add(new GotoJumpLine(new LabelLine("_endcase", tag)));
+                    }
+
+
+
+                    VariableManager.PopVariableCounter();
+
+                    VariableManager.PopVariable(sorted[i].Formal.Id.Text);
+                }
+
+                IC.Add(new LabelLine("_case", tag + "." + sorted.Count));
+                IC.Add(new GotoJumpLine(new LabelLine("_caseselectionexception")));
+
+                IC.Add(new LabelLine("_endcase", tag));
+            }
+        }
+
         public void Visit(IntNode node)
         {
             IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Value));
@@ -559,7 +556,10 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ArithmeticOperation node)
         {
-            BinaryOperationVisit(node);
+            if(node.Attributes.ContainsKey("integer_constant_value"))
+                IC.Add(new AssignmentConstantToVariableLine(VariableManager.PeekVariableCounter(), node.Attributes["integer_constant_value"]));
+            else
+                BinaryOperationVisit(node);
             if (special_object_return_type)
                 SetReturnType("Int");
         }

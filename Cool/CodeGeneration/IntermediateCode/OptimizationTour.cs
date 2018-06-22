@@ -24,9 +24,34 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(ArithmeticOperation node)
         {
-            //node = new IntNode(2,2);
-            //return 
-            //throw new NotImplementedException();
+            node.LeftOperand.Accept(this);
+            node.RightOperand.Accept(this);
+
+            if(node.LeftOperand.Attributes.ContainsKey("integer_constant_value") &&
+               node.RightOperand.Attributes.ContainsKey("integer_constant_value"))
+            {
+                int t1 = node.LeftOperand.Attributes["integer_constant_value"];
+                int t2 = node.RightOperand.Attributes["integer_constant_value"];
+                switch (node.Symbol)
+                {
+                    case "+":
+                        node.Attributes["integer_constant_value"] = t1 + t2;
+                        break;
+                    case "-":
+                        node.Attributes["integer_constant_value"] = t1 - t2;
+                        break;
+                    case "*":
+                        node.Attributes["integer_constant_value"] = t1 * t2;
+                        break;
+                    case "/":
+                        if(t2 != 0)
+                            node.Attributes["integer_constant_value"] = t1 / t2;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
 
         public void Visit(AssignmentNode node)
@@ -71,7 +96,8 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(DispatchImplicitNode node)
         {
-            throw new NotImplementedException();
+            foreach (var a in node.Arguments)
+                a.Accept(this);
         }
 
         public void Visit(EqualNode node)
@@ -96,7 +122,7 @@ namespace Cool.CodeGeneration.IntermediateCode
 
         public void Visit(IntNode node)
         {
-            throw new NotImplementedException();
+            node.Attributes["integer_constant_value"] = node.Value;
         }
 
         public void Visit(IsVoidNode node)
