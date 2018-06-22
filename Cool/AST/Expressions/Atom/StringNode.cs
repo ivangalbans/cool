@@ -10,49 +10,20 @@ namespace Cool.AST
 
         public StringNode(ParserRuleContext context, string text) : base(context)
         {
-            /*Text = "";
+            Text = "";
 
             // 0 to Length - 1 in order to remove the (Antlr delivered) ""
             for(int i = 1; i < text.Length-1; ++i)
             {
-                if(text[i] != '\\')
-                {
-                    Text += text[i];
-                }
-                else
-                {
-                    i++;
-                    if(char.IsWhiteSpace(text[i]))
-                    {
-                        while (char.IsWhiteSpace(text[i]))
-                            i++;
-                    }
-                    else
-                    {
-                        char c = '\"';
-                        if (text[i] == 'n')  c = '\n';
-                        if (text[i] == 't')  c = '\t';
-                        if (text[i] == 'r')  c = '\r';
-                        if (text[i] == '\\') c = '\\';
-                        if (text[i] == 't')  c = '\t';
-                        if (text[i] == '\"') c = '\"';
-                        Text += c;
-                    }
-                }
-            }*/
+                Text += text[i];
+            }
 
-            Text = text.Substring(1, text.Length-2);
-
+            //Text = text;
         }
 
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
-        }
-
-        public override string ToString()
-        {
-            return Text;
         }
     }
 }

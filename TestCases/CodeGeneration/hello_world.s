@@ -32,25 +32,23 @@ _inherit_true:
 li $v0, 1
 jr $ra
 
-Object.copy:
+_copy:
 lw $a1, 0($sp)
-lw $a0, 4($a1)
-li $a3, 4
-mul $a0, $a0, $a3
+lw $a0, -4($sp)
 li $v0, 9
 syscall
 lw $a1, 0($sp)
 lw $a0, 4($a1)
 move $a3, $v0
-Object.copy.loop:
+_copy.loop:
 lw $a2, 0($a1)
 sw $a2, 0($a3)
 addiu $a0, $a0, -1
 addiu $a1, $a1, 4
 addiu $a3, $a3, 4
-beq $a0, $zero, Object.copy.end
-j Object.copy.loop
-Object.copy.end:
+beq $a0, $zero, _copy.end
+j _copy.loop
+_copy.end:
 jr $ra
 
 _abort:
@@ -438,6 +436,43 @@ li $t9, 0
 lw $a0, 0($sp)
 lw $a1, 0($a0)
 sw $a1, 0($sp)
+# Return t0;
+
+lw $v0, 0($sp)
+jr $ra
+# Object.copy:
+
+
+Object.copy:
+li $t9, 0
+# PARAM t0;
+# t1 = *(t0 + 1)
+lw $a0, 0($sp)
+lw $a1, 4($a0)
+sw $a1, -4($sp)
+# t2 = 4
+li $a0, 4
+sw $a0, -8($sp)
+# t1 = t1 * t2
+lw $a0, -4($sp)
+lw $a1, -8($sp)
+mult $a0, $a1
+mflo $a0
+sw $a0, -4($sp)
+# PushParam t0;
+lw $a0, 0($sp)
+sw $a0, -16($sp)
+# PushParam t1;
+lw $a0, -4($sp)
+sw $a0, -20($sp)
+# t0 = Call _copy;
+sw $ra, -12($sp)
+addiu $sp, $sp, -16
+jal _copy
+addiu $sp, $sp, 16
+lw $ra, -12($sp)
+sw $v0, 0($sp)
+# PopParam 2;
 # Return t0;
 
 lw $v0, 0($sp)

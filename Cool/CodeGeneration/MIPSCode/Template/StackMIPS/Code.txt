@@ -1,4 +1,0 @@
-﻿	.globl main
-	.text
-
-main:

@@ -17,12 +17,5 @@ namespace Cool.AST
         {
             visitor.Visit(this);
         }
-
-        public override string ToString()
-        {;
-            string repr = $"Attribute Node (Line: {Line}, Column: {Column}) ";
-            repr += Formal.ToString() + "\n| " + AssignExp.ToString();
-            return repr;
-        }
     }
 }

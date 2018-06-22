@@ -17,15 +17,5 @@ namespace Cool.AST
         {
             visitor.Visit(this);
         }
-
-        public override string ToString()
-        {
-            string repr = "";
-            foreach (var e in Sequence)
-            {
-                repr += $"{e}\n";
-            }
-            return repr;
-        }
     }
 }
