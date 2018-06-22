@@ -1,36 +1,44 @@
-# Compiler Tools
+Cool Compiler
+=============
 
-This project contains tools and algorithms for studying and learning compiler
-construction and formal languages. The tools provided are **not** intended
-for mainstream, professional or commercial use (although the project is licensed
-MIT so do whatever you want at your own risk. 
+This project is a compiler of the Cool (view *The Cool Reference Manual*) language programming
 
-## Project structure
+Project structure
+-----------------
 
-This project is a Visual Studio Solution with several C# 4.5 projects (some
-libraries and some console applications so far). To build it, only the standard
-.NET framework core is necessary. 
+This project is a Visual Studio Solution with one **C# 4.7.1** project.
 
-### Grammars
+Lexer and Parsing
+-----------------
 
-This library contains an embedded DSL to define grammars (in principle, CFGs)
-in C#, that can be later analyzed, transformed and used in other ways to
-build parsers, generators, etc. The DSL makes heavy use of operator overloading
-and other fluid patterns. Documentation is on its way...
+We use the parser generator **ANTLR 4.7.1**.
 
-### TopDownParsing 
+Semantics
+---------
 
-This library contains tools and algorithms to implement Top-Down recursive
-and/or predictive parsers (so far requiring LL(1) grammars). Among these tools
-are the algorithms for building the LL(1) table and determining if a grammar
-is indeed LL(1).
+Use of the visitor pattern to travel around the Abstract Syntax Tree AST.
 
-### Other stuff
+Code Generation
+---------------
 
-There are also some examples of usage of the previous tools.
+At the first Three Address Code (TAC) is generated and after MIPS code is generated too.
 
-## Collaboration
+Unit Testing
+------------
+
+The project contains some unit testing for Lexer, Parsing, Semantics and Topological Sort algorithm. The test cases for each unit testing are in the folder TestCases.
+
+Collaboration
+-------------
 
 Fork, fix, and submit a pull request; or submit an issue. Valuable contributions
-from students (either in code form or simply posting an issue) could potentially
-be traded for additional points, questions in an exam, or something else...
+from anybody are good received.
+
+Authors
+-------
+
+Two students of 4th year of Computer Science at the University of Havana:
+
+Iván Galbán Smith <ivan.galban.smith@gmail.com>
+
+Yanoel Llano Boitel <y.llano@estudiantes.matcom.uh.cu>

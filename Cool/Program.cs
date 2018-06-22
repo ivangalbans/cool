@@ -20,22 +20,14 @@ namespace Cool
 
         static readonly int ErrorCode = 1;
 
-
-        static void f(ref List<int> pp)
-        {
-            List<int> LOL = new List<int>();
-            pp = LOL;
-        }
-
         static void Main(string[] args)
         {
 
-            /*Console.WriteLine("Cool Language Compiler. Version 1.0");
-            Console.WriteLine("Faculty of Mathematics and Computer Science");
-            Console.WriteLine("University of Havana");
-            Console.WriteLine();
-            Console.WriteLine("Copyright (c) 2018 Ivan Galban Smith");
-            Console.WriteLine("All Rights Reserved.\n");*/
+            Console.WriteLine("Cool Language Compiler. Version 1.0");
+            Console.WriteLine("Copyright (c) 2018 by Ivan Galban Smith and Yanoel Llano Boitel");
+            Console.WriteLine("All Rights Reserved.");
+            Console.WriteLine("CoolCompiler is distributed under the MIT license.");
+            Console.WriteLine("See the file README for a full copyright notice.");
 
             string preffixSuccess = "../../../TestCases/Semantics/success/";
             string preffixFail = "../../../TestCases/Semantics/fail/";
@@ -45,7 +37,7 @@ namespace Cool
             //string file = "book_list.cl";
             //string file = "fibo.cl";
             //string file = "arith.cl";
-            string fileName = "hello_world";
+            string fileName = "palindrome";
             string extension = ".cl";
 
             string file = fileName + extension;
