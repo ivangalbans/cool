@@ -17,15 +17,5 @@ namespace Cool.AST
         {
             visitor.Visit(this);
         }
-
-        //public override string ToString()
-        //{
-        //    string repr = $"Program Node, Number of Classes: {Classes.Count}:\n";
-        //    foreach (var c in Classes)
-        //    {
-        //        repr += c.ToString() + "\n";
-        //    }
-        //    return repr.Replace("\n","\n| ");
-        //}
     }
 }

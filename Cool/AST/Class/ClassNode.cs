@@ -25,16 +25,6 @@ namespace Cool.AST
             TypeInherit = new TypeNode(line, column, classInherit);
         }
 
-        public override string ToString()
-        {
-            string repr = $"Class Node (Line: {Line}, Column: {Column}) class {TypeClass} inherits {TypeInherit} \n";
-            foreach (var f in FeatureNodes)
-            {
-                repr += f.ToString() + "\n";
-            }
-            return repr.Replace("\n","\n| ");
-        }
-
         public void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
