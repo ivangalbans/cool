@@ -11,6 +11,7 @@ using Cool.Parsing;
 using Cool.Semantics;
 using Cool.CodeGeneration.IntermediateCode;
 using Cool.CodeGeneration.MIPSCode;
+using Cool.CodeGeneration.IntermediateCode.ThreeAddressCode;
 
 namespace Cool
 {
@@ -37,7 +38,7 @@ namespace Cool
             //string file = "book_list.cl";
             //string file = "fibo.cl";
             //string file = "arith.cl";
-            string fileName = "palindrome";
+            string fileName = "life";
             string extension = ".cl";
 
             string file = fileName + extension;
@@ -138,9 +139,8 @@ namespace Cool
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
 
-            IntermediateCode x = (new GenerateTour()).GetIntermediateCode(root, scope);
+            List<CodeLine> g = (new GenerateTour()).GetIntermediateCode(root, scope);
             Console.WriteLine("CODE GENERATED OK!!!");
-            var g = x.GetCode();
             Console.WriteLine(g.Count);
             foreach(var y in g)
                 Console.WriteLine(y);
