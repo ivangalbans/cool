@@ -147,9 +147,8 @@ namespace Cool
         private static void GenerateCode(ProgramNode root, string outputPath, Scope scope)
         {
 
-            IntermediateCode x = (new GenerateTour()).GetIntermediateCode(root, scope);
+            var g = (new GenerateTour()).GetIntermediateCode(root, scope);
             Console.WriteLine("CODE GENERATED OK!!!");
-            var g = x.GetCode();
             Console.WriteLine(g.Count);
             foreach(var y in g)
                 Console.WriteLine(y);

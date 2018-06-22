@@ -90,6 +90,7 @@
     <Compile Include="AST\Expressions\Operators\Unary\UnaryOperationNode.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\GenerateTour.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\IntermediateCode.cs" />
+    <Compile Include="CodeGeneration\IntermediateCode\OptimizationTour.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\AllocateLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\CommentLine.cs" />
     <Compile Include="CodeGeneration\IntermediateCode\ThreeAddressCode\InheritLine.cs" />
@@ -133,10 +134,6 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Parsing\Cool.g4" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CodeGeneration\MIPSCode\Template\StackMIPS\Code.txt" />
-    <Content Include="CodeGeneration\MIPSCode\Template\StackMIPS\Data.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

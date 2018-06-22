@@ -29,10 +29,11 @@ namespace Cool.CodeGeneration.MIPSCode
 
             foreach (var str in annotation.StringsCounter)
             {
-                if (str.Key.Length > 0 && str.Key[0] == '\"')
-                    Data.Add($"str{str.Value}: .asciiz \"{str.Key.Substring(1, str.Key.Length - 2)}\"");
-                else
-                    Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");
+                //if (str.Key.Length > 0 && str.Key[0] == '\"')
+                //    Data.Add($"str{str.Value}: .asciiz \"{str.Key.Substring(1, str.Key.Length - 2)}\"");
+                //else
+                //    Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");
+                Data.Add($"str{str.Value}: .asciiz \"{str.Key}\"");
             }
 
             foreach (var x in annotation.Inherit)
@@ -482,7 +483,6 @@ namespace Cool.CodeGeneration.MIPSCode
                     break;
                 default:
                     throw new NotImplementedException();
-                    break;
             }
 
             Code.Add($"sw $a0, {-line.AssignVariable * 4}($sp)");
