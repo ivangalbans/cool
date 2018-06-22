@@ -1,10 +1,15 @@
 
 class Main inherits IO {
 
+  f(x:Int) : Object {{
+    1;
+    4;
+    "hola";
+  }};
 
   main():Object {{
 
-    out_int(0/0);
+    f(7);
 
   }};
 };
