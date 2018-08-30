@@ -18,6 +18,11 @@ Semantics
 
 Use of the visitor pattern to travel around the Abstract Syntax Tree AST.
 
+Optimization Code
+-----------------
+
+Developing...
+
 Code Generation
 ---------------
 
