@@ -1,7 +1,7 @@
 Cool Compiler
 =============
 
-This project is a compiler of the Cool (view *The Cool Reference Manual*) language programming
+This project is a compiler of the Cool (view [*The Cool Reference Manual*](https://theory.stanford.edu/~aiken/software/cool/cool-manual.pdf)) language programming
 
 Project structure
 -----------------
